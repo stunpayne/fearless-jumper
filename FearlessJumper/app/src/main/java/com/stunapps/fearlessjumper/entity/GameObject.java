@@ -10,12 +10,14 @@ public class GameObject extends Entity
 {
     public Transform transform;
 
-    public GameObject(Transform transform)
+    public GameObject(Transform transform, int id)
     {
+        super(id);
         this.transform = transform;
     }
 
-    public GameObject()
+    public GameObject(int id)
     {
+        super(id);
     }
 }

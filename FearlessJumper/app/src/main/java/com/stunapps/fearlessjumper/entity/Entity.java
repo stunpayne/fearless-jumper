@@ -6,5 +6,10 @@ package com.stunapps.fearlessjumper.entity;
 
 abstract class Entity
 {
-    int id;
+    public final int id;
+
+    public Entity(int id)
+    {
+        this.id = id;
+    }
 }

@@ -10,8 +10,7 @@ import com.stunapps.fearlessjumper.entity.GameObject;
 
 public class ContactDamageComponent extends DamageComponent
 {
-
-    public ContactDamageComponent(int damage, DamageType damageType)
+    public ContactDamageComponent(int damage)
     {
         super(damage, DamageType.CONTACT);
     }
