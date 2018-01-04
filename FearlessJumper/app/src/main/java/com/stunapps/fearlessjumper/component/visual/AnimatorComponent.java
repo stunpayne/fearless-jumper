@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.component.visual;
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.component.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Singular;
@@ -14,7 +15,7 @@ import lombok.Singular;
 public class AnimatorComponent extends Component
 {
     @Singular
-    private Map<String, Animation> animations;
+    private Map<String, Animation> animations = new HashMap<>();
 
     //  TODO: We need to add
     //  1) Animation States
@@ -22,6 +23,11 @@ public class AnimatorComponent extends Component
     //  3) Transitions between states based on Triggers
     //  For now, we will just keep a map of animations and call out which one to play from
     //  the game object
+
+    public void addAnimation(String animationName, Animation animation)
+    {
+        animations.put(animationName, animation);
+    }
 
     public void playAnimation(String animationName)
     {
