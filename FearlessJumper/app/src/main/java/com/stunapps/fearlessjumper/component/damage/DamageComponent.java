@@ -15,6 +15,7 @@ public abstract class DamageComponent extends Component implements Opponent
     {
         this.damage = damage;
         this.damageType = damageType;
+        this.componentType = DamageComponent.class;
     }
 
     public enum DamageType

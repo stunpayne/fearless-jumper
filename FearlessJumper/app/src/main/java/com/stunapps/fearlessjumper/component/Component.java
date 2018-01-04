@@ -6,5 +6,5 @@ package com.stunapps.fearlessjumper.component;
 
 public abstract class Component
 {
-
+    public Class componentType;
 }
