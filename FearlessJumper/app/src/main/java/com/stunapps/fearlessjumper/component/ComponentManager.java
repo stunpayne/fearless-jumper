@@ -9,11 +9,11 @@ import com.stunapps.fearlessjumper.entity.GameObject;
 
 public interface ComponentManager<E extends Entity>
 {
-    public void addComponent(E gameObject);
+    public <C extends Component> void addComponent(C componentType, E gameObject);
 
-    public <C extends Component> void deleteComponent(Class<C> componentType, Entity
+    public <C extends Component> void deleteComponent(C componentType, Entity
             gameObject);
 
-    public <C extends Component> void getComponent(Class<C> componentType, Entity
+    public <C extends Component> Component getComponent(C componentType, Entity
             gameObject);
 }
