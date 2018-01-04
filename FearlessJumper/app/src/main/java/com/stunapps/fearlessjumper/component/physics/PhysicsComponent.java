@@ -15,12 +15,14 @@ public class PhysicsComponent extends Component
     {
         this.mass = mass;
         this.velocity = velocity;
+        this.componentType = PhysicsComponent.class;
     }
 
     public PhysicsComponent(float mass)
     {
         this.mass = mass;
         this.velocity = 0;
+        this.componentType = PhysicsComponent.class;
     }
 
     public float getMass()

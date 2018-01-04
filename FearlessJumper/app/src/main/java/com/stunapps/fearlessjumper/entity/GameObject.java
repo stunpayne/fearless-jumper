@@ -23,13 +23,4 @@ public class GameObject extends Entity
     {
         super(id);
     }
-
-//    @Override
-//    public String toString()
-//    {
-//        return "GameObject{" +
-//                "id=" + id +
-//                ", transform=" + transform +
-//                '}';
-//    }
 }

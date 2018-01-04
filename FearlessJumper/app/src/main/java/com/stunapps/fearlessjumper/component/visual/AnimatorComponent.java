@@ -8,4 +8,5 @@ import com.stunapps.fearlessjumper.component.Component;
 
 public class AnimatorComponent extends Component
 {
+
 }

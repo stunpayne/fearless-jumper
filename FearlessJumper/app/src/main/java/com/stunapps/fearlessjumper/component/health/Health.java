@@ -13,6 +13,7 @@ public class Health extends Component
     public Health(float health)
     {
         this.health = health;
+        this.componentType = Health.class;
     }
 
     public float getHealth()
