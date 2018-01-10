@@ -1,60 +1,79 @@
 package com.stunapps.fearlessjumper.component;
 
+import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.entity.GameObject;
 
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by sunny.s on 04/01/18.
  */
 
-public class GameComponentManager implements ComponentManager<GameObject>
+@Singleton
+public class GameComponentManager implements ComponentManager<Entity>
 {
-
-    //TODO: TO make this thread safe.
-    private Map<Class<? extends Component>, List<GameObject>> componentTypeEntityMap;
-    private Map<GameObject, List<Component>> entityComponentMap;
+    private Map<Class<? extends Component>, List<Entity>> componentTypeEntityMap;
+    private Map<Entity, List<Component>> entityComponentMap;
 
     public GameComponentManager()
     {
-        componentTypeEntityMap = new HashMap<>();
-        entityComponentMap = new HashMap<>();
+        componentTypeEntityMap = new ConcurrentHashMap<>();
+        entityComponentMap = new ConcurrentHashMap<>();
     }
 
     @Override
-    public <C extends Component> void addComponent(C component, GameObject gameObject)
+    public <C extends Component> void addComponent(Entity entity, C component)
     {
-        componentTypeEntityMap.get(component.componentType).add(gameObject);
-        entityComponentMap.get(gameObject.getClass()).add(component);
+        List<Entity> entities = componentTypeEntityMap.get(component.componentType);
+        if (entities == null)
+        {
+            entities = new LinkedList<>();
+        }
+        entities.add(entity);
+
+        List<Component> components = entityComponentMap.get(entity);
+        if (components == null)
+        {
+            components = new LinkedList<>();
+        }
+        components.add(component);
     }
 
     @Override
-    public <C extends Component> void deleteComponent(C componentType, GameObject gameObject)
+    public void deleteComponent(Entity entity, Class<? extends Component> componentType)
     {
-
+        componentTypeEntityMap.get(componentType).remove(entity);
+        List<Component> components = entityComponentMap.get(entity);
+        Iterator<Component> it = components.iterator();
+        while (it.hasNext())
+        {
+            if (it.next().componentType == componentType)
+            {
+                it.remove();
+                break;
+            }
+        }
     }
 
     @Override
-    public <C extends Component> Component getComponent(C componentType, GameObject gameObject)
+    public Component getComponent(Entity entity, Class<? extends Component> componentType)
     {
-        return null;
+        Component component = null;
+        List<Component> components = entityComponentMap.get(entity);
+        Iterator<Component> it = components.iterator();
+        while (it.hasNext())
+        {
+            Component componentFromList = it.next();
+            if (componentFromList.componentType == componentType)
+            {
+                component = componentFromList;
+                break;
+            }
+        }
+        return component;
     }
-
-/*    @Override
-    public <C extends Component> void deleteComponent(C componentType, GameObject gameObject)
-    {
-        componentTypeEntityMap.get(componentType).remove(gameObject);
-        entityComponentMap.get(gameObject).remove(componentType);
-    }
-
-    @Override
-    public <C extends Component> Component getComponent(C componentType, GameObject gameObject)
-    {
-        return entityComponentMap.get(gameObject).get(0);
-    }*/
-
-
 }

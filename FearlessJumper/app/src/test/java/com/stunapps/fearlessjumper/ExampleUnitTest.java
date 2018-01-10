@@ -1,11 +1,9 @@
 package com.stunapps.fearlessjumper;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.damage.AreaDamageComponent;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
-import com.stunapps.fearlessjumper.entity.GameObject;
 
 import org.junit.Test;
 import org.roboguice.shaded.goole.common.collect.Lists;

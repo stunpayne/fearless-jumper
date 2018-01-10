@@ -1,6 +1,6 @@
 package com.stunapps.fearlessjumper.component.damage;
 
-import com.stunapps.fearlessjumper.entity.GameObject;
+import com.stunapps.fearlessjumper.entity.Entity;
 
 /**
  * Created by sunny.s on 03/01/18.
@@ -9,5 +9,5 @@ import com.stunapps.fearlessjumper.entity.GameObject;
 public interface Opponent
 {
     public float damage();
-    public boolean canDamage(GameObject gameObject);
+    public boolean canDamage(Entity gameObject);
 }
