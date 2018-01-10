@@ -11,9 +11,9 @@ public interface ComponentManager<E extends Entity>
 {
     public <C extends Component> void addComponent(C componentType, E gameObject);
 
-    public <C extends Component> void deleteComponent(C componentType, Entity
+    public <C extends Component> void deleteComponent(C componentType, E
             gameObject);
 
-    public <C extends Component> Component getComponent(C componentType, Entity
+    public <C extends Component> Component getComponent(C componentType, E
             gameObject);
 }

@@ -32,13 +32,13 @@ public class GameComponentManager implements ComponentManager<GameObject>
     }
 
     @Override
-    public <C extends Component> void deleteComponent(C componentType, Entity gameObject)
+    public <C extends Component> void deleteComponent(C componentType, GameObject gameObject)
     {
 
     }
 
     @Override
-    public <C extends Component> Component getComponent(C componentType, Entity gameObject)
+    public <C extends Component> Component getComponent(C componentType, GameObject gameObject)
     {
         return null;
     }
