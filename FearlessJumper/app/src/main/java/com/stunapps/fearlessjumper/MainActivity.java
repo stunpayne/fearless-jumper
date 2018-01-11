@@ -6,14 +6,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Window;
 
-import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.di.DI;
-import com.stunapps.fearlessjumper.entity.GameObjectManager;
 import com.stunapps.fearlessjumper.gameloop.GameView;
 import com.stunapps.fearlessjumper.helper.Constants;
 import com.stunapps.fearlessjumper.module.GameModule;
-
-import static com.stunapps.fearlessjumper.di.DI.di;
 
 public class MainActivity extends AppCompatActivity
 {

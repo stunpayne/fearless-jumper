@@ -1,19 +1,29 @@
 package com.stunapps.fearlessjumper.component;
 
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.entity.GameObject;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sunny.s on 04/01/18.
  */
 
-public interface ComponentManager<E extends Entity>
+public interface ComponentManager
 {
-    public <C extends Component> void addComponent(C componentType, E gameObject);
+    public <C extends Component> void addComponent(Entity entity, C componentType);
 
-    public <C extends Component> void deleteComponent(C componentType, E
-            gameObject);
+    public void deleteComponent(Entity entity, Class<? extends Component> componentType);
 
-    public <C extends Component> Component getComponent(C componentType, E
-            gameObject);
+    public Component getComponent(Entity entity, Class<? extends Component> componentType);
+
+    public boolean hasComponent(Entity entity, Class<? extends Component> componentType);
+
+    public <C extends Component> List<C> getComponents(Entity entity);
+
+    public void removeComponent(Entity entity, Class<? extends Component> componentType);
+
+    public Set<Entity> getEntities(Class<? extends Component> componentType);
+
+    public  void deleteEntity(Entity entity);
 }

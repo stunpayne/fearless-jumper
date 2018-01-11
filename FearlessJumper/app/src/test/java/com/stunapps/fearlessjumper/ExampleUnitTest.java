@@ -3,19 +3,15 @@ package com.stunapps.fearlessjumper;
 import android.os.Bundle;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
-import com.stunapps.fearlessjumper.component.damage.AreaDamageComponent;
-import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
-import com.stunapps.fearlessjumper.component.damage.DamageComponent;
-import com.stunapps.fearlessjumper.entity.GameObject;
+import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.entity.EntityManager;
 
 import org.junit.Test;
-import org.roboguice.shaded.goole.common.collect.Lists;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
 import static org.junit.Assert.*;
@@ -36,16 +32,34 @@ public class ExampleUnitTest
     @Test
     public void testMap() throws Exception
     {
-        Map<Class<? extends Component>, List<GameObject>> map = new HashMap<>();
+/*        Map<Class<? extends Component>, List<Entity>> map = new HashMap<>();
 
-        GameObject gameObject = new GameObject(1);
-        GameObject gameObject2 = new GameObject(2);
+        Entity entity = new Entity(1);
+        Entity entity2 = new Entity(2);
         ContactDamageComponent contactDamageComponent = new ContactDamageComponent(10);
         AreaDamageComponent areaDamageComponent = new AreaDamageComponent(10);
-        map.put(contactDamageComponent.componentType, Lists.newArrayList(gameObject));
-        map.get(DamageComponent.class).add(gameObject2);
+        map.put(contactDamageComponent.componentType, Lists.newArrayList(Entity));
+        map.get(DamageComponent.class).add(entity2);
 
-        List<GameObject> gameObjects = map.get(DamageComponent.class);
-        System.out.println(Arrays.toString(gameObjects.toArray()));
+        List<Entity> gameObjects = map.get(DamageComponent.class);
+        System.out.println(Arrays.toString(gameObjects.toArray()));*/
+    }
+
+    @Test
+    public void testComponentAndEntityManager()
+    {
+        ComponentManager cm = new GameComponentManager();
+        EntityManager em = new EntityManager(cm);
+
+        Component component = new PhysicsComponent(15, 10);
+        Entity entity = em.createEntity();
+        entity.addComponent(component);
+        Component component1 = entity.getComponent(PhysicsComponent.class);
+        List<Component> components = entity.getComponents();
+        entity.hashComponent(PhysicsComponent.class);
+        entity.removeComponent(PhysicsComponent.class);
+        entity.delete();
+        cm.getEntities(PhysicsComponent.class);
+        em.getEntities();
     }
 }
