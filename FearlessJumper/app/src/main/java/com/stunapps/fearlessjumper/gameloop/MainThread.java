@@ -1,7 +1,13 @@
 package com.stunapps.fearlessjumper.gameloop;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.util.Log;
 import android.view.SurfaceHolder;
+
+import com.stunapps.fearlessjumper.helper.Constants;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -16,11 +22,20 @@ public class MainThread extends Thread
     private GameView gameView;
     private boolean running;
     public static Canvas canvas;
+    //  TODO: Remove after test
+    private Rect rect;
+    private Rect rect2;
+    private int delta = 2;
 
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView)
     {
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
+        //  TODO: Remove after test
+        rect = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2, Constants
+                .SCREEN_WIDTH / 2 + 100, Constants.SCREEN_HEIGHT / 2 + 100);
+        rect2 = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2 + 50, Constants
+                .SCREEN_WIDTH / 2 + 100, Constants.SCREEN_HEIGHT / 2 + 150);
     }
 
     public void setRunning(boolean running)
@@ -57,6 +72,12 @@ public class MainThread extends Thread
                     //  Replace with rendering systemType process
 //                    renderSystem.process();
                     this.gameView.draw(canvas);
+                    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                    paint.setColor(Color.BLUE);
+                    Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+                    paint2.setColor(Color.RED);
+                    canvas.drawRect(rect2, paint2);
+                    canvas.drawRect(rect, paint);
                 }
             }
             catch (Exception e)
@@ -83,8 +104,6 @@ public class MainThread extends Thread
             {
                 if (waitTime > 0)
                 {
-                    System.out.println("Frame CPU Idle Percentage Time: " + String.valueOf
-                            (100 * waitTime / targetTime));
                     sleep(waitTime);
                 }
             }
@@ -101,8 +120,20 @@ public class MainThread extends Thread
                 averageFPS = 1000 / ((totalTime / frameCount) / ONE_MILLION);
                 frameCount = 0;
                 totalTime = 0;
-                System.out.println(averageFPS);
+                Log.i("FPS", "Average: " + averageFPS);
             }
+
+            //  TODO: Remove after test
+            rect.top -= delta;
+            rect.bottom -= delta;
+            rect2.top -= delta;
+            rect2.bottom -= delta;
+            Log.d("TEST", "Rect top new: " + rect.top);
+            Log.d("TEST", "Rect height: " + (rect.top - rect.bottom));
+
+
+            if(rect.top <= -50 )
+                delta = -2;
         }
     }
 }

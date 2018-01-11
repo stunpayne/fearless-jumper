@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.component.visual;
 
+import android.graphics.Bitmap;
+
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.component.Component;
 
@@ -12,10 +14,17 @@ import lombok.Singular;
  * Created by sunny.s on 03/01/18.
  */
 
-public class AnimatorComponent extends Component
+public class AnimatorComponent extends RenderableComponent<Bitmap>
 {
     @Singular
     private Map<String, Animation> animations = new HashMap<>();
+    private String currentlyPlayingAnimation = null;
+
+    public AnimatorComponent(Map<String, Animation> animations)
+    {
+        super(RenderType.ANIMATOR);
+        this.animations = animations;
+    }
 
     //  TODO: We need to add
     //  1) Animation States
@@ -31,9 +40,15 @@ public class AnimatorComponent extends Component
 
     public void playAnimation(String animationName)
     {
+        if (null != currentlyPlayingAnimation)
+        {
+            animations.get(currentlyPlayingAnimation).stop();
+            currentlyPlayingAnimation = null;
+        }
         Animation animation = animations.get(animationName);
         if (!animation.isPlaying())
             animation.play();
+        currentlyPlayingAnimation = animationName;
     }
 
     //  We will always reset the animation on stop
@@ -42,5 +57,12 @@ public class AnimatorComponent extends Component
         Animation animation = animations.get(animationName);
         if (animation.isPlaying())
             animation.stopAndReset();
+        currentlyPlayingAnimation = null;
+    }
+
+    @Override
+    public Bitmap getRenderable()
+    {
+        return null;
     }
 }

@@ -2,10 +2,14 @@ package com.stunapps.fearlessjumper.gameloop;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.helper.Constants;
 
 /**
@@ -18,10 +22,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 //    private SceneManager sceneManager;
 
+    @Inject
     public GameView(Context context)
     {
         super(context);
         Constants.CURRENT_CONTEXT = context;
+        Log.d("CONTEXT", this.getClass() + " Context hash code: " + context.hashCode());
 
         getHolder().addCallback(this);
 //        thread = new MainThread(getHolder(), this);

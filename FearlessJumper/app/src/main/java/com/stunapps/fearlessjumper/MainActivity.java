@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
 
 import com.stunapps.fearlessjumper.component.GameComponentManager;
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity
         Constants.SCREEN_WIDTH = dm.widthPixels;
         Constants.SCREEN_HEIGHT = dm.heightPixels;
 
-        DI.install(new GameModule());
-        setContentView(new GameView(this));
+        Log.d("CONTEXT", "Context hash code: " + this.hashCode());
+        DI.install(new GameModule(this));
+        setContentView(di().getInstance(GameView.class));
     }
 }

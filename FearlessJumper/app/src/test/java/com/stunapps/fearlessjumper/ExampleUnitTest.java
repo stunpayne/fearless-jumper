@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper;
 
+import android.os.Bundle;
+
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.damage.AreaDamageComponent;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.stunapps.fearlessjumper.di.DI.di;
 import static org.junit.Assert.*;
 
 /**
