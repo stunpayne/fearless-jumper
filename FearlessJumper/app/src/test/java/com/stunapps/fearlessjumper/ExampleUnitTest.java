@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
+import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
@@ -58,5 +59,13 @@ public class ExampleUnitTest
         entity.delete();
         cm.getEntities(PhysicsComponent.class);
         em.getEntities();
+    }
+
+    @Test
+    public void test()
+    {
+        Component component = new Health(100);
+        assertFalse(component.componentType == PhysicsComponent.class);
+        assertTrue(component.componentType == Health.class);
     }
 }

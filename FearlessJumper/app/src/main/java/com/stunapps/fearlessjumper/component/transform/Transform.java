@@ -8,9 +8,9 @@ import com.stunapps.fearlessjumper.component.Component;
 
 public class Transform extends Component
 {
-    public float[] position = new float[3];
-    public float[] rotation = new float[3];
-    public float[] scale = new float[3];
+    public float[] position = new float[2];
+    public float[] rotation = new float[2];
+    public float[] scale = new float[2];
 
     public Transform(float[] position, float[] rotation, float[] scale)
     {
