@@ -28,6 +28,6 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("CONTEXT", "Context hash code: " + this.hashCode());
         DI.install(new GameModule(this));
-        setContentView(di().getInstance(GameView.class));
+        setContentView(DI.di().getInstance(GameView.class));
     }
 }

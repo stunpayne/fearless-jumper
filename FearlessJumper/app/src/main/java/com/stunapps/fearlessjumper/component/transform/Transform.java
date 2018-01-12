@@ -1,7 +1,6 @@
 package com.stunapps.fearlessjumper.component.transform;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 
 /**
  * Created by sunny.s on 03/01/18.

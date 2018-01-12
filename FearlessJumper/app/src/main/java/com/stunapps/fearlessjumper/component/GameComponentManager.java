@@ -3,7 +3,6 @@ package com.stunapps.fearlessjumper.component;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.entity.Entity;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;

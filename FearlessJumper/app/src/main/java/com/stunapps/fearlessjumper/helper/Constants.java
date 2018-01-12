@@ -2,8 +2,6 @@ package com.stunapps.fearlessjumper.helper;
 
 import android.content.Context;
 
-import com.stunapps.fearlessjumper.component.GameComponentManager;
-
 /**
  * Created by sunny.s on 10/01/18.
  */
