@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.gameloop;
+package com.stunapps.fearlessjumper.game.loop;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
