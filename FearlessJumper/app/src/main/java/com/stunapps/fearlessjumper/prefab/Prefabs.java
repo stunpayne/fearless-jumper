@@ -13,15 +13,15 @@ public enum Prefabs
     PLAYER(new PlayerPrefab()),
     PLATFORM(new PlatformPrefab());
 
-    private Prefab prefab;
+    public Prefab prefab;
 
     Prefabs(Prefab prefab)
     {
         this.prefab = prefab;
     }
 
-    public List<Component> getComponents()
+    public Prefab get()
     {
-        return this.prefab.components;
+        return prefab;
     }
 }
