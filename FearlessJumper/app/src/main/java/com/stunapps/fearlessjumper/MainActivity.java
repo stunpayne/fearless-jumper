@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.Window;
 
 import com.stunapps.fearlessjumper.di.DI;
-import com.stunapps.fearlessjumper.gameloop.GameView;
+import com.stunapps.fearlessjumper.game.loop.GameView;
 import com.stunapps.fearlessjumper.helper.Constants;
 import com.stunapps.fearlessjumper.module.GameModule;
 
