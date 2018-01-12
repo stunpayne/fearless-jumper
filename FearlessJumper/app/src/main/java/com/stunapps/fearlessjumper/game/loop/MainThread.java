@@ -1,13 +1,14 @@
 package com.stunapps.fearlessjumper.game.loop;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.system.Systems;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -27,10 +28,12 @@ public class MainThread extends Thread
     private Rect rect2;
     private int delta = 2;
 
+    @Inject
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView)
     {
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
+
         //  TODO: Remove after test
         rect = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2, Constants
                 .SCREEN_WIDTH / 2 + 100, Constants.SCREEN_HEIGHT / 2 + 100);
@@ -60,6 +63,7 @@ public class MainThread extends Thread
             try
             {
                 canvas = this.surfaceHolder.lockCanvas();
+                Constants.canvas = canvas;
                 synchronized (surfaceHolder)
                 {
                     //  Replace with physics, collision, animation systemType updates
@@ -71,13 +75,14 @@ public class MainThread extends Thread
 
                     //  Replace with rendering systemType process
 //                    renderSystem.process();
-                    this.gameView.draw(canvas);
-                    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                    paint.setColor(Color.BLUE);
-                    Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-                    paint2.setColor(Color.RED);
-                    canvas.drawRect(rect2, paint2);
-                    canvas.drawRect(rect, paint);
+//                    this.gameView.draw(canvas);
+                    Systems.process();
+//                    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//                    paint.setColor(Color.BLUE);
+//                    Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+//                    paint2.setColor(Color.RED);
+//                    canvas.drawRect(rect2, paint2);
+//                    canvas.drawRect(rect, paint);
                 }
             }
             catch (Exception e)
@@ -128,11 +133,11 @@ public class MainThread extends Thread
             rect.bottom -= delta;
             rect2.top -= delta;
             rect2.bottom -= delta;
-            Log.d("TEST", "Rect top new: " + rect.top);
-            Log.d("TEST", "Rect height: " + (rect.top - rect.bottom));
+//            Log.d("TEST", "Rect top new: " + rect.top);
+//            Log.d("TEST", "Rect height: " + (rect.top - rect.bottom));
 
 
-            if(rect.top <= -50 )
+            if (rect.top <= -50)
                 delta = -2;
         }
     }

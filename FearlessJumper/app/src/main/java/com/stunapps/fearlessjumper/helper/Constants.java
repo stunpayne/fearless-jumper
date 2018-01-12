@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.helper;
 
 import android.content.Context;
+import android.graphics.Canvas;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -15,4 +16,5 @@ public class Constants
     public static Context CURRENT_CONTEXT;
 
     public static long INIT_TIME;
+    public static Canvas canvas;
 }
