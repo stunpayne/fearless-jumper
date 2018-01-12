@@ -9,10 +9,10 @@ import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
 
 public class PlatformPrefab extends Prefab
 {
-    public PlatformPrefab()
+    public PlatformPrefab(int left, int top, int right, int bottom)
     {
         //TODO: To add sprite for platform.
         components.add(new SpriteComponent(null));
-        components.add(new RectCollider());
+        components.add(new RectCollider(left, top, right, bottom));
     }
 }
