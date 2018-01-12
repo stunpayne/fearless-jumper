@@ -1,15 +1,19 @@
 package com.stunapps.fearlessjumper.entity;
 
+import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 
 import java.util.List;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Created by sunny.s on 02/01/18.
  */
 
+@EqualsAndHashCode(exclude = {"componentManager", "entityManager", "transform"})
 public class Entity
 {
     private final int id;

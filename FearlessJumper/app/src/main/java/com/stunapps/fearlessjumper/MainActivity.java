@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Window;
 
 import com.stunapps.fearlessjumper.di.DI;
+import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.gameloop.GameView;
 import com.stunapps.fearlessjumper.helper.Constants;
 import com.stunapps.fearlessjumper.module.GameModule;
@@ -28,6 +30,10 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("CONTEXT", "Context hash code: " + this.hashCode());
         DI.install(new GameModule(this));
-        setContentView(di().getInstance(GameView.class));
+        setContentView(DI.di().getInstance(GameView.class));
+        EntityManager entityManager = DI.di().getInstance(EntityManager.class);
+        Log.d("CONTEXT", "entityManager: " + entityManager);
+        Entity entity = entityManager.createEntity();
+        Log.d("CONTEXT", "entity: " + entity);
     }
 }

@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.component;
 
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.Collections;

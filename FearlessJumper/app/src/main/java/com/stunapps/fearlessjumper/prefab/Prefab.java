@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.prefab;
 
 import com.stunapps.fearlessjumper.component.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,8 +13,8 @@ public abstract class Prefab
 {
     public List<Component> components;
 
-    public final void create(List<Component> components)
+    public Prefab()
     {
-
+        this.components = new ArrayList<>();;
     }
 }
