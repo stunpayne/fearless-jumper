@@ -10,6 +10,11 @@ import com.stunapps.fearlessjumper.entity.Entity;
 
 public class ContactDamageComponent extends DamageComponent
 {
+    public ContactDamageComponent()
+    {
+        this(0);
+    }
+
     public ContactDamageComponent(int damage)
     {
         super(damage, DamageType.CONTACT);
@@ -22,7 +27,7 @@ public class ContactDamageComponent extends DamageComponent
     }
 
     @Override
-    public boolean canDamage(Entity gameObject)
+    public boolean canDamage(Entity entity)
     {
         return false;
     }

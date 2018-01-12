@@ -8,30 +8,29 @@ import com.stunapps.fearlessjumper.component.Component;
 
 public class PhysicsComponent extends Component
 {
-    private float mass;
-    private float velocity;
+    public float mass;
+    public Velocity velocity;
 
-    public PhysicsComponent(float mass, float velocity)
+    public PhysicsComponent()
+    {
+        this(0);
+    }
+
+    public PhysicsComponent(float mass)
+    {
+        this(mass, new Velocity());
+    }
+
+    public PhysicsComponent(float mass, Velocity velocity)
     {
         this.mass = mass;
         this.velocity = velocity;
         this.componentType = PhysicsComponent.class;
     }
 
-    public PhysicsComponent(float mass)
+    public static class Velocity
     {
-        this.mass = mass;
-        this.velocity = 0;
-        this.componentType = PhysicsComponent.class;
-    }
-
-    public float getMass()
-    {
-        return mass;
-    }
-
-    public float getVelocity()
-    {
-        return velocity;
+        public float xSpeed;
+        public float ySpeed;
     }
 }

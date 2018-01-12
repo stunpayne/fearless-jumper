@@ -25,6 +25,6 @@ public class GameInitializerImpl implements GameInitializer
     @Override
     public void initialise()
     {
-        Entity player = entityManager.instantiate(Prefabs.PLAYER.get());
+        Entity player = entityManager.instantiate(Prefabs.PLAYER.get(), , , , );
     }
 }

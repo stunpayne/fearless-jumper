@@ -10,11 +10,20 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
 {
     private Bitmap sprite;
 
+    public SpriteComponent()
+    {
+        super(RenderType.SPRITE);
+    }
+
     public SpriteComponent(Bitmap sprite)
     {
         super(RenderType.SPRITE);
         this.sprite = sprite;
         this.componentType = SpriteComponent.class;
+    }
+
+    public void setSprite(Bitmap bitmap){
+        this.sprite = sprite;
     }
 
     public Bitmap getSprite()
