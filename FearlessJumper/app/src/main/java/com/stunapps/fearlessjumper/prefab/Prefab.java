@@ -21,6 +21,17 @@ public abstract class Prefab
         this.transform = new Transform(Constants.Game.ORIGIN, Constants.Game.NO_ROTATION,
                 Constants.Game.UNIT_SCALE);
         this.components = new ArrayList<>();
-        ;
+    }
+
+    public Component getComponent(Class<? extends Component> componentType)
+    {
+        for (Component component : components)
+        {
+            if (component.componentType == componentType)
+            {
+                return component;
+            }
+        }
+        return null;
     }
 }

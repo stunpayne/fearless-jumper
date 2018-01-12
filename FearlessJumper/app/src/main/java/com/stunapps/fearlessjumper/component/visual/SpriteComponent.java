@@ -12,7 +12,7 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
 
     public SpriteComponent()
     {
-        super(RenderType.SPRITE);
+        this(null);
     }
 
     public SpriteComponent(Bitmap sprite)
