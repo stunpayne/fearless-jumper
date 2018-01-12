@@ -14,5 +14,6 @@ public class PlatformPrefab extends Prefab
         //TODO: To add sprite for platform.
         components.add(new SpriteComponent(null));
         components.add(new RectCollider(left, top, right, bottom));
+
     }
 }

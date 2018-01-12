@@ -31,9 +31,5 @@ public class MainActivity extends AppCompatActivity
         Log.d("CONTEXT", "Context hash code: " + this.hashCode());
         DI.install(new GameModule(this));
         setContentView(DI.di().getInstance(GameView.class));
-        EntityManager entityManager = DI.di().getInstance(EntityManager.class);
-        Log.d("CONTEXT", "entityManager: " + entityManager);
-        Entity entity = entityManager.createEntity();
-        Log.d("CONTEXT", "entity: " + entity);
     }
 }

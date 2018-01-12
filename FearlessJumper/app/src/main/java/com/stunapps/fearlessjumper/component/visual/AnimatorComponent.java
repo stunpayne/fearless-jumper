@@ -3,7 +3,6 @@ package com.stunapps.fearlessjumper.component.visual;
 import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.animation.Animation;
-import com.stunapps.fearlessjumper.component.Component;
 
 import java.util.HashMap;
 import java.util.Map;

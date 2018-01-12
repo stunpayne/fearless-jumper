@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper;
 
-import android.os.Bundle;
-
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
@@ -14,7 +12,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static com.stunapps.fearlessjumper.di.DI.di;
 import static org.junit.Assert.*;
 
 /**
