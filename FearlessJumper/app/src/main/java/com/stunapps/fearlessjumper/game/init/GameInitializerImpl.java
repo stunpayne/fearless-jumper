@@ -38,7 +38,7 @@ public class GameInitializerImpl implements GameInitializer
     {
         Log.d("INIT", "Initialising game");
         entityManager.instantiate(Prefabs.PLAYER.get());
-//        entityManager.instantiate(Prefabs.PLATFORM.get());
+        entityManager.instantiate(Prefabs.PLATFORM.get());
 
         initialised = true;
     }

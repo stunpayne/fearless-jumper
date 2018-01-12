@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 
 import java.util.Collection;
@@ -29,16 +30,16 @@ public class EntityManager
         this.gameComponentManager = gameComponentManager;
     }
 
-    public Entity createEntity()
+    public Entity createEntity(Transform transform)
     {
-        Entity entity = new Entity(gameComponentManager, this, rand.nextInt());
+        Entity entity = new Entity(gameComponentManager, this, transform, rand.nextInt());
         entityMap.put(entity.getId(), entity);
         return entity;
     }
 
     public Entity instantiate(Prefab prefab)
     {
-        Entity entity = new Entity(gameComponentManager, this, rand.nextInt());
+        Entity entity = new Entity(gameComponentManager, this, prefab.transform, rand.nextInt());
         entityMap.put(entity.getId(), entity);
         for (Component component : prefab.components)
         {

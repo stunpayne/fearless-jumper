@@ -17,4 +17,11 @@ public class Constants
 
     public static long INIT_TIME;
     public static Canvas canvas;
+
+    public static class Game
+    {
+        public static float[] ORIGIN = new float[]{0, 0};
+        public static float[] NO_ROTATION = new float[]{0, 0};
+        public static float[] UNIT_SCALE = new float[]{1, 1};
+    }
 }

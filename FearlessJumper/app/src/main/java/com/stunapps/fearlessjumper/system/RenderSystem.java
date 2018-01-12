@@ -42,8 +42,8 @@ public class RenderSystem implements System
             {
                 case SPRITE:
                     Bitmap bitmap = (Bitmap) component.getRenderable();
-                    canvas.drawBitmap(bitmap, Constants.SCREEN_WIDTH/2, Constants
-                            .SCREEN_HEIGHT/2, new Paint());
+                    canvas.drawBitmap(bitmap, entity.transform.position[0], entity.transform
+                                    .position[1], new Paint());
                     break;
                 default:
             }
