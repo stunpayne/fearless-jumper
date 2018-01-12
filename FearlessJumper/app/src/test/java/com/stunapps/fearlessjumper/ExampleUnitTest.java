@@ -5,6 +5,7 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 
@@ -49,8 +50,8 @@ public class ExampleUnitTest
         ComponentManager cm = new GameComponentManager();
         EntityManager em = new EntityManager(cm);
 
-        Component component = new PhysicsComponent(15, 10);
-        Entity entity = em.createEntity();
+        Component component = new PhysicsComponent(15, new PhysicsComponent.Velocity(10, 10));
+        Entity entity = em.createEntity(new Transform(null, null, null));
         entity.addComponent(component);
         Component component1 = entity.getComponent(PhysicsComponent.class);
         List<Component> components = entity.getComponents();

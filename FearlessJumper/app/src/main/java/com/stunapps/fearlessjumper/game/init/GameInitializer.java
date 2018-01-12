@@ -6,5 +6,7 @@ package com.stunapps.fearlessjumper.game.init;
 
 public interface GameInitializer
 {
-    void initialise();
+    boolean isInitialized();
+
+    void initialize();
 }

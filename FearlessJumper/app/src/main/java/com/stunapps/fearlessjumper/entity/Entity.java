@@ -22,19 +22,13 @@ public class Entity
     private ComponentManager componentManager;
     private EntityManager entityManager;
 
-    public Entity(ComponentManager componentManager, EntityManager entityManager, Transform transform, int id)
+    public Entity(ComponentManager componentManager, EntityManager entityManager,
+                  Transform transform, int id)
     {
         this.id = id;
         this.componentManager = componentManager;
         this.entityManager = entityManager;
-        componentManager.addComponent(this, transform);
-    }
-
-    public Entity(ComponentManager componentManager, EntityManager entityManager, int id)
-    {
-        this.id = id;
-        this.componentManager = componentManager;
-        this.entityManager = entityManager;
+        this.transform = transform;
     }
 
     public void addComponent(Component component)

@@ -22,18 +22,52 @@ public class Transform extends Component
         this.componentType = Transform.class;
     }
 
-    public class Position {
+    public static class Position
+    {
         public float x;
         public float y;
+
+        public Position()
+        {
+            x = y = 0;
+        }
+
+        public Position(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 
-    public class Rotation {
-        public float p;
-        public float r;
+    public static class Rotation
+    {
+        public float azimuth;
+
+        public Rotation()
+        {
+            azimuth = 0;
+        }
+
+        public Rotation(float azimuth)
+        {
+            this.azimuth = azimuth;
+        }
     }
 
-    public class Scale {
-        public float xScale;
-        public float yScale;
+    public static class Scale
+    {
+        public float x;
+        public float y;
+
+        public Scale()
+        {
+            x = y = 1;
+        }
+
+        public Scale(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 }

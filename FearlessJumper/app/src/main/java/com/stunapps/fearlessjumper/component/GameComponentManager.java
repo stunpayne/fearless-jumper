@@ -33,16 +33,16 @@ public class GameComponentManager implements ComponentManager
         List<Entity> entities = componentToTypeEntityMap.get(component.componentType);
         if (entities == null)
         {
-            entities = new LinkedList<>();
+            componentToTypeEntityMap.put(component.componentType, new LinkedList<Entity>());
         }
-        entities.add(entity);
+        componentToTypeEntityMap.get(component.componentType).add(entity);
 
         List<Component> components = entityToComponentMap.get(entity);
         if (components == null)
         {
-            components = new LinkedList<>();
+            entityToComponentMap.put(entity, new LinkedList<Component>());
         }
-        components.add(component);
+        entityToComponentMap.get(entity).add(component);
     }
 
     @Override

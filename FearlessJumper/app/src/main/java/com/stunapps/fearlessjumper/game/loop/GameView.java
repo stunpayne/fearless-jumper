@@ -8,7 +8,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.system.Systems;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -17,13 +19,15 @@ import com.stunapps.fearlessjumper.helper.Constants;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
     private MainThread thread;
+    private GameInitializer gameInitializer;
 
 //    private SceneManager sceneManager;
 
     @Inject
-    public GameView(Context context)
+    public GameView(Context context, GameInitializer gameInitializer)
     {
         super(context);
+        this.gameInitializer = gameInitializer;
         Constants.CURRENT_CONTEXT = context;
         Log.d("CONTEXT", this.getClass() + " Context hash code: " + context.hashCode());
 
@@ -81,6 +85,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public void update()
     {
 //        sceneManager.update();
+
+        if (!gameInitializer.isInitialized())
+        {
+            gameInitializer.initialize();
+        }
+
+        Systems.process();
     }
 
     @Override

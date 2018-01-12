@@ -48,9 +48,9 @@ public class CollisionSystem implements System
         int x2Speed = 0;
         int y2Speed = 0;
 
-        if(entity1.hashComponent(PhysicsComponent.class)){
-            float left2 = ((PhysicsComponent)entity2.getComponent(PhysicsComponent.class)).rect.left;
-        }
+//        if(entity1.hashComponent(PhysicsComponent.class)){
+//            float left2 = ((PhysicsComponent)entity2.getComponent(PhysicsComponent.class)).rect.left;
+//        }
         return false;
     }
 }
