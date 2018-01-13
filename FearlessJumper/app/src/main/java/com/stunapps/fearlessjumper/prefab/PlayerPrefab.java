@@ -19,8 +19,8 @@ public class PlayerPrefab extends Prefab
 {
     public PlayerPrefab()
     {
-        transform = new Transform(new Transform.Position(Constants.SCREEN_WIDTH / 4,
-                Constants.SCREEN_HEIGHT / 2 - 400), new Transform.Rotation(), new Transform.Scale
+        transform = new Transform(new Transform.Position(Constants.SCREEN_WIDTH / 2,
+                Constants.SCREEN_HEIGHT / 2), new Transform.Rotation(), new Transform.Scale
                 ());
         components.add(new Health(100));
         components.add(new PhysicsComponent(50, new PhysicsComponent.Velocity()));

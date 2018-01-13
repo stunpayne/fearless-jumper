@@ -2,7 +2,9 @@ package com.stunapps.fearlessjumper.system;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.google.inject.Inject;
@@ -35,6 +37,7 @@ public class RenderSystem implements System
         //  Render all objects at their current positions
         Set<Entity> entities = componentManager.getEntities(RenderableComponent.class);
         Canvas canvas = Constants.canvas;
+        canvas.drawColor(Color.BLACK);
         for (Entity entity : entities)
         {
             RenderableComponent component = (RenderableComponent) entity.getComponent(RenderableComponent.class);
@@ -42,8 +45,12 @@ public class RenderSystem implements System
             {
                 case SPRITE:
                     Bitmap bitmap = (Bitmap) component.getRenderable();
-                    canvas.drawBitmap(bitmap, entity.transform.position.x, entity.transform
-                            .position.y, new Paint());
+                    canvas.drawBitmap(bitmap,
+                            null,
+                            new Rect((int) entity.transform.position.x, (int) entity
+                                    .transform.position.y, (int) entity.transform.position.x + bitmap
+                                    .getWidth(), (int) entity.transform.position.y + bitmap.getHeight()),
+                            null);
                     break;
                 default:
             }

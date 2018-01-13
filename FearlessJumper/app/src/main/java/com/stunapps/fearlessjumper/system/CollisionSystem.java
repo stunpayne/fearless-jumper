@@ -1,16 +1,10 @@
 package com.stunapps.fearlessjumper.system;
 
-
 import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
-import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.entity.EntityManager;
 
-import java.util.List;
 import java.util.Set;
 
 /**

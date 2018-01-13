@@ -39,11 +39,17 @@ public class GameInitializerImpl implements GameInitializer
     public void initialize()
     {
         Log.d("INIT", "Initialising game");
-        entityManager.instantiate(Prefabs.PLAYER.get());
-        entityManager.instantiate(Prefabs.PLAYER.get(), new Transform(new Transform.Position(Constants
-                .SCREEN_WIDTH / 4, Constants.SCREEN_HEIGHT / 2), new Transform.Rotation(), new Transform.Scale()));
 
+        //  Initialise player
+        entityManager.instantiate(Prefabs.PLAYER.get(), new Transform(new Transform.Position(Constants
+                .SCREEN_WIDTH / 4, Constants.SCREEN_HEIGHT - 200), new Transform.Rotation(), new
+                Transform.Scale()));
+
+        //  Initialise platforms
         entityManager.instantiate(Prefabs.PLATFORM.get());
+
+        //  Initialise enemies
+
 
         initialised = true;
     }

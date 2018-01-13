@@ -4,6 +4,9 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.entity.Entity;
 
+import org.roboguice.shaded.goole.common.collect.Sets;
+
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,7 +123,10 @@ public class GameComponentManager implements ComponentManager
     @Override
     public Set<Entity> getEntities(Class<? extends Component> componentType)
     {
-        return entityToComponentMap.keySet();
+        List<Entity> entities = componentToTypeEntityMap.get(componentType);
+        if (null == entities)
+            return new HashSet<>();
+        return Sets.newHashSet(entities);
     }
 
     @Override

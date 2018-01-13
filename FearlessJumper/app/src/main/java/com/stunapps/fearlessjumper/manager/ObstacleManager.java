@@ -24,7 +24,6 @@ public class ObstacleManager implements Manager
     private final EntityTransformCalculator calculator;
 
     private Transform.Position spawnPosition;
-    private Prefab platformPrefab = Prefabs.PLATFORM.get();
 
     @Inject
     public ObstacleManager(EntityManager entityManager, ComponentManager componentManager, EntityTransformCalculator calculator)
@@ -37,6 +36,7 @@ public class ObstacleManager implements Manager
     @Override
     public void manage()
     {
+        Prefab platformPrefab = Prefabs.PLATFORM.get();
         int width = calculator.getWidth(platformPrefab);
         spawnPosition = new Transform.Position((float) Math.random() * (Constants.SCREEN_WIDTH -
                 width), -400);
@@ -45,9 +45,9 @@ public class ObstacleManager implements Manager
          * Using tags means that we will have to create another manager similar to ComponentManager
          */
         Set<Entity> players = componentManager.getEntities(PlayerComponent.class);
-        for (Entity entity : players)
+        for (Entity player : players)
         {
-            if (entity.transform.position.y < Constants.SCREEN_HEIGHT / 2)
+            if (player.transform.position.y < Constants.SCREEN_HEIGHT / 2)
             {
                 entityManager.instantiate(platformPrefab, Transform.builder().position
                         (spawnPosition).build());
