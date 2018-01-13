@@ -13,6 +13,7 @@ public abstract class RenderableComponent<RenderableType> extends Component
     public RenderableComponent(RenderType renderType)
     {
         this.renderType = renderType;
+        this.componentType = RenderableComponent.class;
     }
 
     public enum RenderType

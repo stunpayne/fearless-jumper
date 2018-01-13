@@ -1,6 +1,10 @@
 package com.stunapps.fearlessjumper.helper;
 
 import android.content.Context;
+import android.graphics.Canvas;
+
+import com.stunapps.fearlessjumper.component.transform.Transform;
+
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -15,4 +19,12 @@ public class Constants
     public static Context CURRENT_CONTEXT;
 
     public static long INIT_TIME;
+    public static Canvas canvas;
+
+    public static class Game
+    {
+        public static Transform.Position ORIGIN = new Transform.Position();
+        public static Transform.Rotation NO_ROTATION = new Transform.Rotation();
+        public static Transform.Scale UNIT_SCALE = new Transform.Scale();
+    }
 }

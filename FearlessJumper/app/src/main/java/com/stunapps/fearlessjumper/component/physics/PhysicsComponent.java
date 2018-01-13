@@ -32,5 +32,16 @@ public class PhysicsComponent extends Component
     {
         public float x;
         public float y;
+
+        public Velocity()
+        {
+            x = y = 0;
+        }
+
+        public Velocity(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.system;
 
+import android.util.Log;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -28,9 +30,13 @@ public class Systems
     public Systems(SystemFactory systemFactory)
     {
         this.systemFactory = systemFactory;
+    }
+
+    public void initialise()
+    {
         for (Class<? extends System> systemType : systemOrder)
         {
-            this.systemsInOrder.add(systemFactory.get(systemType));
+            systemsInOrder.add(systemFactory.get(systemType));
         }
     }
 

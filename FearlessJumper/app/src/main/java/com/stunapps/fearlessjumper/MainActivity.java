@@ -10,6 +10,9 @@ import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.game.loop.GameView;
 import com.stunapps.fearlessjumper.helper.Constants;
 import com.stunapps.fearlessjumper.module.GameModule;
+import com.stunapps.fearlessjumper.system.Systems;
+
+import static com.stunapps.fearlessjumper.di.DI.di;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -27,7 +30,10 @@ public class MainActivity extends AppCompatActivity
         Constants.SCREEN_HEIGHT = dm.heightPixels;
 
         Log.d("CONTEXT", "Context hash code: " + this.hashCode());
+
         DI.install(new GameModule(this));
+        di().getInstance(Systems.class).initialise();
+
         setContentView(DI.di().getInstance(GameView.class));
     }
 }

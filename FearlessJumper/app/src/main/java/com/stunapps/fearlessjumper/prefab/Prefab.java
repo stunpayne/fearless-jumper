@@ -1,6 +1,8 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.helper.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +13,14 @@ import java.util.List;
 
 public abstract class Prefab
 {
+    public Transform transform;
     public List<Component> components;
 
     public Prefab()
     {
-        this.components = new ArrayList<>();;
+        this.transform = new Transform(Constants.Game.ORIGIN, Constants.Game.NO_ROTATION,
+                Constants.Game.UNIT_SCALE);
+        this.components = new ArrayList<>();
+        ;
     }
 }

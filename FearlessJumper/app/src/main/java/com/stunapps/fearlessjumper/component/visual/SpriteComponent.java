@@ -19,7 +19,6 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
     {
         super(RenderType.SPRITE);
         this.sprite = sprite;
-        this.componentType = SpriteComponent.class;
     }
 
     public void setSprite(Bitmap bitmap){
@@ -34,6 +33,6 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
     @Override
     public Bitmap getRenderable()
     {
-        return null;
+        return sprite;
     }
 }
