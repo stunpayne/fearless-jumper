@@ -30,7 +30,7 @@ public class PhysicsComponent extends Component
 
     public static class Velocity
     {
-        public float xSpeed;
-        public float ySpeed;
+        public float x;
+        public float y;
     }
 }
