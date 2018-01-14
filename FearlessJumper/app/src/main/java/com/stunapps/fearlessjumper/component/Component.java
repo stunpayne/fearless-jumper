@@ -6,5 +6,11 @@ package com.stunapps.fearlessjumper.component;
 
 public abstract class Component
 {
-    public Class componentType;
+    public Class<? extends Component> componentType;
+
+    public Component(Class<? extends Component> componentType)
+    {
+        this.componentType = componentType;
+    }
+
 }

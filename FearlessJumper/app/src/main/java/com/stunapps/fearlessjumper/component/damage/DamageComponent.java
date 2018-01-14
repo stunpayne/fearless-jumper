@@ -13,9 +13,9 @@ public abstract class DamageComponent extends Component implements Opponent
 
     public DamageComponent(int damage, DamageType damageType)
     {
+        super(DamageComponent.class);
         this.damage = damage;
         this.damageType = damageType;
-        this.componentType = DamageComponent.class;
     }
 
     public enum DamageType

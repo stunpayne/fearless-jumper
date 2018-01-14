@@ -20,6 +20,7 @@ public class Systems
 {
     private final SystemFactory systemFactory;
     private final List<Class<? extends System>> systemOrder = Arrays.asList(
+            InputSystem.class,
             CollisionSystem.class,
             RenderSystem.class
     );

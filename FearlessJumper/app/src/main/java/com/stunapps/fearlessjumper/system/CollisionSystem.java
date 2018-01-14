@@ -1,19 +1,17 @@
 package com.stunapps.fearlessjumper.system;
 
 
-import android.graphics.Rect;
-
+import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.component.GameComponentManager;
+import com.stunapps.fearlessjumper.component.body.RigidBody;
 import com.stunapps.fearlessjumper.component.collider.Collider;
-import com.stunapps.fearlessjumper.component.collider.RectCollider;
-import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.entity.EntityManager;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,36 +20,45 @@ import java.util.Set;
 
 public class CollisionSystem implements System
 {
+
+    private final GameComponentManager componentManager;
+
+    @Inject
+    public CollisionSystem(GameComponentManager componentManager)
+    {
+        this.componentManager = componentManager;
+    }
+
     @Override
     public void process()
     {
         //  Get transforms of all platforms in game and check for collision with player -- ?
         //  Get transforms of all enemies in game and check for collision with player
-        Set<Entity> entities = DI.di().getInstance(ComponentManager.class).getEntities(RectCollider.class);
+        Set<Entity> entities = componentManager.getEntities(Collider.class);
 
         Set<Entity> movableEntities = new HashSet<>();
-        Set<Entity> nonMovableEntities = new HashSet<>();
+        Set<Entity> rigidEntities = new HashSet<>();
 
         for (Entity entity : entities)
         {
-            if (entity.hashComponent(PhysicsComponent.class))
+            if (entity.hashComponent(RigidBody.class))
             {
-                movableEntities.add(entity);
+                rigidEntities.add(entity);
             } else
             {
-                nonMovableEntities.add(entity);
+                movableEntities.add(entity);
             }
         }
 
         //TODO: Collision logic.
         for (Entity movableEntity : movableEntities)
         {
-            for (Entity nonMovableEntity : nonMovableEntities)
+            for (Entity rigidEntity : rigidEntities)
             {
-                if (isColliding(movableEntity, nonMovableEntity))
+                if (isCollidingV2(movableEntity, rigidEntity, -0.0f))
                 {
                     //TODO: Handle collision.
-                    
+
                 }
             }
 
@@ -60,7 +67,7 @@ public class CollisionSystem implements System
                 //TODO: Bug, Two different entities will be processed for collision twice here.
                 if (!movableEntity.equals(movableEntity1))
                 {
-                    if (isColliding(movableEntity, movableEntity1))
+                    if (isCollidingV2(movableEntity, movableEntity1, 0.0f))
                     {
                         //TODO: handle collision.
                     }
@@ -69,17 +76,17 @@ public class CollisionSystem implements System
         }
     }
 
-    private boolean isColliding(Entity entity1, Entity entity2)
+    /*private boolean isColliding(Entity entity1, Entity entity2)
     {
-        int left1 = ((RectCollider) entity1.getComponent(RectCollider.class)).rect.left;
-        int top1 = ((RectCollider) entity1.getComponent(RectCollider.class)).rect.top;
-        int right1 = ((RectCollider) entity1.getComponent(RectCollider.class)).rect.right;
-        int bottom1 = ((RectCollider) entity1.getComponent(RectCollider.class)).rect.bottom;
+        int left1 = entity1.transform.position.x - ((RectCollider) entity1.getComponent(Collider.class)).delta.x;
+        int top1 = entity1.transform.position.y - ((RectCollider) entity1.getComponent(Collider.class)).delta.y;
+        int right1 = entity1.transform.position.x + ((RectCollider) entity1.getComponent(Collider.class)).delta.x;
+        int bottom1 = entity1.transform.position.y + ((RectCollider) entity1.getComponent(Collider.class)).delta.y;
 
-        int left2 = ((RectCollider) entity2.getComponent(RectCollider.class)).rect.left;
-        int top2 = ((RectCollider) entity2.getComponent(RectCollider.class)).rect.top;
-        int right2 = ((RectCollider) entity1.getComponent(RectCollider.class)).rect.right;
-        int bottom2 = ((RectCollider) entity1.getComponent(RectCollider.class)).rect.bottom;
+        int left2 = entity2.transform.position.x - ((RectCollider) entity2.getComponent(Collider.class)).delta.x;
+        int top2 = entity2.transform.position.y - ((RectCollider) entity2.getComponent(Collider.class)).delta.y;
+        int right2 = entity2.transform.position.x + ((RectCollider) entity2.getComponent(Collider.class)).delta.x;
+        int bottom2 = entity2.transform.position.y + ((RectCollider) entity2.getComponent(Collider.class)).delta.y;
 
         float x1Speed = 0;
         float y1Speed = 0;
@@ -110,6 +117,58 @@ public class CollisionSystem implements System
         top2 += y2Speed;
         bottom2 += y2Speed;
 
-        return Rect.intersects(new Rect(left1, top1, right1, bottom1), new Rect(left2, top2, right2, bottom2));
+        return false; //Rect.intersects(new Rect(left1, top1, right1, bottom1), new Rect(left2, top2, right2, bottom2));
+    }*/
+
+    //TODO: Push can be derived from masses for entities.
+    private boolean isCollidingV2(Entity entity1, Entity entity2, float push)
+    {
+        Transform.Position position1 = entity1.transform.position;
+        Transform.Position position2 = entity2.transform.position;
+
+        Delta delta1 = ((Collider) entity1.getComponent(Collider.class)).delta;
+        Delta delta2 = ((Collider) entity2.getComponent(Collider.class)).delta;
+
+        float deltaXBetweenEntities = position1.x - position2.x;
+        float deltaYBetweenEntities = position1.y - position2.y;
+
+        float intersextX = Math.abs(deltaXBetweenEntities) - (delta1.x + delta2.x);
+        float intersextY = Math.abs(deltaYBetweenEntities) - (delta1.y + delta2.y);
+
+        if (intersextX < 0 && intersextY < 0)
+        {
+            push = Math.min(Math.max(push, 0.0f), 1.0f);
+            if (intersextX > intersextY)
+            {
+                if (deltaXBetweenEntities > 0.0f)
+                {
+                    move(position1, intersextX * (1 - push), 0.0f);
+                    move(position2, -intersextX * push, 0.0f);
+                } else
+                {
+                    move(position1, -intersextX * push, 0.0f);
+                    move(position2, intersextX * (1 - push), 0.0f);
+                }
+            } else
+            {
+                if (deltaYBetweenEntities > 0.0f)
+                {
+                    move(position1, 0.0f, intersextY * (1 - push));
+                    move(position2, 0.0f, -intersextY * push);
+                } else
+                {
+                    move(position1, 0.0f, -intersextY * push);
+                    move(position2, 0.0f, intersextY * (1 - push));
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void move(Transform.Position position, float x, float y)
+    {
+        position.x += x;
+        position.y += y;
     }
 }

@@ -8,5 +8,8 @@ import com.stunapps.fearlessjumper.component.Component;
 
 public class MovementComponent extends Component
 {
-
+    public MovementComponent()
+    {
+        super(MovementComponent.class);
+    }
 }

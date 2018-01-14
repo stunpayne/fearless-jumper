@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.component.visual;
 import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.animation.Animation;
+import com.stunapps.fearlessjumper.component.Delta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,9 +20,9 @@ public class AnimatorComponent extends RenderableComponent<Bitmap>
     private Map<String, Animation> animations = new HashMap<>();
     private String currentlyPlayingAnimation = null;
 
-    public AnimatorComponent(Map<String, Animation> animations)
+    public AnimatorComponent(Map<String, Animation> animations, Delta delta)
     {
-        super(RenderType.ANIMATOR);
+        super(RenderType.ANIMATOR, delta);
         this.animations = animations;
     }
 

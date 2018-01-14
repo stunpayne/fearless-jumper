@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.component.visual;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.component.Delta;
 
 /**
  * Created by sunny.s on 11/01/18.
@@ -9,11 +10,13 @@ import com.stunapps.fearlessjumper.component.Component;
 public abstract class RenderableComponent<RenderableType> extends Component
 {
     public RenderType renderType;
+    public Delta delta;
 
-    public RenderableComponent(RenderType renderType)
+    public RenderableComponent(RenderType renderType, Delta delta)
     {
+        super(RenderableComponent.class);
         this.renderType = renderType;
-        this.componentType = RenderableComponent.class;
+        this.delta = delta;
     }
 
     public enum RenderType
