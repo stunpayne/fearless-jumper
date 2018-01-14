@@ -11,6 +11,8 @@ import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 
 import android.graphics.Rect;
+import android.util.Log;
+
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
@@ -20,6 +22,8 @@ import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by sunny.s on 03/01/18.
@@ -160,12 +164,12 @@ public class CollisionSystem implements System
             {
                 if (deltaYBetweenEntities > 0.0f)
                 {
-                    move(position1, 0.0f, intersextY * (1 - push));
-                    move(position2, 0.0f, -intersextY * push);
+                    move(position1, 0.0f, -intersextY * (1 - push));
+                    move(position2, 0.0f, intersextY * push);
                 } else
                 {
-                    move(position1, 0.0f, -intersextY * push);
-                    move(position2, 0.0f, intersextY * (1 - push));
+                    move(position1, 0.0f, intersextY * push);
+                    move(position2, 0.0f, -intersextY * (1 - push));
                 }
             }
             return true;

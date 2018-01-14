@@ -54,7 +54,7 @@ public class OrientationInput extends Input
                     elapsedTime : 0;
             deltaY = Math.abs(ySpeed * elapsedTime) > 5 ? ySpeed *
                     elapsedTime : 0;
-            delta = new Delta(deltaX/10, -deltaY/10);
+            delta = new Delta(deltaX/5, -deltaY/5);
         } else
         {
             Log.d("orientationData", "No orientation found");
