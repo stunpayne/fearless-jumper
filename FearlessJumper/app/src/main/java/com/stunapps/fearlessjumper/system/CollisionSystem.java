@@ -140,6 +140,8 @@ public class CollisionSystem implements System
         Delta delta1 = ((Collider) entity1.getComponent(Collider.class)).delta;
         Delta delta2 = ((Collider) entity2.getComponent(Collider.class)).delta;
 
+        Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + delta1.x + ", height1: " + delta1.y);
+        Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + delta2.x + ", height2: " + delta2.y);
         float deltaXBetweenEntities = position1.x - position2.x;
         float deltaYBetweenEntities = position1.y - position2.y;
 
@@ -157,19 +159,23 @@ public class CollisionSystem implements System
                     move(position2, -intersextX * push, 0.0f);
                 } else
                 {
-                    move(position1, -intersextX * push, 0.0f);
-                    move(position2, intersextX * (1 - push), 0.0f);
+                    move(position1, -intersextX * (1 - push), 0.0f);
+                    move(position2, intersextX * push, 0.0f);
                 }
             } else
             {
                 if (deltaYBetweenEntities > 0.0f)
                 {
+                    Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
                     move(position1, 0.0f, -intersextY * (1 - push));
+                    Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
                     move(position2, 0.0f, intersextY * push);
                 } else
                 {
-                    move(position1, 0.0f, intersextY * push);
-                    move(position2, 0.0f, -intersextY * (1 - push));
+                    Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
+                    move(position1, 0.0f, intersextY * (1 - push));
+                    Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position2: ");
+                    move(position2, 0.0f, -intersextY * push);
                 }
             }
             return true;
@@ -179,7 +185,10 @@ public class CollisionSystem implements System
 
     private void move(Transform.Position position, float x, float y)
     {
+        Log.d("CollisionSystem", "Delta-> x: " + x + ", y: " + y);
+        Log.d("CollisionSystem", "Before-> x: " + position.x + ", y: " + position.y);
         position.x += x;
         position.y += y;
+        Log.d("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
     }
 }

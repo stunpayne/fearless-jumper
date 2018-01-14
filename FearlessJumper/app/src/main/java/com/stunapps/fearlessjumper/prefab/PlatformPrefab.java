@@ -26,8 +26,8 @@ public class PlatformPrefab extends Prefab
                 y), new Transform.Rotation(), new Transform.Scale());
         Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
                 .platform);
-        components.add(new SpriteComponent(sprite, new Delta(sprite.getWidth() / 2, sprite.getHeight() / 2)));
-        components.add(new RectCollider(new Delta(sprite.getWidth() / 2, sprite.getHeight() / 2)));
+        components.add(new SpriteComponent(sprite, new Delta(sprite.getWidth() / 4, sprite.getHeight() / 4)));
+        components.add(new RectCollider(new Delta(sprite.getWidth() / 4, sprite.getHeight() / 4)));
         components.add(new RigidBody());
     }
 }
