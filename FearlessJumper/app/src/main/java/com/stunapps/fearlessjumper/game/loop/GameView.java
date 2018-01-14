@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.manager.ObstacleManager;
 import com.stunapps.fearlessjumper.system.Systems;
 
 /**
@@ -20,14 +21,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
     private MainThread thread;
     private GameInitializer gameInitializer;
+    private final ObstacleManager obstacleManager;
 
 //    private SceneManager sceneManager;
 
     @Inject
-    public GameView(Context context, GameInitializer gameInitializer)
+    public GameView(Context context, GameInitializer gameInitializer, ObstacleManager obstacleManager)
     {
         super(context);
         this.gameInitializer = gameInitializer;
+        this.obstacleManager = obstacleManager;
         Constants.CURRENT_CONTEXT = context;
         Log.d("CONTEXT", this.getClass() + " Context hash code: " + context.hashCode());
 
@@ -91,6 +94,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
             gameInitializer.initialize();
         }
 
+//        obstacleManager.manage();
         Systems.process();
     }
 

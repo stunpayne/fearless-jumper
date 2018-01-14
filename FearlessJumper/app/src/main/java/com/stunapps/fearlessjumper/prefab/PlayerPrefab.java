@@ -11,6 +11,7 @@ import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.OrientationInput;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Constants;
@@ -23,6 +24,7 @@ public class PlayerPrefab extends Prefab
 {
     public PlayerPrefab()
     {
+
         int x = Constants.SCREEN_WIDTH / 4;
         int y = (Constants.SCREEN_HEIGHT / 2) - 400;
         transform = new Transform(new Transform.Position(x,
@@ -35,5 +37,6 @@ public class PlayerPrefab extends Prefab
         components.add(new PhysicsComponent(50, new PhysicsComponent.Velocity()));
         OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
         components.add(orientationInput);
+
     }
 }

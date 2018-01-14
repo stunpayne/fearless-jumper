@@ -23,22 +23,12 @@ public class MainThread extends Thread
     private GameView gameView;
     private boolean running;
     public static Canvas canvas;
-    //  TODO: Remove after test
-    private Rect rect;
-    private Rect rect2;
-    private int delta = 2;
 
     @Inject
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView)
     {
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
-
-        //  TODO: Remove after test
-        rect = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2, Constants
-                .SCREEN_WIDTH / 2 + 100, Constants.SCREEN_HEIGHT / 2 + 100);
-        rect2 = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2 + 50, Constants
-                .SCREEN_WIDTH / 2 + 100, Constants.SCREEN_HEIGHT / 2 + 150);
     }
 
     public void setRunning(boolean running)
@@ -127,18 +117,6 @@ public class MainThread extends Thread
                 totalTime = 0;
                 Log.i("FPS", "Average: " + averageFPS);
             }
-
-            //  TODO: Remove after test
-//            rect.top -= delta;
-//            rect.bottom -= delta;
-//            rect2.top -= delta;
-//            rect2.bottom -= delta;
-//            Log.d("TEST", "Rect top new: " + rect.top);
-//            Log.d("TEST", "Rect height: " + (rect.top - rect.bottom));
-
-
-            if (rect.top <= -50)
-                delta = -2;
         }
     }
 }

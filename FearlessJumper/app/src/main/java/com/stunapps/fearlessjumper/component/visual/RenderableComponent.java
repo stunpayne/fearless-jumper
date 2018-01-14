@@ -22,8 +22,7 @@ public abstract class RenderableComponent<RenderableType> extends Component
     public enum RenderType
     {
         ANIMATOR,
-        SPRITE,
-        TEXT
+        SPRITE
     }
 
     public abstract RenderableType getRenderable();

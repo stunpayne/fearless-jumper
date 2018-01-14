@@ -2,12 +2,15 @@ package com.stunapps.fearlessjumper.component.transform;
 
 import com.stunapps.fearlessjumper.component.Component;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * Created by sunny.s on 03/01/18.
  */
 
+@Builder
 public class Transform extends Component
 {
     public Position position = new Position();

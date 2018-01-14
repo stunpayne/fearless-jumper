@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.system;
 
+import com.stunapps.fearlessjumper.component.transform.Transform;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
@@ -8,6 +9,12 @@ import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.body.RigidBody;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.transform.Transform;
+
+import android.graphics.Rect;
+import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.collider.RectCollider;
+import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
 

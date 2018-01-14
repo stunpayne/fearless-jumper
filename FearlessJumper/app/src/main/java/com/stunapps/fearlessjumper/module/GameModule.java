@@ -12,6 +12,8 @@ import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.game.init.GameInitializerImpl;
+import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
+import com.stunapps.fearlessjumper.helper.EntityTransformCalculatorImpl;
 import com.stunapps.fearlessjumper.system.Systems;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
@@ -36,5 +38,6 @@ public class GameModule extends AbstractModule
         bind(ComponentManager.class).to(GameComponentManager.class);
         bind(Context.class).toInstance(context);
         bind(GameInitializer.class).to(GameInitializerImpl.class);
+        bind(EntityTransformCalculator.class).to(EntityTransformCalculatorImpl.class);
     }
 }
