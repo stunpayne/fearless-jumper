@@ -115,6 +115,7 @@ public class EntityManager
     public void deleteEntity(Entity entity)
     {
         int id = entity.getId();
+        gameComponentManager.deleteEntity(entity);
         entityMap.remove(id);
     }
 

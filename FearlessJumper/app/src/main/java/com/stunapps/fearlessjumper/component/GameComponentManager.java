@@ -102,22 +102,6 @@ public class GameComponentManager implements ComponentManager
                 break;
             }
         }
-
-        Iterator<List<Component>> iterator = entityToComponentMap.values().iterator();
-        while (iterator.hasNext())
-        {
-            List<Component> components = iterator.next();
-            Iterator<Component> componentIterator = components.iterator();
-            while (componentIterator.hasNext())
-            {
-                Component component = componentIterator.next();
-                if (component.componentType == componentType)
-                {
-                    componentIterator.remove();
-                    break;
-                }
-            }
-        }
     }
 
     @Override
@@ -133,13 +117,13 @@ public class GameComponentManager implements ComponentManager
     public void deleteEntity(Entity entity)
     {
         List<Component> components = entityToComponentMap.get(entity);
-        entityToComponentMap.remove(entity);
         Iterator<Component> componentIterator = components.iterator();
         while (componentIterator.hasNext())
         {
             Component component = componentIterator.next();
             removeComponent(entity, component.componentType);
         }
+        entityToComponentMap.remove(entity);
     }
 
     @Override

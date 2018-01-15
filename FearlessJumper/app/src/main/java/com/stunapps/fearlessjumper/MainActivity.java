@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         Constants.SCREEN_WIDTH = dm.widthPixels;
         Constants.SCREEN_HEIGHT = dm.heightPixels;
+        Constants.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
 
         Log.d("CONTEXT", "Context hash code: " + this.hashCode());
 

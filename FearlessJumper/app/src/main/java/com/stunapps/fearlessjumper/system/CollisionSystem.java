@@ -28,7 +28,7 @@ public class CollisionSystem implements System
 
         for (Entity entity : entities)
         {
-            if (entity.hashComponent(PhysicsComponent.class))
+            if (entity.hasComponent(PhysicsComponent.class))
             {
                 movableEntities.add(entity);
             } else
@@ -81,13 +81,13 @@ public class CollisionSystem implements System
         float x2Speed = 0;
         float y2Speed = 0;
 
-        if (entity1.hashComponent(PhysicsComponent.class))
+        if (entity1.hasComponent(PhysicsComponent.class))
         {
             x1Speed = ((PhysicsComponent) entity1.getComponent(PhysicsComponent.class)).velocity.x;
             y1Speed = ((PhysicsComponent) entity1.getComponent(PhysicsComponent.class)).velocity.y;
         }
 
-        if (entity2.hashComponent(PhysicsComponent.class))
+        if (entity2.hasComponent(PhysicsComponent.class))
         {
             x2Speed = ((PhysicsComponent) entity2.getComponent(PhysicsComponent.class)).velocity.x;
             y2Speed = ((PhysicsComponent) entity2.getComponent(PhysicsComponent.class)).velocity.y;

@@ -55,7 +55,7 @@ public class ExampleUnitTest
         entity.addComponent(component);
         Component component1 = entity.getComponent(PhysicsComponent.class);
         List<Component> components = entity.getComponents();
-        entity.hashComponent(PhysicsComponent.class);
+        entity.hasComponent(PhysicsComponent.class);
         entity.removeComponent(PhysicsComponent.class);
         entity.delete();
         cm.getEntities(PhysicsComponent.class);

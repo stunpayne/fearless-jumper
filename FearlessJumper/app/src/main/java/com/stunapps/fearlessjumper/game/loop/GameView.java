@@ -94,7 +94,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
             gameInitializer.initialize();
         }
 
-//        obstacleManager.manage();
+        obstacleManager.manage();
         Systems.process();
     }
 
