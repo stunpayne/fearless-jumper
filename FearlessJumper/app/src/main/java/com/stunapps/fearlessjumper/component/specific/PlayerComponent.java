@@ -10,7 +10,6 @@ public class PlayerComponent extends Component
 {
     public PlayerComponent()
     {
-        super();
-        this.componentType = PlayerComponent.class;
+        super(PlayerComponent.class);
     }
 }

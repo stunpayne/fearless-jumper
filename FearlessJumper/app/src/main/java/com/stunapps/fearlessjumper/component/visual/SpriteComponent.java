@@ -2,6 +2,8 @@ package com.stunapps.fearlessjumper.component.visual;
 
 import android.graphics.Bitmap;
 
+import com.stunapps.fearlessjumper.component.Delta;
+
 /**
  * Created by sunny.s on 03/01/18.
  */
@@ -12,12 +14,13 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
 
     public SpriteComponent()
     {
-        this(null);
+        super(RenderType.SPRITE, new Delta(0,0));
+
     }
 
-    public SpriteComponent(Bitmap sprite)
+    public SpriteComponent(Bitmap sprite, Delta delta)
     {
-        super(RenderType.SPRITE);
+        super(RenderType.SPRITE, delta);
         this.sprite = sprite;
     }
 

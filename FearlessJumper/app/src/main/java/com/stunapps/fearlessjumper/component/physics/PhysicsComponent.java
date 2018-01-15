@@ -23,9 +23,9 @@ public class PhysicsComponent extends Component
 
     public PhysicsComponent(float mass, Velocity velocity)
     {
+        super(PhysicsComponent.class);
         this.mass = mass;
         this.velocity = velocity;
-        this.componentType = PhysicsComponent.class;
     }
 
     public static class Velocity

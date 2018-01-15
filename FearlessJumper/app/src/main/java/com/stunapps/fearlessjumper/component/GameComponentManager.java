@@ -1,10 +1,15 @@
 package com.stunapps.fearlessjumper.component;
 
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.component.collider.Collider;
+import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.health.Health;
+import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
 
+
 import org.roboguice.shaded.goole.common.collect.Sets;
+
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Singleton
 public class GameComponentManager implements ComponentManager
 {
-    private Map<Class<? extends Component>, List<Entity>> componentToTypeEntityMap;
+    private Map<Class<? extends Component>, Set<Entity>> componentToTypeEntityMap;
     private Map<Entity, List<Component>> entityToComponentMap;
 
     public GameComponentManager()
@@ -33,10 +38,10 @@ public class GameComponentManager implements ComponentManager
     @Override
     public <C extends Component> void addComponent(Entity entity, C component)
     {
-        List<Entity> entities = componentToTypeEntityMap.get(component.componentType);
+        Set<Entity> entities = componentToTypeEntityMap.get(component.componentType);
         if (entities == null)
         {
-            componentToTypeEntityMap.put(component.componentType, new LinkedList<Entity>());
+            componentToTypeEntityMap.put(component.componentType, new HashSet<Entity>());
         }
         componentToTypeEntityMap.get(component.componentType).add(entity);
 
@@ -73,7 +78,7 @@ public class GameComponentManager implements ComponentManager
         while (it.hasNext())
         {
             Component componentFromList = it.next();
-            if (componentFromList.componentType == componentType)
+            if (componentFromList.componentType.equals(componentType))
             {
                 component = componentFromList;
                 break;
@@ -91,7 +96,7 @@ public class GameComponentManager implements ComponentManager
     @Override
     public void removeComponent(Entity entity, Class<? extends Component> componentType)
     {
-        List<Entity> entities = componentToTypeEntityMap.get(componentType);
+        Set<Entity> entities = componentToTypeEntityMap.get(componentType);
         Iterator<Entity> it = entities.iterator();
         while (it.hasNext())
         {
@@ -107,7 +112,7 @@ public class GameComponentManager implements ComponentManager
     @Override
     public Set<Entity> getEntities(Class<? extends Component> componentType)
     {
-        List<Entity> entities = componentToTypeEntityMap.get(componentType);
+        Set<Entity> entities = componentToTypeEntityMap.get(componentType);
         if (null == entities)
             return new HashSet<>();
         return Sets.newHashSet(entities);

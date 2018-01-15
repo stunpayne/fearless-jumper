@@ -19,10 +19,10 @@ public class Transform extends Component
 
     public Transform(Position position, Rotation rotation, Scale scale)
     {
+        super(Transform.class);
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
-        this.componentType = Transform.class;
     }
 
     public static class Position

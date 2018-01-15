@@ -47,9 +47,9 @@ public class RenderSystem implements System
                     Bitmap bitmap = (Bitmap) component.getRenderable();
                     canvas.drawBitmap(bitmap,
                             null,
-                            new Rect((int) entity.transform.position.x, (int) entity
-                                    .transform.position.y, (int) entity.transform.position.x + bitmap
-                                    .getWidth(), (int) entity.transform.position.y + bitmap.getHeight()),
+                            new Rect((int) entity.transform.position.x - (int) component.delta.x, (int) entity
+                                    .transform.position.y - (int) component.delta.y, (int) entity.transform.position.x + (int) component.delta.x
+                                    , (int) entity.transform.position.y + (int) component.delta.y),
                             null);
                     break;
                 default:

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.stunapps.fearlessjumper.core.OrientationData;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.game.loop.GameView;
 import com.stunapps.fearlessjumper.helper.Constants;
@@ -33,9 +34,12 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("CONTEXT", "Context hash code: " + this.hashCode());
 
+
+
         DI.install(new GameModule(this));
         di().getInstance(Systems.class).initialise();
 
         setContentView(DI.di().getInstance(GameView.class));
+        DI.di().getInstance(OrientationData.class).register();
     }
 }

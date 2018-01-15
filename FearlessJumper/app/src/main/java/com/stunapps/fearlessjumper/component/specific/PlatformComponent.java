@@ -10,7 +10,6 @@ public class PlatformComponent extends Component
 {
     public PlatformComponent()
     {
-        super();
-        this.componentType = PlatformComponent.class;
+        super(PlatformComponent.class);
     }
 }
