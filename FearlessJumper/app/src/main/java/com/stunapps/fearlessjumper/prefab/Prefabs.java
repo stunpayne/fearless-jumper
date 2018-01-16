@@ -11,7 +11,9 @@ import java.util.List;
 public enum Prefabs
 {
     PLAYER(new PlayerPrefab()),
-    PLATFORM(new PlatformPrefab());
+    PLATFORM(new PlatformPrefab()),
+    RIGHT_BOUNDARY(new RightBoundaryPrefab()),
+    LEFT_BOUNDARY(new LeftBoundaryPrefab());
 
     public Prefab prefab;
 
