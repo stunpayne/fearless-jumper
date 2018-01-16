@@ -93,16 +93,15 @@ public class CollisionSystem implements System
         Transform.Position position1 = entity1.transform.position;
         Transform.Position position2 = entity2.transform.position;
 
-        Delta delta1 = ((Collider) entity1.getComponent(Collider.class)).delta;
-        Delta delta2 = ((Collider) entity2.getComponent(Collider.class)).delta;
-
-        Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + delta1.x + ", height1: " + delta1.y);
-        Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + delta2.x + ", height2: " + delta2.y);
         float deltaXBetweenEntities = position1.x - position2.x;
         float deltaYBetweenEntities = position1.y - position2.y;
 
-        float intersectX = Math.abs(deltaXBetweenEntities) - (delta1.x + delta2.x);
-        float intersectY = Math.abs(deltaYBetweenEntities) - (delta1.y + delta2.y);
+        Delta colliderWidth1 = ((Collider) entity1.getComponent(Collider.class)).delta;
+        Delta colliderWidth2 = ((Collider) entity2.getComponent(Collider.class)).delta;
+        Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + colliderWidth1.x + ", height1: " + colliderWidth1.y);
+        Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + colliderWidth2.x + ", height2: " + colliderWidth2.y);
+        float intersectX = Math.abs(deltaXBetweenEntities) - (colliderWidth1.x + colliderWidth2.x);
+        float intersectY = Math.abs(deltaYBetweenEntities) - (colliderWidth1.y + colliderWidth2.y);
 
         if (intersectX < 0 && intersectY < 0)
         {

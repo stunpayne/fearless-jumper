@@ -10,9 +10,9 @@ import com.stunapps.fearlessjumper.helper.Constants;
  * Created by anand.verma on 14/01/18.
  */
 
-public class LeftBoundaryPrefab extends Prefab
+public class BoundaryPrefab extends Prefab
 {
-    public LeftBoundaryPrefab()
+    public BoundaryPrefab()
     {
         int x = -10;
         int y = (Constants.SCREEN_HEIGHT / 2);
