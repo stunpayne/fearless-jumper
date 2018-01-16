@@ -52,7 +52,7 @@ public class CollisionSystem implements System
 
         for (Entity entity : entities)
         {
-            if (entity.hashComponent(RigidBody.class))
+            if (entity.hasComponent(PhysicsComponent.class))
             {
                 rigidEntities.add(entity);
             } else
@@ -101,37 +101,37 @@ public class CollisionSystem implements System
         float deltaXBetweenEntities = position1.x - position2.x;
         float deltaYBetweenEntities = position1.y - position2.y;
 
-        float intersextX = Math.abs(deltaXBetweenEntities) - (delta1.x + delta2.x);
-        float intersextY = Math.abs(deltaYBetweenEntities) - (delta1.y + delta2.y);
+        float intersectX = Math.abs(deltaXBetweenEntities) - (delta1.x + delta2.x);
+        float intersectY = Math.abs(deltaYBetweenEntities) - (delta1.y + delta2.y);
 
-        if (intersextX < 0 && intersextY < 0)
+        if (intersectX < 0 && intersectY < 0)
         {
             push = Math.min(Math.max(push, 0.0f), 1.0f);
-            if (intersextX > intersextY)
+            if (intersectX > intersectY)
             {
                 if (deltaXBetweenEntities > 0.0f)
                 {
-                    move(position1, intersextX * (1 - push), 0.0f);
-                    move(position2, -intersextX * push, 0.0f);
+                    move(position1, intersectX * (1 - push), 0.0f);
+                    move(position2, -intersectX * push, 0.0f);
                 } else
                 {
-                    move(position1, -intersextX * (1 - push), 0.0f);
-                    move(position2, intersextX * push, 0.0f);
+                    move(position1, -intersectX * (1 - push), 0.0f);
+                    move(position2, intersectX * push, 0.0f);
                 }
             } else
             {
                 if (deltaYBetweenEntities > 0.0f)
                 {
                     //Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
-                    move(position1, 0.0f, -intersextY * (1 - push));
+                    move(position1, 0.0f, -intersectY * (1 - push));
                     //Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
-                    move(position2, 0.0f, intersextY * push);
+                    move(position2, 0.0f, intersectY * push);
                 } else
                 {
                     //Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
-                    move(position1, 0.0f, intersextY * (1 - push));
+                    move(position1, 0.0f, intersectY * (1 - push));
                     //Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position2: ");
-                    move(position2, 0.0f, -intersextY * push);
+                    move(position2, 0.0f, -intersectY * push);
                 }
             }
             return true;

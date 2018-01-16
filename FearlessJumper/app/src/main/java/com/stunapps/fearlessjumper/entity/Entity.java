@@ -51,7 +51,7 @@ public class Entity
         componentManager.removeComponent(this, componentType);
     }
 
-    public boolean hashComponent(Class<? extends Component> componentType)
+    public boolean hasComponent(Class<? extends Component> componentType)
     {
         return componentManager.hasComponent(this, componentType);
     }

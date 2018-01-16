@@ -35,7 +35,7 @@ public class DummySystem implements System
 
         for (Entity player : players)
         {
-            if (player.transform.position.y - Constants.SCREEN_HEIGHT / 2 < 0)
+            if (player.transform.position.y < Constants.SCREEN_HEIGHT / 2)
                 player.transform.position.y += 200;
             player.transform.position.y -= deltaY;
         }
