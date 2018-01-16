@@ -49,6 +49,10 @@ public class GameInitializerImpl implements GameInitializer
         //  Initialise platforms
         entityManager.instantiate(Prefabs.PLATFORM.get());
 
+        entityManager.instantiate(Prefabs.RIGHT_BOUNDARY.get());
+
+        entityManager.instantiate(Prefabs.LEFT_BOUNDARY.get());
+
         //  Initialise enemies
 
         initialised = true;

@@ -52,7 +52,7 @@ public class CollisionSystem implements System
 
         for (Entity entity : entities)
         {
-            if (entity.hasComponent(PhysicsComponent.class))
+            if (entity.hasComponent(RigidBody.class))
             {
                 rigidEntities.add(entity);
             } else
@@ -96,8 +96,8 @@ public class CollisionSystem implements System
         Delta delta1 = ((Collider) entity1.getComponent(Collider.class)).delta;
         Delta delta2 = ((Collider) entity2.getComponent(Collider.class)).delta;
 
-        //Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + delta1.x + ", height1: " + delta1.y);
-        //Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + delta2.x + ", height2: " + delta2.y);
+        Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + delta1.x + ", height1: " + delta1.y);
+        Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + delta2.x + ", height2: " + delta2.y);
         float deltaXBetweenEntities = position1.x - position2.x;
         float deltaYBetweenEntities = position1.y - position2.y;
 
@@ -111,26 +111,30 @@ public class CollisionSystem implements System
             {
                 if (deltaXBetweenEntities > 0.0f)
                 {
-                    move(position1, intersectX * (1 - push), 0.0f);
-                    move(position2, -intersectX * push, 0.0f);
+                    Log.d("CollisionSystem", "deltaXBetweenEntities < 0 :position1: ");
+                    move(position1, -intersectX * (1 - push), 0.0f);
+                    Log.d("CollisionSystem", "deltaXBetweenEntities < 0 :position2: ");
+                    move(position2, intersectX * push, 0.0f);
                 } else
                 {
-                    move(position1, -intersectX * (1 - push), 0.0f);
-                    move(position2, intersectX * push, 0.0f);
+                    Log.d("CollisionSystem", "deltaXBetweenEntities > 0 :position1: ");
+                    move(position1, intersectX * (1 - push), 0.0f);
+                    Log.d("CollisionSystem", "deltaXBetweenEntities > 0 :position2: ");
+                    move(position2, -intersectX * push, 0.0f);
                 }
             } else
             {
                 if (deltaYBetweenEntities > 0.0f)
                 {
-                    //Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
+                    Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
                     move(position1, 0.0f, -intersectY * (1 - push));
-                    //Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
+                    Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
                     move(position2, 0.0f, intersectY * push);
                 } else
                 {
-                    //Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
+                    Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
                     move(position1, 0.0f, intersectY * (1 - push));
-                    //Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position2: ");
+                    Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position2: ");
                     move(position2, 0.0f, -intersectY * push);
                 }
             }
@@ -141,10 +145,10 @@ public class CollisionSystem implements System
 
     private void move(Transform.Position position, float x, float y)
     {
-        //Log.d("CollisionSystem", "Delta-> x: " + x + ", y: " + y);
-        //Log.d("CollisionSystem", "Before-> x: " + position.x + ", y: " + position.y);
+        Log.d("CollisionSystem", "Delta-> x: " + x + ", y: " + y);
+        Log.d("CollisionSystem", "Before-> x: " + position.x + ", y: " + position.y);
         position.x += x;
         position.y += y;
-        //Log.d("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
+        Log.d("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
     }
 }
