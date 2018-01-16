@@ -66,7 +66,7 @@ public class ObstacleManager implements Manager
             if (platform.transform.position.y > Constants.SCREEN_HEIGHT)
                 entityManager.deleteEntity(platform);
             else
-                platform.transform.position.y += speed;
+                ;//platform.transform.position.y += speed;
         }
     }
 }
