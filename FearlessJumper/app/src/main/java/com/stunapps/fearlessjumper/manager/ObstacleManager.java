@@ -44,7 +44,7 @@ public class ObstacleManager implements Manager
         Prefab platformPrefab = Prefabs.PLATFORM.get();
         int width = calculator.getWidth(platformPrefab);
         spawnPosition = new Transform.Position((float) Math.random() * (Constants.SCREEN_WIDTH -
-                width), -400);
+                width), 0);
         /**
          * Should we use components or tags?
          * Using tags means that we will have to create another manager similar to ComponentManager

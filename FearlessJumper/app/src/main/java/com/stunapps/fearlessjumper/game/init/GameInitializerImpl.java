@@ -51,8 +51,6 @@ public class GameInitializerImpl implements GameInitializer
 
         //  Initialise enemies
 
-
-
         initialised = true;
     }
 }
