@@ -25,8 +25,6 @@ public abstract class Collider extends Component
 
     public Center getCenter(Transform.Position position)
     {
-        float x = (delta.x + width)/2;
-        float y = (delta.y + height)/2;
-        return new Center(x, y);
+        return new Center(position.x + delta.x + width / 2, position.y + delta.y + height / 2);
     }
 }

@@ -37,6 +37,7 @@ public class OrientationInput extends Input
         int elapsedTime = (int) (System.currentTimeMillis() - frameTime);
         frameTime = System.currentTimeMillis();
         Delta delta = new Delta(0, 0);
+        Log.d("orientationData", "orientationData.getOrientation() = " + orientationData.getOrientation() + ", and orientationData.getStartOrientation() = " + orientationData.getStartOrientation());
         if (orientationData.getOrientation() != null && orientationData.getStartOrientation()
                 != null)
         {
@@ -54,7 +55,7 @@ public class OrientationInput extends Input
                     elapsedTime : 0;
             deltaY = Math.abs(ySpeed * elapsedTime) > 5 ? ySpeed *
                     elapsedTime : 0;
-            delta = new Delta(deltaX/2, -deltaY/2);
+            delta = new Delta(deltaX / 2, -deltaY / 2);
         } else
         {
             Log.d("orientationData", "No orientation found");

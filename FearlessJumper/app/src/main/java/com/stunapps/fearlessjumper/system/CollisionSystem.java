@@ -91,25 +91,28 @@ public class CollisionSystem implements System
     //TODO: Push can be derived from masses for entities.
     private boolean isCollidingV2(Entity entity1, Entity entity2, float push)
     {
+
+        //TODO: use physics properties.
         PhysicsComponent physicsComponent1 = (PhysicsComponent)entity1.getComponent(PhysicsComponent.class);
         PhysicsComponent physicsComponent2 = (PhysicsComponent)entity2.getComponent(PhysicsComponent.class);
 
         Transform.Position position1 = entity1.transform.position;
         Transform.Position position2 = entity2.transform.position;
 
-        Delta delta1 = ((Collider) entity1.getComponent(Collider.class)).delta;
-        Delta delta2 = ((Collider) entity2.getComponent(Collider.class)).delta;
+        Collider collider1 = (Collider)entity1.getComponent(Collider.class);
+        Collider collider2 = (Collider)entity2.getComponent(Collider.class);
 
-        if (debugEnabled)
+        float deltaXBetweenEntities = collider1.getCenter(position1).x - collider2.getCenter(position2).x;
+        float deltaYBetweenEntities = collider1.getCenter(position1).y - collider2.getCenter(position2).y;
+
+        if(debugEnabled)
         {
-            Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + delta1.x + ", height1: " + delta1.y);
-            Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + delta2.x + ", height2: " + delta2.y);
+            Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + collider1.width + ", height1: " + collider1.height);
+            Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + collider2.width + ", height2: " + collider2.height);
         }
-        float deltaXBetweenEntities = position1.x - position2.x;
-        float deltaYBetweenEntities = position1.y - position2.y;
 
-        float intersectX = Math.abs(deltaXBetweenEntities) - (delta1.x + delta2.x);
-        float intersectY = Math.abs(deltaYBetweenEntities) - (delta1.y + delta2.y);
+        float intersectX = Math.abs(deltaXBetweenEntities) - (collider1.width/2 + collider2.width/2);
+        float intersectY = Math.abs(deltaYBetweenEntities) - (collider1.height/2 + collider2.height/2);
 
         if (intersectX < 0 && intersectY < 0)
         {

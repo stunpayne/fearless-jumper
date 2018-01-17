@@ -33,11 +33,11 @@ public class DummySystem implements System
     {
         Set<Entity> players = componentManager.getEntities(PlayerComponent.class);
 
-        for (Entity player : players)
+        /*for (Entity player : players)
         {
             if (player.transform.position.y < Constants.SCREEN_HEIGHT / 2)
                 player.transform.position.y += 200;
             player.transform.position.y -= deltaY;
-        }
+        }*/
     }
 }

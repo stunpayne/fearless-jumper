@@ -29,11 +29,12 @@ public class InputSystem implements System
     {
         //Single player game.
         Set<Entity> entitySet = componentManager.getEntities(Input.class);
-        if(!entitySet.isEmpty()){
+        if (!entitySet.isEmpty())
+        {
             Entity entity = entitySet.iterator().next();
 
             //TODO: Buggy type casting.
-            OrientationInput input = (OrientationInput)entity.getComponent(Input.class);
+            OrientationInput input = (OrientationInput) entity.getComponent(Input.class);
             Delta delta = input.getDeltaMovement();
             Transform transform = entity.transform;
             transform.position.x += delta.x;

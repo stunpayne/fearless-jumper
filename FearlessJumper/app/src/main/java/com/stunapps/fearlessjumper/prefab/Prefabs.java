@@ -1,9 +1,5 @@
 package com.stunapps.fearlessjumper.prefab;
 
-import com.stunapps.fearlessjumper.component.Component;
-
-import java.util.List;
-
 /**
  * Created by sunny.s on 12/01/18.
  */
@@ -12,8 +8,8 @@ public enum Prefabs
 {
     PLAYER(new PlayerPrefab()),
     PLATFORM(new PlatformPrefab()),
-    RIGHT_BOUNDARY(new RightBoundaryPrefab()),
-    LEFT_BOUNDARY(new LeftBoundaryPrefab());
+    BOUNDARY(new BoundaryPrefab()),
+    LAND(new LandPrefab());
 
     public Prefab prefab;
 
