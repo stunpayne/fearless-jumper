@@ -18,7 +18,7 @@ public class RightBoundaryPrefab extends Prefab
         int y = (Constants.SCREEN_HEIGHT / 2);
         transform = new Transform(new Transform.Position(x,
                 y), new Transform.Rotation(), new Transform.Scale());
-        components.add(new RectCollider(new Delta(5, y)));
+        components.add(new RectCollider(new Delta(5, y), , ));
         components.add(new RigidBody());
     }
 }

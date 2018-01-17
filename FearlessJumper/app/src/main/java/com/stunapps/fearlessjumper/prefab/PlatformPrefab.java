@@ -31,7 +31,7 @@ public class PlatformPrefab extends Prefab
         Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
                 .platform);
         components.add(new SpriteComponent(sprite, new Delta(sprite.getWidth() / 4, sprite.getHeight() / 4)));
-        components.add(new RectCollider(new Delta(sprite.getWidth() / 4, sprite.getHeight() / 4)));
+        components.add(new RectCollider(new Delta(sprite.getWidth() / 4, sprite.getHeight() / 4), , ));
         components.add(new RigidBody());
     }
 }

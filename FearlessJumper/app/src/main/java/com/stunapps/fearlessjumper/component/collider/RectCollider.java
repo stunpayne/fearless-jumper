@@ -8,8 +8,8 @@ import com.stunapps.fearlessjumper.component.Delta;
 
 public class RectCollider extends Collider
 {
-    public RectCollider(Delta delta)
+    public RectCollider(Delta delta, float width, float height)
     {
-        super(delta);
+        super(delta, width, height);
     }
 }

@@ -2,6 +2,8 @@ package com.stunapps.fearlessjumper.component.collider;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.component.visual.Center;
 
 /**
  * Created by anand.verma on 12/01/18.
@@ -10,10 +12,21 @@ import com.stunapps.fearlessjumper.component.Delta;
 public abstract class Collider extends Component
 {
     public Delta delta;
+    public float width;
+    public float height;
 
-    public Collider(Delta delta)
+    public Collider(Delta delta, float width, float height)
     {
         super(Collider.class);
         this.delta = delta;
+        this.width = width;
+        this.height = height;
+    }
+
+    public Center getCenter(Transform.Position position)
+    {
+        float x = (delta.x + width)/2;
+        float y = (delta.y + height)/2;
+        return new Center(x, y);
     }
 }

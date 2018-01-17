@@ -33,6 +33,7 @@ public class CollisionSystem implements System
 {
 
     private final GameComponentManager componentManager;
+    private static final boolean debugEnabled = false;
 
     @Inject
     public CollisionSystem(GameComponentManager componentManager)
@@ -47,38 +48,38 @@ public class CollisionSystem implements System
         //  Get transforms of all enemies in game and check for collision with player
         Set<Entity> entities = componentManager.getEntities(Collider.class);
 
-        Set<Entity> movableEntities = new HashSet<>();
-        Set<Entity> rigidEntities = new HashSet<>();
+        Set<Entity> mobileEntitiesWithPhysics = new HashSet<>();
+        Set<Entity> immobileEntities = new HashSet<>();
 
         for (Entity entity : entities)
         {
-            if (entity.hasComponent(RigidBody.class))
+            if (entity.hasComponent(PhysicsComponent.class))
             {
-                rigidEntities.add(entity);
+                mobileEntitiesWithPhysics.add(entity);
             } else
             {
-                movableEntities.add(entity);
+                immobileEntities.add(entity);
             }
         }
 
         //TODO: Collision logic.
-        for (Entity movableEntity : movableEntities)
+        for (Entity mobileEntityWithPhysics : mobileEntitiesWithPhysics)
         {
-            for (Entity rigidEntity : rigidEntities)
+            for (Entity immobileEntity : immobileEntities)
             {
-                if (isCollidingV2(movableEntity, rigidEntity, -0.0f))
+                if (isCollidingV2(mobileEntityWithPhysics, immobileEntity, -0.0f))
                 {
                     //TODO: Handle collision.
 
                 }
             }
 
-            for (Entity movableEntity1 : movableEntities)
+            for (Entity mobileEntityWithPhysics1 : mobileEntitiesWithPhysics)
             {
                 //TODO: Bug, Two different entities will be processed for collision twice here.
-                if (!movableEntity.equals(movableEntity1))
+                if (!mobileEntityWithPhysics.equals(mobileEntityWithPhysics1))
                 {
-                    if (isCollidingV2(movableEntity, movableEntity1, 0.0f))
+                    if (isCollidingV2(mobileEntityWithPhysics, mobileEntityWithPhysics1, 0.0f))
                     {
                         //TODO: handle collision.
                     }
@@ -90,14 +91,20 @@ public class CollisionSystem implements System
     //TODO: Push can be derived from masses for entities.
     private boolean isCollidingV2(Entity entity1, Entity entity2, float push)
     {
+        PhysicsComponent physicsComponent1 = (PhysicsComponent)entity1.getComponent(PhysicsComponent.class);
+        PhysicsComponent physicsComponent2 = (PhysicsComponent)entity2.getComponent(PhysicsComponent.class);
+
         Transform.Position position1 = entity1.transform.position;
         Transform.Position position2 = entity2.transform.position;
 
         Delta delta1 = ((Collider) entity1.getComponent(Collider.class)).delta;
         Delta delta2 = ((Collider) entity2.getComponent(Collider.class)).delta;
 
-        Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + delta1.x + ", height1: " + delta1.y);
-        Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + delta2.x + ", height2: " + delta2.y);
+        if (debugEnabled)
+        {
+            Log.d("CollisionSystem", "Entity1-> x: " + position1.x + ", y: " + position1.y + ", width1: " + delta1.x + ", height1: " + delta1.y);
+            Log.d("CollisionSystem", "Entity2-> x: " + position2.x + ", y: " + position2.y + ", width2: " + delta2.x + ", height2: " + delta2.y);
+        }
         float deltaXBetweenEntities = position1.x - position2.x;
         float deltaYBetweenEntities = position1.y - position2.y;
 
@@ -111,9 +118,15 @@ public class CollisionSystem implements System
             {
                 if (deltaXBetweenEntities > 0.0f)
                 {
-                    Log.d("CollisionSystem", "deltaXBetweenEntities < 0 :position1: ");
+                    if(debugEnabled)
+                    {
+                        Log.d("CollisionSystem", "deltaXBetweenEntities < 0 :position1: ");
+                    }
                     move(position1, -intersectX * (1 - push), 0.0f);
-                    Log.d("CollisionSystem", "deltaXBetweenEntities < 0 :position2: ");
+                    if(debugEnabled)
+                    {
+                        Log.d("CollisionSystem", "deltaXBetweenEntities < 0 :position2: ");
+                    }
                     move(position2, intersectX * push, 0.0f);
                 } else
                 {
@@ -126,15 +139,27 @@ public class CollisionSystem implements System
             {
                 if (deltaYBetweenEntities > 0.0f)
                 {
-                    Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
+                    if(debugEnabled)
+                    {
+                        Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
+                    }
                     move(position1, 0.0f, -intersectY * (1 - push));
-                    Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
+                    if(debugEnabled)
+                    {
+                        Log.d("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
+                    }
                     move(position2, 0.0f, intersectY * push);
                 } else
                 {
-                    Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
+                    if(debugEnabled)
+                    {
+                        Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
+                    }
                     move(position1, 0.0f, intersectY * (1 - push));
-                    Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position2: ");
+                    if(debugEnabled)
+                    {
+                        Log.d("CollisionSystem", "deltaYBetweenEntities < 0 :position2: ");
+                    }
                     move(position2, 0.0f, -intersectY * push);
                 }
             }
@@ -145,10 +170,16 @@ public class CollisionSystem implements System
 
     private void move(Transform.Position position, float x, float y)
     {
-        Log.d("CollisionSystem", "Delta-> x: " + x + ", y: " + y);
-        Log.d("CollisionSystem", "Before-> x: " + position.x + ", y: " + position.y);
+        if(debugEnabled)
+        {
+            Log.d("CollisionSystem", "Delta-> x: " + x + ", y: " + y);
+            Log.d("CollisionSystem", "Before-> x: " + position.x + ", y: " + position.y);
+        }
         position.x += x;
         position.y += y;
-        Log.d("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
+        if(debugEnabled)
+        {
+            Log.d("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
+        }
     }
 }
