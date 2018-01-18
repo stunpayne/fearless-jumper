@@ -37,8 +37,8 @@ public class InputSystem implements System
             OrientationInput input = (OrientationInput) entity.getComponent(Input.class);
             Delta delta = input.getDeltaMovement();
             Transform transform = entity.transform;
-//            transform.position.x += delta.x;
-//            transform.position.y += delta.y;
+            transform.position.x += delta.x;
+            transform.position.y += delta.y;
         }
     }
 }

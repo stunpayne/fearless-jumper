@@ -50,7 +50,7 @@ public class ObstacleManager implements Manager
          * Using tags means that we will have to create another manager similar to ComponentManager
          */
         Set<Entity> players = componentManager.getEntities(PlayerComponent.class);
-        for (Entity player : players)
+        /*for (Entity player : players)
         {
             if (player.transform.position.y < Constants.SCREEN_HEIGHT / 2)
             {
@@ -58,7 +58,7 @@ public class ObstacleManager implements Manager
                 entityManager.instantiate(platformPrefab, Transform.builder().position
                         (spawnPosition).build());
             }
-        }
+        }*/
 
         Set<Entity> platforms = componentManager.getEntities(PlatformComponent.class);
         for (Entity platform : platforms)

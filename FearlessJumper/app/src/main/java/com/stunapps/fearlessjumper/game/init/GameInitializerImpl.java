@@ -58,6 +58,11 @@ public class GameInitializerImpl implements GameInitializer
                         .SCREEN_HEIGHT / 2), null, null);
         entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
 
+        Transform landTransform = new Transform(
+                new Transform.Position(0, Constants
+                        .SCREEN_HEIGHT), null, null);
+        entityManager.instantiate(Prefabs.LAND.get());
+
         //  Initialise enemies
 
         initialised = true;

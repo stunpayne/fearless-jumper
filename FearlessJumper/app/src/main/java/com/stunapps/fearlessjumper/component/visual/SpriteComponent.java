@@ -14,13 +14,13 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
 
     public SpriteComponent()
     {
-        super(RenderType.SPRITE, new Delta(0,0));
+        super(RenderType.SPRITE, new Delta(0,0), 0, 0);
 
     }
 
-    public SpriteComponent(Bitmap sprite, Delta delta)
+    public SpriteComponent(Bitmap sprite, Delta delta, float width, float height)
     {
-        super(RenderType.SPRITE, delta);
+        super(RenderType.SPRITE, delta, width, height);
         this.sprite = sprite;
     }
 

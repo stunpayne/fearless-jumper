@@ -8,7 +8,8 @@ public enum Prefabs
 {
     PLAYER(new PlayerPrefab()),
     PLATFORM(new PlatformPrefab()),
-    BOUNDARY(new BoundaryPrefab());
+    BOUNDARY(new BoundaryPrefab()),
+    LAND(new LandPrefab());
 
     public Prefab prefab;
 

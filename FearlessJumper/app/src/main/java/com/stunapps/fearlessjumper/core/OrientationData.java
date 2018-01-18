@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -78,6 +79,8 @@ public class OrientationData implements SensorEventListener
             accelOutput = event.values;
         else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
             magOutput = event.values;
+
+        Log.d("Orientation data", "onSensorChanged: " + event.sensor.getType());
 
         if (accelOutput != null && magOutput != null)
         {

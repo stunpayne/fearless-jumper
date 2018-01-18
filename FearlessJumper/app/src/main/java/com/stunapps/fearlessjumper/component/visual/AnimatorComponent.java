@@ -20,9 +20,9 @@ public class AnimatorComponent extends RenderableComponent<Bitmap>
     private Map<String, Animation> animations = new HashMap<>();
     private String currentlyPlayingAnimation = null;
 
-    public AnimatorComponent(Map<String, Animation> animations, Delta delta)
+    public AnimatorComponent(Map<String, Animation> animations, Delta delta, float width, float height)
     {
-        super(RenderType.ANIMATOR, delta);
+        super(RenderType.ANIMATOR, delta, width, height);
         this.animations = animations;
     }
 

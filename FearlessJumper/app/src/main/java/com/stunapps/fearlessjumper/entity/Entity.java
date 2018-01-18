@@ -36,7 +36,7 @@ public class Entity
         componentManager.addComponent(this, component);
     }
 
-    public Component getComponent(Class componentType)
+    public Component getComponent(Class<? extends Component> componentType)
     {
         return componentManager.getComponent(this, componentType);
     }

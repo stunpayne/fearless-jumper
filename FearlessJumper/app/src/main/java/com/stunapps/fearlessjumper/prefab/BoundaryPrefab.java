@@ -14,11 +14,6 @@ public class BoundaryPrefab extends Prefab
 {
     public BoundaryPrefab()
     {
-        int x = -10;
-        int y = (Constants.SCREEN_HEIGHT / 2);
-        transform = new Transform(new Transform.Position(x,
-                y), new Transform.Rotation(), new Transform.Scale());
-        components.add(new RectCollider(new Delta(5, y)));
-        components.add(new RigidBody());
+        components.add(new RectCollider(new Delta(0, 0), 10, Constants.SCREEN_HEIGHT));
     }
 }
