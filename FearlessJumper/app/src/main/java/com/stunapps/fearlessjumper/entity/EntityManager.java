@@ -38,58 +38,6 @@ public class EntityManager
         return entity;
     }
 
-//    public Entity instantiate(Prefab prefab, int left, int top, int right, int bottom)
-//    {
-//        Entity entity = new Entity(gameComponentManager, this, rand.nextInt());
-//        entityMap.put(entity.getId(), entity);
-//        for (Component component : prefab.components)
-//        {
-//            if (component instanceof RectCollider)
-//            {
-//                ((RectCollider) component).init(left, top, right, bottom);
-//            }
-//            entity.addComponent(component);
-//        }
-//        return entity;
-//    }
-//
-//    public Entity instantiate(Prefab prefab, int left, int top, int right, int bottom, Bitmap bitmap)
-//    {
-//        Entity entity = new Entity(gameComponentManager, this, rand.nextInt());
-//        entityMap.put(entity.getId(), entity);
-//        for (Component component : prefab.components)
-//        {
-//            if (component instanceof RectCollider)
-//            {
-//                ((RectCollider) component).init(left, top, right, bottom);
-//            } else if (component instanceof SpriteComponent)
-//            {
-//                ((SpriteComponent) component).setSprite(bitmap);
-//            }
-//            entity.addComponent(component);
-//        }
-//        return entity;
-//    }
-//
-//    public Entity instantiate(Prefab prefab, int left, int top, int right, int bottom, float mass, float velocity)
-//    {
-//        Entity entity = new Entity(gameComponentManager, this, rand.nextInt());
-//        entityMap.put(entity.getId(), entity);
-//        for (Component component : prefab.components)
-//        {
-//            if (component instanceof RectCollider)
-//            {
-//                ((RectCollider) component).init(left, top, right, bottom);
-//            } else if (component instanceof PhysicsComponent)
-//            {
-//                ((PhysicsComponent) component).setMass(mass);
-//                ((PhysicsComponent) component).setMass(velocity);
-//            }
-//            entity.addComponent(component);
-//        }
-//        return entity;
-//    }
-
     public Entity instantiate(Prefab prefab)
     {
         Entity entity = new Entity(gameComponentManager, this, prefab.transform, rand.nextInt());
