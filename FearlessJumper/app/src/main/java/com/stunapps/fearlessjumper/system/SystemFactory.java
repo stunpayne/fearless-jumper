@@ -9,9 +9,14 @@ import static com.stunapps.fearlessjumper.di.DI.di;
  */
 
 @Singleton
-public class SystemFactory
+class SystemFactory
 {
-    public System get(Class<? extends System> systemType)
+    UpdateSystem getUpdateSystem(Class<? extends UpdateSystem> systemType)
+    {
+        return di().getInstance(systemType);
+    }
+
+    InputSystem getInputSystem(Class<? extends InputSystem> systemType)
     {
         return di().getInstance(systemType);
     }

@@ -21,7 +21,7 @@ import java.util.Set;
  * Created by sunny.s on 10/01/18.
  */
 
-public class RenderSystem implements System
+public class RenderSystem implements UpdateSystem
 {
     private final GameComponentManager componentManager;
 

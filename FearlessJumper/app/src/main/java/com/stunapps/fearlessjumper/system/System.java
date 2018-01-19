@@ -6,5 +6,5 @@ package com.stunapps.fearlessjumper.system;
 
 public interface System
 {
-    public void process(long deltaTime);
+
 }

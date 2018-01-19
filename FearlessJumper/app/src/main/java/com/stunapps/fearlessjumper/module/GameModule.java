@@ -1,20 +1,15 @@
 package com.stunapps.fearlessjumper.module;
 
 import android.content.Context;
-import android.hardware.SensorEventListener;
 import android.util.Log;
 
 import com.google.inject.AbstractModule;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
-import com.stunapps.fearlessjumper.core.OrientationData;
-import com.stunapps.fearlessjumper.di.DI;
-import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.game.init.GameInitializerImpl;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculatorImpl;
-import com.stunapps.fearlessjumper.system.Systems;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
 

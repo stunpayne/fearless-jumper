@@ -41,9 +41,9 @@ public class ExampleUnitTest
         ContactDamageComponent contactDamageComponent = new ContactDamageComponent(10);
         AreaDamageComponent areaDamageComponent = new AreaDamageComponent(10);
         map.put(contactDamageComponent.componentType, Lists.newArrayList(Entity));
-        map.get(DamageComponent.class).add(entity2);
+        map.getSystem(DamageComponent.class).add(entity2);
 
-        List<Entity> gameObjects = map.get(DamageComponent.class);
+        List<Entity> gameObjects = map.getSystem(DamageComponent.class);
         System.out.println(Arrays.toString(gameObjects.toArray()));*/
     }
 

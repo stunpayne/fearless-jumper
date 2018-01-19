@@ -15,7 +15,7 @@ import java.util.Set;
  * Created by sunny.s on 14/01/18.
  */
 
-public class TransformUpdateSystem implements System
+public class TransformUpdateSystem implements UpdateSystem
 {
     private final EntityManager entityManager;
     private final ComponentManager componentManager;

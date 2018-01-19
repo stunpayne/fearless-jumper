@@ -16,7 +16,7 @@ import static com.stunapps.fearlessjumper.helper.Constants.scale;
  * Created by sunny.s on 19/01/18.
  */
 
-public class PhysicsSystem implements System
+public class PhysicsSystem implements UpdateSystem
 {
     private final ComponentManager componentManager;
 

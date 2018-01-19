@@ -20,7 +20,7 @@ import java.util.Set;
  * Created by sunny.s on 03/01/18.
  */
 
-public class CollisionSystem implements System
+public class CollisionSystem implements UpdateSystem
 {
 
     private final ComponentManager componentManager;
