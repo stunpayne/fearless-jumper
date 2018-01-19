@@ -1,14 +1,13 @@
 package com.stunapps.fearlessjumper.game.loop;
 
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.helper.Constants;
-import com.stunapps.fearlessjumper.system.Systems;
+
+import static com.stunapps.fearlessjumper.helper.Constants.ONE_MILLION;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -16,8 +15,7 @@ import com.stunapps.fearlessjumper.system.Systems;
 
 public class MainThread extends Thread
 {
-    public static final int MAX_FPS = 30;
-    public static final int ONE_MILLION = 1000000;
+    public static final int MAX_FPS = 60;
     private double averageFPS;
     private final SurfaceHolder surfaceHolder;
     private GameView gameView;
@@ -39,7 +37,8 @@ public class MainThread extends Thread
     @Override
     public void run()
     {
-        long startTime;
+        long startTime = System.nanoTime();
+        long lastStartTime = startTime;
         long timeMillis = 1000 / MAX_FPS;
         long waitTime;
         int frameCount = 0;
@@ -48,6 +47,7 @@ public class MainThread extends Thread
 
         while (running)
         {
+            lastStartTime = startTime;
             startTime = System.nanoTime();
             canvas = null;
             try
@@ -57,22 +57,7 @@ public class MainThread extends Thread
                 synchronized (surfaceHolder)
                 {
                     //  Replace with physics, collision, animation systemType updates
-                    this.gameView.update();
-//                    physicsSystem.process();
-//                    collisionSystem.process();
-//                    animationSystem.process();
-
-
-                    //  Replace with rendering systemType process
-//                    renderSystem.process();
-//                    this.gameView.draw(canvas);
-                    Systems.process();
-//                    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//                    paint.setColor(Color.BLUE);
-//                    Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-//                    paint2.setColor(Color.RED);
-//                    canvas.drawRect(rect2, paint2);
-//                    canvas.drawRect(rect, paint);
+                    this.gameView.update((startTime - lastStartTime));
                 }
             }
             catch (Exception e)

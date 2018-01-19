@@ -23,6 +23,9 @@ public class Constants
     public static long INIT_TIME;
     public static Canvas canvas;
 
+    public static final long ONE_MILLION = 1000000;
+    public static final long ONE_SECOND_NANOS = 1000000000;
+
     public static class Game
     {
         public static Transform.Position ORIGIN = new Transform.Position();

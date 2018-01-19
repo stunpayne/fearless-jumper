@@ -23,8 +23,8 @@ public class PlatformPrefab extends Prefab
         //TODO: To add sprite for platform.
         components.add(new PlatformComponent());
 
-        int x = Constants.SCREEN_WIDTH / 2;
-        int y = (Constants.SCREEN_HEIGHT / 2) - 400;
+        int x = Constants.SCREEN_WIDTH / 4;
+        int y = Constants.SCREEN_HEIGHT / 2;
         transform = new Transform(new Transform.Position(x,
                 y), new Transform.Rotation(), new Transform.Scale());
 

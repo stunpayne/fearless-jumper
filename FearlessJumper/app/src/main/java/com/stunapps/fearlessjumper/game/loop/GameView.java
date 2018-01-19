@@ -80,12 +80,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+        //  Call Input System
 //        sceneManager.receiveTouch(event);
         return true;
 //        return super.onTouchEvent(event);
     }
 
-    public void update()
+    public void update(long deltaTime)
     {
 //        sceneManager.update();
 
@@ -95,7 +96,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         }
 
         obstacleManager.manage();
-        Systems.process();
+        Systems.process(deltaTime);
+
+        invalidate();
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper.system;
 
-import android.util.Log;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -21,8 +19,9 @@ public class Systems
     private final SystemFactory systemFactory;
     private final List<Class<? extends System>> systemOrder = Arrays.asList(
             InputSystem.class,
-            DummySystem.class,
+            PhysicsSystem.class,
             CollisionSystem.class,
+            TransformUpdateSystem.class,
             RenderSystem.class
     );
 
@@ -42,11 +41,11 @@ public class Systems
         }
     }
 
-    public static void process()
+    public static void process(long deltaTime)
     {
         for (System system : systemsInOrder)
         {
-            system.process();
+            system.process(deltaTime);
         }
     }
 }

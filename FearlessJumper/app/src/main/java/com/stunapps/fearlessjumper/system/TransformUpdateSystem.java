@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.system;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
@@ -14,7 +15,7 @@ import java.util.Set;
  * Created by sunny.s on 14/01/18.
  */
 
-public class DummySystem implements System
+public class TransformUpdateSystem implements System
 {
     private final EntityManager entityManager;
     private final ComponentManager componentManager;
@@ -22,22 +23,22 @@ public class DummySystem implements System
     private final int deltaY = 1;
 
     @Inject
-    public DummySystem(EntityManager entityManager, ComponentManager componentManager)
+    public TransformUpdateSystem(EntityManager entityManager, ComponentManager componentManager)
     {
         this.entityManager = entityManager;
         this.componentManager = componentManager;
     }
 
     @Override
-    public void process()
+    public void process(long deltaTime)
     {
-        Set<Entity> players = componentManager.getEntities(PlayerComponent.class);
+        Set<Entity> movables = componentManager.getEntities(PlayerComponent.class);
 
-        /*for (Entity player : players)
+        for (Entity movable: movables)
         {
-            if (player.transform.position.y < Constants.SCREEN_HEIGHT / 2)
-                player.transform.position.y += 200;
-            player.transform.position.y -= deltaY;
-        }*/
+            PhysicsComponent physicsComponent = (PhysicsComponent) movable.getComponent(
+                    PhysicsComponent.class);
+            movable.transform.move(physicsComponent.velocity);
+        }
     }
 }

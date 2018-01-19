@@ -32,12 +32,13 @@ public class RenderSystem implements System
     }
 
     @Override
-    public void process()
+    public void process(long deltaTime)
     {
         //  Render all objects at their current positions
         Set<Entity> entities = componentManager.getEntities(RenderableComponent.class);
         Canvas canvas = Constants.canvas;
         canvas.drawColor(Color.BLACK);
+        
         for (Entity entity : entities)
         {
             RenderableComponent component = (RenderableComponent) entity.getComponent(RenderableComponent.class);
