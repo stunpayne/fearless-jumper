@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.helper;
 import android.content.Context;
 import android.graphics.Canvas;
 
+import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 
 
@@ -28,7 +29,7 @@ public class Constants
 
     public static class Game
     {
-        public static Transform.Position ORIGIN = new Transform.Position();
+        public static Position ORIGIN = new Position();
         public static Transform.Rotation NO_ROTATION = new Transform.Rotation();
         public static Transform.Scale UNIT_SCALE = new Transform.Scale();
     }

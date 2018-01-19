@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.component.collider;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Center;
 
@@ -23,8 +24,8 @@ public abstract class Collider extends Component
         this.height = height;
     }
 
-    public Center getCenter(Transform.Position position)
+    public Position getCenter(Position position)
     {
-        return new Center(position.x + delta.x + width / 2, position.y + delta.y + height / 2);
+        return new Position(position.x + delta.x + width / 2, position.y + delta.y + height / 2);
     }
 }

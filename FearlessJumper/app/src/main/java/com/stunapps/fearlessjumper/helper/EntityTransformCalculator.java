@@ -9,11 +9,11 @@ import com.stunapps.fearlessjumper.prefab.Prefab;
 
 public interface EntityTransformCalculator
 {
-    int getWidth(Entity entity);
+    float getWidth(Entity entity);
 
-    int getHeight(Entity entity);
+    float getHeight(Entity entity);
 
-    int getWidth(Prefab prefab);
+    float getWidth(Prefab prefab);
 
-    int getHeight(Prefab prefab);
+    float getHeight(Prefab prefab);
 }

@@ -36,24 +36,6 @@ public class Transform extends Component
     }
 
     @ToString
-    public static class Position
-    {
-        public float x;
-        public float y;
-
-        public Position()
-        {
-            x = y = 0;
-        }
-
-        public Position(float x, float y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    @ToString
     public static class Rotation
     {
         public float azimuth;

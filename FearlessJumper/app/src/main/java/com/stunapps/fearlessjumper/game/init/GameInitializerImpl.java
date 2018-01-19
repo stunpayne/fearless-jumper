@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.OrientationData;
 import com.stunapps.fearlessjumper.entity.EntityManager;
@@ -45,17 +46,17 @@ public class GameInitializerImpl implements GameInitializer
         //  Initialise platforms
         entityManager.instantiate(Prefabs.PLATFORM.get());
 
-        Transform leftBoundaryTransform = new Transform(new Transform.Position(-10, Constants
+        Transform leftBoundaryTransform = new Transform(new Position(-10, Constants
                 .SCREEN_HEIGHT / 2), null, null);
         entityManager.instantiate(Prefabs.BOUNDARY.get(), leftBoundaryTransform);
 
         Transform rightBoundaryTransform = new Transform(
-                new Transform.Position(Constants.SCREEN_WIDTH + 10, Constants
+                new Position(Constants.SCREEN_WIDTH + 10, Constants
                         .SCREEN_HEIGHT / 2), null, null);
         entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
 
         Transform landTransform = new Transform(
-                new Transform.Position(0, Constants
+                new Position(0, Constants
                         .SCREEN_HEIGHT), null, null);
         entityManager.instantiate(Prefabs.LAND.get());
 

@@ -1,11 +1,10 @@
 package com.stunapps.fearlessjumper.manager;
 
-import android.util.Log;
-
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
+import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
@@ -26,7 +25,7 @@ public class ObstacleManager implements Manager
     private final ComponentManager componentManager;
     private final EntityTransformCalculator calculator;
 
-    private Transform.Position spawnPosition;
+    private Position spawnPosition;
     private float speed = 1.0f;
 
     @Inject
@@ -42,8 +41,8 @@ public class ObstacleManager implements Manager
     public void manage()
     {
         Prefab platformPrefab = Prefabs.PLATFORM.get();
-        int width = calculator.getWidth(platformPrefab);
-        spawnPosition = new Transform.Position((float) Math.random() * (Constants.SCREEN_WIDTH -
+        float width = calculator.getWidth(platformPrefab);
+        spawnPosition = new Position((float) Math.random() * (Constants.SCREEN_WIDTH -
                 width), 0);
         /**
          * Should we use components or tags?

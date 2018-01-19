@@ -8,6 +8,7 @@ import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.body.RigidBody;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
+import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
 import com.stunapps.fearlessjumper.helper.Constants;
@@ -25,7 +26,7 @@ public class PlatformPrefab extends Prefab
 
         int x = Constants.SCREEN_WIDTH / 4;
         int y = Constants.SCREEN_HEIGHT / 2;
-        transform = new Transform(new Transform.Position(x,
+        transform = new Transform(new Position(x,
                 y), new Transform.Rotation(), new Transform.Scale());
 
         Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable

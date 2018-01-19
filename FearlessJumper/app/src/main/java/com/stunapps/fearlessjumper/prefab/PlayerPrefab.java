@@ -11,6 +11,7 @@ import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.OrientationInput;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
+import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
 import com.stunapps.fearlessjumper.di.DI;
@@ -27,7 +28,7 @@ public class PlayerPrefab extends Prefab
 
         int x = Constants.SCREEN_WIDTH / 4;
         int y = (Constants.SCREEN_HEIGHT / 2) - 400;
-        transform = new Transform(new Transform.Position(x,
+        transform = new Transform(new Position(x,
                 y), new Transform.Rotation(), new Transform.Scale());
         Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
                 .alienblue);

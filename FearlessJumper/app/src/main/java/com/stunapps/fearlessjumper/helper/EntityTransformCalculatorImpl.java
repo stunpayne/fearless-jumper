@@ -15,19 +15,19 @@ import com.stunapps.fearlessjumper.prefab.Prefab;
 public class EntityTransformCalculatorImpl implements EntityTransformCalculator
 {
     @Override
-    public int getWidth(Entity entity)
+    public float getWidth(Entity entity)
     {
         return 0;
     }
 
     @Override
-    public int getHeight(Entity entity)
+    public float getHeight(Entity entity)
     {
         return 0;
     }
 
     @Override
-    public int getWidth(Prefab prefab)
+    public float getWidth(Prefab prefab)
     {
         Component component = prefab.getComponent(RenderableComponent.class);
         if (component != null)
@@ -42,7 +42,7 @@ public class EntityTransformCalculatorImpl implements EntityTransformCalculator
     }
 
     @Override
-    public int getHeight(Prefab prefab)
+    public float getHeight(Prefab prefab)
     {
         return 0;
     }

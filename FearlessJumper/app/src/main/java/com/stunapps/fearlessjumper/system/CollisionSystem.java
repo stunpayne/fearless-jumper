@@ -1,30 +1,20 @@
 package com.stunapps.fearlessjumper.system;
 
+import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.Delta;
-import com.stunapps.fearlessjumper.component.GameComponentManager;
-import com.stunapps.fearlessjumper.component.body.RigidBody;
 import com.stunapps.fearlessjumper.component.collider.Collider;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 
-import android.graphics.Rect;
 import android.util.Log;
 
-import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-
-import com.stunapps.fearlessjumper.component.transform.Transform.Position;
-import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by sunny.s on 03/01/18.
@@ -33,7 +23,7 @@ import static android.content.ContentValues.TAG;
 public class CollisionSystem implements System
 {
 
-    private final GameComponentManager componentManager;
+    private final ComponentManager componentManager;
 
     /**
      * This is not needed as we can use different logging levels like
@@ -42,7 +32,7 @@ public class CollisionSystem implements System
     private static final boolean debugEnabled = false;
 
     @Inject
-    public CollisionSystem(GameComponentManager componentManager)
+    public CollisionSystem(ComponentManager componentManager)
     {
         this.componentManager = componentManager;
     }
@@ -149,7 +139,7 @@ public class CollisionSystem implements System
         return false;
     }
 
-    private void move(Transform.Position position, float x, float y)
+    private void move(Position position, float x, float y)
     {
         Log.d("CollisionSystem", "Delta-> x: " + x + ", y: " + y);
         Log.d("CollisionSystem", "Before-> x: " + position.x + ", y: " + position.y);
