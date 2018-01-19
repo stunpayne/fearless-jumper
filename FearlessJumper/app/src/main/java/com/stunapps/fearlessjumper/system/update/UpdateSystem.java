@@ -1,4 +1,6 @@
-package com.stunapps.fearlessjumper.system;
+package com.stunapps.fearlessjumper.system.update;
+
+import com.stunapps.fearlessjumper.system.System;
 
 /**
  * Created by sunny.s on 19/01/18.

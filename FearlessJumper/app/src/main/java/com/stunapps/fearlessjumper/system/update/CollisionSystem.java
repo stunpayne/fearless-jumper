@@ -1,7 +1,6 @@
-package com.stunapps.fearlessjumper.system;
+package com.stunapps.fearlessjumper.system.update;
 
 import com.stunapps.fearlessjumper.component.transform.Position;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;

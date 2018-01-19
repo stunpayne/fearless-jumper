@@ -1,21 +1,16 @@
-package com.stunapps.fearlessjumper.system;
+package com.stunapps.fearlessjumper.system.input;
 
 import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.Delta;
-import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.input.Input;
 import com.stunapps.fearlessjumper.component.input.OrientationInput;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 
-import org.roboguice.shaded.goole.common.collect.Lists;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,7 +35,6 @@ public class GameInputSystem implements InputSystem
         if (!entitySet.isEmpty())
         {
             Entity entity = entitySet.iterator().next();
-//            processOrientationInput(entity);
 
             if (entity.getComponent(PlayerComponent.class) != null)
             {

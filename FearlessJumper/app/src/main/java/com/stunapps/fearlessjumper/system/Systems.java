@@ -4,6 +4,13 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.system.input.GameInputSystem;
+import com.stunapps.fearlessjumper.system.input.InputSystem;
+import com.stunapps.fearlessjumper.system.update.CollisionSystem;
+import com.stunapps.fearlessjumper.system.update.PhysicsSystem;
+import com.stunapps.fearlessjumper.system.update.RenderSystem;
+import com.stunapps.fearlessjumper.system.update.TransformUpdateSystem;
+import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
 

@@ -1,6 +1,8 @@
 package com.stunapps.fearlessjumper.system;
 
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.system.input.InputSystem;
+import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
 

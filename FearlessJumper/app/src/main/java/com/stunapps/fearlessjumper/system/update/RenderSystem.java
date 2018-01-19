@@ -1,20 +1,16 @@
-package com.stunapps.fearlessjumper.system;
+package com.stunapps.fearlessjumper.system.update;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.helper.Constants;
 
-import java.util.Arrays;
 import java.util.Set;
 
 /**

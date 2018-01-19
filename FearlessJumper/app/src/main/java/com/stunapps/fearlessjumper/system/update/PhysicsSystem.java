@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.system;
+package com.stunapps.fearlessjumper.system.update;
 
 import android.util.Log;
 
