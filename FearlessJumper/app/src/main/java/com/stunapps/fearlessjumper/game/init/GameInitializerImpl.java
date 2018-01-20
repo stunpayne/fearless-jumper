@@ -46,7 +46,7 @@ public class GameInitializerImpl implements GameInitializer
         Log.d("INIT", "Initialising game");
         entityManager.instantiate(Prefabs.PLAYER.get());
 
-//        initPlatforms();
+        initPlatforms();
         initBoundaries();
 
         entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());

@@ -1,14 +1,10 @@
 package com.stunapps.fearlessjumper.prefab;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
+import com.stunapps.fearlessjumper.component.specific.BlockPlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
 import com.stunapps.fearlessjumper.helper.Constants;
 
 /**
@@ -23,5 +19,6 @@ public class MidScreenColliderPrefab extends Prefab
         
         RectCollider rectCollider = new RectCollider(new Delta(0, 0), Constants.SCREEN_WIDTH, 10);
         components.add(rectCollider);
+        components.add(new BlockPlayerComponent());
     }
 }
