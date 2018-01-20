@@ -6,6 +6,8 @@ import android.view.MotionEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.Systems;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
@@ -18,7 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import static com.stunapps.fearlessjumper.helper.Constants.scale;
 
@@ -29,7 +30,7 @@ import static com.stunapps.fearlessjumper.helper.Constants.scale;
 @Singleton
 public class PlayerInputProcessor implements InputProcessor
 {
-    private static float JUMP_IMPULSE = -10f;
+    private static float JUMP_IMPULSE = 1 / 100f;
     private static long lastProcessTime = System.nanoTime();
 
     private static Map<Class, Long> debugSystemRunTimes = new HashMap<>();
@@ -45,23 +46,38 @@ public class PlayerInputProcessor implements InputProcessor
         lastProcessTime = System.currentTimeMillis();
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
         {
+            //  To test is input is occurring between collision and transform update
             logSystemTimes();
-            Log.i("INPUT", "Action Down detected");
-            PhysicsComponent physicsComponent = (PhysicsComponent) entity.getComponent(
-                    PhysicsComponent.class);
-            Log.i("INPUT", "Velocity before " + physicsComponent.velocity.y);
-            physicsComponent.velocity.y += JUMP_IMPULSE * scale();
-            Log.i("INPUT", "Velocity after " + physicsComponent.velocity.y);
+            Log.d("INPUT", "Action Down detected");
+            applyForceToPlayer(entity.transform.position,
+                    (PhysicsComponent) entity.getComponent(PhysicsComponent.class),
+                    motionEvent);
         }
     }
 
+    private void applyForceToPlayer(Position position, PhysicsComponent physicsComponent,
+                                    MotionEvent motionEvent)
+    {
+        float forceX = motionEvent.getX() - position.x;
+        float forceY = motionEvent.getY() - position.y;
+
+        Log.i("INPUT", "Velocity before " + physicsComponent.velocity.x + " " +
+                physicsComponent.velocity.y);
+        physicsComponent.velocity.y += forceY * JUMP_IMPULSE * scale();
+        physicsComponent.velocity.x += forceX * JUMP_IMPULSE * scale();
+        Log.i("INPUT", "Velocity after " + physicsComponent.velocity.x + " " + physicsComponent
+                .velocity.y);
+    }
+
+
+    /**
+     * Helper methods to log the last times at which various systems ran. Used for some debugging
+     */
     private void logSystemTimes()
     {
         debugSystemRunTimes.put(this.getClass(), this.lastProcessTime);
         for (UpdateSystem system : Systems.getSystemsInOrder())
         {
-//            Log.i("SYSTEM", "System " + system.getClass() + " last run at " + system
-//                    .getLastProcessTime());
             debugSystemRunTimes.put(system.getClass(), system.getLastProcessTime());
         }
 
@@ -71,7 +87,7 @@ public class PlayerInputProcessor implements InputProcessor
         Collections.sort(list, comparator());
         for (Entry<Class, Long> entry : list)
         {
-            Log.i("SYSTEM", "System\t" + entry.getKey().getSimpleName() + "\t" +
+            Log.v("SYSTEM", "System\t" + entry.getKey().getSimpleName() + "\t" +
                     entry.getValue());
         }
     }

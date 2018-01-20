@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -16,15 +17,16 @@ import com.stunapps.fearlessjumper.system.Systems;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends Activity
 {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -33,7 +35,6 @@ public class MainActivity extends AppCompatActivity
         Constants.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
 
         Log.d("CONTEXT", "Context hash code: " + this.hashCode());
-
 
 
         DI.install(new GameModule(this));

@@ -1,7 +1,12 @@
 package com.stunapps.fearlessjumper.prefab;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
+import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
 import com.stunapps.fearlessjumper.helper.Constants;
 
 /**

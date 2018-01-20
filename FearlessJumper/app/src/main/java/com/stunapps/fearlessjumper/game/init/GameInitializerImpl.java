@@ -46,22 +46,10 @@ public class GameInitializerImpl implements GameInitializer
         Log.d("INIT", "Initialising game");
         entityManager.instantiate(Prefabs.PLAYER.get());
 
-        initPlatforms();
+//        initPlatforms();
+        initBoundaries();
 
-        Transform leftBoundaryTransform = new Transform(new Position(-10, Constants
-                .SCREEN_HEIGHT / 2), null, null);
-        entityManager.instantiate(Prefabs.BOUNDARY.get(), leftBoundaryTransform);
-
-        Transform rightBoundaryTransform = new Transform(
-                new Position(Constants.SCREEN_WIDTH + 10, Constants
-                        .SCREEN_HEIGHT / 2), null, null);
-        entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
-
-        Transform landTransform = new Transform(
-                new Position(0, Constants
-                        .SCREEN_HEIGHT), null, null);
-        entityManager.instantiate(Prefabs.LAND.get());
-        entityManager.instantiate(Prefabs.LAND.get(), landTransform);
+        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
 
         //  Initialise enemies
 
@@ -80,5 +68,23 @@ public class GameInitializerImpl implements GameInitializer
         Transform transform1 = new Transform(new Position(x, y), new Rotation(),
                 new Scale());
         entityManager.instantiate(platformPrefab, transform1);
+    }
+
+    private void initBoundaries()
+    {
+        Transform leftBoundaryTransform = new Transform(new Position(-10, Constants
+                .SCREEN_HEIGHT / 2), null, null);
+        entityManager.instantiate(Prefabs.BOUNDARY.get(), leftBoundaryTransform);
+
+        Transform rightBoundaryTransform = new Transform(
+                new Position(Constants.SCREEN_WIDTH + 10, Constants
+                        .SCREEN_HEIGHT / 2), null, null);
+        entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
+
+        Transform landTransform = new Transform(
+                new Position(0, Constants
+                        .SCREEN_HEIGHT), null, null);
+        entityManager.instantiate(Prefabs.LAND.get());
+        entityManager.instantiate(Prefabs.LAND.get(), landTransform);
     }
 }

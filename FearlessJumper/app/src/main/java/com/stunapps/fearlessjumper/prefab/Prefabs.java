@@ -9,7 +9,8 @@ public enum Prefabs
     PLAYER(new PlayerPrefab()),
     PLATFORM(new PlatformPrefab()),
     BOUNDARY(new BoundaryPrefab()),
-    LAND(new LandPrefab());
+    LAND(new LandPrefab()),
+    MIDSCREEN_COLLIDER(new MidScreenColliderPrefab());
 
     public Prefab prefab;
 

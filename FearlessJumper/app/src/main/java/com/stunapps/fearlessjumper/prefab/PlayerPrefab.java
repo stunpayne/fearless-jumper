@@ -27,7 +27,7 @@ public class PlayerPrefab extends Prefab
     {
 
         int x = Constants.SCREEN_WIDTH / 4;
-        int y = (Constants.SCREEN_HEIGHT / 2) - 100;
+        int y = (Constants.SCREEN_HEIGHT / 2) + 100;
         transform = new Transform(new Position(x,
                 y), new Transform.Rotation(), new Transform.Scale());
         Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable

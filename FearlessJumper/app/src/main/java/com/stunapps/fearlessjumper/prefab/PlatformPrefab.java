@@ -26,12 +26,14 @@ public class PlatformPrefab extends Prefab
 
         int x = Constants.SCREEN_WIDTH / 4;
         int y = Constants.SCREEN_HEIGHT / 2 + 300;
-        transform = new Transform(new Position(x,
-                y), new Transform.Rotation(), new Transform.Scale());
+        transform = new Transform(new Position(x, y), new Transform.Rotation(),
+                new Transform.Scale());
 
-        Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
-                .platform);
-        components.add(new SpriteComponent(sprite, new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
+        Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(),
+                R.drawable
+                        .platform);
+        components.add(new SpriteComponent(sprite, new Delta(0, 0), sprite.getWidth(),
+                sprite.getHeight()));
         components.add(new RectCollider(new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
     }
 }

@@ -35,22 +35,24 @@ public class RenderSystem implements UpdateSystem
         //  Render all objects at their current positions
         Set<Entity> entities = componentManager.getEntities(RenderableComponent.class);
         Canvas canvas = Constants.canvas;
-        if(canvas == null)
+        if (canvas == null)
             return;
         canvas.drawColor(Color.BLACK);
-        
+
         for (Entity entity : entities)
         {
-            RenderableComponent component = (RenderableComponent) entity.getComponent(RenderableComponent.class);
+            RenderableComponent component = (RenderableComponent) entity.getComponent(
+                    RenderableComponent.class);
             switch (component.renderType)
             {
                 case SPRITE:
                     Bitmap bitmap = (Bitmap) component.getRenderable();
                     canvas.drawBitmap(bitmap,
                             null,
-                            new Rect((int) entity.transform.position.x + (int) component.delta.x, (int) entity
-                                    .transform.position.y + (int) component.delta.y, (int) entity.transform.position.x + (int) component.delta.x + (int)component.width
-                                    , (int) entity.transform.position.y + (int) component.delta.y + (int)component.height),
+                            new Rect((int) entity.transform.position.x + (int) component.delta.x,
+                                    (int) entity.transform.position.y + (int) component.delta.y,
+                                    (int) entity.transform.position.x + (int) component.delta.x + (int) component.width,
+                                    (int) entity.transform.position.y + (int) component.delta.y + (int) component.height),
                             null);
                     break;
                 default:
