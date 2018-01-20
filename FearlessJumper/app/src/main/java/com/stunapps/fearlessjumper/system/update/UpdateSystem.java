@@ -8,5 +8,7 @@ import com.stunapps.fearlessjumper.system.System;
 
 public interface UpdateSystem extends System
 {
-    public void process(long deltaTime);
+    void process(long deltaTime);
+
+    long getLastProcessTime();
 }

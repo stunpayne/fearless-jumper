@@ -40,6 +40,19 @@ public class MainActivity extends AppCompatActivity
         di().getInstance(Systems.class).initialise();
 
         setContentView(DI.di().getInstance(GameView.class));
-        DI.di().getInstance(OrientationData.class).register();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        di().getInstance(OrientationData.class).register();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        di().getInstance(OrientationData.class).pause();
     }
 }

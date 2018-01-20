@@ -20,6 +20,7 @@ import java.util.Set;
 public class RenderSystem implements UpdateSystem
 {
     private final GameComponentManager componentManager;
+    private static long lastProcessTime = System.nanoTime();
 
     @Inject
     public RenderSystem(GameComponentManager componentManager)
@@ -30,9 +31,12 @@ public class RenderSystem implements UpdateSystem
     @Override
     public void process(long deltaTime)
     {
+        lastProcessTime = System.currentTimeMillis();
         //  Render all objects at their current positions
         Set<Entity> entities = componentManager.getEntities(RenderableComponent.class);
         Canvas canvas = Constants.canvas;
+        if(canvas == null)
+            return;
         canvas.drawColor(Color.BLACK);
         
         for (Entity entity : entities)
@@ -52,5 +56,11 @@ public class RenderSystem implements UpdateSystem
                 default:
             }
         }
+    }
+
+    @Override
+    public long getLastProcessTime()
+    {
+        return lastProcessTime;
     }
 }

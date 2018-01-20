@@ -68,10 +68,4 @@ public class Transform extends Component
             this.y = y;
         }
     }
-
-    public void move(Velocity velocity)
-    {
-        this.position.x += velocity.x;
-        this.position.y += velocity.y;
-    }
 }

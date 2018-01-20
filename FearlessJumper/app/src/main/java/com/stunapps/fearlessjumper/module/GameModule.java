@@ -11,8 +11,6 @@ import com.stunapps.fearlessjumper.game.init.GameInitializerImpl;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculatorImpl;
 
-import static com.stunapps.fearlessjumper.di.DI.di;
-
 /**
  * Created by sunny.s on 10/01/18.
  */

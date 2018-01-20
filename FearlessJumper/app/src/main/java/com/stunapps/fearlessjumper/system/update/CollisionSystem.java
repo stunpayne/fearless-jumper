@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import com.stunapps.fearlessjumper.component.physics.PhysicsComponent.Velocity;
 import com.stunapps.fearlessjumper.component.transform.Position;
 
 import com.google.inject.Inject;
@@ -23,6 +24,7 @@ public class CollisionSystem implements UpdateSystem
 {
 
     private final ComponentManager componentManager;
+    private static long lastProcessTime = System.nanoTime();
 
     /**
      * This is not needed as we can use different logging levels like
@@ -39,6 +41,7 @@ public class CollisionSystem implements UpdateSystem
     @Override
     public void process(long deltaTime)
     {
+        lastProcessTime = System.currentTimeMillis();
         //  Get transforms of all platforms in game and check for collision with player -- ?
         //  Get transforms of all enemies in game and check for collision with player
         Set<Entity> entities = componentManager.getEntities(Collider.class);
@@ -69,36 +72,26 @@ public class CollisionSystem implements UpdateSystem
                 }
             }
 
-            //  Not needed as of now
-//            for (Entity mobileEntityWithPhysics1 : mobileEntitiesWithPhysics)
-//            {
-//                //TODO: Bug, Two different entities will be processed for collision twice here.
-//                if (!mobileEntityWithPhysics.equals(mobileEntityWithPhysics1))
-//                {
-//                    if (isCollidingV2(mobileEntityWithPhysics, mobileEntityWithPhysics1, 0.0f))
-//                    {
-//                        //TODO: handle collision.
-//                    }
-//                }
-//            }
         }
     }
 
-    //TODO: Push can be derived from masses for entities.
-    private boolean isCollidingV2(Entity entity1, Entity entity2, float push)
+    @Override
+    public long getLastProcessTime()
     {
+        return lastProcessTime;
+    }
 
-        //TODO: use physics properties.
-        PhysicsComponent physicsComponent1 = (PhysicsComponent) entity1.getComponent(
+    //TODO: Push can be derived from masses for entities.
+    private boolean isCollidingV2(Entity physicsEntity, Entity fixedEntity, float push)
+    {
+        PhysicsComponent physicsComponent1 = (PhysicsComponent) physicsEntity.getComponent(
                 PhysicsComponent.class);
-        PhysicsComponent physicsComponent2 = (PhysicsComponent) entity2.getComponent(
-                PhysicsComponent.class);
 
-        Position position1 = entity1.transform.position;
-        Position position2 = entity2.transform.position;
+        Position position1 = getTentativePosition(physicsEntity);
+        Position position2 = getTentativePosition(fixedEntity);
 
-        Collider collider1 = (Collider) entity1.getComponent(Collider.class);
-        Collider collider2 = (Collider) entity2.getComponent(Collider.class);
+        Collider collider1 = (Collider) physicsEntity.getComponent(Collider.class);
+        Collider collider2 = (Collider) fixedEntity.getComponent(Collider.class);
 
         float deltaXBetweenEntities = collider1.getCenter(position1).x - collider2.getCenter(
                 position2).x;
@@ -123,19 +116,67 @@ public class CollisionSystem implements UpdateSystem
             push = Math.min(Math.max(push, 0.0f), 1.0f);
             if (intersectX > intersectY)
             {
-                //  Collision in x axis is of smaller magnitude than that in y axis
-                //  So, collision will be resolved in x axis
-                resolveXCollision(position1, position2, deltaXBetweenEntities, intersectX, push);
+                /**
+                 *  Collision in x axis is of smaller magnitude than that in y axis
+                 *  So, collision will be resolved in x axis.
+                 *  Instead of considering current positions for collision, we are now considering
+                 *  the positions that the entities will be at in the next frame, if they travel at
+                 *  their current velocities. If the entities collide at their next positions, we
+                 *  bridge the gap between them right now and set their velocities to zero.
+                 */
+//                resolveXCollision(entity1, entity2, deltaXBetweenEntities, intersectX, push);
+                resolveXCollisionByPlacement(physicsEntity, fixedEntity);
                 physicsComponent1.velocity.x = 0;
             } else
             {
                 //  Collision will be resolved in y axis
-                resolveYCollision(position1, position2, deltaYBetweenEntities, intersectY, push);
+//                resolveYCollision(entity1, entity2, deltaYBetweenEntities, intersectY, push);
+                resolveYCollisionByPlacement(physicsEntity, fixedEntity);
                 physicsComponent1.velocity.y = 0;
             }
             return true;
         }
         return false;
+    }
+
+    private void resolveXCollision(Entity entity1, Entity entity2, float
+            deltaXBetweenEntities, float intersectionMag, float push)
+    {
+        if (deltaXBetweenEntities > 0.0f)
+        {
+            Log.v("CollisionSystem", "deltaXBetweenEntities < 0 :position1: ");
+            Log.v("CollisionSystem", "deltaXBetweenEntities < 0 :position2: ");
+
+            move(entity1.transform.position, -intersectionMag * (1 - push), 0.0f);
+            move(entity2.transform.position, intersectionMag * push, 0.0f);
+        } else
+        {
+            Log.v("CollisionSystem", "deltaXBetweenEntities > 0 :position1: ");
+            Log.v("CollisionSystem", "deltaXBetweenEntities > 0 :position2: ");
+
+            move(entity1.transform.position, intersectionMag * (1 - push), 0.0f);
+            move(entity2.transform.position, -intersectionMag * push, 0.0f);
+        }
+    }
+
+    private void resolveYCollision(Entity entity1, Entity entity2, float
+            deltaYBetweenEntities, float intersectionMag, float push)
+    {
+        if (deltaYBetweenEntities > 0.0f)
+        {
+            Log.v("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
+            Log.v("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
+
+            move(entity1.transform.position, 0.0f, -intersectionMag * (1 - push));
+            move(entity2.transform.position, 0.0f, intersectionMag * push);
+        } else
+        {
+            Log.v("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
+            Log.v("CollisionSystem", "deltaYBetweenEntities < 0 :position2: ");
+
+            move(entity1.transform.position, 0.0f, intersectionMag * (1 - push));
+            move(entity2.transform.position, 0.0f, -intersectionMag * push);
+        }
     }
 
     private void move(Position position, float x, float y)
@@ -145,47 +186,68 @@ public class CollisionSystem implements UpdateSystem
 
         position.x += x;
         position.y += y;
+
         Log.d("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
-
     }
 
-    private void resolveXCollision(Position position1, Position position2, float
-            deltaXBetweenEntities, float intersectionMag, float push)
+    private void resolveYCollisionByPlacement(Entity physicalEntity, Entity fixedEntity)
     {
-        if (deltaXBetweenEntities > 0.0f)
-        {
-            Log.v("CollisionSystem", "deltaXBetweenEntities < 0 :position1: ");
-            Log.v("CollisionSystem", "deltaXBetweenEntities < 0 :position2: ");
+        Collider physicalCollider = (Collider) physicalEntity.getComponent(Collider.class);
+        Collider fixedCollider = (Collider) fixedEntity.getComponent(Collider.class);
 
-            move(position1, -intersectionMag * (1 - push), 0.0f);
-            move(position2, intersectionMag * push, 0.0f);
-        } else
-        {
-            Log.v("CollisionSystem", "deltaXBetweenEntities > 0 :position1: ");
-            Log.v("CollisionSystem", "deltaXBetweenEntities > 0 :position2: ");
+        Position physicalPosition = physicalEntity.transform.position;
+        Position fixedPosition = fixedEntity.transform.position;
 
-            move(position1, intersectionMag * (1 - push), 0.0f);
-            move(position2, -intersectionMag * push, 0.0f);
-        }
+        float currentDeltaY = physicalCollider.getCenter(
+                physicalPosition).y - fixedCollider.getCenter(
+                fixedPosition).y;
+        float currentSeparationY = Math.abs(currentDeltaY) -
+                (physicalCollider.height / 2 + fixedCollider.height / 2);
+
+        PhysicsComponent physicsComponent = (PhysicsComponent) physicalEntity.getComponent(
+                PhysicsComponent.class);
+        physicalEntity.transform.position.y += sign(
+                physicsComponent.velocity.y) * currentSeparationY;
     }
 
-    private void resolveYCollision(Position position1, Position position2, float
-            deltaYBetweenEntities, float intersectionMag, float push)
+    private void resolveXCollisionByPlacement(Entity physicalEntity, Entity fixedEntity)
     {
-        if (deltaYBetweenEntities > 0.0f)
-        {
-            Log.v("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
-            Log.v("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
+        Collider physicalCollider = (Collider) physicalEntity.getComponent(Collider.class);
+        Collider fixedCollider = (Collider) fixedEntity.getComponent(Collider.class);
 
-            move(position1, 0.0f, -intersectionMag * (1 - push));
-            move(position2, 0.0f, intersectionMag * push);
-        } else
-        {
-            Log.v("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
-            Log.v("CollisionSystem", "deltaYBetweenEntities < 0 :position2: ");
+        Position physicalEntityPosition = physicalEntity.transform.position;
+        Position fixedEntityPosition = fixedEntity.transform.position;
 
-            move(position1, 0.0f, intersectionMag * (1 - push));
-            move(position2, 0.0f, -intersectionMag * push);
-        }
+        float currentDeltaX = physicalCollider.getCenter(
+                physicalEntityPosition).x - fixedCollider.getCenter(fixedEntityPosition).x;
+        float currentSeparationX = Math.abs(currentDeltaX) -
+                (physicalCollider.width / 2 + fixedCollider.width / 2);
+
+        PhysicsComponent physicsComponent = (PhysicsComponent) physicalEntity.getComponent(
+                PhysicsComponent.class);
+        physicalEntity.transform.position.x += sign(
+                physicsComponent.velocity.x) * currentSeparationX;
+    }
+
+    private float sign(float number)
+    {
+        return number / Math.abs(number);
+    }
+
+    /**
+     * Method to get an entity's position in the next frame if it travels at its current velocity
+     * Uses current position and current velocity to calculate the next position
+     *
+     * @return Position, updated at new position
+     */
+    private Position getTentativePosition(Entity entity)
+    {
+        PhysicsComponent physicsComponent = (PhysicsComponent) entity.getComponent(
+                PhysicsComponent.class);
+
+        if (physicsComponent == null)
+            return entity.transform.position;
+        return new Position(entity.transform.position.x + physicsComponent.velocity.x,
+                entity.transform.position.y + physicsComponent.velocity.y);
     }
 }

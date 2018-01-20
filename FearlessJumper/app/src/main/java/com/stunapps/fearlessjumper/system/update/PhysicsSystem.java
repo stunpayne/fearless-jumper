@@ -19,6 +19,7 @@ import static com.stunapps.fearlessjumper.helper.Constants.scale;
 public class PhysicsSystem implements UpdateSystem
 {
     private final ComponentManager componentManager;
+    private static long lastProcessTime = System.nanoTime();
 
     private static final float GRAVITY = -9.8f;
 
@@ -31,13 +32,20 @@ public class PhysicsSystem implements UpdateSystem
     @Override
     public void process(long deltaTime)
     {
+        lastProcessTime = System.currentTimeMillis();
+
         Set<Entity> physicalEntities = componentManager.getEntities(PhysicsComponent.class);
 
         for (Entity entity : physicalEntities)
         {
             applyGravity(entity, deltaTime);
-            Log.d("PHYSICS", "Moved entity to " + entity.transform);
         }
+    }
+
+    @Override
+    public long getLastProcessTime()
+    {
+        return lastProcessTime;
     }
 
     private void applyGravity(Entity entity, long deltaTime)

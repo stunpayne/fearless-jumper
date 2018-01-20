@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.system.input;
 import android.view.MotionEvent;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.input.Input;
@@ -10,6 +11,8 @@ import com.stunapps.fearlessjumper.component.input.OrientationInput;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
+import com.stunapps.fearlessjumper.system.input.processor.PlayerInputProcessor;
 
 import java.util.Set;
 
@@ -17,14 +20,18 @@ import java.util.Set;
  * Created by anand.verma on 14/01/18.
  */
 
+@Singleton
 public class GameInputSystem implements InputSystem
 {
     private final ComponentManager componentManager;
+    private final InputProcessorFactory inputProcessorFactory;
 
     @Inject
-    public GameInputSystem(ComponentManager componentManager)
+    public GameInputSystem(ComponentManager componentManager,
+                           InputProcessorFactory inputProcessorFactory)
     {
         this.componentManager = componentManager;
+        this.inputProcessorFactory = inputProcessorFactory;
     }
 
     @Override
@@ -39,14 +46,9 @@ public class GameInputSystem implements InputSystem
             if (entity.getComponent(PlayerComponent.class) != null)
             {
                 //  The entity has a player component
-                processPlayerInput(entity, motionEvent);
+                inputProcessorFactory.get(PlayerComponent.class).process(entity, motionEvent);
             }
         }
-    }
-
-    private void processPlayerInput(Entity player, MotionEvent event)
-    {
-
     }
 
     private void processOrientationInput(Entity entity)

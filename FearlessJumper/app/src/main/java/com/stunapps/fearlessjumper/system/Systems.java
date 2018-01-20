@@ -67,4 +67,9 @@ public class Systems
 
         inputSystemsInOrder.add(systemFactory.getInputSystem(inputSystem));
     }
+
+    public static ArrayList<UpdateSystem> getSystemsInOrder()
+    {
+        return systemsInOrder;
+    }
 }

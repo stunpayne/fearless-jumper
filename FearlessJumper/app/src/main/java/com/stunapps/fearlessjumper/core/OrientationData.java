@@ -80,8 +80,6 @@ public class OrientationData implements SensorEventListener
         else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
             magOutput = event.values;
 
-        Log.d("Orientation data", "onSensorChanged: " + event.sensor.getType());
-
         if (accelOutput != null && magOutput != null)
         {
             float[] R = new float[9];
