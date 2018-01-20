@@ -6,5 +6,5 @@ package com.stunapps.fearlessjumper.manager;
 
 public interface Manager
 {
-    void manage();
+    void manage(float deltaTime);
 }

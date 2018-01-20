@@ -82,7 +82,7 @@ public class CollisionSystem implements UpdateSystem
     }
 
     //TODO: Push can be derived from masses for entities.
-    private boolean isCollidingV2(Entity physicsEntity, Entity fixedEntity)
+    public static boolean isCollidingV2(Entity physicsEntity, Entity fixedEntity)
     {
         float intersectX = calculateXIntersection(physicsEntity, fixedEntity);
         float intersectY = calculateYIntersection(physicsEntity, fixedEntity);
@@ -94,7 +94,7 @@ public class CollisionSystem implements UpdateSystem
         return false;
     }
 
-    private void resolveCollision(Entity physicsEntity, Entity fixedEntity, float push)
+    private static void resolveCollision(Entity physicsEntity, Entity fixedEntity, float push)
     {
         //  The two objects are colliding. Now we have to find out how much to move
         //  each object and in which direction, to resolve collision.
@@ -129,7 +129,7 @@ public class CollisionSystem implements UpdateSystem
         }
     }
 
-    private float calculateXIntersection(Entity entity1, Entity entity2)
+    private static float calculateXIntersection(Entity entity1, Entity entity2)
     {
         Position position1 = getTentativePosition(entity1);
         Position position2 = getTentativePosition(entity2);
@@ -144,7 +144,7 @@ public class CollisionSystem implements UpdateSystem
                 deltaXBetweenEntities) - (collider1.width / 2 + collider2.width / 2);
     }
 
-    private float calculateYIntersection(Entity entity1, Entity entity2)
+    private static float calculateYIntersection(Entity entity1, Entity entity2)
     {
         Position position1 = getTentativePosition(entity1);
         Position position2 = getTentativePosition(entity2);
@@ -274,7 +274,7 @@ public class CollisionSystem implements UpdateSystem
      *
      * @return Position, updated at new position
      */
-    private Position getTentativePosition(Entity entity)
+    private static Position getTentativePosition(Entity entity)
     {
         PhysicsComponent physicsComponent = (PhysicsComponent) entity.getComponent(
                 PhysicsComponent.class);

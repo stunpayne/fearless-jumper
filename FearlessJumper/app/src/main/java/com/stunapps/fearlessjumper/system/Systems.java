@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.system.update.ObstacleGenerationSystem;
 import com.stunapps.fearlessjumper.system.input.GameInputSystem;
 import com.stunapps.fearlessjumper.system.input.InputSystem;
 import com.stunapps.fearlessjumper.system.update.CollisionSystem;
@@ -27,6 +28,7 @@ public class Systems
 {
     private static final List<Class<? extends UpdateSystem>> systemOrder = Arrays.asList(
             PhysicsSystem.class,
+            ObstacleGenerationSystem.class,
             CollisionSystem.class,
             TransformUpdateSystem.class,
             RenderSystem.class

@@ -7,12 +7,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.Systems;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -30,7 +28,7 @@ import static com.stunapps.fearlessjumper.helper.Constants.scale;
 @Singleton
 public class PlayerInputProcessor implements InputProcessor
 {
-    private static float JUMP_IMPULSE = 1 / 100f;
+    private static float JUMP_IMPULSE = 1 / 80f;
     private static long lastProcessTime = System.nanoTime();
 
     private static Map<Class, Long> debugSystemRunTimes = new HashMap<>();
@@ -61,11 +59,11 @@ public class PlayerInputProcessor implements InputProcessor
         float forceX = motionEvent.getX() - position.x;
         float forceY = motionEvent.getY() - position.y;
 
-        Log.i("INPUT", "Velocity before " + physicsComponent.velocity.x + " " +
+        Log.d("INPUT", "Velocity before " + physicsComponent.velocity.x + " " +
                 physicsComponent.velocity.y);
         physicsComponent.velocity.y += forceY * JUMP_IMPULSE * scale();
         physicsComponent.velocity.x += forceX * JUMP_IMPULSE * scale();
-        Log.i("INPUT", "Velocity after " + physicsComponent.velocity.x + " " + physicsComponent
+        Log.d("INPUT", "Velocity after " + physicsComponent.velocity.x + " " + physicsComponent
                 .velocity.y);
     }
 
