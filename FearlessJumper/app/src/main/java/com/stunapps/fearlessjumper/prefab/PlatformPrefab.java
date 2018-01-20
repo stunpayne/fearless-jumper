@@ -25,7 +25,7 @@ public class PlatformPrefab extends Prefab
         components.add(new PlatformComponent());
 
         int x = Constants.SCREEN_WIDTH / 4;
-        int y = Constants.SCREEN_HEIGHT / 2;
+        int y = Constants.SCREEN_HEIGHT / 2 + 300;
         transform = new Transform(new Position(x,
                 y), new Transform.Rotation(), new Transform.Scale());
 

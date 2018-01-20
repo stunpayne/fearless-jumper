@@ -1,6 +1,5 @@
 package com.stunapps.fearlessjumper.system.update;
 
-import com.stunapps.fearlessjumper.component.physics.PhysicsComponent.Velocity;
 import com.stunapps.fearlessjumper.component.transform.Position;
 
 import com.google.inject.Inject;
@@ -113,25 +112,26 @@ public class CollisionSystem implements UpdateSystem
             //  The two objects are colliding. Now we have to find out how much to move
             //  each object and in which direction, to resolve collision.
 
+            /** Instead of considering current positions for collision, we are now considering
+             *  the positions that the entities will be at in the next frame, if they travel at
+             *  their current velocities. If the entities collide at their next positions, we
+             *  bridge the gap between them right now and set their velocities to zero.
+             */
             push = Math.min(Math.max(push, 0.0f), 1.0f);
             if (intersectX > intersectY)
             {
                 /**
                  *  Collision in x axis is of smaller magnitude than that in y axis
                  *  So, collision will be resolved in x axis.
-                 *  Instead of considering current positions for collision, we are now considering
-                 *  the positions that the entities will be at in the next frame, if they travel at
-                 *  their current velocities. If the entities collide at their next positions, we
-                 *  bridge the gap between them right now and set their velocities to zero.
                  */
 //                resolveXCollision(entity1, entity2, deltaXBetweenEntities, intersectX, push);
-                resolveXCollisionByPlacement(physicsEntity, fixedEntity);
+                bridgeGapX(physicsEntity, fixedEntity);
                 physicsComponent1.velocity.x = 0;
             } else
             {
                 //  Collision will be resolved in y axis
 //                resolveYCollision(entity1, entity2, deltaYBetweenEntities, intersectY, push);
-                resolveYCollisionByPlacement(physicsEntity, fixedEntity);
+                bridgeGapY(physicsEntity, fixedEntity);
                 physicsComponent1.velocity.y = 0;
             }
             return true;
@@ -190,7 +190,7 @@ public class CollisionSystem implements UpdateSystem
         Log.d("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
     }
 
-    private void resolveYCollisionByPlacement(Entity physicalEntity, Entity fixedEntity)
+    private void bridgeGapY(Entity physicalEntity, Entity fixedEntity)
     {
         Collider physicalCollider = (Collider) physicalEntity.getComponent(Collider.class);
         Collider fixedCollider = (Collider) fixedEntity.getComponent(Collider.class);
@@ -210,7 +210,7 @@ public class CollisionSystem implements UpdateSystem
                 physicsComponent.velocity.y) * currentSeparationY;
     }
 
-    private void resolveXCollisionByPlacement(Entity physicalEntity, Entity fixedEntity)
+    private void bridgeGapX(Entity physicalEntity, Entity fixedEntity)
     {
         Collider physicalCollider = (Collider) physicalEntity.getComponent(Collider.class);
         Collider fixedCollider = (Collider) fixedEntity.getComponent(Collider.class);

@@ -7,9 +7,12 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.component.transform.Transform.Rotation;
+import com.stunapps.fearlessjumper.component.transform.Transform.Scale;
 import com.stunapps.fearlessjumper.core.OrientationData;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
 
 /**
@@ -43,8 +46,7 @@ public class GameInitializerImpl implements GameInitializer
         Log.d("INIT", "Initialising game");
         entityManager.instantiate(Prefabs.PLAYER.get());
 
-        //  Initialise platforms
-        entityManager.instantiate(Prefabs.PLATFORM.get());
+        initPlatforms();
 
         Transform leftBoundaryTransform = new Transform(new Position(-10, Constants
                 .SCREEN_HEIGHT / 2), null, null);
@@ -59,9 +61,24 @@ public class GameInitializerImpl implements GameInitializer
                 new Position(0, Constants
                         .SCREEN_HEIGHT), null, null);
         entityManager.instantiate(Prefabs.LAND.get());
+        entityManager.instantiate(Prefabs.LAND.get(), landTransform);
 
         //  Initialise enemies
 
         initialised = true;
+    }
+
+    private void initPlatforms()
+    {
+        Prefab platformPrefab = Prefabs.PLATFORM.get();
+
+        //  Initialise platforms
+        entityManager.instantiate(platformPrefab);
+
+        int x = Constants.SCREEN_WIDTH / 4;
+        int y = Constants.SCREEN_HEIGHT / 2 - 500;
+        Transform transform1 = new Transform(new Position(x, y), new Rotation(),
+                new Scale());
+        entityManager.instantiate(platformPrefab, transform1);
     }
 }
