@@ -38,7 +38,8 @@ public class PhysicsSystem implements UpdateSystem
 
         for (Entity entity : physicalEntities)
         {
-            applyGravity(entity, deltaTime);
+            if (((PhysicsComponent) entity.getComponent(PhysicsComponent.class)).mass > 0)
+                applyGravity(entity, deltaTime);
         }
     }
 
