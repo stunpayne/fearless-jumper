@@ -53,6 +53,7 @@ public class GameInitializerImpl implements GameInitializer
         entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
 
         //  Initialise enemies
+        entityManager.instantiate(Prefabs.DRAGON.get());
 
         initialised = true;
     }

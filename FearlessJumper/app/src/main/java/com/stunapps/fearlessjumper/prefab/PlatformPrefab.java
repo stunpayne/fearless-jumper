@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.component.MoveDownComponent;
 import com.stunapps.fearlessjumper.component.body.RigidBody;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
@@ -35,5 +36,6 @@ public class PlatformPrefab extends Prefab
         components.add(new SpriteComponent(sprite, new Delta(0, 0), sprite.getWidth(),
                 sprite.getHeight()));
         components.add(new RectCollider(new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
+        components.add(new MoveDownComponent());
     }
 }

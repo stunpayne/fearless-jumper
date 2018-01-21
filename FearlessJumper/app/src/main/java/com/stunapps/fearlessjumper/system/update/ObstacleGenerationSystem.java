@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.MoveDownComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.BlockPlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
@@ -13,6 +14,7 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Constants.Game;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
@@ -66,7 +68,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
          */
         Set<Entity> players = componentManager.getEntities(PlayerComponent.class);
         Set<Entity> playerBlockers = componentManager.getEntities(BlockPlayerComponent.class);
-        Set<Entity> platforms = componentManager.getEntities(PlatformComponent.class);
+        Set<Entity> movables = componentManager.getEntities(MoveDownComponent.class);
 
         for (Entity player : players)
         {
@@ -79,12 +81,12 @@ public class ObstacleGenerationSystem implements UpdateSystem
                     //  TODO: Check if there's a better way to do this. Sometimes the player
                     // moves below the collider
                     player.transform.position.y -= playerVelocityY;
-                    translateAllPlatformsDown(platforms, playerVelocityY);
+                    translateAllPlatformsDown(movables, playerVelocityY);
                 }
             }
         }
 
-        deletePlatformsOutOfScreen(platforms);
+        deletePlatformsOutOfScreen(movables);
         createNewPlatformIfPossible(platformPrefab);
     }
 

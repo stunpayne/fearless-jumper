@@ -10,6 +10,7 @@ import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Constants.Game;
 
 import java.util.Set;
 
@@ -49,10 +50,12 @@ public class RenderSystem implements UpdateSystem
                     Bitmap bitmap = (Bitmap) component.getRenderable();
                     canvas.drawBitmap(bitmap,
                             null,
-                            new Rect((int) entity.transform.position.x + (int) component.delta.x,
-                                    (int) entity.transform.position.y + (int) component.delta.y,
-                                    (int) entity.transform.position.x + (int) component.delta.x + (int) component.width,
-                                    (int) entity.transform.position.y + (int) component.delta.y + (int) component.height),
+                            new Rect((int) (entity.transform.position.x + component.delta.x),
+                                    (int) (entity.transform.position.y + component.delta.y),
+                                    (int) (entity.transform.position.x + component.delta.x +
+                                            component.width),
+                                    (int) (entity.transform.position.y + component.delta.y
+                                            + component.height)),
                             null);
                     break;
                 default:
