@@ -61,7 +61,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
         Prefab platformPrefab = Prefabs.PLATFORM.get();
         float width = calculator.getWidth(platformPrefab);
         spawnPosition = new Position((float) Math.random() * (Constants.SCREEN_WIDTH -
-                width), 0);
+                width), -Game.Y_OFFSET);
         /**
          * Should we use components or tags?
          * Using tags means that we will have to create another manager similar to ComponentManager
@@ -81,7 +81,8 @@ public class ObstacleGenerationSystem implements UpdateSystem
                     //  TODO: Check if there's a better way to do this. Sometimes the player
                     // moves below the collider
                     player.transform.position.y -= playerVelocityY;
-                    translateAllPlatformsDown(movables, playerVelocityY);
+                    Game.Y_OFFSET += -playerVelocityY;
+//                    translateAllMovablesDown(movables, playerVelocityY);
                 }
             }
         }
@@ -135,15 +136,15 @@ public class ObstacleGenerationSystem implements UpdateSystem
 
     private void createNewPlatformIfPossible(Prefab platformPrefab)
     {
-        if (activePlatforms.get(activePlatforms.size() - 1).transform.position.y >= Constants
-                .SCREEN_HEIGHT / 2)
+        if (activePlatforms.get(activePlatforms.size() - 1).transform.position.y + Game.Y_OFFSET
+                >= Constants.SCREEN_HEIGHT / 2)
         {
             activePlatforms.add(entityManager.instantiate(platformPrefab, new Transform
                     (spawnPosition)));
         }
     }
 
-    private void translateAllPlatformsDown(Set<Entity> platforms, float playerVelocityY)
+    private void translateAllMovablesDown(Set<Entity> platforms, float playerVelocityY)
     {
         for (Entity platform : platforms)
         {

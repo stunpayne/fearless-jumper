@@ -7,6 +7,8 @@ import android.graphics.Rect;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
+import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
+import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.helper.Constants;
@@ -48,15 +50,27 @@ public class RenderSystem implements UpdateSystem
             {
                 case SPRITE:
                     Bitmap bitmap = (Bitmap) component.getRenderable();
-                    canvas.drawBitmap(bitmap,
-                            null,
-                            new Rect((int) (entity.transform.position.x + component.delta.x),
-                                    (int) (entity.transform.position.y + component.delta.y),
-                                    (int) (entity.transform.position.x + component.delta.x +
-                                            component.width),
-                                    (int) (entity.transform.position.y + component.delta.y
-                                            + component.height)),
-                            null);
+                    if (entity.getComponent(PlayerComponent.class) != null)
+                        canvas.drawBitmap(bitmap,
+                                null,
+                                new Rect((int) (entity.transform.position.x + component.delta.x),
+                                        (int) (entity.transform.position.y + component.delta.y),
+                                        (int) (entity.transform.position.x + component.delta.x +
+                                                component.width),
+                                        (int) (entity.transform.position.y + component.delta.y
+                                                + component.height)),
+                                null);
+                    else
+                        canvas.drawBitmap(bitmap,
+                                null,
+                                new Rect((int) (entity.transform.position.x + component.delta.x),
+                                        (int) (entity.transform.position.y + component.delta.y +
+                                                Game.Y_OFFSET),
+                                        (int) (entity.transform.position.x + component.delta.x +
+                                                component.width),
+                                        (int) (entity.transform.position.y + component.delta.y
+                                                + component.height + Game.Y_OFFSET)),
+                                null);
                     break;
                 default:
             }
