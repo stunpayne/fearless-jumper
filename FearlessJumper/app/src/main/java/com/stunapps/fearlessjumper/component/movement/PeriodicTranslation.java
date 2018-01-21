@@ -15,8 +15,9 @@ import com.stunapps.fearlessjumper.component.Component;
  * TODO: This component will work fine for X but not for Y as we keep decreasing the Y in our game
  * as the player reaches the mid collider. So, the enemy will not translate down with the game as
  * it is always clamped between minY and maxY. This isses has to be handled by either
- * modifying our method of moving the game objects down or by changing the min and max here to
- * minDelta and maxDelta.
+ * 1) modifying our method of moving the game objects down
+ * 2) by changing the min and max here to minDelta and maxDelta
+ * 3) By making this component override the transform, in the system
  */
 public class PeriodicTranslation extends Component
 {
