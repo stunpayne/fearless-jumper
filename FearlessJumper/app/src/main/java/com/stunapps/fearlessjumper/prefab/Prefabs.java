@@ -8,7 +8,7 @@ public enum Prefabs
 {
     PLAYER(new PlayerPrefab()),
     PLATFORM(new PlatformPrefab()),
-    BOUNDARY(new BoundaryPrefab()),
+    BOUNDARY(new SideBoundaryPrefab()),
     LAND(new LandPrefab()),
     MIDSCREEN_COLLIDER(new MidScreenColliderPrefab()),
     DRAGON(new DragonPrefab());

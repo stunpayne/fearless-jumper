@@ -16,7 +16,9 @@ public abstract class Camera implements Cloneable
     @Getter
     public CameraMode cameraMode;
 
+    //  Denotes whether the camera can translate horizontally or not. Cannot if true.
     protected boolean xTranslateLocked;
+    //  Denotes whether the camera can translate vertically or not. Cannot if true.
     protected boolean yTranslateLocked;
 
     public Camera(CameraMode cameraMode, Position position, boolean xTranslateLocked,

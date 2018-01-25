@@ -8,9 +8,9 @@ import com.stunapps.fearlessjumper.helper.Constants;
  * Created by anand.verma on 14/01/18.
  */
 
-public class BoundaryPrefab extends Prefab
+public class SideBoundaryPrefab extends Prefab
 {
-    public BoundaryPrefab()
+    public SideBoundaryPrefab()
     {
         components.add(new RectCollider(new Delta(0, 0), 10, Constants.SCREEN_HEIGHT));
     }

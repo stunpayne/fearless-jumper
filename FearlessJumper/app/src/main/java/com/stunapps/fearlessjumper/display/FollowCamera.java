@@ -17,7 +17,9 @@ public class FollowCamera extends Camera
     @Getter
     private final Entity target;
 
+    //  Max horizontal distance allowed to target from camera
     private float maxDeltaX;
+    //  Max vertical distance allowed to target from camera
     private float maxDeltaY;
 
     public FollowCamera(Position position, Entity target, boolean xTranslateLocked,
@@ -32,13 +34,15 @@ public class FollowCamera extends Camera
     public void update()
     {
         //  If x movement is allowed, calculate delta in x and move
-        if (!xTranslateLocked)
+        float cutoffX = position.x + maxDeltaX;
+        if (!xTranslateLocked && target.transform.position.x <= cutoffX)
         {
-
+            position.x = target.transform.position.x - maxDeltaX;
+            //  Apply y limits
+            position.x = Math.min(Math.max(position.x, 0), Constants.SCREEN_WIDTH);
         }
-        //  Apply x limits
+        
         //  If y movement is allowed, calculate delta in y and move
-
         float cutoffY = position.y + maxDeltaY;
         if (!yTranslateLocked && target.transform.position.y <= cutoffY)
         {
