@@ -117,13 +117,15 @@ public class CollisionSystem implements UpdateSystem
              *  Collision in x axis is of smaller magnitude than that in y axis
              *  So, collision will be resolved in x axis.
              */
-//                resolveXCollision(entity1, entity2, deltaXBetweenEntities, intersectX, push);
+            //                resolveXCollision(entity1, entity2, deltaXBetweenEntities,
+            // intersectX, push);
             bridgeGapX(physicsEntity, fixedEntity);
             physicsComponent1.velocity.x = 0;
         } else
         {
             //  Collision will be resolved in y axis
-//                resolveYCollision(entity1, entity2, deltaYBetweenEntities, intersectY, push);
+            //                resolveYCollision(entity1, entity2, deltaYBetweenEntities,
+            // intersectY, push);
             bridgeGapY(physicsEntity, fixedEntity);
             physicsComponent1.velocity.y = 0;
         }
