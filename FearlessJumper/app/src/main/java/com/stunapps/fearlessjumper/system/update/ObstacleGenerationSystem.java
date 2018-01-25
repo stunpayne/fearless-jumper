@@ -130,7 +130,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
         //  TODO: Delete all platforms out of screen, not just the first one
         for (Entity platform : platforms)
         {
-            if (platform.transform.position.y > Constants.SCREEN_HEIGHT)
+            if (RenderSystem.getRenderRect(platform).top > Constants.SCREEN_HEIGHT)
                 entityManager.deleteEntity(platform);
         }
     }

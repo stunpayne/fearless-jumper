@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import android.util.Log;
+
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
@@ -63,9 +65,22 @@ public class TransformUpdateSystem implements UpdateSystem
         transform.position.x += velocity.x;
         transform.position.y += velocity.y;
 
-        transform.position.x = Math.min(transform.position.x,
-                Constants.SCREEN_WIDTH - renderable.width);
-        transform.position.x = Math.max(transform.position.x, 0);
+        if (transform.position.x >= Constants.SCREEN_WIDTH - renderable.width)
+        {
+            transform.position.x = Constants.SCREEN_WIDTH - renderable.width;
+            velocity.x = 0;
+        }
+        else if (transform.position.x <= 0)
+        {
+            transform.position.x = 0;
+            velocity.x = 0;
+        }
+
+        if (Float.isNaN(transform.position.x))
+        {
+            Log.d("BAD_CASE", "Position x is NaN");
+        }
+
 //        transform.position.y = Math.min(transform.position.y,
 //                Constants.SCREEN_HEIGHT - renderable.height);
 //        transform.position.y = Math.max(transform.position.x, 0);

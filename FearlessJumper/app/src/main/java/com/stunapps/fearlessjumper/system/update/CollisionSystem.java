@@ -209,7 +209,7 @@ public class CollisionSystem implements UpdateSystem
          */
         private static float sign(float number)
         {
-            return number / Math.abs(number);
+            return number < 0 ? -1 : 1;
         }
     }
 
