@@ -67,10 +67,6 @@ public class ObstacleGenerationSystem implements UpdateSystem
             platformHeight = calculator.getHeight(platformPrefab);
         }
 
-        /**
-         * Should we use components or tags?
-         * Using tags means that we will have to create another manager similar to ComponentManager
-         */
         Entity player = componentManager.getEntity(PlayerComponent.class);
         Set<Entity> playerBlockers = componentManager.getEntities(BlockPlayerComponent.class);
         Set<Entity> movables = componentManager.getEntities(MoveDownComponent.class);

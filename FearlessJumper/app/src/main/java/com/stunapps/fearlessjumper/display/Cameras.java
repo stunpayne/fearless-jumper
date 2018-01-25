@@ -25,22 +25,20 @@ public class Cameras
 
     public static List<Camera> activeCameras = Lists.newArrayList();
 
-    public static Camera create(Camera.CameraMode cameraMode, Position position, @Nullable Entity
-            target, boolean lockXTranslate, boolean lockYTranslate)
+    public static Camera createFixedCamera(Position position, boolean lockXTranslate,
+            boolean lockYTranslate)
     {
-        Camera newCamera = null;
-        switch (cameraMode)
-        {
-            case FOLLOW_TARGET:
-                newCamera = new FollowCamera(position, target, lockXTranslate, lockYTranslate);
-                break;
-            case FIXED:
-                newCamera = new FixedCamera(position, lockXTranslate, lockYTranslate);
-                break;
-            default:
-                newCamera = new FixedCamera(position, lockXTranslate, lockYTranslate);
-                break;
-        }
+        Camera newCamera = new FixedCamera(position, lockXTranslate, lockYTranslate);
+        activeCameras.add(newCamera);
+        return newCamera;
+    }
+
+    public static Camera createFollowCamera(Position position,
+            @Nullable Entity target, boolean lockXTranslate, boolean lockYTranslate,
+            float maxDeltaX, float maxDeltaY)
+    {
+        Camera newCamera = new FollowCamera(position, target, lockXTranslate, lockYTranslate,
+                maxDeltaX, maxDeltaY);
         activeCameras.add(newCamera);
         return newCamera;
     }

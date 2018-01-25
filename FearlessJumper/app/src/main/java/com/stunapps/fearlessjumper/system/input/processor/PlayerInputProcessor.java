@@ -49,8 +49,8 @@ public class PlayerInputProcessor implements InputProcessor
             //  To test is input is occurring between collision and transform update
             logSystemTimes();
             Log.d("INPUT", "Action Down detected");
-            Rect renderRect = RenderSystem.getRenderRect(entity);
-            applyForceToPlayer(new Position(renderRect.left, renderRect.top),
+            Rect entityCanvasRect = RenderSystem.getRenderRect(entity);
+            applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
                     (PhysicsComponent) entity.getComponent(PhysicsComponent.class),
                     motionEvent);
         }

@@ -51,15 +51,15 @@ public class GameInitializerImpl implements GameInitializer
         final Entity player = entityManager.instantiate(Prefabs.PLAYER.get());
 
         initPlatforms();
-//        initBoundaries(player);
+        //        initBoundaries(player);
 
         //        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
 
         //  Initialise enemies
         entityManager.instantiate(Prefabs.DRAGON.get());
 
-        Cameras.setMainCamera(
-                Cameras.create(CameraMode.FOLLOW_TARGET, new Position(0, 0), player, true, false));
+        Cameras.setMainCamera(Cameras.createFollowCamera(new Position(0, 0), player, true, false, 0,
+                Constants.SCREEN_HEIGHT / 2));
 
         initialised = true;
     }
