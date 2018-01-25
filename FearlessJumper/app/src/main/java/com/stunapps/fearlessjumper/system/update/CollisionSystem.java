@@ -140,8 +140,7 @@ public class CollisionSystem implements UpdateSystem
         float deltaXBetweenEntities = collider1.getCenter(position1).x - collider2.getCenter(
                 position2).x;
 
-        return Math.abs(
-                deltaXBetweenEntities) - (collider1.width / 2 + collider2.width / 2);
+        return Math.abs(deltaXBetweenEntities) - (collider1.width / 2 + collider2.width / 2);
     }
 
     private static float calculateYIntersection(Entity entity1, Entity entity2)
@@ -155,8 +154,7 @@ public class CollisionSystem implements UpdateSystem
         float deltaYBetweenEntities = collider1.getCenter(position1).y - collider2.getCenter(
                 position2).y;
 
-        return Math.abs(
-                deltaYBetweenEntities) - (collider1.height / 2 + collider2.height / 2);
+        return Math.abs(deltaYBetweenEntities) - (collider1.height / 2 + collider2.height / 2);
     }
 
 
@@ -172,8 +170,8 @@ public class CollisionSystem implements UpdateSystem
 
             float currentDeltaX = physicalCollider.getCenter(
                     physicalEntityPosition).x - fixedCollider.getCenter(fixedEntityPosition).x;
-            float currentSeparationX = Math.abs(currentDeltaX) -
-                    (physicalCollider.width / 2 + fixedCollider.width / 2);
+            float currentSeparationX = Math.abs(
+                    currentDeltaX) - (physicalCollider.width / 2 + fixedCollider.width / 2);
 
             PhysicsComponent physicsComponent = (PhysicsComponent) physicalEntity.getComponent(
                     PhysicsComponent.class);
@@ -190,10 +188,9 @@ public class CollisionSystem implements UpdateSystem
             Position fixedPosition = fixedEntity.transform.position;
 
             float currentDeltaY = physicalCollider.getCenter(
-                    physicalPosition).y - fixedCollider.getCenter(
-                    fixedPosition).y;
-            float currentSeparationY = Math.abs(currentDeltaY) -
-                    (physicalCollider.height / 2 + fixedCollider.height / 2);
+                    physicalPosition).y - fixedCollider.getCenter(fixedPosition).y;
+            float currentSeparationY = Math.abs(
+                    currentDeltaY) - (physicalCollider.height / 2 + fixedCollider.height / 2);
 
             PhysicsComponent physicsComponent = (PhysicsComponent) physicalEntity.getComponent(
                     PhysicsComponent.class);
@@ -216,8 +213,8 @@ public class CollisionSystem implements UpdateSystem
 
     private static class CollisionResolver
     {
-        public static void resolveXCollision(Entity entity1, Entity entity2, float
-                deltaXBetweenEntities, float intersectionMag, float push)
+        public static void resolveXCollision(Entity entity1, Entity entity2,
+                float deltaXBetweenEntities, float intersectionMag, float push)
         {
             if (deltaXBetweenEntities > 0.0f)
             {
@@ -236,8 +233,8 @@ public class CollisionSystem implements UpdateSystem
             }
         }
 
-        public static void resolveYCollision(Entity entity1, Entity entity2, float
-                deltaYBetweenEntities, float intersectionMag, float push)
+        public static void resolveYCollision(Entity entity1, Entity entity2,
+                float deltaYBetweenEntities, float intersectionMag, float push)
         {
             if (deltaYBetweenEntities > 0.0f)
             {
@@ -279,8 +276,7 @@ public class CollisionSystem implements UpdateSystem
         PhysicsComponent physicsComponent = (PhysicsComponent) entity.getComponent(
                 PhysicsComponent.class);
 
-        if (physicsComponent == null)
-            return entity.transform.position;
+        if (physicsComponent == null) return entity.transform.position;
         return new Position(entity.transform.position.x + physicsComponent.velocity.x,
                 entity.transform.position.y + physicsComponent.velocity.y);
     }
