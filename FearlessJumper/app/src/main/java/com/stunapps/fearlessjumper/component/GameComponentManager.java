@@ -119,6 +119,15 @@ public class GameComponentManager implements ComponentManager
     }
 
     @Override
+    public Entity getEntity(Class<? extends Component> componentType)
+    {
+        Set<Entity> entities = componentToTypeEntityMap.get(componentType);
+        if (null == entities)
+            return null;
+        return entities.iterator().next();
+    }
+
+    @Override
     public void deleteEntity(Entity entity)
     {
         List<Component> components = entityToComponentMap.get(entity);

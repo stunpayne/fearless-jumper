@@ -36,10 +36,14 @@ public class ObstacleGenerationSystem implements UpdateSystem
     private final ComponentManager componentManager;
     private final EntityTransformCalculator calculator;
 
-    private Position spawnPosition;
     private float speed = 1.0f;
     private static long lastProcessTime = 0;
     private ArrayList<Entity> activePlatforms = new ArrayList<>();
+
+    private static Prefab platformPrefab;
+    private static float platformWidth;
+    private static float platformHeight;
+    private static float NEW_OBSTACLE_OFFSET = -600f;
 
     @Inject
     public ObstacleGenerationSystem(EntityManager entityManager, ComponentManager componentManager,
@@ -57,38 +61,35 @@ public class ObstacleGenerationSystem implements UpdateSystem
         {
             lastProcessTime = System.currentTimeMillis();
             initialisePlatformsList();
+
+            platformPrefab = Prefabs.PLATFORM.get();
+            platformWidth = calculator.getWidth(platformPrefab);
+            platformHeight = calculator.getHeight(platformPrefab);
         }
-        Prefab platformPrefab = Prefabs.PLATFORM.get();
-        float width = calculator.getWidth(platformPrefab);
-        spawnPosition = new Position((float) Math.random() * (Constants.SCREEN_WIDTH -
-                width), -Game.Y_OFFSET);
+
         /**
          * Should we use components or tags?
          * Using tags means that we will have to create another manager similar to ComponentManager
          */
-        Set<Entity> players = componentManager.getEntities(PlayerComponent.class);
+        Entity player = componentManager.getEntity(PlayerComponent.class);
         Set<Entity> playerBlockers = componentManager.getEntities(BlockPlayerComponent.class);
         Set<Entity> movables = componentManager.getEntities(MoveDownComponent.class);
 
-        for (Entity player : players)
+        float playerVelocityY = yVelocity(player);
+        for (Entity playerBlocker : playerBlockers)
         {
-            float playerVelocityY = yVelocity(player);
-            for (Entity playerBlocker : playerBlockers)
-            {
-                if (isCollidingV2(player, playerBlocker))
-                {
-                    Log.d("OBSTACLES", "Moving activePlatforms down");
-                    //  TODO: Check if there's a better way to do this. Sometimes the player
-                    // moves below the collider
-                    player.transform.position.y -= playerVelocityY;
-                    Game.Y_OFFSET += -playerVelocityY;
-//                    translateAllMovablesDown(movables, playerVelocityY);
-                }
-            }
+//                if (isCollidingV2(player, playerBlocker))
+//                {
+//                    Log.d("OBSTACLES", "Moving activePlatforms down");
+//                    //  TODO: Check if there's a better way to do this. Sometimes the player
+//                    // moves below the collider
+////                    player.transform.position.y -= playerVelocityY;
+////                    translateAllMovablesDown(movables, playerVelocityY);
+//                }
         }
 
         deletePlatformsOutOfScreen(movables);
-        createNewPlatformIfPossible(platformPrefab);
+        createNewPlatformIfPossible(platformPrefab, player.transform.position);
     }
 
     @Override
@@ -134,13 +135,17 @@ public class ObstacleGenerationSystem implements UpdateSystem
         }
     }
 
-    private void createNewPlatformIfPossible(Prefab platformPrefab)
+    private void createNewPlatformIfPossible(Prefab platformPrefab, Position playerPosition)
     {
-        if (activePlatforms.get(activePlatforms.size() - 1).transform.position.y + Game.Y_OFFSET
-                >= Constants.SCREEN_HEIGHT / 2)
+        Entity topPlatform = activePlatforms.get(activePlatforms.size() - 1);
+        if ((Math.abs(topPlatform.transform.position.y - playerPosition.y) <= Constants
+                .SCREEN_HEIGHT))
         {
+            Position spawnPosition = new Position((float) Math.random() * (Constants.SCREEN_WIDTH -
+                    platformWidth), topPlatform.transform.position.y + NEW_OBSTACLE_OFFSET);
             activePlatforms.add(entityManager.instantiate(platformPrefab, new Transform
                     (spawnPosition)));
+            Log.i("NEW_OBSTACLE", "Created new platform at: " + spawnPosition);
         }
     }
 

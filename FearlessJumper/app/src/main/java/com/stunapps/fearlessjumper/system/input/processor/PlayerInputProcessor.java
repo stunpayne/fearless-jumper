@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.system.input.processor;
 
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -9,6 +10,7 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.Systems;
+import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
 import java.util.Collections;
@@ -47,7 +49,8 @@ public class PlayerInputProcessor implements InputProcessor
             //  To test is input is occurring between collision and transform update
             logSystemTimes();
             Log.d("INPUT", "Action Down detected");
-            applyForceToPlayer(entity.transform.position,
+            Rect renderRect = RenderSystem.getRenderRect(entity);
+            applyForceToPlayer(new Position(renderRect.left, renderRect.top),
                     (PhysicsComponent) entity.getComponent(PhysicsComponent.class),
                     motionEvent);
         }

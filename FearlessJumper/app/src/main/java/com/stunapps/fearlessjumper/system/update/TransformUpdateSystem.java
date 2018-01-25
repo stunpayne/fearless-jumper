@@ -6,8 +6,10 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent.Velocity;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
+import com.stunapps.fearlessjumper.helper.Constants;
 
 import java.util.Set;
 
@@ -36,11 +38,16 @@ public class TransformUpdateSystem implements UpdateSystem
         lastProcessTime = System.currentTimeMillis();
         Set<Entity> movables = componentManager.getEntities(PlayerComponent.class);
 
-        for (Entity movable: movables)
+        for (Entity movable : movables)
         {
             PhysicsComponent physicsComponent = (PhysicsComponent) movable.getComponent(
                     PhysicsComponent.class);
-            moveTransform(movable.transform, physicsComponent.velocity);
+            RenderableComponent renderable = (RenderableComponent) movable.getComponent(
+                    RenderableComponent.class);
+            if (movable.hasComponent(PlayerComponent.class))
+                movePlayerTransform(movable.transform, physicsComponent.velocity, renderable);
+            else
+                moveTransform(movable.transform, physicsComponent.velocity);
         }
     }
 
@@ -48,6 +55,20 @@ public class TransformUpdateSystem implements UpdateSystem
     public long getLastProcessTime()
     {
         return lastProcessTime;
+    }
+
+    private void movePlayerTransform(Transform transform, Velocity velocity,
+                                     RenderableComponent renderable)
+    {
+        transform.position.x += velocity.x;
+        transform.position.y += velocity.y;
+
+        transform.position.x = Math.min(transform.position.x,
+                Constants.SCREEN_WIDTH - renderable.width);
+        transform.position.x = Math.max(transform.position.x, 0);
+//        transform.position.y = Math.min(transform.position.y,
+//                Constants.SCREEN_HEIGHT - renderable.height);
+//        transform.position.y = Math.max(transform.position.x, 0);
     }
 
     private void moveTransform(Transform transform, Velocity velocity)

@@ -8,6 +8,9 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.OrientationData;
+import com.stunapps.fearlessjumper.display.Camera.CameraMode;
+import com.stunapps.fearlessjumper.display.Cameras;
+import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.Constants;
 import com.stunapps.fearlessjumper.prefab.Prefab;
@@ -45,15 +48,19 @@ public class GameInitializerImpl implements GameInitializer
     public void initialize()
     {
         Log.d("INIT", "Initialising game");
-        entityManager.instantiate(Prefabs.PLAYER.get());
+        final Entity player = entityManager.instantiate(Prefabs.PLAYER.get());
 
         initPlatforms();
-        initBoundaries();
+//        initBoundaries();
 
-        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
+//        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
 
         //  Initialise enemies
-        entityManager.instantiate(Prefabs.DRAGON.get());
+//        entityManager.instantiate(Prefabs.DRAGON.get());
+
+        Cameras.setMainCamera(
+                Cameras.create(CameraMode.FOLLOW_TARGET, new Position(0,0), player, true,
+                        false));
 
         initialised = true;
     }
@@ -63,11 +70,11 @@ public class GameInitializerImpl implements GameInitializer
         Prefab platformPrefab = Prefabs.PLATFORM.get();
 
         int x = Constants.SCREEN_WIDTH / 4;
-        int y = Constants.SCREEN_HEIGHT / 2+ 200;
+        int y = Constants.SCREEN_HEIGHT / 2 + 200;
         Transform transform1 = new Transform(new Position(x, y));
-        Transform transform2 = new Transform(new Position(x, Constants.SCREEN_HEIGHT/2 - 500));
-        Transform transform3 = new Transform(new Position(3 * Constants.SCREEN_WIDTH/4,
-                400));
+        Transform transform2 = new Transform(new Position(x, Constants.SCREEN_HEIGHT / 2 - 500));
+        Transform transform3 = new Transform(new Position(3 * Constants.SCREEN_WIDTH / 4,
+                300));
 
         entityManager.instantiate(platformPrefab, transform1);
         entityManager.instantiate(platformPrefab, transform2);

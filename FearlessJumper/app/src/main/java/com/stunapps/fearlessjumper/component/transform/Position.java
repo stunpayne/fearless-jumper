@@ -26,4 +26,9 @@ public class Position
         this.x = x;
         this.y = y;
     }
+
+    public Position distanceFrom(Position other)
+    {
+        return new Position(this.x - other.x, this.y - other.y);
+    }
 }

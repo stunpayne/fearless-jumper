@@ -9,7 +9,9 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
+import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
+import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.helper.Constants;
 import com.stunapps.fearlessjumper.helper.Constants.Game;
@@ -23,7 +25,9 @@ import java.util.Set;
 public class RenderSystem implements UpdateSystem
 {
     private final GameComponentManager componentManager;
+
     private static long lastProcessTime = System.nanoTime();
+    private static Canvas canvas = null;
 
     @Inject
     public RenderSystem(GameComponentManager componentManager)
@@ -35,13 +39,18 @@ public class RenderSystem implements UpdateSystem
     public void process(long deltaTime)
     {
         lastProcessTime = System.currentTimeMillis();
-        //  Render all objects at their current positions
+
         Set<Entity> entities = componentManager.getEntities(RenderableComponent.class);
-        Canvas canvas = Constants.canvas;
         if (canvas == null)
-            return;
+        {
+            canvas = Constants.canvas;
+        }
         canvas.drawColor(Color.BLACK);
 
+        //  Update all cameras
+        Cameras.update();
+
+        //  Render all objects at their current positions
         for (Entity entity : entities)
         {
             RenderableComponent component = (RenderableComponent) entity.getComponent(
@@ -50,27 +59,9 @@ public class RenderSystem implements UpdateSystem
             {
                 case SPRITE:
                     Bitmap bitmap = (Bitmap) component.getRenderable();
-                    if (entity.getComponent(PlayerComponent.class) != null)
-                        canvas.drawBitmap(bitmap,
-                                null,
-                                new Rect((int) (entity.transform.position.x + component.delta.x),
-                                        (int) (entity.transform.position.y + component.delta.y),
-                                        (int) (entity.transform.position.x + component.delta.x +
-                                                component.width),
-                                        (int) (entity.transform.position.y + component.delta.y
-                                                + component.height)),
-                                null);
-                    else
-                        canvas.drawBitmap(bitmap,
-                                null,
-                                new Rect((int) (entity.transform.position.x + component.delta.x),
-                                        (int) (entity.transform.position.y + component.delta.y +
-                                                Game.Y_OFFSET),
-                                        (int) (entity.transform.position.x + component.delta.x +
-                                                component.width),
-                                        (int) (entity.transform.position.y + component.delta.y
-                                                + component.height + Game.Y_OFFSET)),
-                                null);
+                    Rect destRect = getRenderRect(entity);
+
+                    canvas.drawBitmap(bitmap, null, destRect, null);
                     break;
                 default:
             }
@@ -81,5 +72,21 @@ public class RenderSystem implements UpdateSystem
     public long getLastProcessTime()
     {
         return lastProcessTime;
+    }
+
+    public static Rect getRenderRect(Entity entity)
+    {
+        Position camPosition = Cameras.getMainCamera().position;
+
+        RenderableComponent component = (RenderableComponent) entity.getComponent(
+                RenderableComponent.class);
+        int left = (int) ((entity.transform.position.x + component.delta.x) - camPosition.x);
+        int top = (int) ((entity.transform.position.y + component.delta.y) - camPosition.y);
+        int right = (int) ((entity.transform.position.x + component.delta.x +
+                component.width) - camPosition.x);
+        int bottom = (int) ((entity.transform.position.y + component.delta
+                .y + component.height) - camPosition.y);
+
+        return new Rect(left, top, right, bottom);
     }
 }

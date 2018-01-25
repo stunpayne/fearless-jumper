@@ -32,8 +32,6 @@ public class Constants
         public static Position ORIGIN = new Position();
         public static Transform.Rotation NO_ROTATION = new Transform.Rotation();
         public static Transform.Scale UNIT_SCALE = new Transform.Scale();
-
-        public static float Y_OFFSET = 0f;
     }
 
     public static float scale()

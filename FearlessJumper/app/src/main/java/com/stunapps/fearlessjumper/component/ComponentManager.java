@@ -25,5 +25,7 @@ public interface ComponentManager
 
     public Set<Entity> getEntities(Class<? extends Component> componentType);
 
+    public Entity getEntity(Class<? extends Component> componentType);
+
     public  void deleteEntity(Entity entity);
 }
