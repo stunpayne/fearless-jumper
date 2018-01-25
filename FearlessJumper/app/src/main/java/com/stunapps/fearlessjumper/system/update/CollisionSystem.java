@@ -179,6 +179,9 @@ public class CollisionSystem implements UpdateSystem
                     PhysicsComponent.class);
             physicalEntity.transform.position.x += sign(
                     physicsComponent.velocity.x) * currentSeparationX;
+
+            if (Float.isNaN(physicalEntity.transform.position.x))
+                Log.d("BAD_CASE", "Position  is Nan");
         }
 
         public static void bridgeGapY(Entity physicalEntity, Entity fixedEntity)

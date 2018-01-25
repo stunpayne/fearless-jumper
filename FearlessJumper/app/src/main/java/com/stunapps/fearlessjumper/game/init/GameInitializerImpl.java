@@ -32,7 +32,7 @@ public class GameInitializerImpl implements GameInitializer
 
     @Inject
     public GameInitializerImpl(EntityManager entityManager, ComponentManager componentManager,
-                               ObstacleGenerationSystem obstacleSystem)
+            ObstacleGenerationSystem obstacleSystem)
     {
         this.entityManager = entityManager;
         this.componentManager = componentManager;
@@ -51,16 +51,15 @@ public class GameInitializerImpl implements GameInitializer
         final Entity player = entityManager.instantiate(Prefabs.PLAYER.get());
 
         initPlatforms();
-//        initBoundaries();
+//        initBoundaries(player);
 
-//        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
+        //        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
 
         //  Initialise enemies
-//        entityManager.instantiate(Prefabs.DRAGON.get());
+        entityManager.instantiate(Prefabs.DRAGON.get());
 
         Cameras.setMainCamera(
-                Cameras.create(CameraMode.FOLLOW_TARGET, new Position(0,0), player, true,
-                        false));
+                Cameras.create(CameraMode.FOLLOW_TARGET, new Position(0, 0), player, true, false));
 
         initialised = true;
     }
@@ -73,28 +72,25 @@ public class GameInitializerImpl implements GameInitializer
         int y = Constants.SCREEN_HEIGHT / 2 + 200;
         Transform transform1 = new Transform(new Position(x, y));
         Transform transform2 = new Transform(new Position(x, Constants.SCREEN_HEIGHT / 2 - 500));
-        Transform transform3 = new Transform(new Position(3 * Constants.SCREEN_WIDTH / 4,
-                300));
+        Transform transform3 = new Transform(new Position(3 * Constants.SCREEN_WIDTH / 4, 300));
 
         entityManager.instantiate(platformPrefab, transform1);
         entityManager.instantiate(platformPrefab, transform2);
         entityManager.instantiate(platformPrefab, transform3);
     }
 
-    private void initBoundaries()
+    private void initBoundaries(Entity target)
     {
-        Transform leftBoundaryTransform = new Transform(new Position(-10, Constants
-                .SCREEN_HEIGHT / 2), null, null);
+        Transform leftBoundaryTransform = new Transform(
+                new Position(-10, Constants.SCREEN_HEIGHT / 2), null, null);
         entityManager.instantiate(Prefabs.BOUNDARY.get(), leftBoundaryTransform);
 
         Transform rightBoundaryTransform = new Transform(
-                new Position(Constants.SCREEN_WIDTH + 10, Constants
-                        .SCREEN_HEIGHT / 2), null, null);
+                new Position(Constants.SCREEN_WIDTH + 10, Constants.SCREEN_HEIGHT / 2), null, null);
         entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
 
-        Transform landTransform = new Transform(
-                new Position(0, Constants
-                        .SCREEN_HEIGHT), null, null);
+        Transform landTransform = new Transform(new Position(0, Constants.SCREEN_HEIGHT), null,
+                null);
         entityManager.instantiate(Prefabs.LAND.get());
         entityManager.instantiate(Prefabs.LAND.get(), landTransform);
     }

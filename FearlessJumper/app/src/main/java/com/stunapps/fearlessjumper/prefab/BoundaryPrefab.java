@@ -1,9 +1,7 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import com.stunapps.fearlessjumper.component.Delta;
-import com.stunapps.fearlessjumper.component.body.RigidBody;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.helper.Constants;
 
 /**
