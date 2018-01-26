@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.system.update.LowerBoundarySystem;
 import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.ObstacleGenerationSystem;
 import com.stunapps.fearlessjumper.system.input.GameInputSystem;
@@ -32,6 +33,7 @@ public class Systems
             ObstacleGenerationSystem.class,
             MovementUpdateSystem.class,
             CollisionSystem.class,
+            LowerBoundarySystem.class,
             TransformUpdateSystem.class,
             RenderSystem.class
     );

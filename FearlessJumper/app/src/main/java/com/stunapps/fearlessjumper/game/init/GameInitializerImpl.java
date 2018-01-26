@@ -51,7 +51,7 @@ public class GameInitializerImpl implements GameInitializer
         final Entity player = entityManager.instantiate(Prefabs.PLAYER.get());
 
         initPlatforms();
-        //        initBoundaries(player);
+        initBoundaries(player);
 
         //        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
 
@@ -81,17 +81,17 @@ public class GameInitializerImpl implements GameInitializer
 
     private void initBoundaries(Entity target)
     {
-        Transform leftBoundaryTransform = new Transform(
-                new Position(-10, Constants.SCREEN_HEIGHT / 2), null, null);
-        entityManager.instantiate(Prefabs.BOUNDARY.get(), leftBoundaryTransform);
-
-        Transform rightBoundaryTransform = new Transform(
-                new Position(Constants.SCREEN_WIDTH + 10, Constants.SCREEN_HEIGHT / 2), null, null);
-        entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
+//        Transform leftBoundaryTransform = new Transform(
+//                new Position(-10, Constants.SCREEN_HEIGHT / 2), null, null);
+//        entityManager.instantiate(Prefabs.BOUNDARY.get(), leftBoundaryTransform);
+//
+//        Transform rightBoundaryTransform = new Transform(
+//                new Position(Constants.SCREEN_WIDTH + 10, Constants.SCREEN_HEIGHT / 2), null, null);
+//        entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
 
         Transform landTransform = new Transform(new Position(0, Constants.SCREEN_HEIGHT), null,
                 null);
-        entityManager.instantiate(Prefabs.LAND.get());
+//        entityManager.instantiate(Prefabs.LAND.get());
         entityManager.instantiate(Prefabs.LAND.get(), landTransform);
     }
 }
