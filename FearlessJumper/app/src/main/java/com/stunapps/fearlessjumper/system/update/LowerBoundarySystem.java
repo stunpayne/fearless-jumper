@@ -32,10 +32,14 @@ public class LowerBoundarySystem implements UpdateSystem
     {
         lastProcessTime = System.currentTimeMillis();
 
+        //  TODO: We directly set the lower boundary to the magnitude of screen height below
+        //  the camera position. So, we are assuming that the camera will always be on the top.
+        //  We need to get rid of this assumption by storing the offset of the lower boundary
+        // from the initial camera position.
         Entity lowerBoundary = componentManager.getEntity(LowerBoundaryComponent.class);
 
         lowerBoundary.transform.position.y = Cameras.getMainCamera().position.y + Constants
-                    .SCREEN_HEIGHT;
+                .SCREEN_HEIGHT;
     }
 
     @Override
