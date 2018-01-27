@@ -2,8 +2,9 @@
 2.  Add Friction to Platform surfaces
 3.  Add Animation control with states and transition triggers (Move from one state to another
     if some defined action is triggered
-4.  Add check for lower boundary better than camera + screen height
-5.  Add Scene management, main menu scene and gameplay scene
-6.  Add UI buttons if game is platformer
+4.  Generate both obstacles and enemies randomly, with increasing difficulty
+5.  Add check for lower boundary better than camera + screen height
+6.  Add Scene management, main menu scene and gameplay scene
+7.  Add UI buttons if game is platformer
     Add health/score HUD
-7.  Handle damage and health
+8.  Handle damage and health
