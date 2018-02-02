@@ -63,6 +63,12 @@ public class RenderSystem implements UpdateSystem
 
                     canvas.drawBitmap(bitmap, null, destRect, null);
                     break;
+                case ANIMATOR:
+                    bitmap = (Bitmap) component.getRenderable();
+                    destRect = getRenderRect(entity);
+
+                    canvas.drawBitmap(bitmap, null, destRect, null);
+                    break;
                 default:
             }
         }

@@ -28,28 +28,16 @@ public class Animation
         return playing;
     }
 
-    public void play()
+    public Bitmap play()
     {
-        playing = true;
+        currentFrame++;
+        currentFrame %= frames.length;
+        return frames[currentFrame];
     }
 
-    public void update()
+    public Bitmap getRenderable()
     {
-        if (playing)
-        {
-            currentFrame++;
-            currentFrame %= frames.length;
-        }
-    }
-
-    public void draw(Canvas canvas, Rect destination, Paint paint)
-    {
-        if (!playing)
-        {
-            return;
-        }
-        scaleRect(destination);
-        canvas.drawBitmap(frames[currentFrame], null, destination, paint);
+        return frames[currentFrame];
     }
 
     public void stop()

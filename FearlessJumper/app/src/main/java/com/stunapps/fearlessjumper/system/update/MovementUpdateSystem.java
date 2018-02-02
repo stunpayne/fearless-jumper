@@ -1,8 +1,11 @@
 package com.stunapps.fearlessjumper.system.update;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.animation.AnimationEvent;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
+import com.stunapps.fearlessjumper.component.visual.AnimatorComponent;
+import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.Set;
@@ -72,11 +75,14 @@ public class MovementUpdateSystem implements UpdateSystem
             {
                 deltaX = periodicTranslation.maxX - entity.transform.position.x;
                 periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
+                //TODO: need to write it in more cleaner way.
+                ((AnimatorComponent)entity.getComponent(RenderableComponent.class)).triggerEvent(AnimationEvent.TURN_LEFT);
             }
             if (deltaX + entity.transform.position.x <= periodicTranslation.minX)
             {
                 deltaX = periodicTranslation.minX - entity.transform.position.x;
                 periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
+                ((AnimatorComponent)entity.getComponent(RenderableComponent.class)).triggerEvent(AnimationEvent.TURN_RIGHT);
             }
 
             entity.transform.position.x += deltaX;

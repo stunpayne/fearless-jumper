@@ -3,12 +3,18 @@ package com.stunapps.fearlessjumper.component.visual;
 import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.animation.Animation;
+import com.stunapps.fearlessjumper.animation.AnimationEvent;
+import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.core.FiniteStateMachine;
+import com.stunapps.fearlessjumper.core.State;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Singular;
+
+import static com.stunapps.fearlessjumper.animation.AnimationEvent.TURN_DOWN;
 
 /**
  * Created by sunny.s on 03/01/18.
@@ -17,13 +23,16 @@ import lombok.Singular;
 public class AnimatorComponent extends RenderableComponent<Bitmap>
 {
     @Singular
-    private Map<String, Animation> animations = new HashMap<>();
-    private String currentlyPlayingAnimation = null;
+    private Map<AnimationState, Animation> animations = new HashMap<>();
+    private FiniteStateMachine animationStateMachine;
+    private State currentAnimationState;
 
-    public AnimatorComponent(Map<String, Animation> animations, Delta delta, float width, float height)
+    public AnimatorComponent(Map<AnimationState, Animation> animations, Delta delta, float width, float height, FiniteStateMachine animationStateMachine)
     {
         super(RenderType.ANIMATOR, delta, width, height);
         this.animations = animations;
+        this.animationStateMachine = animationStateMachine;
+        this.currentAnimationState = AnimationState.FLY_RIGHT;
     }
 
     //  TODO: We need to add
@@ -33,36 +42,34 @@ public class AnimatorComponent extends RenderableComponent<Bitmap>
     //  For now, we will just keep a map of animations and call out which one to play from
     //  the game object
 
-    public void addAnimation(String animationName, Animation animation)
+    public void triggerEvent(AnimationEvent event)
+    {
+        currentAnimationState = animationStateMachine.transitStateOnEvent(event);
+    }
+
+    public void addAnimation(AnimationState animationName, Animation animation)
     {
         animations.put(animationName, animation);
     }
 
-    public void playAnimation(String animationName)
+    private Bitmap playAnimation()
     {
-        if (null != currentlyPlayingAnimation)
-        {
-            animations.get(currentlyPlayingAnimation).stop();
-            currentlyPlayingAnimation = null;
-        }
-        Animation animation = animations.get(animationName);
-        if (!animation.isPlaying())
-            animation.play();
-        currentlyPlayingAnimation = animationName;
+        Animation animation = animations.get(currentAnimationState);
+        return animation.play();
     }
 
     //  We will always reset the animation on stop
-    public void stopAnimation(String animationName)
+    public void stopAnimation()
     {
-        Animation animation = animations.get(animationName);
+        Animation animation = animations.get(currentAnimationState);
         if (animation.isPlaying())
             animation.stopAndReset();
-        currentlyPlayingAnimation = null;
+        currentAnimationState = null;
     }
 
     @Override
     public Bitmap getRenderable()
     {
-        return null;
+        return playAnimation();
     }
 }
