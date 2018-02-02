@@ -44,4 +44,9 @@ public class PhysicsComponent extends Component
             this.y = y;
         }
     }
+
+    public static class Friction
+    {
+
+    }
 }

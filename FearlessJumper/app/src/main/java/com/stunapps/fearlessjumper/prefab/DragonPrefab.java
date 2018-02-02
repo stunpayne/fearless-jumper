@@ -52,12 +52,6 @@ public class DragonPrefab extends Prefab
     {
         transform = new Transform(new Position(Constants.SCREEN_WIDTH / 2, 200));
 
-        /*
-        Bitmap dragonSprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT
-                .getResources(), R.drawable.dragon1);
-        components.add(new SpriteComponent(dragonSprite, new Delta(0, 0), dragonSprite.getWidth(),
-                dragonSprite.getHeight())); */
-
         Map<Event, State> eventStateMap = new HashMap<>();
         eventStateMap.put(TURN_UP, FLY_UP);
         eventStateMap.put(TURN_DOWN, FLY_DOWN);
@@ -79,25 +73,32 @@ public class DragonPrefab extends Prefab
                 .from(FLY_LEFT_UP).onEvents(eventStateMap)
                 .from(FLY_LEFT_DOWN).onEvents(eventStateMap).build();
 
-        Bitmap dragonSprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon1);
-        Animation flyRightAnim = new Animation(new Bitmap[]{dragonSprite});
+        Bitmap dragonSprite1 = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon_fly1);
+        Bitmap dragonSprite2 = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon_fly2);
+        Bitmap dragonSprite3 = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon_fly3);
+        Bitmap dragonSprite4 = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon_fly4);
+
+        Animation flyRightAnim = new Animation(new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
 
         Matrix m = new Matrix();
         m.preScale(-1, 1);
-        dragonSprite = Bitmap.createBitmap(dragonSprite, 0, 0, dragonSprite.getWidth(), dragonSprite.getHeight(), m, false);
-        Animation flyLeftAnim = new Animation(new Bitmap[]{dragonSprite});
+        dragonSprite1 = Bitmap.createBitmap(dragonSprite1, 0, 0, dragonSprite1.getWidth(), dragonSprite1.getHeight(), m, false);
+        dragonSprite2 = Bitmap.createBitmap(dragonSprite2, 0, 0, dragonSprite2.getWidth(), dragonSprite2.getHeight(), m, false);
+        dragonSprite3 = Bitmap.createBitmap(dragonSprite3, 0, 0, dragonSprite3.getWidth(), dragonSprite3.getHeight(), m, false);
+        dragonSprite4 = Bitmap.createBitmap(dragonSprite4, 0, 0, dragonSprite4.getWidth(), dragonSprite4.getHeight(), m, false);
+        Animation flyLeftAnim = new Animation(new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
 
         Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
         stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
         stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
-        components.add(new AnimatorComponent(stateAnimationMap, new Delta(0, 0), dragonSprite.getWidth(),
-                dragonSprite.getHeight(), playerAnimationStateMachine));
+        components.add(new AnimatorComponent(stateAnimationMap, new Delta(0, 0), dragonSprite1.getWidth(),
+                dragonSprite1.getHeight(), playerAnimationStateMachine));
 
-        components.add(new RectCollider(new Delta(0, 0), dragonSprite.getWidth(),
-                dragonSprite.getHeight()));
+        components.add(new RectCollider(new Delta(0, 0), dragonSprite1.getWidth(),
+                dragonSprite1.getHeight()));
         components.add(new PeriodicTranslation()
-                .withXMovement(0, Constants.SCREEN_WIDTH - dragonSprite.getWidth(), 5f));
+                .withXMovement(0, Constants.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
         components.add(new MoveDownComponent());
     }
 }

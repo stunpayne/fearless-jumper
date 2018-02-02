@@ -15,12 +15,20 @@ public class Animation
     protected boolean playing;
 
     private int currentFrame;
+    private float frameTime;
+    private long lastFrame;
 
     public Animation(Bitmap[] frames)
     {
+        this(frames, 0.0f);
+    }
+
+    public Animation(Bitmap[] frames, float animTime)
+    {
         this.frames = frames;
-        playing = false;
-        currentFrame = 0;
+        this.playing = false;
+        this.currentFrame = 0;
+        frameTime = animTime / frames.length;
     }
 
     public boolean isPlaying()
@@ -30,8 +38,12 @@ public class Animation
 
     public Bitmap play()
     {
-        currentFrame++;
-        currentFrame %= frames.length;
+        if (System.currentTimeMillis() - lastFrame > frameTime * 1000)
+        {
+            currentFrame++;
+            currentFrame = currentFrame >= frames.length ? 0 : currentFrame;
+            lastFrame = System.currentTimeMillis();
+        }
         return frames[currentFrame];
     }
 
@@ -54,17 +66,5 @@ public class Animation
     {
         stop();
         reset();
-    }
-
-    private void scaleRect(Rect rect)
-    {
-        float whRatio = (float) (frames[currentFrame].getWidth()) / frames[currentFrame].getHeight();
-        if (rect.width() > rect.height())
-        {
-            rect.left = rect.right - (int) (rect.height() * whRatio);
-        } else
-        {
-            rect.top = rect.bottom - (int) (rect.width() / whRatio);
-        }
     }
 }
