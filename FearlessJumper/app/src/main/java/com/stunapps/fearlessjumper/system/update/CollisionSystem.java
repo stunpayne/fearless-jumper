@@ -9,9 +9,14 @@ import com.stunapps.fearlessjumper.component.collider.Collider;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.system.listener.CollisionListener;
+import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGap.bridgeGapX;
@@ -27,6 +32,7 @@ public class CollisionSystem implements UpdateSystem
 
     private final ComponentManager componentManager;
     private static long lastProcessTime = System.nanoTime();
+    private List<CollisionListener> collisionListeners = new LinkedList<>();
 
     /**
      * This is not needed as we can use different logging levels like
@@ -38,6 +44,8 @@ public class CollisionSystem implements UpdateSystem
     public CollisionSystem(ComponentManager componentManager)
     {
         this.componentManager = componentManager;
+        collisionListeners.add(new DamageSystem());
+        collisionListeners.add(DI.di().getInstance(PhysicsSystem.class));
     }
 
     @Override
@@ -53,7 +61,7 @@ public class CollisionSystem implements UpdateSystem
 
         for (Entity entity : entities)
         {
-            if (entity.hasComponent(PhysicsComponent.class))
+            if (entity.hasComponent(PhysicsComponent.class) && ((PhysicsComponent) entity.getComponent(PhysicsComponent.class)).applyGravity)
             {
                 mobileEntitiesWithPhysics.add(entity);
             } else
@@ -68,11 +76,35 @@ public class CollisionSystem implements UpdateSystem
             {
                 if (isCollidingV2(mobileEntityWithPhysics, immobileEntity))
                 {
-                    resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
+                    CollisionResponse collisionResponse = resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
+                    for (CollisionListener collisionListener : collisionListeners)
+                    {
+                        collisionListener.applyCollision(mobileEntityWithPhysics, immobileEntity, collisionResponse, deltaTime);
+                    }
                 }
             }
 
         }
+
+        /*
+        Set<Entity> mobileEntities = new HashSet<>(mobileEntitiesWithPhysics);
+        for (Entity mobileEntityWithPhysics : mobileEntitiesWithPhysics)
+        {
+            mobileEntities.remove(mobileEntityWithPhysics);
+            for (Entity mobileEntity : mobileEntities)
+            {
+                if (isCollidingV2(mobileEntityWithPhysics, mobileEntity))
+                {
+                    float mass1 = ((PhysicsComponent)mobileEntityWithPhysics.getComponent(PhysicsComponent.class)).mass;
+                    float mass2 = ((PhysicsComponent)mobileEntity.getComponent(PhysicsComponent.class)).mass;
+                    resolveCollision(mobileEntityWithPhysics, mobileEntity, mass1/mass2);
+                    for (CollisionListener collisionListener : collisionListeners)
+                    {
+                        collisionListener.applyCollision(mobileEntityWithPhysics, mobileEntity, new CollisionResponse());
+                    }
+                }
+            }
+        } */
     }
 
     @Override
@@ -94,7 +126,7 @@ public class CollisionSystem implements UpdateSystem
         return false;
     }
 
-    private static void resolveCollision(Entity physicsEntity, Entity fixedEntity, float push)
+    private static CollisionResponse resolveCollision(Entity physicsEntity, Entity fixedEntity, float push)
     {
         //  The two objects are colliding. Now we have to find out how much to move
         //  each object and in which direction, to resolve collision.
@@ -121,6 +153,7 @@ public class CollisionSystem implements UpdateSystem
             // intersectX, push);
             bridgeGapX(physicsEntity, fixedEntity);
             physicsComponent1.velocity.x = 0;
+            return new CollisionResponse(CollisionResponse.CollisionFace.VERTICAL);
         } else
         {
             //  Collision will be resolved in y axis
@@ -128,6 +161,7 @@ public class CollisionSystem implements UpdateSystem
             // intersectY, push);
             bridgeGapY(physicsEntity, fixedEntity);
             physicsComponent1.velocity.y = 0;
+            return new CollisionResponse(CollisionResponse.CollisionFace.HORIZONTAL);
         }
     }
 
@@ -219,7 +253,7 @@ public class CollisionSystem implements UpdateSystem
     private static class CollisionResolver
     {
         public static void resolveXCollision(Entity entity1, Entity entity2,
-                float deltaXBetweenEntities, float intersectionMag, float push)
+                                             float deltaXBetweenEntities, float intersectionMag, float push)
         {
             if (deltaXBetweenEntities > 0.0f)
             {
@@ -239,7 +273,7 @@ public class CollisionSystem implements UpdateSystem
         }
 
         public static void resolveYCollision(Entity entity1, Entity entity2,
-                float deltaYBetweenEntities, float intersectionMag, float push)
+                                             float deltaYBetweenEntities, float intersectionMag, float push)
         {
             if (deltaYBetweenEntities > 0.0f)
             {

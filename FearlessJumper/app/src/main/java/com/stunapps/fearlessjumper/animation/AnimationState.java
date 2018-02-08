@@ -24,5 +24,7 @@ public enum AnimationState implements State
     FLY_RIGHT_UP,
     FLY_RIGHT_DOWN,
     FLY_LEFT_UP,
-    FLY_LEFT_DOWN
+    FLY_LEFT_DOWN,
+    TERMINATED,
+    HURT
 }

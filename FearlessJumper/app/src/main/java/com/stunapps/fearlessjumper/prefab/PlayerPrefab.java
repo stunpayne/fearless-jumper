@@ -5,10 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.stunapps.fearlessjumper.R;
-
-import static com.stunapps.fearlessjumper.animation.AnimationEvent.*;
-import static com.stunapps.fearlessjumper.animation.AnimationState.*;
-
+import com.stunapps.fearlessjumper.animation.Animation;
+import com.stunapps.fearlessjumper.animation.AnimationEvent;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
@@ -18,15 +16,18 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
-import com.stunapps.fearlessjumper.core.Event;
-import com.stunapps.fearlessjumper.core.FiniteStateMachine;
-import com.stunapps.fearlessjumper.core.State;
+import com.stunapps.fearlessjumper.component.visual.AnimatorComponent;
+import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.stunapps.fearlessjumper.animation.AnimationEvent.TERMINATE;
+import static com.stunapps.fearlessjumper.animation.AnimationState.HURT;
+import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
+import static com.stunapps.fearlessjumper.animation.AnimationState.TERMINATED;
 
 /**
  * Created by anand.verma on 12/01/18.
@@ -41,64 +42,35 @@ public class PlayerPrefab extends Prefab
         int y = Constants.SCREEN_HEIGHT - 150;
         transform = new Transform(new Position(x,
                 y), new Transform.Rotation(), new Transform.Scale());
-        Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
+        Bitmap alien = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
                 .alienblue);
-        components.add(new SpriteComponent(sprite, new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
+        Bitmap alienHurt = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
+                .alienblue_hurt);
 
+        Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);
+        Animation alienHurtAnim = new Animation(new Bitmap[]{alienHurt}, 0.5f);
 
-        Map<Event, State> eventStateMap = new HashMap<>();
-        eventStateMap.put(TURN_UP, WALK_UP);
-        eventStateMap.put(TURN_DOWN, WALK_DOWN);
-        eventStateMap.put(TURN_LEFT, WALK_LEFT);
-        eventStateMap.put(TURN_RIGHT, WALK_RIGHT);
-        eventStateMap.put(TURN_RIGHT_UP, WALK_RIGHT_UP);
-        eventStateMap.put(TURN_RIGHT_DOWN, WALK_RIGHT_DOWN);
-        eventStateMap.put(TURN_LEFT_UP, WALK_LEFT_UP);
-        eventStateMap.put(TURN_LEFT_DOWN, WALK_LEFT_DOWN);
+        Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
+        stateAnimationMap.put(IDLE, alienAnim);
+        stateAnimationMap.put(HURT, alienHurtAnim);
+        stateAnimationMap.put(TERMINATED, alienHurtAnim);
 
-        FiniteStateMachine playerAnimationStateMachine = FiniteStateMachine.builder().startState(IDLE)
-                .from(IDLE).onEvents(eventStateMap)
-                .from(WALK_DOWN).onEvents(eventStateMap)
-                .from(WALK_UP).onEvents(eventStateMap)
-                .from(WALK_LEFT).onEvents(eventStateMap)
-                .from(WALK_RIGHT).onEvents(eventStateMap)
-                .from(WALK_RIGHT_UP).onEvents(eventStateMap)
-                .from(WALK_RIGHT_DOWN).onEvents(eventStateMap)
-                .from(WALK_LEFT_UP).onEvents(eventStateMap)
-                .from(WALK_LEFT_DOWN).onEvents(eventStateMap).build();
+        StateMachine animationStateMachine = StateMachine.builder().startState(IDLE)
+                .from(IDLE).onEvent(AnimationEvent.HURT).toState(HURT)
+                .from(HURT).onEvent(TERMINATE).toState(TERMINATED)
+                .from(IDLE).onEvent(TERMINATE).toState(TERMINATED)
+                .from(HURT).onEvent(AnimationEvent.HURT).toState(HURT)
+                .from(HURT).onCountDown(2).toState(IDLE).build();
 
-        components.add(new RectCollider(new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
+        components.add(new AnimatorComponent(stateAnimationMap, new Delta(0, 0), alien.getWidth(),
+                alien.getHeight(), animationStateMachine));
+
+        components.add(new RectCollider(new Delta(0, 0), alien.getWidth(), alien.getHeight()));
         components.add(new Health(100));
         components.add(new PhysicsComponent(50, new PhysicsComponent.Velocity()));
         OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
         components.add(orientationInput);
         components.add(new PlayerComponent());
 
-    }
-
-    public static void main(String[] args)
-    {
-        Map<Event, State> eventStateMap = new HashMap<>();
-        eventStateMap.put(TURN_UP, WALK_UP);
-        eventStateMap.put(TURN_DOWN, WALK_DOWN);
-        eventStateMap.put(TURN_LEFT, WALK_LEFT);
-        eventStateMap.put(TURN_RIGHT, WALK_RIGHT);
-        eventStateMap.put(TURN_RIGHT_UP, WALK_RIGHT_UP);
-        eventStateMap.put(TURN_RIGHT_DOWN, WALK_RIGHT_DOWN);
-        eventStateMap.put(TURN_LEFT_UP, WALK_LEFT_UP);
-        eventStateMap.put(TURN_LEFT_DOWN, WALK_LEFT_DOWN);
-
-        FiniteStateMachine playerAnimationStateMachine = FiniteStateMachine.builder().startState(IDLE)
-                .from(IDLE).onEvents(eventStateMap)
-                .from(WALK_DOWN).onEvents(eventStateMap)
-                .from(WALK_UP).onEvents(eventStateMap)
-                .from(WALK_LEFT).onEvents(eventStateMap)
-                .from(WALK_RIGHT).onEvents(eventStateMap)
-                .from(WALK_RIGHT_UP).onEvents(eventStateMap)
-                .from(WALK_RIGHT_DOWN).onEvents(eventStateMap)
-                .from(WALK_LEFT_UP).onEvents(eventStateMap)
-                .from(WALK_LEFT_DOWN).onEvents(eventStateMap).build();
-
-        System.out.print(playerAnimationStateMachine.transitStateOnEvent(TURN_DOWN).getClass());
     }
 }

@@ -8,6 +8,7 @@ import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.MoveDownComponent;
 import com.stunapps.fearlessjumper.component.body.RigidBody;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
+import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
@@ -37,5 +38,6 @@ public class PlatformPrefab extends Prefab
                 sprite.getHeight()));
         components.add(new RectCollider(new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
         components.add(new MoveDownComponent());
+        components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false, new PhysicsComponent.Friction(1.5f, 1.5f, 1.5f, 1.5f)));
     }
 }

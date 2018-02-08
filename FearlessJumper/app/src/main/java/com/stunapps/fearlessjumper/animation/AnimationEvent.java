@@ -8,7 +8,8 @@ import com.stunapps.fearlessjumper.core.Event;
 
 public enum AnimationEvent implements Event
 {
-    DIE,
+    STOP,
+    TERMINATE,
     TURN_RIGHT,
     TURN_LEFT,
     TURN_UP,
@@ -16,5 +17,6 @@ public enum AnimationEvent implements Event
     TURN_RIGHT_UP,
     TURN_RIGHT_DOWN,
     TURN_LEFT_UP,
-    TURN_LEFT_DOWN
+    TURN_LEFT_DOWN,
+    HURT
 }
