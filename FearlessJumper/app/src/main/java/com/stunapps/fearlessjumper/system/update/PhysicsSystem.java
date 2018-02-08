@@ -66,27 +66,21 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
     @Override
     public void applyCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
     {
-        Log.d(TAG, "applyCollision: applying friction on collision : collisionFace = " + collisionResponse.collisionFace);
         if (entity1.hasComponent(PhysicsComponent.class) && entity2.hasComponent(PhysicsComponent.class))
         {
             switch ((collisionResponse.collisionFace))
             {
                 case HORIZONTAL:
-                    Log.d(TAG, "applyCollision: Applying horizontal collision");
                     resolveHorizontalFriction(entity1, entity2, deltaTime);
                     break;
                 case HORIZONTAL_REVERSE:
                     break;
                 case VERTICAL:
-                    Log.d(TAG, "applyCollision: Applying vertical collision");
                     resolveVerticalFriction(entity1, entity2, deltaTime);
                     break;
                 case VERTICAL_REVERSE:
                     break;
             }
-        } else
-        {
-            Log.d(TAG, "applyCollision: Not both entities are physics entities.");
         }
     }
 
