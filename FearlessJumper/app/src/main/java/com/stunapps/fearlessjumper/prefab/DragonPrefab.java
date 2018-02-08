@@ -78,7 +78,7 @@ public class DragonPrefab extends Prefab
         components.add(new PeriodicTranslation()
                 .withXMovement(0, Constants.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
         components.add(new MoveDownComponent());
-        components.add(new ContactDamageComponent(10));
+        components.add(new ContactDamageComponent(1));
         components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false));
     }
 }

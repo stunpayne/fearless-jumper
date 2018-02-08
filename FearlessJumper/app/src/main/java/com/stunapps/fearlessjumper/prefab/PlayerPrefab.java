@@ -60,7 +60,7 @@ public class PlayerPrefab extends Prefab
                 .from(HURT).onEvent(TERMINATE).toState(TERMINATED)
                 .from(IDLE).onEvent(TERMINATE).toState(TERMINATED)
                 .from(HURT).onEvent(AnimationEvent.HURT).toState(HURT)
-                .from(HURT).onCountDown(2).toState(IDLE).build();
+                .from(HURT).onCountDown(16).toState(IDLE).build();
 
         components.add(new AnimatorComponent(stateAnimationMap, new Delta(0, 0), alien.getWidth(),
                 alien.getHeight(), animationStateMachine));
