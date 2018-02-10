@@ -64,7 +64,7 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
     }
 
     @Override
-    public void applyCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
+    public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
     {
         if (entity1.hasComponent(PhysicsComponent.class) && entity2.hasComponent(PhysicsComponent.class))
         {

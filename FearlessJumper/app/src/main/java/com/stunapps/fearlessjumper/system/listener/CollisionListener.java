@@ -9,5 +9,5 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 public interface CollisionListener
 {
-    public void applyCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime);
+    public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime);
 }

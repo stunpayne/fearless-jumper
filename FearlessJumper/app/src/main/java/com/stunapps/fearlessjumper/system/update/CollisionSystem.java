@@ -79,7 +79,7 @@ public class CollisionSystem implements UpdateSystem
                     CollisionResponse collisionResponse = resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
                     for (CollisionListener collisionListener : collisionListeners)
                     {
-                        collisionListener.applyCollision(mobileEntityWithPhysics, immobileEntity, collisionResponse, deltaTime);
+                        collisionListener.onCollision(mobileEntityWithPhysics, immobileEntity, collisionResponse, deltaTime);
                     }
                 }
             }
@@ -100,7 +100,7 @@ public class CollisionSystem implements UpdateSystem
                     resolveCollision(mobileEntityWithPhysics, mobileEntity, mass1/mass2);
                     for (CollisionListener collisionListener : collisionListeners)
                     {
-                        collisionListener.applyCollision(mobileEntityWithPhysics, mobileEntity, new CollisionResponse());
+                        collisionListener.onCollision(mobileEntityWithPhysics, mobileEntity, new CollisionResponse());
                     }
                 }
             }

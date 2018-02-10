@@ -21,14 +21,14 @@ import static android.content.ContentValues.TAG;
  * Created by sunny.s on 03/01/18.
  */
 
-public class AnimatorComponent extends RenderableComponent<Bitmap>
+public class Animator extends RenderableComponent<Bitmap>
 {
     @Singular
     private Map<AnimationState, Animation> animations = new HashMap<>();
     private StateMachine animationStateMachine;
     private State currentAnimationState;
 
-    public AnimatorComponent(Map<AnimationState, Animation> animations, Delta delta, float width, float height, StateMachine animationStateMachine)
+    public Animator(Map<AnimationState, Animation> animations, Delta delta, float width, float height, StateMachine animationStateMachine)
     {
         super(RenderType.ANIMATOR, delta, width, height);
         this.animations = animations;
