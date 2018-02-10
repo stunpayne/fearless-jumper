@@ -29,9 +29,10 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
     private static final float GRAVITY = -9.8f;
 
     @Inject
-    public PhysicsSystem(ComponentManager componentManager)
+    public PhysicsSystem(ComponentManager componentManager, CollisionSystem collisionSystem)
     {
         this.componentManager = componentManager;
+        collisionSystem.registerObserver(this);
     }
 
     @Override
@@ -43,7 +44,9 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
         for (Entity entity : physicalEntities)
         {
-            if (((PhysicsComponent) entity.getComponent(PhysicsComponent.class)).mass > 0 && ((PhysicsComponent) entity.getComponent(PhysicsComponent.class)).applyGravity)
+            PhysicsComponent physicsComponent =
+                    (PhysicsComponent) entity.getComponent(PhysicsComponent.class);
+            if (physicsComponent.mass > 0 && physicsComponent.applyGravity)
             {
                 applyGravity(entity, deltaTime);
             }
@@ -58,15 +61,17 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
     private void applyGravity(Entity entity, long deltaTime)
     {
-        PhysicsComponent physicsComponent = (PhysicsComponent) entity.getComponent(
-                PhysicsComponent.class);
+        PhysicsComponent physicsComponent =
+                (PhysicsComponent) entity.getComponent(PhysicsComponent.class);
         physicsComponent.velocity.y -= (GRAVITY * scale() * deltaTime / ONE_SECOND_NANOS);
     }
 
     @Override
-    public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
+    public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse,
+            long deltaTime)
     {
-        if (entity1.hasComponent(PhysicsComponent.class) && entity2.hasComponent(PhysicsComponent.class))
+        if (entity1.hasComponent(PhysicsComponent.class) && entity2.hasComponent(
+                PhysicsComponent.class))
         {
             switch ((collisionResponse.collisionFace))
             {
@@ -86,9 +91,12 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
     private void resolveHorizontalFriction(Entity entity1, Entity entity2, long deltaTime)
     {
-        PhysicsComponent physicsComponent1 = (PhysicsComponent) entity1.getComponent(PhysicsComponent.class);
-        PhysicsComponent physicsComponent2 = (PhysicsComponent) entity2.getComponent(PhysicsComponent.class);
-        float friction = physicsComponent1.friction.bottomFriction + physicsComponent2.friction.topFriction;
+        PhysicsComponent physicsComponent1 =
+                (PhysicsComponent) entity1.getComponent(PhysicsComponent.class);
+        PhysicsComponent physicsComponent2 =
+                (PhysicsComponent) entity2.getComponent(PhysicsComponent.class);
+        float friction =
+                physicsComponent1.friction.bottomFriction + physicsComponent2.friction.topFriction;
         float entity1XVel = Math.abs(physicsComponent1.velocity.x);
         if (entity1XVel > 0)
         {
@@ -114,9 +122,12 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
     private void resolveVerticalFriction(Entity entity1, Entity entity2, long deltaTime)
     {
-        PhysicsComponent physicsComponent1 = (PhysicsComponent) entity1.getComponent(PhysicsComponent.class);
-        PhysicsComponent physicsComponent2 = (PhysicsComponent) entity2.getComponent(PhysicsComponent.class);
-        float friction = physicsComponent1.friction.rightFriction + physicsComponent2.friction.leftFriction;
+        PhysicsComponent physicsComponent1 =
+                (PhysicsComponent) entity1.getComponent(PhysicsComponent.class);
+        PhysicsComponent physicsComponent2 =
+                (PhysicsComponent) entity2.getComponent(PhysicsComponent.class);
+        float friction =
+                physicsComponent1.friction.rightFriction + physicsComponent2.friction.leftFriction;
         float entity1YVel = Math.abs(physicsComponent1.velocity.y);
         if (entity1YVel > 0)
         {

@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationEvent;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
@@ -16,6 +17,12 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 public class DamageSystem implements System, CollisionListener
 {
+    @Inject
+    public DamageSystem(CollisionSystem collisionSystem)
+    {
+        collisionSystem.registerObserver(this);
+    }
+
     @Override
     public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
     {

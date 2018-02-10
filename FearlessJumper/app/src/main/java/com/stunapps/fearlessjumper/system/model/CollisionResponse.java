@@ -19,7 +19,7 @@ public class CollisionResponse
      * VERTICAL - first entity's bottom collides with second entity's top.
      * VERTICAL_REVERSE - first entity's top collides with second entity's bottom.
      */
-    public static enum CollisionFace {
+    public enum CollisionFace {
         HORIZONTAL,
         HORIZONTAL_REVERSE,
         VERTICAL,
