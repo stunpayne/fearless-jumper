@@ -35,4 +35,10 @@ public class Health extends Component
     {
         return health <= 0;
     }
+
+    @Override
+    public Health clone() throws CloneNotSupportedException
+    {
+        return new Health(health);
+    }
 }

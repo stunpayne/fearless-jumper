@@ -77,4 +77,10 @@ public class Animator extends RenderableComponent<Bitmap>
     {
         return playAnimation();
     }
+
+    @Override
+    public Animator clone() throws CloneNotSupportedException
+    {
+        return new Animator(animations, delta, width, height, animationStateMachine);
+    }
 }

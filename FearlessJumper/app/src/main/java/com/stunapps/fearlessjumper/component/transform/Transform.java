@@ -35,6 +35,12 @@ public class Transform extends Component
         this.scale = scale;
     }
 
+    @Override
+    public Transform clone() throws CloneNotSupportedException
+    {
+        return new Transform(position, rotation, scale);
+    }
+
     @ToString
     public static class Rotation
     {

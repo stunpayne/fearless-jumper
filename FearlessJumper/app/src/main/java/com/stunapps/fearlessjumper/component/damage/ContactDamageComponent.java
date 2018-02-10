@@ -31,4 +31,10 @@ public class ContactDamageComponent extends DamageComponent
     {
         return false;
     }
+
+    @Override
+    public ContactDamageComponent clone() throws CloneNotSupportedException
+    {
+        return new ContactDamageComponent(damage);
+    }
 }

@@ -3,18 +3,18 @@ package com.stunapps.fearlessjumper.system.update;
 import android.util.Log;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.MoveDownComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.specific.BlockPlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.Constants;
-import com.stunapps.fearlessjumper.helper.Constants.Game;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
@@ -24,12 +24,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.system.update.CollisionSystem.isCollidingV2;
-
 /**
  * Created by sunny.s on 13/01/18.
  */
 
+@Singleton
 public class ObstacleGenerationSystem implements UpdateSystem
 {
     private final EntityManager entityManager;
@@ -39,6 +38,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
     private float speed = 1.0f;
     private static long lastProcessTime = 0;
     private ArrayList<Entity> activePlatforms = new ArrayList<>();
+    private Shuffler<Prefab> obstacleShuffler;
 
     private static Prefab platformPrefab;
     private static float platformWidth;
@@ -47,7 +47,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
 
     @Inject
     public ObstacleGenerationSystem(EntityManager entityManager, ComponentManager componentManager,
-                                    EntityTransformCalculator calculator)
+            EntityTransformCalculator calculator)
     {
         this.entityManager = entityManager;
         this.componentManager = componentManager;
@@ -57,6 +57,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
     @Override
     public void process(long deltaTime)
     {
+        initShuffler();
         if (lastProcessTime == 0)
         {
             lastProcessTime = System.currentTimeMillis();
@@ -68,40 +69,16 @@ public class ObstacleGenerationSystem implements UpdateSystem
         }
 
         Entity player = componentManager.getEntity(PlayerComponent.class);
-        Set<Entity> playerBlockers = componentManager.getEntities(BlockPlayerComponent.class);
         Set<Entity> movables = componentManager.getEntities(MoveDownComponent.class);
 
-        float playerVelocityY = yVelocity(player);
-        for (Entity playerBlocker : playerBlockers)
-        {
-//                if (isCollidingV2(player, playerBlocker))
-//                {
-//                    Log.d("OBSTACLES", "Moving activePlatforms down");
-//                    //  TODO: Check if there's a better way to do this. Sometimes the player
-//                    // moves below the collider
-////                    player.transform.position.y -= playerVelocityY;
-////                    translateAllMovablesDown(movables, playerVelocityY);
-//                }
-        }
-
         deletePlatformsOutOfScreen(movables);
-        createNewPlatformIfPossible(platformPrefab, player.transform.position);
+        createNewObstacleIfPossible(player.transform.position);
     }
 
     @Override
     public long getLastProcessTime()
     {
         return lastProcessTime;
-    }
-
-    private float yVelocity(Entity entity)
-    {
-        PhysicsComponent physicsComponent = (PhysicsComponent) entity.getComponent(
-                PhysicsComponent.class);
-        if (physicsComponent == null)
-            return 0;
-        else
-            return physicsComponent.velocity.y;
     }
 
     private void initialisePlatformsList()
@@ -123,7 +100,6 @@ public class ObstacleGenerationSystem implements UpdateSystem
 
     private void deletePlatformsOutOfScreen(Set<Entity> platforms)
     {
-        //  TODO: Delete all platforms out of screen, not just the first one
         for (Entity platform : platforms)
         {
             if (RenderSystem.getRenderRect(platform).top > Constants.SCREEN_HEIGHT)
@@ -131,25 +107,46 @@ public class ObstacleGenerationSystem implements UpdateSystem
         }
     }
 
-    private void createNewPlatformIfPossible(Prefab platformPrefab, Position playerPosition)
+    private void createNewObstacleIfPossible(Position playerPosition)
     {
         Entity topPlatform = activePlatforms.get(activePlatforms.size() - 1);
-        if ((Math.abs(topPlatform.transform.position.y - playerPosition.y) <= Constants
-                .SCREEN_HEIGHT))
+        if ((Math.abs(
+                topPlatform.transform.position.y - playerPosition.y) <= Constants.SCREEN_HEIGHT))
         {
-            Position spawnPosition = new Position((float) Math.random() * (Constants.SCREEN_WIDTH -
-                    platformWidth), topPlatform.transform.position.y + NEW_OBSTACLE_OFFSET);
-            activePlatforms.add(entityManager.instantiate(platformPrefab, new Transform
-                    (spawnPosition)));
+            Prefab spawnPrefab = obstacleShuffler.shuffle();
+            Position spawnPosition =
+                    new Position((float) Math.random() * (Constants.SCREEN_WIDTH - platformWidth),
+                            topPlatform.transform.position.y + NEW_OBSTACLE_OFFSET);
+            try
+            {
+                activePlatforms.add(
+                        entityManager.instantiate(spawnPrefab, new Transform(spawnPosition)));
+            }
+            catch (CloneNotSupportedException e)
+            {
+                e.printStackTrace();
+            }
             Log.i("NEW_OBSTACLE", "Created new platform at: " + spawnPosition);
         }
     }
 
-    private void translateAllMovablesDown(Set<Entity> platforms, float playerVelocityY)
+    private float yVelocity(Entity entity)
     {
-        for (Entity platform : platforms)
+        PhysicsComponent physicsComponent =
+                (PhysicsComponent) entity.getComponent(PhysicsComponent.class);
+        if (physicsComponent == null) return 0;
+        else return physicsComponent.velocity.y;
+    }
+
+    private void initShuffler()
+    {
+        if (obstacleShuffler == null)
         {
-            platform.transform.position.y -= playerVelocityY;
+            obstacleShuffler =
+                    new Shuffler.Builder<Prefab>()
+                            .returnItem(Prefabs.PLATFORM.get()).atLessThan(0.5f)
+                            .returnItem(Prefabs.DRAGON.get()).atLessThan(1f)
+                            .build();
         }
     }
 }

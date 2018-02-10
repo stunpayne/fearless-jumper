@@ -10,7 +10,6 @@ public enum Prefabs
     PLATFORM(new PlatformPrefab()),
     BOUNDARY(new SideBoundaryPrefab()),
     LAND(new LandPrefab()),
-    MIDSCREEN_COLLIDER(new MidScreenColliderPrefab()),
     DRAGON(new DragonPrefab());
 
     public Prefab prefab;

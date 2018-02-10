@@ -104,4 +104,10 @@ public class PhysicsComponent extends Component
             return rightFriction;
         }
     }
+
+    @Override
+    public PhysicsComponent clone() throws CloneNotSupportedException
+    {
+        return new PhysicsComponent(mass, velocity, applyGravity, friction);
+    }
 }

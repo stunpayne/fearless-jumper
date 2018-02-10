@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.core.OrientationData;
 import com.stunapps.fearlessjumper.helper.Constants;
@@ -66,5 +67,11 @@ public class OrientationInput extends Input
     public Delta getDeltaMovement()
     {
         return calculate();
+    }
+
+    @Override
+    public OrientationInput clone() throws CloneNotSupportedException
+    {
+        return new OrientationInput(orientationData);
     }
 }

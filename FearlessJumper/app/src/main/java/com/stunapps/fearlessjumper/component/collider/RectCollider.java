@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.component.collider;
 
+import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
 
 /**
@@ -11,5 +12,11 @@ public class RectCollider extends Collider
     public RectCollider(Delta delta, float width, float height)
     {
         super(delta, width, height);
+    }
+
+    @Override
+    public RectCollider clone() throws CloneNotSupportedException
+    {
+        return new RectCollider(this.delta, this.width, this.height);
     }
 }

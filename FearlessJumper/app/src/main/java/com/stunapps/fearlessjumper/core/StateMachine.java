@@ -23,9 +23,6 @@ public class StateMachine
      */
     private Map<State, CountDownState> countDownStates;
 
-    private static Builder builder;
-    ;
-
     public StateMachine(State startState, State terminalState, Map<State, Map<Event, State>> stateTransitionMap, Map<State, CountDownState> countDownStateMap)
     {
         this.startState = startState;

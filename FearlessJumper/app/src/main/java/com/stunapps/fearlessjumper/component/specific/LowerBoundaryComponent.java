@@ -12,4 +12,10 @@ public class LowerBoundaryComponent extends Component
     {
         super(LowerBoundaryComponent.class);
     }
+
+    @Override
+    public LowerBoundaryComponent clone() throws CloneNotSupportedException
+    {
+        return new LowerBoundaryComponent();
+    }
 }

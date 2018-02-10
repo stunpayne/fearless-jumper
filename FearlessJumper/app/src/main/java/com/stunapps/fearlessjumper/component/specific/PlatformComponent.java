@@ -12,4 +12,10 @@ public class PlatformComponent extends Component
     {
         super(PlatformComponent.class);
     }
+
+    @Override
+    public PlatformComponent clone() throws CloneNotSupportedException
+    {
+        return new PlatformComponent();
+    }
 }

@@ -10,4 +10,10 @@ public class MoveDownComponent extends Component
     {
         super(MoveDownComponent.class);
     }
+
+    @Override
+    public Component clone() throws CloneNotSupportedException
+    {
+        return new MoveDownComponent();
+    }
 }

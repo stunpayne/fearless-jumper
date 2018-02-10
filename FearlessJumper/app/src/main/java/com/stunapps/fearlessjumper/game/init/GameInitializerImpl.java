@@ -50,8 +50,16 @@ public class GameInitializerImpl implements GameInitializer
         Log.d("INIT", "Initialising game");
         final Entity player = entityManager.instantiate(Prefabs.PLAYER.get());
 
-        initPlatforms();
-        initBoundaries(player);
+        try
+        {
+            initPlatforms();
+            initBoundaries(player);
+        }
+        catch (CloneNotSupportedException e)
+        {
+            Log.e("INIT_ERROR", "Error while initialising game.");
+            e.printStackTrace();
+        }
 
         //        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
 
@@ -64,7 +72,7 @@ public class GameInitializerImpl implements GameInitializer
         initialised = true;
     }
 
-    private void initPlatforms()
+    private void initPlatforms() throws CloneNotSupportedException
     {
         Prefab platformPrefab = Prefabs.PLATFORM.get();
 
@@ -79,7 +87,7 @@ public class GameInitializerImpl implements GameInitializer
         entityManager.instantiate(platformPrefab, transform3);
     }
 
-    private void initBoundaries(Entity target)
+    private void initBoundaries(Entity target) throws CloneNotSupportedException
     {
 //        Transform leftBoundaryTransform = new Transform(
 //                new Position(-10, Constants.SCREEN_HEIGHT / 2), null, null);

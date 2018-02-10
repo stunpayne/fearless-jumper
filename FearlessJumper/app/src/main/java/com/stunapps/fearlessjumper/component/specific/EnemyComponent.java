@@ -8,8 +8,14 @@ import com.stunapps.fearlessjumper.component.Component;
 
 public class EnemyComponent extends Component
 {
-    public EnemyComponent(Class<? extends Component> componentType)
+    public EnemyComponent()
     {
         super(EnemyComponent.class);
+    }
+
+    @Override
+    public EnemyComponent clone() throws CloneNotSupportedException
+    {
+        return new EnemyComponent();
     }
 }

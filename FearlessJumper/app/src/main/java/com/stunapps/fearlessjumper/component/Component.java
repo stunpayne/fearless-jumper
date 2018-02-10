@@ -13,4 +13,5 @@ public abstract class Component
         this.componentType = componentType;
     }
 
+    public abstract Component clone() throws CloneNotSupportedException;
 }

@@ -12,4 +12,10 @@ public class PlayerComponent extends Component
     {
         super(PlayerComponent.class);
     }
+
+    @Override
+    public PlayerComponent clone() throws CloneNotSupportedException
+    {
+        return new PlayerComponent();
+    }
 }

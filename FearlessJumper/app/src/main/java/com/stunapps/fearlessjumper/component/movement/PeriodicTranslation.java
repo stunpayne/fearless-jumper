@@ -119,4 +119,10 @@ public class PeriodicTranslation extends Component
     {
         this.currSpeedY = newSpeedY;
     }
+
+    @Override
+    public PeriodicTranslation clone() throws CloneNotSupportedException
+    {
+        return new PeriodicTranslation(minX, maxX, speedX, minY, maxY, speedY);
+    }
 }

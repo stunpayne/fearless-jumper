@@ -24,4 +24,10 @@ public class AreaDamageComponent extends DamageComponent
     {
         return false;
     }
+
+    @Override
+    public AreaDamageComponent clone() throws CloneNotSupportedException
+    {
+        return new AreaDamageComponent(damage);
+    }
 }

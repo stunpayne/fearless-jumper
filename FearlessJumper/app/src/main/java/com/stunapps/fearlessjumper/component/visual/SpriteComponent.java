@@ -24,7 +24,7 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
         this.sprite = sprite;
     }
 
-    public void setSprite(Bitmap bitmap){
+    public void setSprite(Bitmap sprite){
         this.sprite = sprite;
     }
 
@@ -37,5 +37,11 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
     public Bitmap getRenderable()
     {
         return sprite;
+    }
+
+    @Override
+    public SpriteComponent clone() throws CloneNotSupportedException
+    {
+        return new SpriteComponent(sprite, delta, width, height);
     }
 }
