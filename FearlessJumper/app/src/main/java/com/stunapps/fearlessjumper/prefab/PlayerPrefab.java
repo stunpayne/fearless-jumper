@@ -16,7 +16,7 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.AnimatorComponent;
+import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Constants;
@@ -62,7 +62,7 @@ public class PlayerPrefab extends Prefab
                 .from(HURT).onEvent(AnimationEvent.HURT).toState(HURT)
                 .from(HURT).onCountDown(16).toState(IDLE).build();
 
-        components.add(new AnimatorComponent(stateAnimationMap, new Delta(0, 0), alien.getWidth(),
+        components.add(new Animator(stateAnimationMap, new Delta(0, 0), alien.getWidth(),
                 alien.getHeight(), animationStateMachine));
 
         components.add(new RectCollider(new Delta(0, 0), alien.getWidth(), alien.getHeight()));

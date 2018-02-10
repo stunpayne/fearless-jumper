@@ -1,9 +1,10 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationEvent;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
-import com.stunapps.fearlessjumper.component.visual.AnimatorComponent;
+import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.System;
@@ -16,8 +17,14 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 public class DamageSystem implements System, CollisionListener
 {
+    @Inject
+    public DamageSystem(CollisionSystem collisionSystem)
+    {
+        collisionSystem.registerObserver(this);
+    }
+
     @Override
-    public void applyCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
+    public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
     {
         Health health1 = entity1.getComponentV2(Health.class);
         DamageComponent damageComponent1 = entity1.getComponentV2(DamageComponent.class);
@@ -27,25 +34,27 @@ public class DamageSystem implements System, CollisionListener
 
         if (health1 != null && damageComponent2 != null)
         {
-            AnimatorComponent animatorComponent = ((AnimatorComponent) entity1.getComponent(RenderableComponent.class));
-            if (health1.damageHealth(damageComponent2.damage()))
+            Animator animator = ((Animator) entity1.getComponent(RenderableComponent.class));
+            health1.takeDamage(damageComponent2.damage());
+            if (health1.isOver())
             {
-                animatorComponent.triggerEvent(AnimationEvent.TERMINATE);
+                animator.triggerEvent(AnimationEvent.TERMINATE);
             } else
             {
-                animatorComponent.triggerEvent(AnimationEvent.HURT);
+                animator.triggerEvent(AnimationEvent.HURT);
             }
         }
 
         if (health2 != null && damageComponent1 != null)
         {
-            AnimatorComponent animatorComponent = ((AnimatorComponent) entity2.getComponent(RenderableComponent.class));
-            if (health2.damageHealth(damageComponent1.damage()))
+            Animator animator = ((Animator) entity2.getComponent(RenderableComponent.class));
+            health2.takeDamage(damageComponent1.damage());
+            if (health2.isOver())
             {
-                animatorComponent.triggerEvent(AnimationEvent.TERMINATE);
+                animator.triggerEvent(AnimationEvent.TERMINATE);
             } else
             {
-                animatorComponent.triggerEvent(AnimationEvent.HURT);
+                animator.triggerEvent(AnimationEvent.HURT);
             }
         }
     }

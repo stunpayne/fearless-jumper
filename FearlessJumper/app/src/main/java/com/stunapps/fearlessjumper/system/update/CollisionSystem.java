@@ -1,11 +1,13 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.transform.Position;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 
+import android.database.Observable;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
@@ -26,7 +28,8 @@ import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGa
  * Created by sunny.s on 03/01/18.
  */
 
-public class CollisionSystem implements UpdateSystem
+@Singleton
+public class CollisionSystem extends Observable<CollisionListener> implements UpdateSystem
 {
 
     private final ComponentManager componentManager;
@@ -43,16 +46,12 @@ public class CollisionSystem implements UpdateSystem
     public CollisionSystem(ComponentManager componentManager)
     {
         this.componentManager = componentManager;
-        collisionListeners.add(new DamageSystem());
-        collisionListeners.add(DI.di().getInstance(PhysicsSystem.class));
     }
 
     @Override
     public void process(long deltaTime)
     {
         lastProcessTime = System.currentTimeMillis();
-        //  Get transforms of all platforms in game and check for collision with player -- ?
-        //  Get transforms of all enemies in game and check for collision with player
         Set<Entity> entities = componentManager.getEntities(Collider.class);
 
         Set<Entity> mobileEntitiesWithPhysics = new HashSet<>();
@@ -76,9 +75,10 @@ public class CollisionSystem implements UpdateSystem
                 if (isColliding(mobileEntityWithPhysics, immobileEntity))
                 {
                     CollisionResponse collisionResponse = resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
-                    for (CollisionListener collisionListener : collisionListeners)
+                    //  mObservers comes from the Observable parent class
+                    for (CollisionListener collisionListener : mObservers)
                     {
-                        collisionListener.applyCollision(mobileEntityWithPhysics, immobileEntity, collisionResponse, deltaTime);
+                        collisionListener.onCollision(mobileEntityWithPhysics, immobileEntity, collisionResponse, deltaTime);
                     }
                 }
             }
@@ -99,7 +99,7 @@ public class CollisionSystem implements UpdateSystem
                     resolveCollision(mobileEntityWithPhysics, mobileEntity, mass1/mass2);
                     for (CollisionListener collisionListener : collisionListeners)
                     {
-                        collisionListener.applyCollision(mobileEntityWithPhysics, mobileEntity, new CollisionResponse());
+                        collisionListener.onCollision(mobileEntityWithPhysics, mobileEntity, new CollisionResponse());
                     }
                 }
             }

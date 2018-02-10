@@ -4,8 +4,9 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationEvent;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
-import com.stunapps.fearlessjumper.component.visual.AnimatorComponent;
+import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
+import com.stunapps.fearlessjumper.component.visual.RenderableComponent.RenderType;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.Set;
@@ -54,7 +55,7 @@ public class MovementUpdateSystem implements UpdateSystem
     public static class MovementUpdater
     {
         public static void updatePeriodicMotion(Entity entity,
-                                                PeriodicTranslation periodicTranslation)
+                PeriodicTranslation periodicTranslation)
         {
             if (periodicTranslation.movesInX())
             {
@@ -68,7 +69,7 @@ public class MovementUpdateSystem implements UpdateSystem
         }
 
         private static void moveEntityHorizontally(Entity entity,
-                                                   PeriodicTranslation periodicTranslation)
+                PeriodicTranslation periodicTranslation)
         {
             float deltaX = periodicTranslation.getCurrSpeedX();
             if (deltaX + entity.transform.position.x >= periodicTranslation.maxX)
@@ -76,20 +77,32 @@ public class MovementUpdateSystem implements UpdateSystem
                 deltaX = periodicTranslation.maxX - entity.transform.position.x;
                 periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
                 //TODO: need to write it in more cleaner way.
-                ((AnimatorComponent)entity.getComponent(RenderableComponent.class)).triggerEvent(AnimationEvent.TURN_LEFT);
+                if (entity.hasComponent(
+                        RenderableComponent.class) && ((RenderableComponent) entity.getComponent(
+                        RenderableComponent.class)).renderType == RenderType.ANIMATOR)
+                {
+                    ((Animator) entity.getComponent(RenderableComponent.class)).triggerEvent(
+                            AnimationEvent.TURN_LEFT);
+                }
             }
             if (deltaX + entity.transform.position.x <= periodicTranslation.minX)
             {
                 deltaX = periodicTranslation.minX - entity.transform.position.x;
                 periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
-                ((AnimatorComponent)entity.getComponent(RenderableComponent.class)).triggerEvent(AnimationEvent.TURN_RIGHT);
+                if (entity.hasComponent(
+                        RenderableComponent.class) && ((RenderableComponent) entity.getComponent(
+                        RenderableComponent.class)).renderType == RenderType.ANIMATOR)
+                {
+                    ((Animator) entity.getComponent(RenderableComponent.class)).triggerEvent(
+                            AnimationEvent.TURN_RIGHT);
+                }
             }
 
             entity.transform.position.x += deltaX;
         }
 
         private static void moveEntityVertically(Entity entity,
-                                                 PeriodicTranslation periodicTranslation)
+                PeriodicTranslation periodicTranslation)
         {
             float deltaY = periodicTranslation.getCurrSpeedY();
             if (deltaY + entity.transform.position.y >= periodicTranslation.maxY)

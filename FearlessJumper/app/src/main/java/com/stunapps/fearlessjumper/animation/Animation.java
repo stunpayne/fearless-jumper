@@ -1,9 +1,6 @@
 package com.stunapps.fearlessjumper.animation;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
 
 /**
  * Created by sunny.s on 03/01/18.
@@ -16,7 +13,7 @@ public class Animation
 
     private int currentFrame;
     private float frameTime;
-    private long lastFrame;
+    private long lastFramePlayTime;
 
     public Animation(Bitmap[] frames)
     {
@@ -38,11 +35,11 @@ public class Animation
 
     public Bitmap play()
     {
-        if (System.currentTimeMillis() - lastFrame > frameTime * 1000)
+        if (System.currentTimeMillis() - lastFramePlayTime > frameTime * 1000)
         {
             currentFrame++;
             currentFrame = currentFrame >= frames.length ? 0 : currentFrame;
-            lastFrame = System.currentTimeMillis();
+            lastFramePlayTime = System.currentTimeMillis();
         }
         return frames[currentFrame];
     }

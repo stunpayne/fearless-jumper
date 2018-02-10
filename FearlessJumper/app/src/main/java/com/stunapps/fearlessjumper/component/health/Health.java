@@ -22,13 +22,17 @@ public class Health extends Component
     }
 
     /**
-     *
      * @param damage is amount of damage causing to entity heaving health component.
      * @return returns true if entity's health exhausted, false otherwise.
      */
-    public boolean damageHealth(float damage){
+    public void takeDamage(float damage)
+    {
         float newHealth = (health - damage);
-        health = (newHealth) > 0 ?  newHealth : 0;
+        health = (newHealth) > 0 ? newHealth : 0;
+    }
+
+    public boolean isOver()
+    {
         return health <= 0;
     }
 }

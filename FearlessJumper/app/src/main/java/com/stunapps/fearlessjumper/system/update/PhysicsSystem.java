@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper.system.update;
 
-import android.util.Log;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
@@ -12,7 +10,6 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 import java.util.Set;
 
-import static android.content.ContentValues.TAG;
 import static com.stunapps.fearlessjumper.helper.Constants.ONE_SECOND_NANOS;
 import static com.stunapps.fearlessjumper.helper.Constants.scale;
 
@@ -29,9 +26,10 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
     private static final float GRAVITY = -9.8f;
 
     @Inject
-    public PhysicsSystem(ComponentManager componentManager)
+    public PhysicsSystem(ComponentManager componentManager, CollisionSystem collisionSystem)
     {
         this.componentManager = componentManager;
+        collisionSystem.registerObserver(this);
     }
 
     @Override
@@ -43,7 +41,9 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
         for (Entity entity : physicalEntities)
         {
-            if (((PhysicsComponent) entity.getComponent(PhysicsComponent.class)).mass > 0 && ((PhysicsComponent) entity.getComponent(PhysicsComponent.class)).applyGravity)
+            PhysicsComponent physicsComponent =
+                    (PhysicsComponent) entity.getComponent(PhysicsComponent.class);
+            if (physicsComponent.mass > 0 && physicsComponent.applyGravity)
             {
                 applyGravity(entity, deltaTime);
             }
@@ -64,9 +64,11 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
     }
 
     @Override
-    public void applyCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
+    public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse,
+            long deltaTime)
     {
-        if (entity1.hasComponent(PhysicsComponent.class) && entity2.hasComponent(PhysicsComponent.class))
+        if (entity1.hasComponent(PhysicsComponent.class) && entity2.hasComponent(
+                PhysicsComponent.class))
         {
             switch ((collisionResponse.collisionFace))
             {

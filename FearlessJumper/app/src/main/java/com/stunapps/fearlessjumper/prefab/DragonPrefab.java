@@ -15,16 +15,13 @@ import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.AnimatorComponent;
-import com.stunapps.fearlessjumper.core.Event;
+import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.core.StateMachine;
-import com.stunapps.fearlessjumper.core.State;
 import com.stunapps.fearlessjumper.helper.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.stunapps.fearlessjumper.animation.AnimationEvent.STOP;
 import static com.stunapps.fearlessjumper.animation.AnimationEvent.TURN_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationEvent.TURN_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
@@ -70,8 +67,11 @@ public class DragonPrefab extends Prefab
         stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
         stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
-        components.add(new AnimatorComponent(stateAnimationMap, new Delta(0, 0), dragonSprite1.getWidth(),
-                dragonSprite1.getHeight(), animationStateMachine));
+        Animator animator =
+                new Animator(stateAnimationMap, new Delta(0, 0), dragonSprite1.getWidth(),
+                        dragonSprite1.getHeight(), animationStateMachine);
+        animator.triggerEvent(TURN_RIGHT);
+        components.add(animator);
 
         components.add(new RectCollider(new Delta(0, 0), dragonSprite1.getWidth(),
                 dragonSprite1.getHeight()));

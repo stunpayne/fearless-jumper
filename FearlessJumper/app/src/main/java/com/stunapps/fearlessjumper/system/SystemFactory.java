@@ -22,4 +22,9 @@ class SystemFactory
     {
         return di().getInstance(systemType);
     }
+
+    System getSystem(Class<? extends System> systemType)
+    {
+        return di().getInstance(systemType);
+    }
 }

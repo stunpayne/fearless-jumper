@@ -30,7 +30,7 @@ public class PhysicsComponent extends Component
 
     public PhysicsComponent(float mass, Velocity velocity, boolean applyGravity)
     {
-        this(mass, velocity, applyGravity, new Friction());
+        this(mass, velocity, applyGravity, Friction.none);
     }
 
     public PhysicsComponent(float mass, Velocity velocity, boolean applyGravity, Friction friction)
@@ -65,6 +65,8 @@ public class PhysicsComponent extends Component
         public float bottomFriction;
         public float leftFriction;
         public float rightFriction;
+
+        public static Friction none = new Friction();
 
         public Friction()
         {
