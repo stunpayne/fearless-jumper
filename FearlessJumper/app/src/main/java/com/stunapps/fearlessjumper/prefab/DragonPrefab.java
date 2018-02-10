@@ -67,8 +67,11 @@ public class DragonPrefab extends Prefab
         stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
         stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
-        components.add(new Animator(stateAnimationMap, new Delta(0, 0), dragonSprite1.getWidth(),
-                dragonSprite1.getHeight(), animationStateMachine));
+        Animator animator =
+                new Animator(stateAnimationMap, new Delta(0, 0), dragonSprite1.getWidth(),
+                        dragonSprite1.getHeight(), animationStateMachine);
+        animator.triggerEvent(TURN_RIGHT);
+        components.add(animator);
 
         components.add(new RectCollider(new Delta(0, 0), dragonSprite1.getWidth(),
                 dragonSprite1.getHeight()));

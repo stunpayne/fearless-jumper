@@ -47,8 +47,6 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
     public CollisionSystem(ComponentManager componentManager)
     {
         this.componentManager = componentManager;
-//        collisionListeners.add();
-//        collisionListeners.add(DI.di().getInstance(PhysicsSystem.class));
     }
 
     @Override
