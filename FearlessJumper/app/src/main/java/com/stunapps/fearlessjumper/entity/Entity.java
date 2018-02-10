@@ -41,6 +41,11 @@ public class Entity
         return componentManager.getComponent(this, componentType);
     }
 
+    public <C extends Component> C getComponentV2(Class<C> componentType)
+    {
+        return componentManager.getComponentV2(this, componentType);
+    }
+
     public List<Component> getComponents()
     {
         return componentManager.getComponents(this);

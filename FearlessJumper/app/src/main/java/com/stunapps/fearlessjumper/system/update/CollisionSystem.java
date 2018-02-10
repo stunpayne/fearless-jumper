@@ -19,7 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGap.bridgeGapX;
 import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGap.bridgeGapY;
 
 
@@ -61,7 +60,7 @@ public class CollisionSystem implements UpdateSystem
 
         for (Entity entity : entities)
         {
-            if (entity.hasComponent(PhysicsComponent.class) && ((PhysicsComponent) entity.getComponent(PhysicsComponent.class)).applyGravity)
+            if (entity.hasComponent(PhysicsComponent.class) && entity.getComponentV2(PhysicsComponent.class).applyGravity)
             {
                 mobileEntitiesWithPhysics.add(entity);
             } else
@@ -74,7 +73,7 @@ public class CollisionSystem implements UpdateSystem
         {
             for (Entity immobileEntity : immobileEntities)
             {
-                if (isCollidingV2(mobileEntityWithPhysics, immobileEntity))
+                if (isColliding(mobileEntityWithPhysics, immobileEntity))
                 {
                     CollisionResponse collisionResponse = resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
                     for (CollisionListener collisionListener : collisionListeners)
@@ -93,7 +92,7 @@ public class CollisionSystem implements UpdateSystem
             mobileEntities.remove(mobileEntityWithPhysics);
             for (Entity mobileEntity : mobileEntities)
             {
-                if (isCollidingV2(mobileEntityWithPhysics, mobileEntity))
+                if (isColliding(mobileEntityWithPhysics, mobileEntity))
                 {
                     float mass1 = ((PhysicsComponent)mobileEntityWithPhysics.getComponent(PhysicsComponent.class)).mass;
                     float mass2 = ((PhysicsComponent)mobileEntity.getComponent(PhysicsComponent.class)).mass;
@@ -114,7 +113,7 @@ public class CollisionSystem implements UpdateSystem
     }
 
     //TODO: Push can be derived from masses for entities.
-    public static boolean isCollidingV2(Entity physicsEntity, Entity fixedEntity)
+    public static boolean isColliding(Entity physicsEntity, Entity fixedEntity)
     {
         float intersectX = calculateXIntersection(physicsEntity, fixedEntity);
         float intersectY = calculateYIntersection(physicsEntity, fixedEntity);
@@ -131,7 +130,7 @@ public class CollisionSystem implements UpdateSystem
         //  The two objects are colliding. Now we have to find out how much to move
         //  each object and in which direction, to resolve collision.
 
-        PhysicsComponent physicsComponent1 = (PhysicsComponent) physicsEntity.getComponent(
+        PhysicsComponent physicsComponent1 = physicsEntity.getComponentV2(
                 PhysicsComponent.class);
 
         float intersectX = calculateXIntersection(physicsEntity, fixedEntity);
@@ -149,9 +148,9 @@ public class CollisionSystem implements UpdateSystem
              *  Collision in x axis is of smaller magnitude than that in y axis
              *  So, collision will be resolved in x axis.
              */
-            //                resolveXCollision(entity1, entity2, deltaXBetweenEntities,
+            //CollisionResolver.resolveXCollision(physicsEntity, fixedEntity, deltaXBetweenEntities,
             // intersectX, push);
-            bridgeGapX(physicsEntity, fixedEntity);
+            BridgeGap.bridgeGapX(physicsEntity, fixedEntity);
             physicsComponent1.velocity.x = 0;
             return new CollisionResponse(CollisionResponse.CollisionFace.VERTICAL);
         } else
@@ -170,11 +169,11 @@ public class CollisionSystem implements UpdateSystem
         Position position1 = getTentativePosition(entity1);
         Position position2 = getTentativePosition(entity2);
 
-        Collider collider1 = (Collider) entity1.getComponent(Collider.class);
-        Collider collider2 = (Collider) entity2.getComponent(Collider.class);
+        Collider collider1 = entity1.getComponentV2(Collider.class);
+        Collider collider2 = entity2.getComponentV2(Collider.class);
 
-        float deltaXBetweenEntities = collider1.getCenter(position1).x - collider2.getCenter(
-                position2).x;
+        float deltaXBetweenEntities = collider1.getCenter(position1).x - collider2.getCenter(position2
+        ).x;
 
         return Math.abs(deltaXBetweenEntities) - (collider1.width / 2 + collider2.width / 2);
     }
@@ -184,11 +183,11 @@ public class CollisionSystem implements UpdateSystem
         Position position1 = getTentativePosition(entity1);
         Position position2 = getTentativePosition(entity2);
 
-        Collider collider1 = (Collider) entity1.getComponent(Collider.class);
-        Collider collider2 = (Collider) entity2.getComponent(Collider.class);
+        Collider collider1 = entity1.getComponentV2(Collider.class);
+        Collider collider2 = entity2.getComponentV2(Collider.class);
 
-        float deltaYBetweenEntities = collider1.getCenter(position1).y - collider2.getCenter(
-                position2).y;
+        float deltaYBetweenEntities = collider1.getCenter(position1).y - collider2.getCenter(position2
+        ).y;
 
         return Math.abs(deltaYBetweenEntities) - (collider1.height / 2 + collider2.height / 2);
     }
@@ -198,18 +197,18 @@ public class CollisionSystem implements UpdateSystem
     {
         public static void bridgeGapX(Entity physicalEntity, Entity fixedEntity)
         {
-            Collider physicalCollider = (Collider) physicalEntity.getComponent(Collider.class);
-            Collider fixedCollider = (Collider) fixedEntity.getComponent(Collider.class);
+            Collider physicalCollider = physicalEntity.getComponentV2(Collider.class);
+            Collider fixedCollider = fixedEntity.getComponentV2(Collider.class);
 
             Position physicalEntityPosition = physicalEntity.transform.position;
             Position fixedEntityPosition = fixedEntity.transform.position;
 
-            float currentDeltaX = physicalCollider.getCenter(
-                    physicalEntityPosition).x - fixedCollider.getCenter(fixedEntityPosition).x;
+            float currentDeltaX = physicalCollider.getCenter(physicalEntityPosition
+            ).x - fixedCollider.getCenter(fixedEntityPosition).x;
             float currentSeparationX = Math.abs(
                     currentDeltaX) - (physicalCollider.width / 2 + fixedCollider.width / 2);
 
-            PhysicsComponent physicsComponent = (PhysicsComponent) physicalEntity.getComponent(
+            PhysicsComponent physicsComponent = physicalEntity.getComponentV2(
                     PhysicsComponent.class);
             physicalEntity.transform.position.x += sign(
                     physicsComponent.velocity.x) * currentSeparationX;
@@ -220,18 +219,18 @@ public class CollisionSystem implements UpdateSystem
 
         public static void bridgeGapY(Entity physicalEntity, Entity fixedEntity)
         {
-            Collider physicalCollider = (Collider) physicalEntity.getComponent(Collider.class);
-            Collider fixedCollider = (Collider) fixedEntity.getComponent(Collider.class);
+            Collider physicalCollider = physicalEntity.getComponentV2(Collider.class);
+            Collider fixedCollider = fixedEntity.getComponentV2(Collider.class);
 
             Position physicalPosition = physicalEntity.transform.position;
             Position fixedPosition = fixedEntity.transform.position;
 
-            float currentDeltaY = physicalCollider.getCenter(
-                    physicalPosition).y - fixedCollider.getCenter(fixedPosition).y;
+            float currentDeltaY = physicalCollider.getCenter(physicalPosition
+            ).y - fixedCollider.getCenter(fixedPosition).y;
             float currentSeparationY = Math.abs(
                     currentDeltaY) - (physicalCollider.height / 2 + fixedCollider.height / 2);
 
-            PhysicsComponent physicsComponent = (PhysicsComponent) physicalEntity.getComponent(
+            PhysicsComponent physicsComponent = physicalEntity.getComponentV2(
                     PhysicsComponent.class);
             physicalEntity.transform.position.y += sign(
                     physicsComponent.velocity.y) * currentSeparationY;
@@ -312,7 +311,7 @@ public class CollisionSystem implements UpdateSystem
      */
     private static Position getTentativePosition(Entity entity)
     {
-        PhysicsComponent physicsComponent = (PhysicsComponent) entity.getComponent(
+        PhysicsComponent physicsComponent = entity.getComponentV2(
                 PhysicsComponent.class);
 
         if (physicsComponent == null) return entity.transform.position;

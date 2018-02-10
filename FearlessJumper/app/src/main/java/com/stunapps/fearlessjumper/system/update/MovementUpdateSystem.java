@@ -38,8 +38,8 @@ public class MovementUpdateSystem implements UpdateSystem
 
         for (Entity entity : periodicEntities)
         {
-            PeriodicTranslation periodicTranslationComponent = (PeriodicTranslation) entity
-                    .getComponent(PeriodicTranslation.class);
+            PeriodicTranslation periodicTranslationComponent = entity
+                    .getComponentV2(PeriodicTranslation.class);
             updatePeriodicMotion(entity, periodicTranslationComponent);
         }
     }

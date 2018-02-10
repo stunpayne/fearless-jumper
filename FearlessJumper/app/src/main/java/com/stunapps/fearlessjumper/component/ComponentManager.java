@@ -17,6 +17,8 @@ public interface ComponentManager
 
     public Component getComponent(Entity entity, Class<? extends Component> componentType);
 
+    public <C extends Component> C getComponentV2(Entity entity, Class<C> componentType);
+
     public boolean hasComponent(Entity entity, Class<? extends Component> componentType);
 
     public <C extends Component> List<C> getComponents(Entity entity);

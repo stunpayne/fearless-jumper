@@ -19,18 +19,17 @@ public class DamageSystem implements System, CollisionListener
     @Override
     public void applyCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
     {
-        Health health1 = (Health) entity1.getComponent(Health.class);
-        DamageComponent damageComponent1 = (DamageComponent) entity1.getComponent(DamageComponent.class);
+        Health health1 = entity1.getComponentV2(Health.class);
+        DamageComponent damageComponent1 = entity1.getComponentV2(DamageComponent.class);
 
-        Health health2 = (Health) entity2.getComponent(Health.class);
-        DamageComponent damageComponent2 = (DamageComponent) entity2.getComponent(DamageComponent.class);
+        Health health2 = entity2.getComponentV2(Health.class);
+        DamageComponent damageComponent2 = entity2.getComponentV2(DamageComponent.class);
 
         if (health1 != null && damageComponent2 != null)
         {
             AnimatorComponent animatorComponent = ((AnimatorComponent) entity1.getComponent(RenderableComponent.class));
             if (health1.damageHealth(damageComponent2.damage()))
             {
-                //Log.d(TAG, "applyCollision: damage between entity1 and entity2, entity's new health = " + health1.getHealth());
                 animatorComponent.triggerEvent(AnimationEvent.TERMINATE);
             } else
             {
@@ -43,7 +42,6 @@ public class DamageSystem implements System, CollisionListener
             AnimatorComponent animatorComponent = ((AnimatorComponent) entity2.getComponent(RenderableComponent.class));
             if (health2.damageHealth(damageComponent1.damage()))
             {
-                //Log.d(TAG, "applyCollision: damage between entity2 and entity1, entity's new health = " + health2.getHealth());
                 animatorComponent.triggerEvent(AnimationEvent.TERMINATE);
             } else
             {
