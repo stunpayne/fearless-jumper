@@ -14,7 +14,6 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.Constants;
-import com.stunapps.fearlessjumper.helper.Constants.Game;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
@@ -23,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
-
-import static com.stunapps.fearlessjumper.system.update.CollisionSystem.isCollidingV2;
 
 /**
  * Created by sunny.s on 13/01/18.
@@ -74,7 +71,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
         float playerVelocityY = yVelocity(player);
         for (Entity playerBlocker : playerBlockers)
         {
-//                if (isCollidingV2(player, playerBlocker))
+//                if (isColliding(player, playerBlocker))
 //                {
 //                    Log.d("OBSTACLES", "Moving activePlatforms down");
 //                    //  TODO: Check if there's a better way to do this. Sometimes the player
@@ -96,7 +93,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
 
     private float yVelocity(Entity entity)
     {
-        PhysicsComponent physicsComponent = (PhysicsComponent) entity.getComponent(
+        PhysicsComponent physicsComponent = entity.getComponentV2(
                 PhysicsComponent.class);
         if (physicsComponent == null)
             return 0;

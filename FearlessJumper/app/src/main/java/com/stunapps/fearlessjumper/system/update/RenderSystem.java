@@ -53,7 +53,7 @@ public class RenderSystem implements UpdateSystem
         //  Render all objects at their current positions
         for (Entity entity : entities)
         {
-            RenderableComponent component = (RenderableComponent) entity.getComponent(
+            RenderableComponent component = entity.getComponentV2(
                     RenderableComponent.class);
             switch (component.renderType)
             {
@@ -84,7 +84,7 @@ public class RenderSystem implements UpdateSystem
     {
         Position camPosition = Cameras.getMainCamera().position;
 
-        RenderableComponent component = (RenderableComponent) entity.getComponent(
+        RenderableComponent component = entity.getComponentV2(
                 RenderableComponent.class);
         int left = (int) ((entity.transform.position.x + component.delta.x) - camPosition.x);
         int top = (int) ((entity.transform.position.y + component.delta.y) - camPosition.y);

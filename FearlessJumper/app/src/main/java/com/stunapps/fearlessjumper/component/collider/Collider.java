@@ -3,8 +3,6 @@ package com.stunapps.fearlessjumper.component.collider;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.transform.Position;
-import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.Center;
 
 /**
  * Created by anand.verma on 12/01/18.
@@ -26,6 +24,7 @@ public abstract class Collider extends Component
 
     public Position getCenter(Position position)
     {
+        //Position position = entity.transform.position;
         return new Position(position.x + delta.x + width / 2, position.y + delta.y + height / 2);
     }
 }

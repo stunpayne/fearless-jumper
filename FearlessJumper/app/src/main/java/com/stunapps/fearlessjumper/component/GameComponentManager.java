@@ -88,6 +88,24 @@ public class GameComponentManager implements ComponentManager
     }
 
     @Override
+    public <C extends Component> C getComponentV2(Entity entity, Class<C> componentType)
+    {
+        Component component = null;
+        List<Component> components = entityToComponentMap.get(entity);
+        Iterator<Component> it = components.iterator();
+        while (it.hasNext())
+        {
+            Component componentFromList = it.next();
+            if (componentFromList.componentType.equals(componentType))
+            {
+                component = componentFromList;
+                break;
+            }
+        }
+        return componentType.cast(component);
+    }
+
+    @Override
     public List<Component> getComponents(Entity entity)
     {
         return entityToComponentMap.get(entity);

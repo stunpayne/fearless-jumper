@@ -45,6 +45,7 @@ public class EntityManager
         for (Component component : prefab.components)
         {
             entity.addComponent(component);
+            component.setEntity(entity);
         }
         return entity;
     }
