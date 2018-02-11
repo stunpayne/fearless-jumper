@@ -44,7 +44,9 @@ public class EntityManager
         {
             try
             {
-                entity.addComponent(component.clone());
+                Component clone = component.clone();
+                entity.addComponent(clone);
+                clone.setEntity(entity);
             }
             catch (CloneNotSupportedException e)
             {
@@ -60,7 +62,16 @@ public class EntityManager
         entityMap.put(entity.getId(), entity);
         for (Component component : prefab.components)
         {
-            entity.addComponent(component.clone());
+            try
+            {
+                Component clone = component.clone();
+                entity.addComponent(clone);
+                clone.setEntity(entity);
+            }
+            catch (CloneNotSupportedException e)
+            {
+                e.printStackTrace();
+            }
         }
         return entity;
     }

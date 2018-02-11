@@ -15,7 +15,7 @@ public interface ComponentManager
 
     public void deleteComponent(Entity entity, Class<? extends Component> componentType);
 
-    public Component getComponent(Entity entity, Class<? extends Component> componentType);
+    public <C extends Component> C getComponent(Entity entity, Class<C> componentType);
 
     public boolean hasComponent(Entity entity, Class<? extends Component> componentType);
 

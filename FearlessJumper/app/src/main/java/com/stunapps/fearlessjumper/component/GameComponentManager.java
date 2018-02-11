@@ -1,10 +1,6 @@
 package com.stunapps.fearlessjumper.component;
 
 import com.google.inject.Singleton;
-import com.stunapps.fearlessjumper.component.collider.Collider;
-import com.stunapps.fearlessjumper.component.collider.RectCollider;
-import com.stunapps.fearlessjumper.component.health.Health;
-import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 
@@ -70,7 +66,7 @@ public class GameComponentManager implements ComponentManager
     }
 
     @Override
-    public Component getComponent(Entity entity, Class<? extends Component> componentType)
+    public <C extends Component> C getComponent(Entity entity, Class<C> componentType)
     {
         Component component = null;
         List<Component> components = entityToComponentMap.get(entity);
@@ -84,7 +80,7 @@ public class GameComponentManager implements ComponentManager
                 break;
             }
         }
-        return component;
+        return componentType.cast(component);
     }
 
     @Override

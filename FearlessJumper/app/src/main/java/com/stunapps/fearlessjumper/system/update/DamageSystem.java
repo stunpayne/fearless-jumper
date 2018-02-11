@@ -26,11 +26,11 @@ public class DamageSystem implements System, CollisionListener
     @Override
     public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
     {
-        Health health1 = (Health) entity1.getComponent(Health.class);
-        DamageComponent damageComponent1 = (DamageComponent) entity1.getComponent(DamageComponent.class);
+        Health health1 = entity1.getComponent(Health.class);
+        DamageComponent damageComponent1 = entity1.getComponent(DamageComponent.class);
 
-        Health health2 = (Health) entity2.getComponent(Health.class);
-        DamageComponent damageComponent2 = (DamageComponent) entity2.getComponent(DamageComponent.class);
+        Health health2 = entity2.getComponent(Health.class);
+        DamageComponent damageComponent2 = entity2.getComponent(DamageComponent.class);
 
         if (health1 != null && damageComponent2 != null)
         {
@@ -38,7 +38,6 @@ public class DamageSystem implements System, CollisionListener
             health1.takeDamage(damageComponent2.damage());
             if (health1.isOver())
             {
-                //Log.d(TAG, "onCollision: damage between entity1 and entity2, entity's new health = " + health1.getHealth());
                 animator.triggerEvent(AnimationEvent.TERMINATE);
             } else
             {
@@ -52,7 +51,6 @@ public class DamageSystem implements System, CollisionListener
             health2.takeDamage(damageComponent1.damage());
             if (health2.isOver())
             {
-                //Log.d(TAG, "onCollision: damage between entity2 and entity1, entity's new health = " + health2.getHealth());
                 animator.triggerEvent(AnimationEvent.TERMINATE);
             } else
             {

@@ -20,22 +20,22 @@ import com.stunapps.fearlessjumper.helper.Constants;
 
 public class PlatformPrefab extends Prefab
 {
-    public PlatformPrefab()
-    {
-        components.add(new ObstacleComponent());
+	public PlatformPrefab()
+	{
+		components.add(new ObstacleComponent());
 
-        int x = Constants.SCREEN_WIDTH / 4;
-        int y = Constants.SCREEN_HEIGHT / 2 + 300;
-        transform =
-                new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
+		int x = Constants.SCREEN_WIDTH / 4;
+		int y = Constants.SCREEN_HEIGHT / 2 + 300;
+		transform =
+				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
 
-        Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(),
-                R.drawable.platform);
-        components.add(new SpriteComponent(sprite, new Delta(0, 0), sprite.getWidth(),
-                sprite.getHeight()));
-        components.add(new RectCollider(new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
-        components.add(new MoveDownComponent());
-        components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false,
-                new PhysicsComponent.Friction(1.5f, 1.5f, 1.5f, 1.5f)));
-    }
+		Bitmap sprite = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(),
+													 R.drawable.platform);
+		components.add(new SpriteComponent(sprite, new Delta(0, 0), sprite.getWidth(),
+										   sprite.getHeight()));
+		components.add(new RectCollider(new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
+		components.add(new MoveDownComponent());
+		components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false,
+											new PhysicsComponent.Friction(7.5f, 7.5f, 7.5f, 7.5f)));
+	}
 }

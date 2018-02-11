@@ -1,6 +1,5 @@
 package com.stunapps.fearlessjumper.entity;
 
-import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Transform;
@@ -36,7 +35,7 @@ public class Entity
         componentManager.addComponent(this, component);
     }
 
-    public Component getComponent(Class<? extends Component> componentType)
+    public <C extends Component> C getComponent(Class<C> componentType)
     {
         return componentManager.getComponent(this, componentType);
     }

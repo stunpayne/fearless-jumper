@@ -48,10 +48,8 @@ public class Shuffler<Item>
 		Float totalWeight = 0f;
 		for (Float weight : items.values())
 		{
-			System.out.println("Weight: " + weight);
 			totalWeight += weight;
 		}
-		System.out.println("Total weight: " + totalWeight.intValue());
 		this.totalWeight = totalWeight;
 		random = new Random();
 	}
@@ -66,9 +64,7 @@ public class Shuffler<Item>
 		{
 			if (randomWeight <= items.get(item))
 			{
-				//                System.out.println("Random: " + random.toString() + " weight: "
-				// + randomWeight);
-				Log.d("SHUFFLE", "Shuffled item: " + item.getClass().getSimpleName());
+				Log.v("SHUFFLE", "Shuffled item: " + item.getClass().getSimpleName());
 				return item;
 			}
 			randomWeight -= items.get(item);

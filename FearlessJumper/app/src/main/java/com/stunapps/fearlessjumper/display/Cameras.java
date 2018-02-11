@@ -34,11 +34,11 @@ public class Cameras
     }
 
     public static Camera createFollowCamera(Position position,
-            @Nullable Entity target, boolean lockXTranslate, boolean lockYTranslate,
-            float maxDeltaX, float maxDeltaY)
+            Entity target, boolean lockXTranslate, boolean lockYTranslate,
+            float minDeltaX, float minDeltaY)
     {
         Camera newCamera = new FollowCamera(position, target, lockXTranslate, lockYTranslate,
-                maxDeltaX, maxDeltaY);
+                minDeltaX, minDeltaY);
         activeCameras.add(newCamera);
         return newCamera;
     }
