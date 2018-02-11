@@ -42,7 +42,14 @@ public class EntityManager
         entityMap.put(entity.getId(), entity);
         for (Component component : prefab.components)
         {
-            entity.addComponent(component);
+            try
+            {
+                entity.addComponent(component.clone());
+            }
+            catch (CloneNotSupportedException e)
+            {
+                e.printStackTrace();
+            }
         }
         return entity;
     }

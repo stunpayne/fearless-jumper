@@ -7,14 +7,11 @@ import android.graphics.Rect;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
-import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
-import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.helper.Constants;
-import com.stunapps.fearlessjumper.helper.Constants.Game;
 
 import java.util.Set;
 

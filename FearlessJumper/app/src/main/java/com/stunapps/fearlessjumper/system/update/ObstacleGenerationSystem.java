@@ -7,7 +7,7 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.MoveDownComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
+import com.stunapps.fearlessjumper.component.specific.ObstacleComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
@@ -83,7 +83,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
 
     private void initialisePlatformsList()
     {
-        Set<Entity> entities = componentManager.getEntities(PlatformComponent.class);
+        Set<Entity> entities = componentManager.getEntities(ObstacleComponent.class);
         activePlatforms.addAll(entities);
 
         Collections.sort(activePlatforms, new Comparator<Entity>()

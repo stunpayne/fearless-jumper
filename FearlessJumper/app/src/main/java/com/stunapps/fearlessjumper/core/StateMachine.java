@@ -234,4 +234,10 @@ public class StateMachine
             return new StateMachine(startState, terminalState, stateTransitionMap, countDownStates);
         }
     }
+
+    @Override
+    public StateMachine clone() throws CloneNotSupportedException
+    {
+        return new StateMachine(startState, terminalState, stateTransitionMap, countDownStates);
+    }
 }

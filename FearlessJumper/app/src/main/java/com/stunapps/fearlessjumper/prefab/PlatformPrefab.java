@@ -8,7 +8,7 @@ import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.MoveDownComponent;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
+import com.stunapps.fearlessjumper.component.specific.ObstacleComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
@@ -22,7 +22,7 @@ public class PlatformPrefab extends Prefab
 {
     public PlatformPrefab()
     {
-        components.add(new PlatformComponent());
+        components.add(new ObstacleComponent());
 
         int x = Constants.SCREEN_WIDTH / 4;
         int y = Constants.SCREEN_HEIGHT / 2 + 300;

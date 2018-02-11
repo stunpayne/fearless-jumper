@@ -81,6 +81,6 @@ public class Animator extends RenderableComponent<Bitmap>
     @Override
     public Animator clone() throws CloneNotSupportedException
     {
-        return new Animator(animations, delta, width, height, animationStateMachine);
+        return new Animator(animations, delta, width, height, animationStateMachine.clone());
     }
 }
