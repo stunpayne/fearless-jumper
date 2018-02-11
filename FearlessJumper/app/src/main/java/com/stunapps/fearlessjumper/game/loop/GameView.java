@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.scene.SceneManager;
 import com.stunapps.fearlessjumper.system.update.ObstacleGenerationSystem;
 import com.stunapps.fearlessjumper.system.Systems;
 
@@ -21,23 +22,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
     private MainThread thread;
     private GameInitializer gameInitializer;
-    private final ObstacleGenerationSystem obstacleGenerationSystem;
 
-//    private SceneManager sceneManager;
+    private SceneManager sceneManager;
 
     @Inject
-    public GameView(Context context, GameInitializer gameInitializer, ObstacleGenerationSystem obstacleGenerationSystem)
+    public GameView(Context context, GameInitializer gameInitializer, SceneManager sceneManager)
     {
         super(context);
         this.gameInitializer = gameInitializer;
-        this.obstacleGenerationSystem = obstacleGenerationSystem;
         Constants.CURRENT_CONTEXT = context;
-        Log.d("CONTEXT", this.getClass() + " Context hash code: " + context.hashCode());
 
         getHolder().addCallback(this);
-//        thread = new MainThread(getHolder(), this);
 
-//        sceneManager = new SceneManager();
+        this.sceneManager = sceneManager;
         setFocusable(true);
     }
 
@@ -105,6 +102,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public void draw(Canvas canvas)
     {
         super.draw(canvas);
-//        sceneManager.draw(canvas);
+        sceneManager.draw(canvas);
     }
 }

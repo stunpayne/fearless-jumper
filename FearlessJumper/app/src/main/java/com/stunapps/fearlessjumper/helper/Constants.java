@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.helper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 
@@ -20,6 +21,7 @@ public class Constants
     public static float DISPLAY_DENSITY;
 
     public static Context CURRENT_CONTEXT;
+    public static Activity activity;
 
     public static long INIT_TIME;
     public static Canvas canvas;

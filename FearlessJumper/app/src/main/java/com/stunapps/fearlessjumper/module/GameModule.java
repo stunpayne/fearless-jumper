@@ -22,7 +22,6 @@ public class GameModule extends AbstractModule
     public GameModule(Context context)
     {
         this.context = context;
-        Log.d("CONTEXT", this.getClass() + " Context hash code: " + context.hashCode());
     }
 
     @Override
