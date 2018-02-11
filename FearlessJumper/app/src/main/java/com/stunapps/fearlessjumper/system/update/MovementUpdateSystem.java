@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import android.util.Log;
+
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationEvent;
 import com.stunapps.fearlessjumper.component.ComponentManager;

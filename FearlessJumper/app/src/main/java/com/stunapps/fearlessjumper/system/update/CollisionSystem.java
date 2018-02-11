@@ -32,10 +32,8 @@ import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGa
 @Singleton
 public class CollisionSystem extends Observable<CollisionListener> implements UpdateSystem
 {
-
     private final ComponentManager componentManager;
     private static long lastProcessTime = System.nanoTime();
-    private List<CollisionListener> collisionListeners = new LinkedList<>();
 
     /**
      * This is not needed as we can use different logging levels like

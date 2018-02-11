@@ -123,6 +123,11 @@ public class PeriodicTranslation extends Component
     @Override
     public PeriodicTranslation clone() throws CloneNotSupportedException
     {
-        return new PeriodicTranslation(minX, maxX, speedX, minY, maxY, speedY);
+        PeriodicTranslation clone = new PeriodicTranslation();
+        if (movesInX())
+            clone = clone.withXMovement(minX, maxX, speedX);
+        if (movesInY())
+            clone = clone.withYMovement(minY, maxY, speedY);
+        return clone;
     }
 }

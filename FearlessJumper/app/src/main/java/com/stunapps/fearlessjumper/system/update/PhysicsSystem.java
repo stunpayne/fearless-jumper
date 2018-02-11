@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper.system.update;
 
-import android.util.Log;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
@@ -12,7 +10,6 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 import java.util.Set;
 
-import static android.content.ContentValues.TAG;
 import static com.stunapps.fearlessjumper.helper.Constants.ONE_SECOND_NANOS;
 import static com.stunapps.fearlessjumper.helper.Constants.scale;
 

@@ -4,58 +4,123 @@ import android.util.Log;
 
 import org.roboguice.shaded.goole.common.collect.Maps;
 
-import java.util.SortedMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
 
 /**
  * Created by sunny.s on 10/02/18.
  */
 
+/**
+ * The Shuffler class takes in as input items and weights assigned to each.
+ * While shuffling, it generates a random number and checks every item's weight against that
+ * number. It returns the first element (in sorted order) whose weight is greater than the
+ * random number generated.
+ *
+ * @param <Item>
+ */
 public class Shuffler<Item>
 {
-    private SortedMap<Float, Item> items;
+	/**
+	 * Map of weights and items
+	 */
+	private Map<Item, Float> items;
 
-    public Shuffler(SortedMap<Float, Item> items)
-    {
-        this.items = Maps.newTreeMap(items);
-    }
+	/**
+	 * Total weight of all items calculated from the map
+	 */
+	private Float totalWeight;
 
-    public Item shuffle()
-    {
-        double random = Math.random();
-        for (Float weight : items.keySet())
-        {
-            if (random <= weight)
-            {
-                Log.d("SHUFFLE", "Returning item: " + items.get(weight).getClass());
-                return items.get(weight);
-            }
-        }
-        return items.values().iterator().next();
-    }
+	long seed = System.currentTimeMillis();
+	Random random;
+	int count = 0;
 
-    public static class Builder<T>
-    {
-        private SortedMap<Float, T> items = Maps.newTreeMap();
+	public Shuffler(Map<Item, Float> items)
+	{
+		this.items = Maps.newLinkedHashMap(items);
 
-        private T tempItem;
+		Float totalWeight = 0f;
+		for (Float weight : items.values())
+		{
+			System.out.println("Weight: " + weight);
+			totalWeight += weight;
+		}
+		System.out.println("Total weight: " + totalWeight.intValue());
+		this.totalWeight = totalWeight;
+		random = new Random();
+	}
 
-        public Builder<T> returnItem(T item)
-        {
-            tempItem = item;
-            return this;
-        }
+	public Item shuffle()
+	{
+		//        double random = Math.random();
+		//        double randomWeight = random * totalWeight;
+		double randomWeight = random.nextDouble() * totalWeight;
+		if (randomWeight > 5f) count++;
+		for (Item item : items.keySet())
+		{
+			if (randomWeight <= items.get(item))
+			{
+				//                System.out.println("Random: " + random.toString() + " weight: "
+				// + randomWeight);
+				Log.d("SHUFFLE", "Shuffled item: " + item.getClass().getSimpleName());
+				return item;
+			}
+			randomWeight -= items.get(item);
+		}
+		return items.keySet().iterator().next();
+	}
 
-        public Builder<T> atLessThan(Float weight)
-        {
-            if (tempItem == null) throw new IllegalArgumentException();
-            items.put(weight, tempItem);
-            tempItem = null;
-            return this;
-        }
+	public static class Builder<T>
+	{
+		private Map<T, Float> items = new HashMap<>();
 
-        public Shuffler<T> build()
-        {
-            return new Shuffler<T>(items);
-        }
-    }
+		private T tempItem;
+
+		public Builder<T> returnItem(T item)
+		{
+			tempItem = item;
+			return this;
+		}
+
+		public Builder<T> withWeight(Float weight)
+		{
+			if (tempItem == null) throw new IllegalArgumentException();
+			items.put(tempItem, weight);
+			tempItem = null;
+			return this;
+		}
+
+		public Shuffler<T> build()
+		{
+			ArrayList<Entry<T, Float>> entryList = new ArrayList<>(items.entrySet());
+			Collections.sort(entryList, new Comparator<Entry<T, Float>>()
+			{
+				@Override
+				public int compare(Entry<T, Float> o1, Entry<T, Float> o2)
+				{
+					return (int) (o1.getValue() - o2.getValue());
+				}
+			});
+			System.out.println("Sorted entry list: " + entryList);
+			LinkedHashMap<T, Float> orderedMap = new LinkedHashMap<>();
+			for (Entry<T, Float> entry : entryList)
+			{
+				orderedMap.put(entry.getKey(), entry.getValue());
+			}
+			System.out.println("Sorted map: " + orderedMap);
+
+			return new Shuffler<T>(orderedMap);
+		}
+	}
+
+	public int getCount()
+	{
+		return count;
+	}
 }
