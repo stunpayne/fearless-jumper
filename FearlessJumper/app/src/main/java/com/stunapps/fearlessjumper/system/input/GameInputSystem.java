@@ -12,7 +12,6 @@ import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
-import com.stunapps.fearlessjumper.system.input.processor.PlayerInputProcessor;
 
 import java.util.Set;
 
@@ -43,7 +42,7 @@ public class GameInputSystem implements InputSystem
         {
             Entity entity = entitySet.iterator().next();
 
-            if (entity.getComponent(PlayerComponent.class) != null)
+            if (entity.hasComponent(PlayerComponent.class))
             {
                 //  The entity has a player component
                 inputProcessorFactory.get(PlayerComponent.class).process(entity, motionEvent);

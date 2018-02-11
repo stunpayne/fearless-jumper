@@ -26,11 +26,11 @@ public class DamageSystem implements System, CollisionListener
     @Override
     public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse, long deltaTime)
     {
-        Health health1 = entity1.getComponentV2(Health.class);
-        DamageComponent damageComponent1 = entity1.getComponentV2(DamageComponent.class);
+        Health health1 = entity1.getComponent(Health.class);
+        DamageComponent damageComponent1 = entity1.getComponent(DamageComponent.class);
 
-        Health health2 = entity2.getComponentV2(Health.class);
-        DamageComponent damageComponent2 = entity2.getComponentV2(DamageComponent.class);
+        Health health2 = entity2.getComponent(Health.class);
+        DamageComponent damageComponent2 = entity2.getComponent(DamageComponent.class);
 
         if (health1 != null && damageComponent2 != null)
         {

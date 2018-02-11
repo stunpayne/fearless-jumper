@@ -40,7 +40,7 @@ public class MovementUpdateSystem implements UpdateSystem
         for (Entity entity : periodicEntities)
         {
             PeriodicTranslation periodicTranslationComponent = entity
-                    .getComponentV2(PeriodicTranslation.class);
+                    .getComponent(PeriodicTranslation.class);
             updatePeriodicMotion(entity, periodicTranslationComponent);
         }
     }
@@ -78,7 +78,7 @@ public class MovementUpdateSystem implements UpdateSystem
                 periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
                 //TODO: need to write it in more cleaner way.
                 if (entity.hasComponent(
-                        RenderableComponent.class) && ((RenderableComponent) entity.getComponent(
+                        RenderableComponent.class) && (entity.getComponent(
                         RenderableComponent.class)).renderType == RenderType.ANIMATOR)
                 {
                     ((Animator) entity.getComponent(RenderableComponent.class)).triggerEvent(
@@ -90,7 +90,7 @@ public class MovementUpdateSystem implements UpdateSystem
                 deltaX = periodicTranslation.minX - entity.transform.position.x;
                 periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
                 if (entity.hasComponent(
-                        RenderableComponent.class) && ((RenderableComponent) entity.getComponent(
+                        RenderableComponent.class) && (entity.getComponent(
                         RenderableComponent.class)).renderType == RenderType.ANIMATOR)
                 {
                     ((Animator) entity.getComponent(RenderableComponent.class)).triggerEvent(

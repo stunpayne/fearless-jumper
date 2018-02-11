@@ -11,7 +11,6 @@ import android.database.Observable;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.listener.CollisionListener;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse;
@@ -34,7 +33,6 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
 
     private final ComponentManager componentManager;
     private static long lastProcessTime = System.nanoTime();
-    private List<CollisionListener> collisionListeners = new LinkedList<>();
 
     /**
      * This is not needed as we can use different logging levels like
@@ -59,7 +57,7 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
 
         for (Entity entity : entities)
         {
-            if (entity.hasComponent(PhysicsComponent.class) && entity.getComponentV2(PhysicsComponent.class).applyGravity)
+            if (entity.hasComponent(PhysicsComponent.class) && entity.getComponent(PhysicsComponent.class).applyGravity)
             {
                 mobileEntitiesWithPhysics.add(entity);
             } else
@@ -130,7 +128,7 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
         //  The two objects are colliding. Now we have to find out how much to move
         //  each object and in which direction, to resolve collision.
 
-        PhysicsComponent physicsComponent1 = physicsEntity.getComponentV2(
+        PhysicsComponent physicsComponent1 = physicsEntity.getComponent(
                 PhysicsComponent.class);
 
         float intersectX = calculateXIntersection(physicsEntity, fixedEntity);
@@ -169,8 +167,8 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
         Position position1 = getTentativePosition(entity1);
         Position position2 = getTentativePosition(entity2);
 
-        Collider collider1 = entity1.getComponentV2(Collider.class);
-        Collider collider2 = entity2.getComponentV2(Collider.class);
+        Collider collider1 = entity1.getComponent(Collider.class);
+        Collider collider2 = entity2.getComponent(Collider.class);
 
         float deltaXBetweenEntities = collider1.getCenter(position1).x - collider2.getCenter(position2
         ).x;
@@ -183,8 +181,8 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
         Position position1 = getTentativePosition(entity1);
         Position position2 = getTentativePosition(entity2);
 
-        Collider collider1 = entity1.getComponentV2(Collider.class);
-        Collider collider2 = entity2.getComponentV2(Collider.class);
+        Collider collider1 = entity1.getComponent(Collider.class);
+        Collider collider2 = entity2.getComponent(Collider.class);
 
         float deltaYBetweenEntities = collider1.getCenter(position1).y - collider2.getCenter(position2
         ).y;
@@ -197,8 +195,8 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
     {
         public static void bridgeGapX(Entity physicalEntity, Entity fixedEntity)
         {
-            Collider physicalCollider = physicalEntity.getComponentV2(Collider.class);
-            Collider fixedCollider = fixedEntity.getComponentV2(Collider.class);
+            Collider physicalCollider = physicalEntity.getComponent(Collider.class);
+            Collider fixedCollider = fixedEntity.getComponent(Collider.class);
 
             Position physicalEntityPosition = physicalEntity.transform.position;
             Position fixedEntityPosition = fixedEntity.transform.position;
@@ -208,7 +206,7 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
             float currentSeparationX = Math.abs(
                     currentDeltaX) - (physicalCollider.width / 2 + fixedCollider.width / 2);
 
-            PhysicsComponent physicsComponent = physicalEntity.getComponentV2(
+            PhysicsComponent physicsComponent = physicalEntity.getComponent(
                     PhysicsComponent.class);
             physicalEntity.transform.position.x += sign(
                     physicsComponent.velocity.x) * currentSeparationX;
@@ -219,8 +217,8 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
 
         public static void bridgeGapY(Entity physicalEntity, Entity fixedEntity)
         {
-            Collider physicalCollider = physicalEntity.getComponentV2(Collider.class);
-            Collider fixedCollider = fixedEntity.getComponentV2(Collider.class);
+            Collider physicalCollider = physicalEntity.getComponent(Collider.class);
+            Collider fixedCollider = fixedEntity.getComponent(Collider.class);
 
             Position physicalPosition = physicalEntity.transform.position;
             Position fixedPosition = fixedEntity.transform.position;
@@ -230,7 +228,7 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
             float currentSeparationY = Math.abs(
                     currentDeltaY) - (physicalCollider.height / 2 + fixedCollider.height / 2);
 
-            PhysicsComponent physicsComponent = physicalEntity.getComponentV2(
+            PhysicsComponent physicsComponent = physicalEntity.getComponent(
                     PhysicsComponent.class);
             physicalEntity.transform.position.y += sign(
                     physicsComponent.velocity.y) * currentSeparationY;
@@ -311,7 +309,7 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
      */
     private static Position getTentativePosition(Entity entity)
     {
-        PhysicsComponent physicsComponent = entity.getComponentV2(
+        PhysicsComponent physicsComponent = entity.getComponent(
                 PhysicsComponent.class);
 
         if (physicsComponent == null) return entity.transform.position;

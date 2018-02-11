@@ -93,7 +93,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
 
     private float yVelocity(Entity entity)
     {
-        PhysicsComponent physicsComponent = entity.getComponentV2(
+        PhysicsComponent physicsComponent = entity.getComponent(
                 PhysicsComponent.class);
         if (physicsComponent == null)
             return 0;

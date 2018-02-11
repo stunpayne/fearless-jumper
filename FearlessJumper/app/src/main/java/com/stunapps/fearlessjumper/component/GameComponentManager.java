@@ -1,10 +1,6 @@
 package com.stunapps.fearlessjumper.component;
 
 import com.google.inject.Singleton;
-import com.stunapps.fearlessjumper.component.collider.Collider;
-import com.stunapps.fearlessjumper.component.collider.RectCollider;
-import com.stunapps.fearlessjumper.component.health.Health;
-import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 
@@ -70,25 +66,7 @@ public class GameComponentManager implements ComponentManager
     }
 
     @Override
-    public Component getComponent(Entity entity, Class<? extends Component> componentType)
-    {
-        Component component = null;
-        List<Component> components = entityToComponentMap.get(entity);
-        Iterator<Component> it = components.iterator();
-        while (it.hasNext())
-        {
-            Component componentFromList = it.next();
-            if (componentFromList.componentType.equals(componentType))
-            {
-                component = componentFromList;
-                break;
-            }
-        }
-        return component;
-    }
-
-    @Override
-    public <C extends Component> C getComponentV2(Entity entity, Class<C> componentType)
+    public <C extends Component> C getComponent(Entity entity, Class<C> componentType)
     {
         Component component = null;
         List<Component> components = entityToComponentMap.get(entity);

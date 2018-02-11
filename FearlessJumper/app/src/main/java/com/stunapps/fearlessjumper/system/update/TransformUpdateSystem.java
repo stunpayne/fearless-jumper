@@ -42,9 +42,9 @@ public class TransformUpdateSystem implements UpdateSystem
 
         for (Entity movable : movables)
         {
-            PhysicsComponent physicsComponent = movable.getComponentV2(
+            PhysicsComponent physicsComponent = movable.getComponent(
                     PhysicsComponent.class);
-            RenderableComponent renderable = movable.getComponentV2(
+            RenderableComponent renderable = movable.getComponent(
                     RenderableComponent.class);
             if (movable.hasComponent(PlayerComponent.class))
                 movePlayerTransform(movable.transform, physicsComponent.velocity, renderable);

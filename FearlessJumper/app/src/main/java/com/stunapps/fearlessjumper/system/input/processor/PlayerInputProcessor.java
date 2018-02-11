@@ -51,7 +51,7 @@ public class PlayerInputProcessor implements InputProcessor
             Log.d("INPUT", "Action Down detected");
             Rect entityCanvasRect = RenderSystem.getRenderRect(entity);
             applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
-                    entity.getComponentV2(PhysicsComponent.class),
+                    entity.getComponent(PhysicsComponent.class),
                     motionEvent);
         }
     }

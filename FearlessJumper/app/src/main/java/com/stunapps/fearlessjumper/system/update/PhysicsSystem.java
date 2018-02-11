@@ -41,8 +41,7 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
         for (Entity entity : physicalEntities)
         {
-            PhysicsComponent physicsComponent =
-                    (PhysicsComponent) entity.getComponent(PhysicsComponent.class);
+            PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
             if (physicsComponent.mass > 0 && physicsComponent.applyGravity)
             {
                 applyGravity(entity, deltaTime);
@@ -58,7 +57,7 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
     private void applyGravity(Entity entity, long deltaTime)
     {
-        PhysicsComponent physicsComponent = entity.getComponentV2(
+        PhysicsComponent physicsComponent = entity.getComponent(
                 PhysicsComponent.class);
         physicsComponent.velocity.y -= (GRAVITY * scale() * deltaTime / ONE_SECOND_NANOS);
     }
@@ -88,8 +87,8 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
     private void resolveHorizontalFriction(Entity entity1, Entity entity2, long deltaTime)
     {
-        PhysicsComponent physicsComponent1 = entity1.getComponentV2(PhysicsComponent.class);
-        PhysicsComponent physicsComponent2 = entity2.getComponentV2(PhysicsComponent.class);
+        PhysicsComponent physicsComponent1 = entity1.getComponent(PhysicsComponent.class);
+        PhysicsComponent physicsComponent2 = entity2.getComponent(PhysicsComponent.class);
         float friction = physicsComponent1.friction.bottomFriction + physicsComponent2.friction.topFriction;
         float entity1XVel = Math.abs(physicsComponent1.velocity.x);
         if (entity1XVel > 0)
@@ -116,8 +115,8 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 
     private void resolveVerticalFriction(Entity entity1, Entity entity2, long deltaTime)
     {
-        PhysicsComponent physicsComponent1 = entity1.getComponentV2(PhysicsComponent.class);
-        PhysicsComponent physicsComponent2 = entity2.getComponentV2(PhysicsComponent.class);
+        PhysicsComponent physicsComponent1 = entity1.getComponent(PhysicsComponent.class);
+        PhysicsComponent physicsComponent2 = entity2.getComponent(PhysicsComponent.class);
         float friction = physicsComponent1.friction.rightFriction + physicsComponent2.friction.leftFriction;
         float entity1YVel = Math.abs(physicsComponent1.velocity.y);
         if (entity1YVel > 0)

@@ -7,14 +7,11 @@ import android.graphics.Rect;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
-import com.stunapps.fearlessjumper.component.specific.PlatformComponent;
-import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.helper.Constants;
-import com.stunapps.fearlessjumper.helper.Constants.Game;
 
 import java.util.Set;
 
@@ -53,7 +50,7 @@ public class RenderSystem implements UpdateSystem
         //  Render all objects at their current positions
         for (Entity entity : entities)
         {
-            RenderableComponent component = entity.getComponentV2(
+            RenderableComponent component = entity.getComponent(
                     RenderableComponent.class);
             switch (component.renderType)
             {
@@ -84,7 +81,7 @@ public class RenderSystem implements UpdateSystem
     {
         Position camPosition = Cameras.getMainCamera().position;
 
-        RenderableComponent component = entity.getComponentV2(
+        RenderableComponent component = entity.getComponent(
                 RenderableComponent.class);
         int left = (int) ((entity.transform.position.x + component.delta.x) - camPosition.x);
         int top = (int) ((entity.transform.position.y + component.delta.y) - camPosition.y);
