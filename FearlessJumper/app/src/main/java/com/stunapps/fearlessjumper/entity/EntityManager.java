@@ -58,21 +58,8 @@ public class EntityManager
 
     public Entity instantiate(Prefab prefab, Transform transform) throws CloneNotSupportedException
     {
-        Entity entity = new Entity(componentManager, this, transform, rand.nextInt());
-        entityMap.put(entity.getId(), entity);
-        for (Component component : prefab.components)
-        {
-            try
-            {
-                Component clone = component.clone();
-                entity.addComponent(clone);
-                clone.setEntity(entity);
-            }
-            catch (CloneNotSupportedException e)
-            {
-                e.printStackTrace();
-            }
-        }
+        Entity entity = instantiate(prefab);
+        entity.transform = transform;
         return entity;
     }
 

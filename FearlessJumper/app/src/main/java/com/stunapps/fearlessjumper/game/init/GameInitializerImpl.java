@@ -67,7 +67,7 @@ public class GameInitializerImpl implements GameInitializer
         entityManager.instantiate(Prefabs.DRAGON.get());
 
         Cameras.setMainCamera(Cameras.createFollowCamera(new Position(0, 0), player, true, false, 0,
-                Constants.SCREEN_HEIGHT / 2));
+                65 * Constants.SCREEN_HEIGHT / 100));
 
         initialised = true;
     }

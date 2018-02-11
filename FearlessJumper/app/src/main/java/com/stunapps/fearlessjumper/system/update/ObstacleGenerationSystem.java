@@ -32,17 +32,17 @@ public class ObstacleGenerationSystem implements UpdateSystem
 {
     private final EntityManager entityManager;
     private final ComponentManager componentManager;
-    private final EntityTransformCalculator calculator;
+	private final EntityTransformCalculator calculator;
+	private Shuffler<Prefab> obstacleShuffler;
 
-    private float speed = 1.0f;
-    private static long lastProcessTime = 0;
-    private ArrayList<Entity> activeObstacles = new ArrayList<>();
-    private Shuffler<Prefab> obstacleShuffler;
+	private ArrayList<Entity> activeObstacles = new ArrayList<>();
 
-    private static Prefab platformPrefab;
-    private static float platformWidth;
-    private static float platformHeight;
-    private static float NEW_OBSTACLE_OFFSET = -600f;
+	private static Prefab platformPrefab;
+	private static float platformWidth;
+	private static float platformHeight;
+
+	private static long lastProcessTime = 0;
+	private static float NEW_OBSTACLE_OFFSET = -600f;
 
     @Inject
     public ObstacleGenerationSystem(EntityManager entityManager, ComponentManager componentManager,
@@ -89,37 +89,37 @@ public class ObstacleGenerationSystem implements UpdateSystem
         }
     }
 
-    private void createNewObstacleIfPossible(Position playerPosition)
-    {
-        Entity topObstacle = activeObstacles.get(activeObstacles.size() - 1);
-        if ((Math.abs(
-                topObstacle.transform.position.y - playerPosition.y) <= Constants.SCREEN_HEIGHT))
-        {
-            Log.d("NEW_OBSTACLE",
-                    "Top Obstacle ID: " + topObstacle.getId() + " Position: " + "" + topObstacle
-                            .transform.position + " Type: " + (topObstacle.hasComponent(
-                            DragonComponent.class) ? "Dragon" : "Platform"));
-            Prefab spawnPrefab = obstacleShuffler.shuffle();
-            Position spawnPosition =
-                    new Position((float) Math.random() * (Constants.SCREEN_WIDTH - platformWidth),
-                            topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
-            try
-            {
-                Entity newObstacle =
-                        entityManager.instantiate(spawnPrefab, new Transform(spawnPosition));
-                activeObstacles.add(newObstacle);
-                Log.i("NEW_OBSTACLE",
-                        "Created new obstacle with id: " + newObstacle.getId() + " at: " +
-                                spawnPosition + " type: " + (newObstacle.hasComponent(
-                                DragonComponent.class) ? "Dragon" : "Platform"));
-                Log.d("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
-            }
-            catch (CloneNotSupportedException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
+	private void createNewObstacleIfPossible(Position playerPosition)
+	{
+		Entity topObstacle = activeObstacles.get(activeObstacles.size() - 1);
+		if ((Math.abs(
+				topObstacle.transform.position.y - playerPosition.y) <= Constants.SCREEN_HEIGHT))
+		{
+			Log.v("NEW_OBSTACLE",
+				  "Top Obstacle ID: " + topObstacle.getId() + " Position: " + "" + topObstacle
+						  .transform.position + " Type: " + (topObstacle.hasComponent(
+						  DragonComponent.class) ? "Dragon" : "Platform"));
+			Prefab spawnPrefab = obstacleShuffler.shuffle();
+			Position spawnPosition =
+					new Position((float) Math.random() * (Constants.SCREEN_WIDTH - platformWidth),
+								 topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
+			try
+			{
+				Entity newObstacle =
+						entityManager.instantiate(spawnPrefab, new Transform(spawnPosition));
+				activeObstacles.add(newObstacle);
+				Log.i("NEW_OBSTACLE",
+					  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
+							  spawnPosition + " type: " + (newObstacle.hasComponent(
+							  DragonComponent.class) ? "Dragon" : "Platform"));
+				Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
+			}
+			catch (CloneNotSupportedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
 
     private void initShuffler()
     {
@@ -127,8 +127,8 @@ public class ObstacleGenerationSystem implements UpdateSystem
         {
             obstacleShuffler =
                     new Shuffler.Builder<Prefab>()
-                            .returnItem(Prefabs.PLATFORM.get()).withWeight(0.5f)
-                            .returnItem(Prefabs.DRAGON.get()).withWeight(1f)
+                            .returnItem(Prefabs.PLATFORM.get()).withWeight(5f)
+                            .returnItem(Prefabs.DRAGON.get()).withWeight(5f)
                             .build();
         }
     }
