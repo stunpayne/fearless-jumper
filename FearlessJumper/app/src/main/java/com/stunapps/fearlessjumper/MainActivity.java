@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.stunapps.fearlessjumper.di.DI;
+import com.stunapps.fearlessjumper.game.loop.GameView;
 import com.stunapps.fearlessjumper.helper.Constants;
 import com.stunapps.fearlessjumper.module.GameModule;
 import com.stunapps.fearlessjumper.scene.MainMenuScene;
@@ -105,7 +106,7 @@ public class MainActivity extends Activity
 		DI.install(new GameModule(this));
 		di().getInstance(Systems.class).initialise();
 
-		//        setContentView(DI.di().getInstance(GameView.class));
+//		        setContentView(DI.di().getInstance(GameView.class));
 		//        setContentView(R.layout.activity_main);
 		di().getInstance(SceneManager.class).start();
 	}
