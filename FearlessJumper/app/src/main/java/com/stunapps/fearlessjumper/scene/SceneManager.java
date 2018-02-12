@@ -12,29 +12,8 @@ import java.util.List;
  * Created by anand.verma on 30/12/17.
  */
 
-@Singleton
-public class SceneManager
+public interface SceneManager
 {
-    private List<Scene> scenes = new ArrayList<>();
-    public static int ACTIVE_SCENE;
-
-    public SceneManager()
-    {
-        scenes.add(new MainMenuScene());
-        ACTIVE_SCENE = 0;
-    }
-
-    public void update()
-    {
-        scenes.get(ACTIVE_SCENE).play();
-    }
-
-    public void draw(Canvas canvas)
-    {
-        scenes.get(ACTIVE_SCENE).draw(canvas);
-    }
-
-    public void receiveTouch(MotionEvent motionEvent){
-        scenes.get(ACTIVE_SCENE).receiveTouch(motionEvent);
-    }
+    void start();
+    void receiveTouch(MotionEvent motionEvent);
 }

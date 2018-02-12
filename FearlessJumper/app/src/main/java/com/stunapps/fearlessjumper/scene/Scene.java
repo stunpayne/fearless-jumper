@@ -1,7 +1,11 @@
 package com.stunapps.fearlessjumper.scene;
 
 import android.graphics.Canvas;
+import android.support.annotation.LayoutRes;
 import android.view.MotionEvent;
+import android.view.View;
+
+import com.stunapps.fearlessjumper.MainActivity;
 
 /**
  * Created by sunny.s on 21/01/18.
@@ -9,8 +13,21 @@ import android.view.MotionEvent;
 
 public interface Scene
 {
-    public void play();
-    public void draw(Canvas canvas);
-    public void terminate();
-    public void receiveTouch(MotionEvent motionEvent);
+    void play();
+    void terminate();
+    void receiveTouch(MotionEvent motionEvent);
+    void setActive();
+
+    class ViewLoader
+    {
+        public static void requestViewLoad(View view)
+        {
+            MainActivity.getInstance().getLoadViewCallback(view).call();
+        }
+
+        public static void requestViewLoad(@LayoutRes int layoutResId)
+        {
+            MainActivity.getInstance().getLoadViewCallback(layoutResId).call();
+        }
+    }
 }

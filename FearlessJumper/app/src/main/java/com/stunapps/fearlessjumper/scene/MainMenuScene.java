@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.R;
-import com.stunapps.fearlessjumper.core.LayoutLoader;
 import com.stunapps.fearlessjumper.helper.Constants;
 
 /**
@@ -22,8 +21,13 @@ import com.stunapps.fearlessjumper.helper.Constants;
  */
 
 @Singleton
-public class MainMenuScene implements Scene
+public class MainMenuScene extends AbstractScene
 {
+	public MainMenuScene(int id)
+	{
+		super(id, R.layout.activity_main);
+	}
+
 	@Override
 	public void play()
 	{
@@ -46,7 +50,7 @@ public class MainMenuScene implements Scene
 			@Override
 			public void onClick(View v)
 			{
-				LayoutLoader.requestViewLoad(R.layout.activity_main);
+				ViewLoader.requestViewLoad(R.layout.activity_main);
 			}
 		});
 
@@ -59,10 +63,10 @@ public class MainMenuScene implements Scene
 		view.layout(0, 0, rect.width(), rect.height());
 
 		//Translate the Canvas into position and draw it
-//		canvas.save();
-//		canvas.translate(rect.left, rect.top);
-//		view.draw(canvas);
-//		canvas.restore();
+		//		canvas.save();
+		//		canvas.translate(rect.left, rect.top);
+		//		view.draw(canvas);
+		//		canvas.restore();
 
 		//To make sure it works, set the bitmap to an ImageView
 		ImageView imageView = new ImageView(Constants.CURRENT_CONTEXT);
@@ -71,16 +75,10 @@ public class MainMenuScene implements Scene
 		imageView.setScaleType(ImageView.ScaleType.CENTER);
 		imageView.setImageBitmap(bitmap);
 
-		LayoutLoader.requestViewLoad(view);
-//		LayoutLoader.requestViewLoad(R.layout.activity_main);
+//		ViewLoader.requestViewLoad(view);
+		//		ViewLoader.requestViewLoad(R.layout.activity_main);
 		Constants.CURRENT_CONTEXT.getResources().getLayout(R.layout.activity_main);
 		//		Constants.canvas.drawRGB(255, 167, 203);
-	}
-
-	@Override
-	public void draw(Canvas canvas)
-	{
-
 	}
 
 	@Override

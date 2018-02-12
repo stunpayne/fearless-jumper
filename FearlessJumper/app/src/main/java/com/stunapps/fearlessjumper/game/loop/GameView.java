@@ -102,6 +102,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public void draw(Canvas canvas)
     {
         super.draw(canvas);
-        sceneManager.draw(canvas);
     }
 }
