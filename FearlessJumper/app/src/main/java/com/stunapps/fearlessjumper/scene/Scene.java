@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 
 public interface Scene
 {
-    public void update();
+    public void play();
     public void draw(Canvas canvas);
     public void terminate();
     public void receiveTouch(MotionEvent motionEvent);

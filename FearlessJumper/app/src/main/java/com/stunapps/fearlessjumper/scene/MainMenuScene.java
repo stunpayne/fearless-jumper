@@ -25,7 +25,7 @@ import com.stunapps.fearlessjumper.helper.Constants;
 public class MainMenuScene implements Scene
 {
 	@Override
-	public void update()
+	public void play()
 	{
 		//Set a Rect for the 200 x 200 px center of a 400 x 400 px area
 		Rect rect = new Rect();
@@ -46,7 +46,7 @@ public class MainMenuScene implements Scene
 			@Override
 			public void onClick(View v)
 			{
-				((TextView) v).setText("Text changed!");
+				LayoutLoader.requestViewLoad(R.layout.activity_main);
 			}
 		});
 
@@ -71,8 +71,8 @@ public class MainMenuScene implements Scene
 		imageView.setScaleType(ImageView.ScaleType.CENTER);
 		imageView.setImageBitmap(bitmap);
 
-//		LayoutLoader.requestViewLoad(view);
-		LayoutLoader.requestViewLoad(R.layout.activity_main);
+		LayoutLoader.requestViewLoad(view);
+//		LayoutLoader.requestViewLoad(R.layout.activity_main);
 		Constants.CURRENT_CONTEXT.getResources().getLayout(R.layout.activity_main);
 		//		Constants.canvas.drawRGB(255, 167, 203);
 	}

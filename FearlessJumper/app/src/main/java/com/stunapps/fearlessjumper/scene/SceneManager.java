@@ -26,7 +26,7 @@ public class SceneManager
 
     public void update()
     {
-        scenes.get(ACTIVE_SCENE).update();
+        scenes.get(ACTIVE_SCENE).play();
     }
 
     public void draw(Canvas canvas)

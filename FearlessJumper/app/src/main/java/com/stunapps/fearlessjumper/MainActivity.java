@@ -45,9 +45,9 @@ public class MainActivity extends Activity
         DI.install(new GameModule(this));
         di().getInstance(Systems.class).initialise();
 
-        setContentView(DI.di().getInstance(GameView.class));
+//        setContentView(DI.di().getInstance(GameView.class));
 //        setContentView(R.layout.activity_main);
-//        new MainMenuScene().update();
+        new MainMenuScene().play();
     }
 
     @Override
