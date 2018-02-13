@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.event;
 
+import com.stunapps.fearlessjumper.exception.EventException;
+
 import java.util.EventListener;
 
 /**
@@ -8,5 +10,5 @@ import java.util.EventListener;
 
 public interface BaseEventListener extends EventListener
 {
-	void handleEvent(Event event, BaseEventInfo eventInfo);
+	void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException;
 }

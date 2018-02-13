@@ -5,7 +5,11 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.event.BaseEventInfo;
+import com.stunapps.fearlessjumper.event.BaseEventListener;
+import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.event.EventSystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +18,11 @@ import java.util.List;
  * Created by sunny.s on 12/02/18.
  */
 
-public class SceneManagerImpl implements SceneManager
+public class SceneManagerImpl implements SceneManager, BaseEventListener
 {
 	private final Provider<MainMenuScene> mainMenuSceneProvider;
 	private final Provider<GameplayScene> gameplaySceneProvider;
+	private final EventSystem eventSystem;
 
 	private List<Scene> scenes = new ArrayList<>();
 	public static int ACTIVE_SCENE;
@@ -25,13 +30,16 @@ public class SceneManagerImpl implements SceneManager
 
 	@Inject
 	public SceneManagerImpl(Provider<MainMenuScene> mainMenuSceneProvider,
-			Provider<GameplayScene> gameplaySceneProvider)
+			Provider<GameplayScene> gameplaySceneProvider, EventSystem eventSystem)
 	{
 		ACTIVE_SCENE = 0;
 		Log.i("SCENE_MANAGER",
 			  getClass().getSimpleName() + " Scene Manager hash code: " + hashCode());
+
+		this.eventSystem = eventSystem;
 		this.mainMenuSceneProvider = mainMenuSceneProvider;
 		this.gameplaySceneProvider = gameplaySceneProvider;
+		this.eventSystem.registerEventListener(Event.START_GAME, this);
 	}
 
 	@Override
@@ -58,5 +66,18 @@ public class SceneManagerImpl implements SceneManager
 		scenes.get(ACTIVE_SCENE).terminate();
 		++ACTIVE_SCENE;
 		start();
+	}
+
+	@Override
+	public void handleEvent(Event event, BaseEventInfo eventInfo) throws Exception
+	{
+		switch (event)
+		{
+			case START_GAME:
+				if (ACTIVE_SCENE == 0) goToNextScene();
+				break;
+			default:
+				throw new EventException("Incorrect event raised!");
+		}
 	}
 }

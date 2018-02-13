@@ -1,5 +1,9 @@
 package com.stunapps.fearlessjumper.event;
 
+import android.util.Log;
+
+import com.stunapps.fearlessjumper.exception.EventException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +30,14 @@ public class GameEventSystem implements EventSystem
 	{
 		for (BaseEventListener eventListener : eventListenersMap.get(event))
 		{
-			eventListener.handleEvent(event, eventInfo);
+			try
+			{
+				eventListener.handleEvent(event, eventInfo);
+			}
+			catch (EventException e)
+			{
+				Log.e("EVENT_SYSTEM", "Exception occured while handling event: " + e.getMessage());
+			}
 		}
 	}
 
@@ -39,7 +50,7 @@ public class GameEventSystem implements EventSystem
 	@Override
 	public void unregisterEventListener(Event event, BaseEventListener eventListener)
 	{
-		if(eventListenersMap.get(event).contains(eventListener))
+		if (eventListenersMap.get(event).contains(eventListener))
 			eventListenersMap.get(event).remove(eventListener);
 	}
 
