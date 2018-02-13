@@ -16,4 +16,5 @@ public interface SceneManager
 {
     void start();
     void receiveTouch(MotionEvent motionEvent);
+    void goToNextScene();
 }

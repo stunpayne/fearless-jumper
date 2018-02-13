@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.name.Names;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
@@ -19,20 +20,22 @@ import com.stunapps.fearlessjumper.scene.SceneManagerImpl;
 
 public class GameModule extends AbstractModule
 {
-    private Context context;
+	private Context context;
 
-    public GameModule(Context context)
-    {
-        this.context = context;
-    }
+	public GameModule(Context context)
+	{
+		this.context = context;
+	}
 
-    @Override
-    protected void configure()
-    {
-        bind(ComponentManager.class).to(GameComponentManager.class);
-        bind(Context.class).toInstance(context);
-        bind(GameInitializer.class).to(GameInitializerImpl.class);
-        bind(EntityTransformCalculator.class).to(EntityTransformCalculatorImpl.class);
-        bind(SceneManager.class).to(SceneManagerImpl.class);
-    }
+	@Override
+	protected void configure()
+	{
+		bind(ComponentManager.class).to(GameComponentManager.class);
+		bind(Context.class).toInstance(context);
+		bind(GameInitializer.class).to(GameInitializerImpl.class);
+		bind(EntityTransformCalculator.class).to(EntityTransformCalculatorImpl.class)
+				.asEagerSingleton();
+		bind(SceneManager.class).to(SceneManagerImpl.class).asEagerSingleton();
+
+	}
 }

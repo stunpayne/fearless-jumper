@@ -23,18 +23,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     private MainThread thread;
     private GameInitializer gameInitializer;
 
-    private SceneManager sceneManager;
-
     @Inject
-    public GameView(Context context, GameInitializer gameInitializer, SceneManager sceneManager)
+    public GameView(Context context, GameInitializer gameInitializer)
     {
         super(context);
         this.gameInitializer = gameInitializer;
         Constants.CURRENT_CONTEXT = context;
 
         getHolder().addCallback(this);
-
-        this.sceneManager = sceneManager;
         setFocusable(true);
     }
 

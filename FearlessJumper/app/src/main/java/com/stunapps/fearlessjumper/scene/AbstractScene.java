@@ -1,7 +1,12 @@
 package com.stunapps.fearlessjumper.scene;
 
+import android.support.annotation.LayoutRes;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+
+import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.helper.Constants;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,22 +20,17 @@ import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad
 public abstract class AbstractScene implements Scene
 {
 	@Getter
-	protected int id;
-
-	@Getter
 	@Setter
-	ViewInfo viewInfo;
+	View view;
 
-	public AbstractScene(int id, View view)
+	public AbstractScene(View view)
 	{
-		this.id = id;
-		this.viewInfo = new ViewInfo(view);
+		this.view = view;
 	}
 
-	public AbstractScene(int id, int layoutResId)
+	public AbstractScene(@LayoutRes int layoutResId)
 	{
-		this.id = id;
-		this.viewInfo = new ViewInfo(layoutResId);
+		this.view = LayoutInflater.from(Constants.CURRENT_CONTEXT).inflate(layoutResId, null);
 	}
 
 	@Override
@@ -38,46 +38,11 @@ public abstract class AbstractScene implements Scene
 	{
 		try
 		{
-			switch (viewInfo.getViewInfoType())
-			{
-				case LAYOUT_RES_ID:
-					requestViewLoad(viewInfo.layoutResId);
-					break;
-				case VIEW_INSTANCE:
-					requestViewLoad(viewInfo.view);
-					break;
-				default:
-					throw new Exception("Incorrect View Type");
-			}
+			requestViewLoad(view);
 		}
 		catch (Exception e)
 		{
 			Log.e("VIEW_LOAD", "View could not be loaded!");
 		}
-	}
-
-	@Getter
-	public class ViewInfo
-	{
-		private ViewInfoType viewInfoType;
-		private View view;
-		private int layoutResId;
-
-		public ViewInfo(View view)
-		{
-			this.viewInfoType = ViewInfoType.VIEW_INSTANCE;
-			this.view = view;
-		}
-
-		public ViewInfo(int layoutResId)
-		{
-			this.viewInfoType = ViewInfoType.LAYOUT_RES_ID;
-			this.layoutResId = layoutResId;
-		}
-	}
-
-	private enum ViewInfoType
-	{
-		LAYOUT_RES_ID, VIEW_INSTANCE;
 	}
 }

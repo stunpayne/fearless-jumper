@@ -44,7 +44,6 @@ public class GameInputSystem implements InputSystem
 
             if (entity.hasComponent(PlayerComponent.class))
             {
-                //  The entity has a player component
                 inputProcessorFactory.get(PlayerComponent.class).process(entity, motionEvent);
             }
         }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,9 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.helper.Constants;
+
+import javax.inject.Named;
+
+import static com.stunapps.fearlessjumper.di.DI.di;
 
 /**
  * Created by sunny.s on 11/02/18.
@@ -23,9 +29,10 @@ import com.stunapps.fearlessjumper.helper.Constants;
 @Singleton
 public class MainMenuScene extends AbstractScene
 {
-	public MainMenuScene(int id)
+	@Inject
+	public MainMenuScene()
 	{
-		super(id, R.layout.activity_main);
+		super(R.layout.activity_main);
 	}
 
 	@Override
@@ -75,7 +82,7 @@ public class MainMenuScene extends AbstractScene
 		imageView.setScaleType(ImageView.ScaleType.CENTER);
 		imageView.setImageBitmap(bitmap);
 
-//		ViewLoader.requestViewLoad(view);
+		//		ViewLoader.requestViewLoad(view);
 		//		ViewLoader.requestViewLoad(R.layout.activity_main);
 		Constants.CURRENT_CONTEXT.getResources().getLayout(R.layout.activity_main);
 		//		Constants.canvas.drawRGB(255, 167, 203);
