@@ -39,14 +39,6 @@ public class GameEventSystem implements EventSystem
 	@Override
 	public void unregisterEventListener(Event event, BaseEventListener eventListener)
 	{
-//		Iterator<BaseEventListener> iterator = eventListenersMap.get(event).iterator();
-//		while (iterator.hasNext())
-//		{
-//			if (iterator.next().equals(eventListener))
-//			{
-//				iterator.remove();
-//			}
-//		}
 		if(eventListenersMap.get(event).contains(eventListener))
 			eventListenersMap.get(event).remove(eventListener);
 	}

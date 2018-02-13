@@ -22,18 +22,47 @@ public class EventSystemTest
 	{
 		Event testEvent = Event.START_GAME;
 		TestEventListener eventListener = new TestEventListener();
+		TestEventListener eventListener2 = new TestEventListener();
+		TestEventListener eventListener3 = new TestEventListener();
 
 		System.out.println(eventSystem.getEventListeners(testEvent));
 		Assert.assertTrue("Initial List already contains event listener",
 						  !eventSystem.getEventListeners(testEvent).contains(eventListener));
+		Assert.assertTrue("Initial List already contains event listener 2",
+						  !eventSystem.getEventListeners(testEvent).contains(eventListener2));
+
 		eventSystem.registerEventListener(testEvent, eventListener);
 		System.out.println(eventSystem.getEventListeners(testEvent));
 		Assert.assertTrue("Event listener not registered",
 						  eventSystem.getEventListeners(testEvent).contains(eventListener));
+		Assert.assertTrue("Event listener 2 registered",
+						  !eventSystem.getEventListeners(testEvent).contains(eventListener2));
+
+		eventSystem.registerEventListener(testEvent, eventListener2);
+		System.out.println(eventSystem.getEventListeners(testEvent));
+		Assert.assertTrue("Event listener not registered",
+						  eventSystem.getEventListeners(testEvent).contains(eventListener));
+		Assert.assertTrue("Event listener 2 not registered",
+						  eventSystem.getEventListeners(testEvent).contains(eventListener2));
+
+
+		eventSystem.unregisterEventListener(testEvent, eventListener2);
+		System.out.println(eventSystem.getEventListeners(testEvent));
+		Assert.assertTrue("Event listener 1 unregistered",
+						  eventSystem.getEventListeners(testEvent).contains(eventListener));
+		Assert.assertTrue("Event listener 2 not unregistered",
+						  !eventSystem.getEventListeners(testEvent).contains(eventListener2));
+
 		eventSystem.unregisterEventListener(testEvent, eventListener);
 		System.out.println(eventSystem.getEventListeners(testEvent));
 		Assert.assertTrue("Event listener not unregistered",
 						  !eventSystem.getEventListeners(testEvent).contains(eventListener));
+		Assert.assertTrue("Event listener 2 unregistered",
+						  !eventSystem.getEventListeners(testEvent).contains(eventListener2));
+
+		eventSystem.unregisterEventListener(testEvent, eventListener3);
+		Assert.assertTrue("Event listener 3 unregister failed",
+						  !eventSystem.getEventListeners(testEvent).contains(eventListener3));
 	}
 
 	@Test
@@ -41,6 +70,7 @@ public class EventSystemTest
 	{
 		Event testEvent = Event.START_GAME;
 		TestEventListener eventListener = new TestEventListener();
+		TestEventListener eventListener2 = new TestEventListener();
 
 		System.out.println(eventSystem.getEventListeners(testEvent));
 		System.out.println("Event raised before: " + eventListener.hasEventBeenRaised());
@@ -48,9 +78,17 @@ public class EventSystemTest
 
 		eventSystem.registerEventListener(testEvent, eventListener);
 		eventSystem.raiseEvent(testEvent, new BaseEventInfo());
-		System.out.println("Event raised after: " + eventListener.hasEventBeenRaised());
-
+		System.out.println("Event 1 raised after: " + eventListener.hasEventBeenRaised());
+		System.out.println("Event 2 raised after: " + eventListener2.hasEventBeenRaised());
 		Assert.assertTrue("Event has not been raised!", eventListener.hasEventBeenRaised());
+		Assert.assertTrue("Event 2 has been raised!", !eventListener2.hasEventBeenRaised());
+
+		eventSystem.registerEventListener(testEvent, eventListener2);
+		eventSystem.raiseEvent(testEvent, new BaseEventInfo());
+		System.out.println("Event 1 raised after: " + eventListener.hasEventBeenRaised());
+		System.out.println("Event 2 raised after: " + eventListener2.hasEventBeenRaised());
+		Assert.assertTrue("Event has not been raised!", eventListener.hasEventBeenRaised());
+		Assert.assertTrue("Event 2 has not been raised!", eventListener2.hasEventBeenRaised());
 	}
 
 	class TestEventListener implements BaseEventListener
