@@ -22,7 +22,6 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 {
 	private final Provider<MainMenuScene> mainMenuSceneProvider;
 	private final Provider<GameplayScene> gameplaySceneProvider;
-	private final EventSystem eventSystem;
 
 	private List<Scene> scenes = new ArrayList<>();
 	public static int ACTIVE_SCENE;
@@ -36,10 +35,9 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 		Log.i("SCENE_MANAGER",
 			  getClass().getSimpleName() + " Scene Manager hash code: " + hashCode());
 
-		this.eventSystem = eventSystem;
 		this.mainMenuSceneProvider = mainMenuSceneProvider;
 		this.gameplaySceneProvider = gameplaySceneProvider;
-		this.eventSystem.registerEventListener(Event.START_GAME, this);
+		eventSystem.registerEventListener(Event.START_GAME, this);
 	}
 
 	@Override
@@ -69,7 +67,7 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 	}
 
 	@Override
-	public void handleEvent(Event event, BaseEventInfo eventInfo) throws Exception
+	public void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
 	{
 		switch (event)
 		{

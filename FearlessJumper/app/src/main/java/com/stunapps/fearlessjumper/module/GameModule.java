@@ -1,12 +1,12 @@
 package com.stunapps.fearlessjumper.module;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
+import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.GameEventSystem;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.game.init.GameInitializerImpl;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
@@ -36,6 +36,6 @@ public class GameModule extends AbstractModule
 		bind(EntityTransformCalculator.class).to(EntityTransformCalculatorImpl.class)
 				.asEagerSingleton();
 		bind(SceneManager.class).to(SceneManagerImpl.class).asEagerSingleton();
-
+		bind(EventSystem.class).to(GameEventSystem.class).asEagerSingleton();
 	}
 }

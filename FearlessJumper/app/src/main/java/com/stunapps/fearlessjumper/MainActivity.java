@@ -5,6 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ public class MainActivity extends Activity
 	/**
 	 * Returns a singleton instance of MainActivity
 	 * Must never be called before onCreate is completed
+	 *
 	 * @return
 	 */
 	public static MainActivity getInstance()
@@ -51,8 +53,10 @@ public class MainActivity extends Activity
 
 	public class LoadViewCallback implements Callable
 	{
-		View viewToLoad;
-		@LayoutRes int layoutIdToLoad;
+		final View viewToLoad;
+
+		@LayoutRes
+		int layoutIdToLoad;
 
 		public LoadViewCallback(View viewToLoad)
 		{
@@ -61,7 +65,8 @@ public class MainActivity extends Activity
 
 		public LoadViewCallback(@LayoutRes int layoutIdToLoad)
 		{
-			this.layoutIdToLoad = layoutIdToLoad;
+			this.viewToLoad =
+					LayoutInflater.from(Constants.CURRENT_CONTEXT).inflate(layoutIdToLoad, null);
 		}
 
 		@Override
@@ -69,10 +74,8 @@ public class MainActivity extends Activity
 		{
 			try
 			{
-				if (viewToLoad != null)
-					loadView(viewToLoad);
-				else
-					loadView(layoutIdToLoad);
+				if (viewToLoad != null) loadView(viewToLoad);
+				else loadView(layoutIdToLoad);
 				return true;
 			}
 			catch (Exception e)
@@ -106,7 +109,7 @@ public class MainActivity extends Activity
 		DI.install(new GameModule(this));
 		di().getInstance(Systems.class).initialise();
 
-//		        setContentView(DI.di().getInstance(GameView.class));
+		//		        setContentView(DI.di().getInstance(GameView.class));
 		//        setContentView(R.layout.activity_main);
 		di().getInstance(SceneManager.class).start();
 	}
@@ -125,15 +128,29 @@ public class MainActivity extends Activity
 		//        di().getInstance(OrientationData.class).pause();
 	}
 
-	private void loadView(View view)
+	private void loadView(final View view)
 	{
-		setContentView(view);
-		Log.d("CONTENT_VIEW", "Content view changed");
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				setContentView(view);
+				Log.d("CONTENT_VIEW", "Content view changed");
+			}
+		});
 	}
 
-	private void loadView(@LayoutRes int layoutResId)
+	private void loadView(@LayoutRes final int layoutResId)
 	{
-		setContentView(layoutResId);
-		Log.d("CONTENT_VIEW", "Content view changed");
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				setContentView(layoutResId);
+				Log.d("CONTENT_VIEW", "Content view changed");
+			}
+		});
 	}
 }

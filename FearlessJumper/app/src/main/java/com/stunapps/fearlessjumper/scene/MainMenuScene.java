@@ -16,11 +16,11 @@ import android.widget.TextView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.event.BaseEventInfo;
+import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.helper.Constants;
 
-import javax.inject.Named;
-
-import static com.stunapps.fearlessjumper.di.DI.di;
 import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad;
 
 /**
@@ -30,10 +30,13 @@ import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad
 @Singleton
 public class MainMenuScene extends AbstractScene
 {
+	private final EventSystem eventSystem;
+
 	@Inject
-	public MainMenuScene()
+	public MainMenuScene(EventSystem eventSystem)
 	{
 		super(R.layout.main_menu);
+		this.eventSystem = eventSystem;
 		setupView();
 	}
 
@@ -49,7 +52,7 @@ public class MainMenuScene extends AbstractScene
 		Canvas canvas = Constants.canvas;
 
 		//Make a new view and lay it out at the desired Rect dimensions
-		TextView view = new TextView(Constants.CURRENT_CONTEXT);
+		final TextView view = new TextView(Constants.CURRENT_CONTEXT);
 		view.setText("This is a custom drawn textview");
 		view.setBackgroundColor(Color.RED);
 		view.setGravity(Gravity.CENTER);
@@ -107,5 +110,13 @@ public class MainMenuScene extends AbstractScene
 	{
 		TextView textView = view.findViewById(R.id.textView);
 		Log.d("MAIN_MENU", textView.getText().toString());
+		textView.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				eventSystem.raiseEvent(Event.START_GAME, new BaseEventInfo());
+			}
+		});
 	}
 }
