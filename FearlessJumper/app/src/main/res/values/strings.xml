@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FearlessJumper</string>
+    <string name="menuStart">START GAME</string>
 </resources>

@@ -21,6 +21,7 @@ import com.stunapps.fearlessjumper.helper.Constants;
 import javax.inject.Named;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
+import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad;
 
 /**
  * Created by sunny.s on 11/02/18.
@@ -32,7 +33,8 @@ public class MainMenuScene extends AbstractScene
 	@Inject
 	public MainMenuScene()
 	{
-		super(R.layout.activity_main);
+		super(R.layout.main_menu);
+		setupView();
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class MainMenuScene extends AbstractScene
 			@Override
 			public void onClick(View v)
 			{
-				ViewLoader.requestViewLoad(R.layout.activity_main);
+				requestViewLoad(R.layout.activity_main);
 			}
 		});
 
@@ -98,5 +100,12 @@ public class MainMenuScene extends AbstractScene
 	public void receiveTouch(MotionEvent motionEvent)
 	{
 
+	}
+
+	@Override
+	protected void setupView()
+	{
+		TextView textView = view.findViewById(R.id.textView);
+		Log.d("MAIN_MENU", textView.getText().toString());
 	}
 }

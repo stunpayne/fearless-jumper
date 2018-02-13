@@ -36,4 +36,10 @@ public class GameplayScene extends AbstractScene
 	{
 
 	}
+
+	@Override
+	protected void setupView()
+	{
+
+	}
 }

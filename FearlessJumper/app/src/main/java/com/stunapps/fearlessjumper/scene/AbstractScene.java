@@ -45,4 +45,6 @@ public abstract class AbstractScene implements Scene
 			Log.e("VIEW_LOAD", "View could not be loaded!");
 		}
 	}
+
+	protected abstract void setupView();
 }
