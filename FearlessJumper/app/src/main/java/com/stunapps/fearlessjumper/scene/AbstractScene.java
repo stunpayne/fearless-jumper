@@ -46,5 +46,5 @@ public abstract class AbstractScene implements Scene
 		}
 	}
 
-	protected abstract void setupView();
+	protected abstract void setupScene();
 }

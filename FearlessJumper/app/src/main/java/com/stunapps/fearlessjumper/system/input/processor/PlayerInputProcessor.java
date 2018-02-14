@@ -62,11 +62,11 @@ public class PlayerInputProcessor implements InputProcessor
         float forceX = motionEvent.getX() - position.x;
         float forceY = motionEvent.getY() - position.y;
 
-        Log.d("INPUT", "Velocity before " + physicsComponent.velocity.x + " " +
+        Log.v("INPUT", "Velocity before " + physicsComponent.velocity.x + " " +
                 physicsComponent.velocity.y);
         physicsComponent.velocity.y += forceY * JUMP_IMPULSE * scale();
         physicsComponent.velocity.x += forceX * JUMP_IMPULSE * scale();
-        Log.d("INPUT", "Velocity after " + physicsComponent.velocity.x + " " + physicsComponent
+        Log.v("INPUT", "Velocity after " + physicsComponent.velocity.x + " " + physicsComponent
                 .velocity.y);
     }
 
