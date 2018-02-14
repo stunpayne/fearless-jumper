@@ -50,7 +50,7 @@ public class MainMenuScene extends AbstractScene
 	}
 
 	@Override
-	protected void setupScene()
+	void setupScene()
 	{
 		//	Add listener for startButton
 		ImageButton startButton = view.findViewById(R.id.startButton);
