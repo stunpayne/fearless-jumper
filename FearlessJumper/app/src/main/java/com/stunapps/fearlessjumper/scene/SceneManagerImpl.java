@@ -61,7 +61,7 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 	{
 		scenes.get(ACTIVE_SCENE).terminate();
 		++ACTIVE_SCENE;
-		start();
+		playActiveScene();
 	}
 
 	@Override

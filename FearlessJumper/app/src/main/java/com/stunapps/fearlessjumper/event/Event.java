@@ -10,7 +10,8 @@ public enum Event
 
 	COLLISION_DETECTED,
 
-	SCENE_CHANGE,
+	SCENE_START,
+	SCENE_STOP,
 
 	GAME_OVER;
 }

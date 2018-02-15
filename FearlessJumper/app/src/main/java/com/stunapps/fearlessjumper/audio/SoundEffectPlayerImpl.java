@@ -9,10 +9,8 @@ import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.helper.Environment;
 
 /**
- * Created by sunny.s on 14/02/18.
- */
-
-/**
+ * @author sunny.s
+ * @since 14/02/18
  * An implementation of the SoundEffectPlayer interface.
  * Music and sound effect have been separated because they are of different priorities.
  * Music, such as background music, has a higher priority than sound effects, such as that of
@@ -24,6 +22,10 @@ import com.stunapps.fearlessjumper.helper.Environment;
  * number is crossed at any time, the sound pool will stop the oldest amongst the lowest
  * priority sounds. If the priority of the new sound to be played is less than the least of the
  * sounds currently being played, the new sound will not play.
+ *
+ * Note: SoundPool can play a sound of maximum size 1MB. For larger files, see MusicPlayer.
+ * @see MusicPlayer
+ * @see MusicPlayerImpl
  */
 public class SoundEffectPlayerImpl implements SoundEffectPlayer
 {
@@ -54,12 +56,6 @@ public class SoundEffectPlayerImpl implements SoundEffectPlayer
 	public void stopSoundEffect(int soundId)
 	{
 		soundPool.stop(soundId);
-	}
-
-	@Override
-	public void stopSceneSounds(int sceneId)
-	{
-		
 	}
 
 	private void initSoundPool()

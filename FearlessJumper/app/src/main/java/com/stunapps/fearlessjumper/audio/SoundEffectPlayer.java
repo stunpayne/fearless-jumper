@@ -13,9 +13,4 @@ public interface SoundEffectPlayer
 	void playSoundEffect(int soundId);
 
 	void stopSoundEffect(int soundId);
-
-	/**
-	 * Scene specific
-	 */
-	void stopSceneSounds(int sceneId);
 }

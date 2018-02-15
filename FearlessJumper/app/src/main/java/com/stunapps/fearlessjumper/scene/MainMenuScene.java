@@ -26,25 +26,6 @@ public class MainMenuScene extends AbstractScene
 	public MainMenuScene(EventSystem eventSystem, SoundSystem soundSystem)
 	{
 		super(R.layout.main_menu, eventSystem, soundSystem);
-		setUpScene();
-	}
-
-	@Override
-	public void play()
-	{
-
-	}
-
-	@Override
-	public void tearDownScene()
-	{
-
-	}
-
-	@Override
-	public void receiveTouch(MotionEvent motionEvent)
-	{
-
 	}
 
 	@Override
@@ -73,5 +54,23 @@ public class MainMenuScene extends AbstractScene
 				System.exit(1);
 			}
 		});
+	}
+
+	@Override
+	public void tearDownScene()
+	{
+
+	}
+
+	@Override
+	public void playScene()
+	{
+
+	}
+
+	@Override
+	public void receiveTouch(MotionEvent motionEvent)
+	{
+
 	}
 }

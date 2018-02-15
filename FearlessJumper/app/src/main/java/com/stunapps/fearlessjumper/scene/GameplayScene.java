@@ -22,7 +22,7 @@ public class GameplayScene extends AbstractScene
 	}
 
 	@Override
-	public void play()
+	public void playScene()
 	{
 
 	}

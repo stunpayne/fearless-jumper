@@ -7,4 +7,5 @@ package com.stunapps.fearlessjumper.audio;
 public interface OnDemandSoundPlayer
 {
 	void playOnDemand(int soundResId);
+	void loopOnDemand(int soundResId);
 }

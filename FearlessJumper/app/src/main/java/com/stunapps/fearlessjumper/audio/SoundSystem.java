@@ -23,6 +23,7 @@ public class SoundSystem extends AbstractEventSoundHandler implements OnDemandSo
 
 	private Map<Integer, List<Integer>> sceneMusicMap;
 	private Map<Integer, List<Integer>> sceneSoundMap;
+	private Integer currentScene;
 
 	@Inject
 	public SoundSystem(SoundEffectPlayer soundEffectPlayer, EventSystem eventSystem)
@@ -46,6 +47,12 @@ public class SoundSystem extends AbstractEventSoundHandler implements OnDemandSo
 
 	@Override
 	public void playOnDemand(int soundResId)
+	{
+
+	}
+
+	@Override
+	public void loopOnDemand(int soundResId)
 	{
 
 	}
