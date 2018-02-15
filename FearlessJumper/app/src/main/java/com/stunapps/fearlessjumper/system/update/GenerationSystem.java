@@ -29,7 +29,7 @@ import java.util.Set;
  */
 
 @Singleton
-public class ObstacleGenerationSystem implements UpdateSystem
+public class GenerationSystem implements UpdateSystem
 {
     private final EntityManager entityManager;
     private final ComponentManager componentManager;
@@ -46,7 +46,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
 	private static float NEW_OBSTACLE_OFFSET = -600f;
 
     @Inject
-    public ObstacleGenerationSystem(EntityManager entityManager, ComponentManager componentManager,
+    public GenerationSystem(EntityManager entityManager, ComponentManager componentManager,
             EntityTransformCalculator calculator)
     {
         this.entityManager = entityManager;

@@ -7,7 +7,7 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.system.update.DamageSystem;
 import com.stunapps.fearlessjumper.system.update.LowerBoundarySystem;
 import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
-import com.stunapps.fearlessjumper.system.update.ObstacleGenerationSystem;
+import com.stunapps.fearlessjumper.system.update.GenerationSystem;
 import com.stunapps.fearlessjumper.system.input.GameInputSystem;
 import com.stunapps.fearlessjumper.system.input.InputSystem;
 import com.stunapps.fearlessjumper.system.update.CollisionSystem;
@@ -31,7 +31,7 @@ public class Systems
 {
     private static final List<Class<? extends UpdateSystem>> systemOrder = Arrays.asList(
             PhysicsSystem.class,
-            ObstacleGenerationSystem.class,
+            GenerationSystem.class,
             MovementUpdateSystem.class,
             CollisionSystem.class,
             LowerBoundarySystem.class,

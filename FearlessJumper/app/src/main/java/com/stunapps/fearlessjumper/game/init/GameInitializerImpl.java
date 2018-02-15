@@ -14,7 +14,6 @@ import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
-import com.stunapps.fearlessjumper.system.update.ObstacleGenerationSystem;
 
 /**
  * Created by sunny.s on 12/01/18.
@@ -30,8 +29,7 @@ public class GameInitializerImpl implements GameInitializer
     private boolean initialised = false;
 
     @Inject
-    public GameInitializerImpl(EntityManager entityManager, ComponentManager componentManager,
-            ObstacleGenerationSystem obstacleSystem)
+    public GameInitializerImpl(EntityManager entityManager, ComponentManager componentManager)
     {
         this.entityManager = entityManager;
         this.componentManager = componentManager;
