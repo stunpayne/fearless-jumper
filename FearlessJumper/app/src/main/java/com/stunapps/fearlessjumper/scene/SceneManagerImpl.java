@@ -5,9 +5,9 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.stunapps.fearlessjumper.event.BaseEventInfo;
+import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.event.EventSystem;
 
@@ -37,7 +37,7 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 
 		this.mainMenuSceneProvider = mainMenuSceneProvider;
 		this.gameplaySceneProvider = gameplaySceneProvider;
-		eventSystem.registerEventListener(Event.START_GAME, this);
+		eventSystem.registerEventListener(EventType.START_GAME, this);
 	}
 
 	@Override
@@ -65,9 +65,9 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 	}
 
 	@Override
-	public void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
+	public void handleEvent(BaseEvent event) throws EventException
 	{
-		switch (event)
+		switch (event.eventType)
 		{
 			case START_GAME:
 				if (ACTIVE_SCENE == 0) goToNextScene();
@@ -76,7 +76,7 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 				jumpToMainMenu();
 				break;
 			default:
-				throw new EventException("Incorrect event raised!");
+				throw new EventException("Incorrect eventType raised!");
 		}
 	}
 

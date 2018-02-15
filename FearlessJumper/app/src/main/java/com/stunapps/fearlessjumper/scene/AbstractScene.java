@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.stunapps.fearlessjumper.audio.SoundSystem;
-import com.stunapps.fearlessjumper.event.BaseEventInfo;
-import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.EventType;
+import com.stunapps.fearlessjumper.event.impls.SceneStartEvent;
+import com.stunapps.fearlessjumper.event.impls.SceneStopEvent;
 import com.stunapps.fearlessjumper.helper.Environment;
 
 import lombok.Getter;
@@ -51,7 +53,7 @@ public abstract class AbstractScene implements Scene
 	{
 		tearDownScene();
 		soundSystem.stopSceneMusic(0);
-		eventSystem.raiseEvent(Event.SCENE_STOP, new BaseEventInfo());
+		eventSystem.raiseEvent(new SceneStopEvent());
 	}
 
 	@Override
@@ -59,7 +61,7 @@ public abstract class AbstractScene implements Scene
 	{
 		try
 		{
-			eventSystem.raiseEvent(Event.SCENE_START, new BaseEventInfo());
+			eventSystem.raiseEvent(new SceneStartEvent());
 			requestViewLoad(view);
 		}
 		catch (Exception e)

@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface EventSystem
 {
-	void raiseEvent(Event event, BaseEventInfo eventInfo);
-	void registerEventListener(Event event, BaseEventListener eventListener);
-	void unregisterEventListener(Event event, BaseEventListener eventListener);
-	List<BaseEventListener> getEventListeners(Event event);
+	void raiseEvent(BaseEvent event);
+	void registerEventListener(EventType event, BaseEventListener eventListener);
+	void unregisterEventListener(EventType event, BaseEventListener eventListener);
+	List<BaseEventListener> getEventListeners(EventType event);
 }

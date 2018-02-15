@@ -24,8 +24,8 @@ import com.stunapps.fearlessjumper.helper.Environment.Device;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.stunapps.fearlessjumper.animation.AnimationEvent.TURN_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationEvent.TURN_RIGHT;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;

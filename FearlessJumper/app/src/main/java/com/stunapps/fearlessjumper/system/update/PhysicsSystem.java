@@ -5,11 +5,11 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.event.BaseEventInfo;
+import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.CollisionEventInfo;
-import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
@@ -34,7 +34,7 @@ public class PhysicsSystem implements UpdateSystem, BaseEventListener
 	public PhysicsSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
-		eventSystem.registerEventListener(Event.COLLISION_DETECTED, this);
+		eventSystem.registerEventListener(EventType.COLLISION_DETECTED, this);
 	}
 
 	@Override
@@ -61,12 +61,12 @@ public class PhysicsSystem implements UpdateSystem, BaseEventListener
 	}
 
 	@Override
-	public void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
+	public void handleEvent(BaseEvent event) throws EventException
 	{
-		switch (event)
+		switch (event.eventType)
 		{
 			case COLLISION_DETECTED:
-				CollisionEventInfo collisionEventInfo = (CollisionEventInfo) eventInfo;
+				CollisionEvent collisionEventInfo = (CollisionEvent) event;
 				if (collisionEventInfo.entity1.hasComponent(PhysicsComponent.class) &&
 						collisionEventInfo.entity2.hasComponent(PhysicsComponent.class))
 					handleFriction(collisionEventInfo.entity1, collisionEventInfo.entity2,

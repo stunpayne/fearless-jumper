@@ -16,14 +16,14 @@ public class StateMachine
     private State currentState;
     private State startState;
     private State terminalState;
-    private Map<State, Map<Event, State>> stateTransitionMap;
+    private Map<State, Map<Transition, State>> stateTransitionMap;
 
     /**
      * Special state which will transaction to mapped state after specified number of calls to current state.
      */
     private Map<State, CountDownState> countDownStates;
 
-    public StateMachine(State startState, State terminalState, Map<State, Map<Event, State>> stateTransitionMap, Map<State, CountDownState> countDownStateMap)
+    public StateMachine(State startState, State terminalState, Map<State, Map<Transition, State>> stateTransitionMap, Map<State, CountDownState> countDownStateMap)
     {
         this.startState = startState;
         this.terminalState = terminalState;
@@ -37,14 +37,14 @@ public class StateMachine
         return new Builder();
     }
 
-    public State transitStateOnEvent(Event event)
+    public State transitStateOnEvent(Transition transition)
     {
         if (currentState.equals(terminalState))
         {
             //TODO: state transaction cannot happen.
             return null;
         }
-        currentState = stateTransitionMap.get(currentState).get(event);
+        currentState = stateTransitionMap.get(currentState).get(transition);
         return currentState;
     }
 
@@ -67,8 +67,8 @@ public class StateMachine
      */
     public State getCurrentState()
     {
-        Set<State> animationStates = countDownStates.keySet();
-        if (animationStates.contains(currentState))
+        Set<State> states = countDownStates.keySet();
+        if (states.contains(currentState))
         {
             currentState = countDownStates.get(currentState).countDown();
         }
@@ -113,11 +113,11 @@ public class StateMachine
     {
         private State startState;
         private State terminalState;
-        private Map<State, Map<Event, State>> stateTransitionMap = Maps.newConcurrentMap();
+        private Map<State, Map<Transition, State>> stateTransitionMap = Maps.newConcurrentMap();
         private Map<State, CountDownState> countDownStates = Maps.newConcurrentMap();
 
         private Set<State> fromStates;
-        private Event transitionEvent;
+        private Transition transition;
 
         private Integer countDown;
 
@@ -151,19 +151,19 @@ public class StateMachine
             {
                 if (stateTransitionMap.get(state) == null)
                 {
-                    stateTransitionMap.put(state, new HashMap<Event, State>());
+                    stateTransitionMap.put(state, new HashMap<Transition, State>());
                 }
             }
             return this;
         }
 
-        public Builder onEvent(Event event)
+        public Builder onEvent(Transition transition)
         {
-            if (fromStates == null || fromStates.isEmpty() || fromStates.size() > 1 || fromStates.iterator().next().equals(terminalState) || event == null)
+            if (fromStates == null || fromStates.isEmpty() || fromStates.size() > 1 || fromStates.iterator().next().equals(terminalState) || transition == null)
             {
                 //TODO: throw invalid state transaction exception.
             }
-            transitionEvent = event;
+            this.transition = transition;
             return this;
         }
 
@@ -179,7 +179,7 @@ public class StateMachine
 
         public Builder toState(State toState)
         {
-            if (fromStates == null || fromStates.isEmpty() || transitionEvent == null)
+            if (fromStates == null || fromStates.isEmpty() || transition == null)
             {
                 //TODO: throw invalid state transaction exception.
             }
@@ -204,7 +204,7 @@ public class StateMachine
                     State fromState = fromStates.iterator().next();
                     if (!fromState.equals(terminalState))
                     {
-                        stateTransitionMap.get(fromState).put(transitionEvent, toState);
+                        stateTransitionMap.get(fromState).put(transition, toState);
                     }
                 }
             }
@@ -217,14 +217,14 @@ public class StateMachine
             return this;
         }
 
-        public Builder onEvents(Map<Event, State> eventStateMap)
+        public Builder onEvents(Map<Transition, State> eventStateMap)
         {
-            Set<Map.Entry<Event, State>> entrySet = eventStateMap.entrySet();
-            for (Map.Entry<Event, State> entry : entrySet)
+            Set<Map.Entry<Transition, State>> entrySet = eventStateMap.entrySet();
+            for (Map.Entry<Transition, State> entry : entrySet)
             {
-                Event event = entry.getKey();
+                Transition transition = entry.getKey();
                 State state = entry.getValue();
-                this.onEvent(event).toState(state);
+                this.onEvent(transition).toState(state);
             }
             return this;
         }

@@ -8,11 +8,11 @@ import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
-import com.stunapps.fearlessjumper.event.BaseEventInfo;
+import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.CollisionEventInfo;
-import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.System;
 
@@ -32,16 +32,16 @@ public class PickupSystem implements System, BaseEventListener
 	public PickupSystem(EntityManager entityManager, EventSystem eventSystem)
 	{
 		this.entityManager = entityManager;
-		eventSystem.registerEventListener(Event.COLLISION_DETECTED, this);
+		eventSystem.registerEventListener(EventType.COLLISION_DETECTED, this);
 	}
 
 	@Override
-	public void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
+	public void handleEvent(BaseEvent event) throws EventException
 	{
-		switch (event)
+		switch (event.eventType)
 		{
 			case COLLISION_DETECTED:
-				CollisionEventInfo collision = (CollisionEventInfo) eventInfo;
+				CollisionEvent collision = (CollisionEvent) event;
 				if (collision.entity1.hasComponent(PlayerComponent.class) &&
 						collision.entity2.hasComponent(Pickup.class))
 					pickupItem(collision.entity1, collision.entity2);

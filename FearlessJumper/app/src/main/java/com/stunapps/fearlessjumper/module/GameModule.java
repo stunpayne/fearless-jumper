@@ -8,7 +8,7 @@ import com.stunapps.fearlessjumper.audio.SoundEffectPlayerImpl;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.GameEventSystem;
+import com.stunapps.fearlessjumper.event.impls.GameEventSystem;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.game.init.GameInitializerImpl;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;

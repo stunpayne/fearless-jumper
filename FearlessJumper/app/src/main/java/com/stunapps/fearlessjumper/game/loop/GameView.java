@@ -71,10 +71,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public boolean onTouchEvent(MotionEvent event)
     {
         //  Call Input System
-//        sceneManager.receiveTouch(event);
+//        sceneManager.receiveTouch(eventType);
         Systems.processInput(event);
         return true;
-//        return super.onTouchEvent(event);
+//        return super.onTouchEvent(eventType);
     }
 
     public void update(long deltaTime)

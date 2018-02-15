@@ -10,5 +10,5 @@ import java.util.EventListener;
 
 public interface BaseEventListener extends EventListener
 {
-	void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException;
+	void handleEvent(BaseEvent event) throws EventException;
 }

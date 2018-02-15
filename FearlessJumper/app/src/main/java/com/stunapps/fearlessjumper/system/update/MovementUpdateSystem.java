@@ -1,9 +1,7 @@
 package com.stunapps.fearlessjumper.system.update;
 
-import android.util.Log;
-
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.animation.AnimationEvent;
+import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.visual.Animator;
@@ -84,7 +82,7 @@ public class MovementUpdateSystem implements UpdateSystem
                         RenderableComponent.class)).renderType == RenderType.ANIMATOR)
                 {
                     ((Animator) entity.getComponent(RenderableComponent.class)).triggerEvent(
-                            AnimationEvent.TURN_LEFT);
+                            AnimationTransition.TURN_LEFT);
                 }
             }
             if (deltaX + entity.transform.position.x <= periodicTranslation.minX)
@@ -96,7 +94,7 @@ public class MovementUpdateSystem implements UpdateSystem
                         RenderableComponent.class)).renderType == RenderType.ANIMATOR)
                 {
                     ((Animator) entity.getComponent(RenderableComponent.class)).triggerEvent(
-                            AnimationEvent.TURN_RIGHT);
+                            AnimationTransition.TURN_RIGHT);
                 }
             }
 

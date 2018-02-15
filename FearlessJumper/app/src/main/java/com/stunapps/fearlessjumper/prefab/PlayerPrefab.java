@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.animation.Animation;
-import com.stunapps.fearlessjumper.animation.AnimationEvent;
+import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
@@ -26,7 +26,7 @@ import com.stunapps.fearlessjumper.helper.Environment.Device;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.stunapps.fearlessjumper.animation.AnimationEvent.TERMINATE;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.TERMINATE;
 import static com.stunapps.fearlessjumper.animation.AnimationState.HURT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationState.TERMINATED;
@@ -58,10 +58,10 @@ public class PlayerPrefab extends Prefab
         stateAnimationMap.put(TERMINATED, alienHurtAnim);
 
         StateMachine animationStateMachine = StateMachine.builder().startState(IDLE)
-                .from(IDLE).onEvent(AnimationEvent.HURT).toState(HURT)
+                .from(IDLE).onEvent(AnimationTransition.HURT).toState(HURT)
                 .from(HURT).onEvent(TERMINATE).toState(TERMINATED)
                 .from(IDLE).onEvent(TERMINATE).toState(TERMINATED)
-                .from(HURT).onEvent(AnimationEvent.HURT).toState(HURT)
+                .from(HURT).onEvent(AnimationTransition.HURT).toState(HURT)
                 .from(HURT).onCountDown(16).toState(IDLE).build();
 
         components.add(new Animator(stateAnimationMap, Delta.ZERO, alien.getWidth(),

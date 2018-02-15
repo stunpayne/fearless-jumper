@@ -9,9 +9,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
-import com.stunapps.fearlessjumper.event.BaseEventInfo;
-import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.EventType;
+import com.stunapps.fearlessjumper.event.impls.StartGameEvent;
 
 import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad;
 
@@ -38,7 +39,7 @@ public class MainMenuScene extends AbstractScene
 			@Override
 			public void onClick(View v)
 			{
-				eventSystem.raiseEvent(Event.START_GAME, new BaseEventInfo());
+				eventSystem.raiseEvent(new StartGameEvent());
 			}
 		});
 

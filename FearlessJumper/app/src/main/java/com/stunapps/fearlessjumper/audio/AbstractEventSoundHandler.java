@@ -1,8 +1,7 @@
 package com.stunapps.fearlessjumper.audio;
 
-import com.stunapps.fearlessjumper.event.BaseEventInfo;
+import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.Event;
 import com.stunapps.fearlessjumper.exception.EventException;
 
 /**
@@ -19,9 +18,9 @@ public abstract class AbstractEventSoundHandler implements BaseEventListener
 	}
 
 	@Override
-	public final void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
+	public final void handleEvent(BaseEvent event) throws EventException
 	{
-		playSoundOnEvent(event, eventInfo);
+		playSoundOnEvent(event);
 	}
 
 	protected void playSoundEffect(int soundId)
@@ -29,5 +28,5 @@ public abstract class AbstractEventSoundHandler implements BaseEventListener
 		soundEffectPlayer.playSoundEffect(soundId);
 	}
 
-	abstract void playSoundOnEvent(Event event, BaseEventInfo eventInfo);
+	abstract void playSoundOnEvent(BaseEvent event);
 }

@@ -1,21 +1,19 @@
 package com.stunapps.fearlessjumper.system.eventonly;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.animation.AnimationEvent;
+import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.event.BaseEventInfo;
+import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.CollisionEventInfo;
-import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.System;
-import com.stunapps.fearlessjumper.system.model.CollisionResponse;
-import com.stunapps.fearlessjumper.system.update.CollisionSystem;
 
 /**
  * Created by anand.verma on 03/02/18.
@@ -26,16 +24,16 @@ public class DamageSystem implements System, BaseEventListener
 	@Inject
 	public DamageSystem(EventSystem eventSystem)
 	{
-		eventSystem.registerEventListener(Event.COLLISION_DETECTED, this);
+		eventSystem.registerEventListener(EventType.COLLISION_DETECTED, this);
 	}
 
 	@Override
-	public void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
+	public void handleEvent(BaseEvent event) throws EventException
 	{
-		switch (event)
+		switch (event.eventType)
 		{
 			case COLLISION_DETECTED:
-				CollisionEventInfo collisionEventInfo = (CollisionEventInfo) eventInfo;
+				CollisionEvent collisionEventInfo = (CollisionEvent) event;
 
 				Entity entity1 = collisionEventInfo.entity1;
 				Entity entity2 = collisionEventInfo.entity2;
@@ -53,11 +51,11 @@ public class DamageSystem implements System, BaseEventListener
 					health1.takeDamage(damageComponent2.damage());
 					if (health1.isOver())
 					{
-						animator.triggerEvent(AnimationEvent.TERMINATE);
+						animator.triggerEvent(AnimationTransition.TERMINATE);
 					}
 					else
 					{
-						animator.triggerEvent(AnimationEvent.HURT);
+						animator.triggerEvent(AnimationTransition.HURT);
 					}
 				}
 
@@ -68,11 +66,11 @@ public class DamageSystem implements System, BaseEventListener
 					health2.takeDamage(damageComponent1.damage());
 					if (health2.isOver())
 					{
-						animator.triggerEvent(AnimationEvent.TERMINATE);
+						animator.triggerEvent(AnimationTransition.TERMINATE);
 					}
 					else
 					{
-						animator.triggerEvent(AnimationEvent.HURT);
+						animator.triggerEvent(AnimationTransition.HURT);
 					}
 				}
 		}

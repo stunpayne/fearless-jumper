@@ -7,13 +7,11 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 
-import android.database.Observable;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.event.CollisionEventInfo;
-import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
@@ -77,11 +75,11 @@ public class CollisionSystem implements UpdateSystem
                 {
                     CollisionResponse collisionResponse =
                             resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
-                    eventSystem.raiseEvent(Event.COLLISION_DETECTED,
-                                           new CollisionEventInfo(mobileEntityWithPhysics,
-                                                                  immobileEntity,
-                                                                  collisionResponse.collisionFace,
-                                                                  deltaTime));
+                    eventSystem.raiseEvent(
+                            new CollisionEvent(mobileEntityWithPhysics,
+                                    immobileEntity,
+                                    collisionResponse.collisionFace,
+                                    deltaTime));
                 }
             }
 
