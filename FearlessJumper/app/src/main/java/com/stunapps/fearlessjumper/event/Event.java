@@ -6,7 +6,11 @@ package com.stunapps.fearlessjumper.event;
 
 public enum Event
 {
-	GAME_OVER,
+	START_GAME,
+
 	COLLISION_DETECTED,
-	START_GAME;
+
+	SCENE_CHANGE,
+
+	GAME_OVER;
 }

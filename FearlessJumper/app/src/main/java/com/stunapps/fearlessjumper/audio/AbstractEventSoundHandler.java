@@ -13,20 +13,15 @@ public abstract class AbstractEventSoundHandler implements BaseEventListener
 {
 	protected final SoundEffectPlayer soundEffectPlayer;
 
-	public AbstractEventSoundHandler(SoundEffectPlayer soundManager)
+	public AbstractEventSoundHandler(SoundEffectPlayer soundEffectPlayer)
 	{
-		this.soundEffectPlayer = soundManager;
+		this.soundEffectPlayer = soundEffectPlayer;
 	}
 
 	@Override
 	public final void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
 	{
 		playSoundOnEvent(event, eventInfo);
-	}
-
-	protected void playMusic(int soundId)
-	{
-		soundEffectPlayer.playMusic(soundId);
 	}
 
 	protected void playSoundEffect(int soundId)

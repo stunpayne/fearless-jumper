@@ -9,6 +9,13 @@ import com.stunapps.fearlessjumper.event.BaseEventListener;
 public interface SoundEffectPlayer
 {
 	int loadSound(int soundResId, int priority);
+
 	void playSoundEffect(int soundId);
+
 	void stopSoundEffect(int soundId);
+
+	/**
+	 * Scene specific
+	 */
+	void stopSceneSounds(int sceneId);
 }

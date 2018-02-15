@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.stunapps.fearlessjumper.audio.EventSoundHandler;
+import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
@@ -110,7 +110,7 @@ public class MainActivity extends Activity
 		DI.install(new GameModule(this));
 		di().getInstance(Systems.class).initialise();
 
-		di().getInstance(EventSoundHandler.class);
+		di().getInstance(SoundSystem.class);
 		di().getInstance(SceneManager.class).start();
 	}
 

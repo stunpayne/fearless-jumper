@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.BaseEventInfo;
 import com.stunapps.fearlessjumper.event.Event;
 import com.stunapps.fearlessjumper.event.EventSystem;
@@ -21,14 +22,11 @@ import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad
 @Singleton
 public class MainMenuScene extends AbstractScene
 {
-	private final EventSystem eventSystem;
-
 	@Inject
-	public MainMenuScene(EventSystem eventSystem)
+	public MainMenuScene(EventSystem eventSystem, SoundSystem soundSystem)
 	{
-		super(R.layout.main_menu);
-		this.eventSystem = eventSystem;
-		setupScene();
+		super(R.layout.main_menu, eventSystem, soundSystem);
+		setUpScene();
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class MainMenuScene extends AbstractScene
 	}
 
 	@Override
-	public void terminate()
+	public void tearDownScene()
 	{
 
 	}
@@ -50,7 +48,7 @@ public class MainMenuScene extends AbstractScene
 	}
 
 	@Override
-	void setupScene()
+	void setUpScene()
 	{
 		//	Add listener for startButton
 		ImageButton startButton = view.findViewById(R.id.startButton);
