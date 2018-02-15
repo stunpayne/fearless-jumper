@@ -3,6 +3,8 @@ package com.stunapps.fearlessjumper.module;
 import android.content.Context;
 
 import com.google.inject.AbstractModule;
+import com.stunapps.fearlessjumper.audio.SoundEffectPlayer;
+import com.stunapps.fearlessjumper.audio.SoundEffectPlayerImpl;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.event.EventSystem;
@@ -37,5 +39,6 @@ public class GameModule extends AbstractModule
 				.asEagerSingleton();
 		bind(SceneManager.class).to(SceneManagerImpl.class).asEagerSingleton();
 		bind(EventSystem.class).to(GameEventSystem.class).asEagerSingleton();
+		bind(SoundEffectPlayer.class).to(SoundEffectPlayerImpl.class).asEagerSingleton();
 	}
 }

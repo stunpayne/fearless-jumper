@@ -1,17 +1,12 @@
 package com.stunapps.fearlessjumper.component.input;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.core.OrientationData;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 /**
  * Created by anand.verma on 14/01/18.
@@ -33,8 +28,8 @@ public class OrientationInput extends Input
     {
         float deltaX = 0;
         float deltaY = 0;
-        if (frameTime < Constants.INIT_TIME)
-            frameTime = Constants.INIT_TIME;
+        if (frameTime < Environment.INIT_TIME)
+            frameTime = Environment.INIT_TIME;
         int elapsedTime = (int) (System.currentTimeMillis() - frameTime);
         frameTime = System.currentTimeMillis();
         Delta delta = new Delta(0, 0);
@@ -49,8 +44,8 @@ public class OrientationInput extends Input
             float roll = orientationData.getOrientation()[2] - orientationData
                     .getStartOrientation()[2];
 
-            float xSpeed = 2 * roll * Constants.SCREEN_WIDTH / 1000f;
-            float ySpeed = pitch * Constants.SCREEN_HEIGHT / 1000f;
+            float xSpeed = 2 * roll * Device.SCREEN_WIDTH / 1000f;
+            float ySpeed = pitch * Device.SCREEN_HEIGHT / 1000f;
 
             deltaX = Math.abs(xSpeed * elapsedTime) > 5 ? xSpeed *
                     elapsedTime : 0;

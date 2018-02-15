@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static com.stunapps.fearlessjumper.helper.Constants.scale;
+import static com.stunapps.fearlessjumper.helper.Environment.scale;
 
 /**
  * Created by sunny.s on 20/01/18.

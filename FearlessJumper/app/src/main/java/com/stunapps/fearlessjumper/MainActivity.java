@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper;
 
 import android.app.Activity;
+import android.media.AudioManager;
 import android.support.annotation.LayoutRes;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -10,11 +11,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.stunapps.fearlessjumper.audio.EventSoundHandler;
 import com.stunapps.fearlessjumper.di.DI;
-import com.stunapps.fearlessjumper.game.loop.GameView;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.module.GameModule;
-import com.stunapps.fearlessjumper.scene.MainMenuScene;
 import com.stunapps.fearlessjumper.scene.SceneManager;
 import com.stunapps.fearlessjumper.system.Systems;
 
@@ -66,7 +67,7 @@ public class MainActivity extends Activity
 		public LoadViewCallback(@LayoutRes int layoutIdToLoad)
 		{
 			this.viewToLoad =
-					LayoutInflater.from(Constants.CURRENT_CONTEXT).inflate(layoutIdToLoad, null);
+					LayoutInflater.from(Environment.CONTEXT).inflate(layoutIdToLoad, null);
 		}
 
 		@Override
@@ -94,23 +95,22 @@ public class MainActivity extends Activity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 							 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		Constants.SCREEN_WIDTH = dm.widthPixels;
-		Constants.SCREEN_HEIGHT = dm.heightPixels;
-		Constants.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
-		Constants.activity = this;
-		Constants.CURRENT_CONTEXT = this;
+		Device.SCREEN_WIDTH = dm.widthPixels;
+		Device.SCREEN_HEIGHT = dm.heightPixels;
+		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
+		Environment.ACTIVITY = this;
+		Environment.CONTEXT = this;
 
 		Log.d("CONTEXT", "Context hash code: " + this.hashCode());
-
 
 		DI.install(new GameModule(this));
 		di().getInstance(Systems.class).initialise();
 
-		//		        setContentView(DI.di().getInstance(GameView.class));
-		//        setContentView(R.layout.activity_main);
+		di().getInstance(EventSoundHandler.class);
 		di().getInstance(SceneManager.class).start();
 	}
 

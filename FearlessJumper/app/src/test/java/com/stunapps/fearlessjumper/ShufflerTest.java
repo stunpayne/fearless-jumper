@@ -53,6 +53,6 @@ public class ShufflerTest
 		System.out.println(
 				"Final count : Hundreds: " + hundreds + " Two hundreds: " + two_hundreds + " " +
 						"Three hundreds: " + three_hundreds);
-		System.out.println("More than 0.5: " + shuffler.getCount());
+		System.out.println("More than 0.5: " + shuffler.getTotalGenerated());
 	}
 }

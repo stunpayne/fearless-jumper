@@ -10,8 +10,8 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.helper.Constants.ONE_SECOND_NANOS;
-import static com.stunapps.fearlessjumper.helper.Constants.scale;
+import static com.stunapps.fearlessjumper.helper.Environment.ONE_SECOND_NANOS;
+import static com.stunapps.fearlessjumper.helper.Environment.scale;
 
 /**
  * Created by sunny.s on 19/01/18.

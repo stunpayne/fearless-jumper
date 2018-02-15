@@ -5,11 +5,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
 
 /**
  * Created by anand.verma on 14/01/18.
@@ -55,7 +53,7 @@ public class OrientationData implements SensorEventListener
 
     public OrientationData()
     {
-        manager = (SensorManager) Constants.CURRENT_CONTEXT.getSystemService(Context
+        manager = (SensorManager) Environment.CONTEXT.getSystemService(Context
                 .SENSOR_SERVICE);
         accelerometer = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnometer = manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);

@@ -8,11 +8,10 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.OrientationData;
-import com.stunapps.fearlessjumper.display.Camera.CameraMode;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
 import com.stunapps.fearlessjumper.system.update.ObstacleGenerationSystem;
@@ -67,7 +66,7 @@ public class GameInitializerImpl implements GameInitializer
         entityManager.instantiate(Prefabs.DRAGON.get());
 
         Cameras.setMainCamera(Cameras.createFollowCamera(new Position(0, 0), player, true, false, 0,
-                65 * Constants.SCREEN_HEIGHT / 100));
+                65 * Device.SCREEN_HEIGHT / 100));
 
         initialised = true;
     }
@@ -76,11 +75,11 @@ public class GameInitializerImpl implements GameInitializer
     {
         Prefab platformPrefab = Prefabs.PLATFORM.get();
 
-        int x = Constants.SCREEN_WIDTH / 4;
-        int y = Constants.SCREEN_HEIGHT / 2 + 200;
+        int x = Device.SCREEN_WIDTH / 4;
+        int y = Device.SCREEN_HEIGHT / 2 + 200;
         Transform transform1 = new Transform(new Position(x, y));
-        Transform transform2 = new Transform(new Position(x, Constants.SCREEN_HEIGHT / 2 - 500));
-        Transform transform3 = new Transform(new Position(3 * Constants.SCREEN_WIDTH / 4, 300));
+        Transform transform2 = new Transform(new Position(x, Device.SCREEN_HEIGHT / 2 - 500));
+        Transform transform3 = new Transform(new Position(3 * Device.SCREEN_WIDTH / 4, 300));
 
         entityManager.instantiate(platformPrefab, transform1);
         entityManager.instantiate(platformPrefab, transform2);
@@ -90,15 +89,15 @@ public class GameInitializerImpl implements GameInitializer
     private void initBoundaries(Entity target) throws CloneNotSupportedException
     {
 //        Transform leftBoundaryTransform = new Transform(
-//                new Position(-10, Constants.SCREEN_HEIGHT / 2), null, null);
+//                new Position(-10, Environment.SCREEN_HEIGHT / 2), null, null);
 //        entityManager.instantiate(Prefabs.BOUNDARY.get(), leftBoundaryTransform);
 //
 //        Transform rightBoundaryTransform = new Transform(
-//                new Position(Constants.SCREEN_WIDTH + 10, Constants.SCREEN_HEIGHT / 2), null, null);
+//                new Position(Environment.SCREEN_WIDTH + 10, Environment.SCREEN_HEIGHT / 2), null, null);
 //        entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
 
-        Transform landTransform = new Transform(new Position(0, Constants.SCREEN_HEIGHT), null,
-                null);
+        Transform landTransform = new Transform(new Position(0, Device.SCREEN_HEIGHT), null,
+												null);
 //        entityManager.instantiate(Prefabs.LAND.get());
         entityManager.instantiate(Prefabs.LAND.get(), landTransform);
     }

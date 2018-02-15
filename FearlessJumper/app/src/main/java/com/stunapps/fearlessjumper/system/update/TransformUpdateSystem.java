@@ -11,7 +11,7 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 import java.util.Set;
 
@@ -65,9 +65,9 @@ public class TransformUpdateSystem implements UpdateSystem
         transform.position.x += velocity.x;
         transform.position.y += velocity.y;
 
-        if (transform.position.x >= Constants.SCREEN_WIDTH - renderable.width)
+        if (transform.position.x >= Device.SCREEN_WIDTH - renderable.width)
         {
-            transform.position.x = Constants.SCREEN_WIDTH - renderable.width;
+            transform.position.x = Device.SCREEN_WIDTH - renderable.width;
             velocity.x = 0;
         }
         else if (transform.position.x <= 0)
@@ -82,7 +82,7 @@ public class TransformUpdateSystem implements UpdateSystem
         }
 
 //        transform.position.y = Math.min(transform.position.y,
-//                Constants.SCREEN_HEIGHT - renderable.height);
+//                Environment.SCREEN_HEIGHT - renderable.height);
 //        transform.position.y = Math.max(transform.position.x, 0);
     }
 

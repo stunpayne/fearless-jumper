@@ -6,9 +6,7 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.LowerBoundaryComponent;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.helper.Constants;
-
-import java.util.Set;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 /**
  * Created by sunny.s on 26/01/18.
@@ -38,7 +36,7 @@ public class LowerBoundarySystem implements UpdateSystem
         //  from the initial camera position.
         Entity lowerBoundary = componentManager.getEntity(LowerBoundaryComponent.class);
 
-        lowerBoundary.transform.position.y = Cameras.getMainCamera().position.y + Constants
+        lowerBoundary.transform.position.y = Cameras.getMainCamera().position.y + Device
                 .SCREEN_HEIGHT;
     }
 

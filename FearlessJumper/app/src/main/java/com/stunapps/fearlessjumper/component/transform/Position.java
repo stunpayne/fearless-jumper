@@ -16,6 +16,8 @@ public class Position
     public float x;
     public float y;
 
+    public static Position ORIGIN = new Position(0,0);
+
     public Position()
     {
         x = y = 0;

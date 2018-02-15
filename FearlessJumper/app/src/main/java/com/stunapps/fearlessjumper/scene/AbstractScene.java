@@ -5,8 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.stunapps.fearlessjumper.R;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +29,7 @@ public abstract class AbstractScene implements Scene
 
 	public AbstractScene(@LayoutRes int layoutResId)
 	{
-		this.view = LayoutInflater.from(Constants.CURRENT_CONTEXT).inflate(layoutResId, null);
+		this.view = LayoutInflater.from(Environment.CONTEXT).inflate(layoutResId, null);
 	}
 
 	@Override

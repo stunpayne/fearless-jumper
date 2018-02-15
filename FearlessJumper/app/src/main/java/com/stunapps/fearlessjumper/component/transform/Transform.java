@@ -1,8 +1,7 @@
 package com.stunapps.fearlessjumper.component.transform;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.component.physics.PhysicsComponent.Velocity;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
 
 import lombok.Builder;
 import lombok.ToString;
@@ -23,8 +22,8 @@ public class Transform extends Component
     {
         super(Transform.class);
         this.position = position;
-        this.rotation = Constants.Game.NO_ROTATION;
-        this.scale = Constants.Game.UNIT_SCALE;
+        this.rotation = Rotation.NO_ROTATION;
+        this.scale = Scale.UNIT_SCALE;
     }
 
     public Transform(Position position, Rotation rotation, Scale scale)
@@ -46,6 +45,8 @@ public class Transform extends Component
     {
         public float azimuth;
 
+        public static Transform.Rotation NO_ROTATION = new Transform.Rotation(0);
+
         public Rotation()
         {
             azimuth = 0;
@@ -62,6 +63,8 @@ public class Transform extends Component
     {
         public float x;
         public float y;
+
+        public static Scale UNIT_SCALE = new Scale(1, 1);
 
         public Scale()
         {

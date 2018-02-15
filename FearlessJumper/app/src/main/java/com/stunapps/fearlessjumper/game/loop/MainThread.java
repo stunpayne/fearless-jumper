@@ -5,9 +5,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
 
-import static com.stunapps.fearlessjumper.helper.Constants.ONE_MILLION;
+import static com.stunapps.fearlessjumper.helper.Environment.ONE_MILLION;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -53,7 +53,7 @@ public class MainThread extends Thread
             try
             {
                 canvas = this.surfaceHolder.lockCanvas();
-                Constants.canvas = canvas;
+                Environment.CANVAS = canvas;
                 synchronized (surfaceHolder)
                 {
                     //  Replace with physics, collision, animation systemType updates

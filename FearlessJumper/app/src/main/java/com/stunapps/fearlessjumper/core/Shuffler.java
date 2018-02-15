@@ -37,9 +37,8 @@ public class Shuffler<Item>
 	 */
 	private Float totalWeight;
 
-	long seed = System.currentTimeMillis();
-	Random random;
-	int count = 0;
+	private final Random random;
+	private int totalGenerated = 0;
 
 	public Shuffler(Map<Item, Float> items)
 	{
@@ -59,7 +58,7 @@ public class Shuffler<Item>
 		//        double random = Math.random();
 		//        double randomWeight = random * totalWeight;
 		double randomWeight = random.nextDouble() * totalWeight;
-		if (randomWeight > 5f) count++;
+		if (randomWeight > 5f) totalGenerated++;
 		for (Item item : items.keySet())
 		{
 			if (randomWeight <= items.get(item))
@@ -115,8 +114,8 @@ public class Shuffler<Item>
 		}
 	}
 
-	public int getCount()
+	public int getTotalGenerated()
 	{
-		return count;
+		return totalGenerated;
 	}
 }

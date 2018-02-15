@@ -13,8 +13,8 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
-import com.stunapps.fearlessjumper.helper.Constants;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
 
@@ -84,16 +84,28 @@ public class ObstacleGenerationSystem implements UpdateSystem
     {
         for (Entity obstacle : obstacles)
         {
-            if (RenderSystem.getRenderRect(obstacle).top > Constants.SCREEN_HEIGHT)
+            if (RenderSystem.getRenderRect(obstacle).top > Device.SCREEN_HEIGHT)
                 entityManager.deleteEntity(obstacle);
         }
     }
+
+    public Entity lastGeneratedObstacle()
+	{
+		if (!activeObstacles.isEmpty())
+			return activeObstacles.get(activeObstacles.size() - 1);
+		return null;
+	}
+
+	public float getNewObstacleOffset()
+	{
+		return NEW_OBSTACLE_OFFSET;
+	}
 
 	private void createNewObstacleIfPossible(Position playerPosition)
 	{
 		Entity topObstacle = activeObstacles.get(activeObstacles.size() - 1);
 		if ((Math.abs(
-				topObstacle.transform.position.y - playerPosition.y) <= Constants.SCREEN_HEIGHT))
+				topObstacle.transform.position.y - playerPosition.y) <= Device.SCREEN_HEIGHT))
 		{
 			Log.v("NEW_OBSTACLE",
 				  "Top Obstacle ID: " + topObstacle.getId() + " Position: " + "" + topObstacle
@@ -101,7 +113,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
 						  DragonComponent.class) ? "Dragon" : "Platform"));
 			Prefab spawnPrefab = obstacleShuffler.shuffle();
 			Position spawnPosition =
-					new Position((float) Math.random() * (Constants.SCREEN_WIDTH - platformWidth),
+					new Position((float) Math.random() * (Device.SCREEN_WIDTH - platformWidth),
 								 topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
 			try
 			{

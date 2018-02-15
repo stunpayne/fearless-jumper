@@ -2,7 +2,7 @@ package com.stunapps.fearlessjumper.display;
 
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 import lombok.Getter;
 
@@ -37,7 +37,7 @@ public class FollowCamera extends Camera
         {
             position.x = target.transform.position.x - minDeltaX;
             //  Apply y limits
-            position.x = Math.min(Math.max(position.x, 0), Constants.SCREEN_WIDTH);
+            position.x = Math.min(Math.max(position.x, 0), Device.SCREEN_WIDTH);
         }
         
         //  If y movement is allowed, calculate delta in y and move

@@ -47,9 +47,7 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 		scenes.add(mainMenuSceneProvider.get());
 		scenes.add(gameplaySceneProvider.get());
 
-		//	Start the active scene
-		scenes.get(ACTIVE_SCENE).setActive();
-		scenes.get(ACTIVE_SCENE).play();
+		playActiveScene();
 	}
 
 	@Override
@@ -74,8 +72,24 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 			case START_GAME:
 				if (ACTIVE_SCENE == 0) goToNextScene();
 				break;
+			case GAME_OVER:
+				jumpToMainMenu();
+				break;
 			default:
 				throw new EventException("Incorrect event raised!");
 		}
+	}
+
+	private void playActiveScene()
+	{
+		//	Start the active scene
+		scenes.get(ACTIVE_SCENE).setActive();
+		scenes.get(ACTIVE_SCENE).play();
+	}
+
+	private void jumpToMainMenu()
+	{
+		ACTIVE_SCENE = 0;
+		playActiveScene();
 	}
 }

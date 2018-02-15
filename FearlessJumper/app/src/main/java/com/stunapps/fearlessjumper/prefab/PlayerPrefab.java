@@ -19,7 +19,8 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.di.DI;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,13 +39,13 @@ public class PlayerPrefab extends Prefab
     public PlayerPrefab()
     {
 
-        int x = 4 * Constants.SCREEN_WIDTH / 5;
-        int y = Constants.SCREEN_HEIGHT - 150;
+        int x = 4 * Device.SCREEN_WIDTH / 5;
+        int y = Device.SCREEN_HEIGHT - 150;
         transform = new Transform(new Position(x,
                 y), new Transform.Rotation(), new Transform.Scale());
-        Bitmap alien = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
+        Bitmap alien = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable
                 .alienblue);
-        Bitmap alienHurt = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable
+        Bitmap alienHurt = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable
                 .alienblue_hurt);
 
         Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);

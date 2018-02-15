@@ -11,7 +11,7 @@ import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
 
 import java.util.Set;
 
@@ -40,7 +40,7 @@ public class RenderSystem implements UpdateSystem
         Set<Entity> entities = componentManager.getEntities(RenderableComponent.class);
         if (canvas == null)
         {
-            canvas = Constants.canvas;
+            canvas = Environment.CANVAS;
         }
         canvas.drawColor(Color.BLACK);
 

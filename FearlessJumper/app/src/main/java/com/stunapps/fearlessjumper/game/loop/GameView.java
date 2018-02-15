@@ -2,16 +2,13 @@ package com.stunapps.fearlessjumper.game.loop;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
-import com.stunapps.fearlessjumper.helper.Constants;
-import com.stunapps.fearlessjumper.scene.SceneManager;
-import com.stunapps.fearlessjumper.system.update.ObstacleGenerationSystem;
+import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.system.Systems;
 
 /**
@@ -28,7 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     {
         super(context);
         this.gameInitializer = gameInitializer;
-        Constants.CURRENT_CONTEXT = context;
+        Environment.CONTEXT = context;
 
         getHolder().addCallback(this);
         setFocusable(true);
@@ -38,7 +35,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder surfaceHolder)
     {
         thread = new MainThread(getHolder(), this);
-        Constants.INIT_TIME = System.currentTimeMillis();
+        Environment.INIT_TIME = System.currentTimeMillis();
 
         thread.setRunning(true);
         thread.start();

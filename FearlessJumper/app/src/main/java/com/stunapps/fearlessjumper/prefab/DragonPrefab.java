@@ -19,7 +19,8 @@ import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.core.StateMachine;
-import com.stunapps.fearlessjumper.helper.Constants;
+import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class DragonPrefab extends Prefab
 {
     public DragonPrefab()
     {
-        transform = new Transform(new Position(Constants.SCREEN_WIDTH / 2, 200));
+        transform = new Transform(new Position(Device.SCREEN_WIDTH / 2, 200));
 
         StateMachine animationStateMachine = StateMachine.builder().startState(IDLE)
                 .from(IDLE).onEvent(TURN_LEFT).toState(FLY_LEFT)
@@ -47,10 +48,10 @@ public class DragonPrefab extends Prefab
                 .from(FLY_RIGHT).onEvent(TURN_LEFT).toState(FLY_LEFT)
                 .build();
 
-        Bitmap dragonSprite1 = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon_fly1);
-        Bitmap dragonSprite2 = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon_fly2);
-        Bitmap dragonSprite3 = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon_fly3);
-        Bitmap dragonSprite4 = BitmapFactory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.dragon_fly4);
+        Bitmap dragonSprite1 = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly1);
+        Bitmap dragonSprite2 = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly2);
+        Bitmap dragonSprite3 = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly3);
+        Bitmap dragonSprite4 = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly4);
 
         Animation idleAnim = new Animation(new Bitmap[]{dragonSprite1}, 0.5f);
 
@@ -79,7 +80,7 @@ public class DragonPrefab extends Prefab
         components.add(new RectCollider(new Delta(0, 0), dragonSprite1.getWidth(),
                 dragonSprite1.getHeight()));
         components.add(new PeriodicTranslation()
-                .withXMovement(0, Constants.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
+                .withXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
         components.add(new MoveDownComponent());
         components.add(new ContactDamageComponent(1));
         components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false));
