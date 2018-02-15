@@ -4,7 +4,9 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.system.eventonly.DamageSystem;
+import com.stunapps.fearlessjumper.system.eventonly.PickupSystem;
 import com.stunapps.fearlessjumper.system.update.LowerBoundarySystem;
 import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.GenerationSystem;
@@ -29,60 +31,60 @@ import java.util.List;
 @Singleton
 public class Systems
 {
-    private static final List<Class<? extends UpdateSystem>> systemOrder = Arrays.asList(
-            PhysicsSystem.class,
-            GenerationSystem.class,
-            MovementUpdateSystem.class,
-            CollisionSystem.class,
-            LowerBoundarySystem.class,
-            TransformUpdateSystem.class,
-            RenderSystem.class
-    );
-    //  Next two lines are hacky. Both variables should be lists but we can't create a list of
-    //  subclasses with only one element
-    private static final Class<? extends InputSystem> inputSystem = GameInputSystem.class;
-    private static final Class<? extends System> otherSystems = DamageSystem.class;
+	private static final List<Class<? extends UpdateSystem>> systemOrder =
+			Arrays.asList(PhysicsSystem.class, GenerationSystem.class, MovementUpdateSystem.class,
+						  CollisionSystem.class, LowerBoundarySystem.class,
+						  TransformUpdateSystem.class, RenderSystem.class);
+	//  Next lines is hacky. The variable should be list but we can't create a list of
+	//  subclasses with only one element
+	private static final Class<? extends InputSystem> inputSystem = GameInputSystem.class;
+	private static final List<? extends Class<? extends System>> otherSystems =
+			Arrays.asList(DamageSystem.class, PickupSystem.class);
 
-    private static ArrayList<UpdateSystem> systemsInOrder = Lists.newArrayList();
-    private static ArrayList<InputSystem> inputSystemsInOrder = Lists.newArrayList();
+	private static ArrayList<UpdateSystem> systemsInOrder = Lists.newArrayList();
+	private static ArrayList<InputSystem> inputSystemsInOrder = Lists.newArrayList();
 
-    private final SystemFactory systemFactory;
+	private final SystemFactory systemFactory;
 
-    @Inject
-    public Systems(SystemFactory systemFactory)
-    {
-        this.systemFactory = systemFactory;
-    }
+	@Inject
+	public Systems(SystemFactory systemFactory)
+	{
+		this.systemFactory = systemFactory;
+	}
 
-    public static void process(long deltaTime)
-    {
-        for (UpdateSystem system : systemsInOrder)
-        {
-            system.process(deltaTime);
-        }
-    }
+	public static void process(long deltaTime)
+	{
+		for (UpdateSystem system : systemsInOrder)
+		{
+			system.process(deltaTime);
+		}
+	}
 
-    public static void processInput(MotionEvent motionEvent)
-    {
-        for (InputSystem system : inputSystemsInOrder)
-        {
-            system.processInput(motionEvent);
-        }
-    }
+	public static void processInput(MotionEvent motionEvent)
+	{
+		for (InputSystem system : inputSystemsInOrder)
+		{
+			system.processInput(motionEvent);
+		}
+	}
 
-    public void initialise()
-    {
-        for (Class<? extends UpdateSystem> systemType : systemOrder)
-        {
-            systemsInOrder.add(systemFactory.getUpdateSystem(systemType));
-        }
+	public void initialise()
+	{
+		for (Class<? extends UpdateSystem> systemType : systemOrder)
+		{
+			systemsInOrder.add(systemFactory.getUpdateSystem(systemType));
+		}
 
-        inputSystemsInOrder.add(systemFactory.getInputSystem(inputSystem));
-        systemFactory.getSystem(otherSystems);
-    }
+		inputSystemsInOrder.add(systemFactory.getInputSystem(inputSystem));
 
-    public static ArrayList<UpdateSystem> getSystemsInOrder()
-    {
-        return systemsInOrder;
-    }
+		for (Class<? extends System> systemType : otherSystems)
+		{
+			systemFactory.getSystem(systemType);
+		}
+	}
+
+	public static ArrayList<UpdateSystem> getSystemsInOrder()
+	{
+		return systemsInOrder;
+	}
 }

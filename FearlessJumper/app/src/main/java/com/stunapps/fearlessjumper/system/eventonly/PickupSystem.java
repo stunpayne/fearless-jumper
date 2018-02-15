@@ -7,13 +7,16 @@ import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.event.BaseEventInfo;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.CollisionEventInfo;
 import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.System;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -23,6 +26,15 @@ import javax.inject.Singleton;
 @Singleton
 public class PickupSystem implements System, BaseEventListener
 {
+	private final EntityManager entityManager;
+
+	@Inject
+	public PickupSystem(EntityManager entityManager, EventSystem eventSystem)
+	{
+		this.entityManager = entityManager;
+		eventSystem.registerEventListener(Event.COLLISION_DETECTED, this);
+	}
+
 	@Override
 	public void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
 	{
@@ -40,7 +52,7 @@ public class PickupSystem implements System, BaseEventListener
 		}
 	}
 
-	void pickupItem(Entity player, Entity pickup)
+	private void pickupItem(Entity player, Entity pickup)
 	{
 		Pickup pickupComponent = pickup.getComponent(Pickup.class);
 		switch (pickupComponent.getType())
@@ -56,5 +68,6 @@ public class PickupSystem implements System, BaseEventListener
 				Log.e("PICKUP", "Invalid pickup type: " + pickupComponent.getType());
 				break;
 		}
+		entityManager.deleteEntity(pickup);
 	}
 }

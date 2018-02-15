@@ -10,7 +10,8 @@ public enum Prefabs
     PLATFORM(new PlatformPrefab()),
     BOUNDARY(new SideBoundaryPrefab()),
     LAND(new LandPrefab()),
-    DRAGON(new DragonPrefab());
+    DRAGON(new DragonPrefab()),
+    CLOCK(new ClockPrefab());
 
     public Prefab prefab;
 

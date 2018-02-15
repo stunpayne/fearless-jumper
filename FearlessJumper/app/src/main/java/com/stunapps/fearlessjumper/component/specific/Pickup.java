@@ -19,15 +19,16 @@ public class Pickup extends Component
 		CLOCK, FUEL;
 	}
 
-	public Pickup(PickupType type)
+	public Pickup(PickupType type, float pickupValue)
 	{
 		super(Pickup.class);
 		this.type = type;
+		this.pickupValue = pickupValue;
 	}
 
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{
-		return new Pickup(type);
+		return new Pickup(type, pickupValue);
 	}
 }

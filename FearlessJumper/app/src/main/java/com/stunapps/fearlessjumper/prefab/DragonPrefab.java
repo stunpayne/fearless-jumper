@@ -8,7 +8,6 @@ import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
-import com.stunapps.fearlessjumper.component.MoveDownComponent;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
@@ -81,7 +80,6 @@ public class DragonPrefab extends Prefab
                 dragonSprite1.getHeight()));
         components.add(new PeriodicTranslation()
                 .withXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
-        components.add(new MoveDownComponent());
         components.add(new ContactDamageComponent(1));
         components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false));
     }
