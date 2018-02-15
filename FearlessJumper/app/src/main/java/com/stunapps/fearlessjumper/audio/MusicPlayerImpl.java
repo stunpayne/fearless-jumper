@@ -16,7 +16,7 @@ public class MusicPlayerImpl implements MusicPlayer
 
 	public MusicPlayerImpl()
 	{
-		mediaPlayer = MediaPlayer.create(Environment.CONTEXT, R.raw.first_try,
+		mediaPlayer = MediaPlayer.create(Environment.CONTEXT, R.raw.second_try,
 										 new AudioAttributes.Builder()
 												 .setContentType(AudioAttributes
 																		 .CONTENT_TYPE_MUSIC)

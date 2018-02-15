@@ -16,7 +16,7 @@ import javax.inject.Inject;
 
 public class SoundSystem extends AbstractEventSoundHandler implements OnDemandSoundPlayer
 {
-	private static final int backGroundMusicResId = R.raw.first_try;
+	private static final int backGroundMusicResId = R.raw.second_try;
 
 	private final static int PRIORITY_MUSIC = 10;
 	private final static int PRIORITY_SOUND_EFFECT = 8;
