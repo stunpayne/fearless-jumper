@@ -11,6 +11,6 @@ public class StartGameEvent extends BaseEvent
 {
     public StartGameEvent()
     {
-        super(EventType.SCENE_START);
+        super(EventType.START_GAME);
     }
 }
