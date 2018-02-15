@@ -31,8 +31,8 @@ import java.util.Set;
 @Singleton
 public class GenerationSystem implements UpdateSystem
 {
-    private final EntityManager entityManager;
-    private final ComponentManager componentManager;
+	private final EntityManager entityManager;
+	private final ComponentManager componentManager;
 	private final EntityTransformCalculator calculator;
 	private Shuffler<Prefab> obstacleShuffler;
 
@@ -40,79 +40,70 @@ public class GenerationSystem implements UpdateSystem
 
 	private static Prefab platformPrefab;
 	private static float platformWidth;
-	private static float platformHeight;
 
 	private static long lastProcessTime = 0;
 	private static float NEW_OBSTACLE_OFFSET = -600f;
+	private static float MIN_ALLOWED_DISTANCE_FROM_PLAYER;
 
-    @Inject
-    public GenerationSystem(EntityManager entityManager, ComponentManager componentManager,
-            EntityTransformCalculator calculator)
-    {
-        this.entityManager = entityManager;
-        this.componentManager = componentManager;
-        this.calculator = calculator;
-    }
-
-    @Override
-    public void process(long deltaTime)
-    {
-        if (lastProcessTime == 0)
-        {
-            lastProcessTime = System.currentTimeMillis();
-            initShuffler();
-            initialisePlatformsList();
-
-            platformPrefab = Prefabs.PLATFORM.get();
-            platformWidth = calculator.getWidth(platformPrefab);
-            platformHeight = calculator.getHeight(platformPrefab);
-        }
-
-        Entity player = componentManager.getEntity(PlayerComponent.class);
-        Set<Entity> obstacles = componentManager.getEntities(ObstacleComponent.class);
-
-        deleteObstaclesOutOfScreen(obstacles);
-        createNewObstacleIfPossible(player.transform.position);
-    }
-
-    @Override
-    public long getLastProcessTime()
-    {
-        return lastProcessTime;
-    }
-
-    private void deleteObstaclesOutOfScreen(Set<Entity> obstacles)
-    {
-        for (Entity obstacle : obstacles)
-        {
-            if (RenderSystem.getRenderRect(obstacle).top > Device.SCREEN_HEIGHT)
-                entityManager.deleteEntity(obstacle);
-        }
-    }
-
-    public Entity lastGeneratedObstacle()
+	@Inject
+	public GenerationSystem(EntityManager entityManager, ComponentManager componentManager,
+			EntityTransformCalculator calculator)
 	{
-		if (!activeObstacles.isEmpty())
-			return activeObstacles.get(activeObstacles.size() - 1);
-		return null;
+		this.entityManager = entityManager;
+		this.componentManager = componentManager;
+		this.calculator = calculator;
 	}
 
-	public float getNewObstacleOffset()
+	@Override
+	public void process(long deltaTime)
 	{
-		return NEW_OBSTACLE_OFFSET;
+		if (lastProcessTime == 0)
+		{
+			lastProcessTime = System.currentTimeMillis();
+			MIN_ALLOWED_DISTANCE_FROM_PLAYER = Device.SCREEN_HEIGHT;
+			initShuffler();
+			initActiveObstacles();
+
+			platformPrefab = Prefabs.PLATFORM.get();
+			platformWidth = calculator.getWidth(platformPrefab);
+		}
+
+		Entity player = componentManager.getEntity(PlayerComponent.class);
+		Set<Entity> obstacles = componentManager.getEntities(ObstacleComponent.class);
+
+		deleteObstaclesOutOfScreen(obstacles);
+		createNewObstacleIfPossible(player.transform.position);
+	}
+
+	@Override
+	public long getLastProcessTime()
+	{
+		return lastProcessTime;
+	}
+
+	private void deleteObstaclesOutOfScreen(Set<Entity> obstacles)
+	{
+		for (Entity obstacle : obstacles)
+		{
+			if (RenderSystem.getRenderRect(obstacle).top > Device.SCREEN_HEIGHT)
+				entityManager.deleteEntity(obstacle);
+		}
 	}
 
 	private void createNewObstacleIfPossible(Position playerPosition)
 	{
 		Entity topObstacle = activeObstacles.get(activeObstacles.size() - 1);
-		if ((Math.abs(
-				topObstacle.transform.position.y - playerPosition.y) <= Device.SCREEN_HEIGHT))
+
+		//	Generate new
+		if ((Math.abs(topObstacle.transform.position.y - playerPosition.y) <=
+				MIN_ALLOWED_DISTANCE_FROM_PLAYER))
 		{
-			Log.v("NEW_OBSTACLE",
-				  "Top Obstacle ID: " + topObstacle.getId() + " Position: " + "" + topObstacle
-						  .transform.position + " Type: " + (topObstacle.hasComponent(
-						  DragonComponent.class) ? "Dragon" : "Platform"));
+			Log.v("NEW_OBSTACLE", "Top Obstacle ID: " + topObstacle.getId() + " Position: " + "" +
+					topObstacle.transform.position + " Type: " +
+					(topObstacle.hasComponent(DragonComponent.class) ? "Dragon" : "Platform"));
+
 			Prefab spawnPrefab = obstacleShuffler.shuffle();
+			//	TODO: Change platformWidth to spawnObstacle width
 			Position spawnPosition =
 					new Position((float) Math.random() * (Device.SCREEN_WIDTH - platformWidth),
 								 topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
@@ -121,10 +112,11 @@ public class GenerationSystem implements UpdateSystem
 				Entity newObstacle =
 						entityManager.instantiate(spawnPrefab, new Transform(spawnPosition));
 				activeObstacles.add(newObstacle);
+
 				Log.i("NEW_OBSTACLE",
 					  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
-							  spawnPosition + " type: " + (newObstacle.hasComponent(
-							  DragonComponent.class) ? "Dragon" : "Platform"));
+							  spawnPosition + " of type: " + (newObstacle
+							  .hasComponent(DragonComponent.class) ? "Dragon" : "Platform"));
 				Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
 			}
 			catch (CloneNotSupportedException e)
@@ -134,32 +126,31 @@ public class GenerationSystem implements UpdateSystem
 		}
 	}
 
-    private void initShuffler()
-    {
-        if (obstacleShuffler == null)
-        {
-            obstacleShuffler =
-                    new WeightedShuffler.Builder<Prefab>()
-                            .returnItem(Prefabs.PLATFORM.get()).withWeight(5f)
-                            .returnItem(Prefabs.DRAGON.get()).withWeight(5f)
-                            .build();
-        }
-    }
+	private void initShuffler()
+	{
+		if (obstacleShuffler == null)
+		{
+			obstacleShuffler =
+					new WeightedShuffler.Builder<Prefab>().returnItem(Prefabs.PLATFORM.get())
+							.withWeight(5f).returnItem(Prefabs.DRAGON.get()).withWeight(5f)
+							.build();
+		}
+	}
 
-    private void initialisePlatformsList()
-    {
-        Set<Entity> entities = componentManager.getEntities(ObstacleComponent.class);
-        activeObstacles.addAll(entities);
+	private void initActiveObstacles()
+	{
+		Set<Entity> entities = componentManager.getEntities(ObstacleComponent.class);
+		activeObstacles.addAll(entities);
 
-        Collections.sort(activeObstacles, new Comparator<Entity>()
-        {
-            @Override
-            public int compare(Entity o1, Entity o2)
-            {
-                //  Comparator is reverse because we want the top most platform at the last of the
-                //  list. Top most platform will have the least value of y.
-                return (int) (o2.transform.position.y - o1.transform.position.y);
-            }
-        });
-    }
+		Collections.sort(activeObstacles, new Comparator<Entity>()
+		{
+			@Override
+			public int compare(Entity o1, Entity o2)
+			{
+				//  Comparator is reverse because we want the top most platform at the last of the
+				//  list. Top most platform will have the least value of y.
+				return (int) (o2.transform.position.y - o1.transform.position.y);
+			}
+		});
+	}
 }
