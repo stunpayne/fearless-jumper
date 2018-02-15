@@ -13,6 +13,11 @@ public abstract class Collider extends Component
 	public Delta delta;
 	public float width;
 	public float height;
+
+	/**
+	 * Denotes whether the collider is meant to be ignored for collision resolution or not
+	 * If true, the collider is ignored for collision resolution
+	 */
 	protected boolean trigger;
 
 	public Collider(Delta delta, float width, float height)
