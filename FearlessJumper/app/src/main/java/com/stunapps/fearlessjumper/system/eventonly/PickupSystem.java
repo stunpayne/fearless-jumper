@@ -27,7 +27,7 @@ public class PickupSystem implements System
 {
     private final EntityManager entityManager;
 
-    BaseEventListener<CollisionEvent> collisionEventListner = new BaseEventListener<CollisionEvent>()
+    BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
     {
         @Override
         public void handleEvent(CollisionEvent collisionEvent) throws EventException
@@ -49,7 +49,7 @@ public class PickupSystem implements System
     public PickupSystem(EntityManager entityManager, EventSystem eventSystem)
     {
         this.entityManager = entityManager;
-        eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListner);
+        eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListener);
     }
 
     private void pickupItem(Entity player, Entity pickup)

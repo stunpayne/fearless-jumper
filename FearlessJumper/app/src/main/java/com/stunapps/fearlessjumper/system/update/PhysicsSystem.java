@@ -29,7 +29,7 @@ public class PhysicsSystem implements UpdateSystem
 
 	private static final float GRAVITY = -9.8f;
 
-	BaseEventListener<CollisionEvent> collisionEventListner = new BaseEventListener<CollisionEvent>()
+	BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
 	{
 		@Override
 		public void handleEvent(CollisionEvent collisionEvent) throws EventException
@@ -52,7 +52,7 @@ public class PhysicsSystem implements UpdateSystem
 	public PhysicsSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
-		eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListner);
+		eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListener);
 	}
 
 	@Override

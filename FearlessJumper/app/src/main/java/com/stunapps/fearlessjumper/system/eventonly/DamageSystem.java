@@ -20,7 +20,7 @@ import com.stunapps.fearlessjumper.system.System;
 
 public class DamageSystem implements System
 {
-	private BaseEventListener<CollisionEvent> collisionEventListner = new BaseEventListener<CollisionEvent>()
+	private BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
 	{
 		@Override
 		public void handleEvent(CollisionEvent collisionEvent) throws EventException
@@ -69,7 +69,7 @@ public class DamageSystem implements System
 	@Inject
 	public DamageSystem(EventSystem eventSystem)
 	{
-		eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListner);
+		eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListener);
 	}
 
 	/*@Override

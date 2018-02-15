@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper;
 
-import android.util.Log;
-
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventType;
@@ -13,8 +11,6 @@ import com.stunapps.fearlessjumper.exception.EventException;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by sunny.s on 13/02/18.
@@ -116,15 +112,16 @@ public class TransitionSystemTest
 
 	@Test
 	public void testRaiseV2(){
-		TestEventListnerV2 listnerV2 = new TestEventListnerV2();
+		TestEventListenerV2 listenerV2 = new TestEventListenerV2();
 		System.out.println("starting test");
 		eventSystem.raiseEvent(new StartGameEvent());
 		eventSystem.raiseEvent(new CollisionEvent(null, null, null, 0));
 	}
 
-	class TestEventListnerV2 {
+	class TestEventListenerV2
+	{
 
-		BaseEventListener<StartGameEvent> gameEventListner = new BaseEventListener<StartGameEvent>()
+		BaseEventListener<StartGameEvent> gameEventListener = new BaseEventListener<StartGameEvent>()
 		{
 			@Override
 			public void handleEvent(StartGameEvent event) throws EventException
@@ -133,7 +130,7 @@ public class TransitionSystemTest
 			}
 		};
 
-		BaseEventListener<CollisionEvent> collisionEventListner = new BaseEventListener<CollisionEvent>()
+		BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
 		{
 			@Override
 			public void handleEvent(CollisionEvent event) throws EventException
@@ -142,10 +139,10 @@ public class TransitionSystemTest
 			}
 		};
 
-		public TestEventListnerV2()
+		public TestEventListenerV2()
 		{
-			eventSystem.registerEventListener(EventType.START_GAME, gameEventListner);
-			eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListner);
+			eventSystem.registerEventListener(EventType.START_GAME, gameEventListener);
+			eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListener);
 		}
 	}
 

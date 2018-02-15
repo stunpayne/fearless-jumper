@@ -8,6 +8,8 @@ import com.google.inject.Provider;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventType;
+import com.stunapps.fearlessjumper.event.impls.GameOverEvent;
+import com.stunapps.fearlessjumper.event.impls.StartGameEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.event.EventSystem;
 
@@ -18,7 +20,7 @@ import java.util.List;
  * Created by sunny.s on 12/02/18.
  */
 
-public class SceneManagerImpl implements SceneManager, BaseEventListener
+public class SceneManagerImpl implements SceneManager
 {
 	private final Provider<MainMenuScene> mainMenuSceneProvider;
 	private final Provider<GameplayScene> gameplaySceneProvider;
@@ -26,6 +28,26 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 	private List<Scene> scenes = new ArrayList<>();
 	public static int ACTIVE_SCENE;
 
+	private BaseEventListener<StartGameEvent> startGameListener = new BaseEventListener<StartGameEvent>()
+	{
+		@Override
+		public void handleEvent(StartGameEvent event) throws EventException
+		{
+			if (ACTIVE_SCENE == 0)
+			{
+				goToNextScene();
+			}
+		}
+	};
+
+	private BaseEventListener<GameOverEvent> gameOverListener = new BaseEventListener<GameOverEvent>()
+	{
+		@Override
+		public void handleEvent(GameOverEvent event) throws EventException
+		{
+
+		}
+	};
 
 	@Inject
 	public SceneManagerImpl(Provider<MainMenuScene> mainMenuSceneProvider,
@@ -37,7 +59,7 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 
 		this.mainMenuSceneProvider = mainMenuSceneProvider;
 		this.gameplaySceneProvider = gameplaySceneProvider;
-		eventSystem.registerEventListener(EventType.START_GAME, this);
+		eventSystem.registerEventListener(EventType.START_GAME, startGameListener);
 	}
 
 	@Override
@@ -62,22 +84,6 @@ public class SceneManagerImpl implements SceneManager, BaseEventListener
 		scenes.get(ACTIVE_SCENE).terminate();
 		++ACTIVE_SCENE;
 		playActiveScene();
-	}
-
-	@Override
-	public void handleEvent(BaseEvent event) throws EventException
-	{
-		switch (event.eventType)
-		{
-			case START_GAME:
-				if (ACTIVE_SCENE == 0) goToNextScene();
-				break;
-			case GAME_OVER:
-				jumpToMainMenu();
-				break;
-			default:
-				throw new EventException("Incorrect eventType raised!");
-		}
 	}
 
 	private void playActiveScene()
