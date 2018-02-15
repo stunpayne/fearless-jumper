@@ -32,7 +32,7 @@ public class OrientationInput extends Input
             frameTime = Environment.INIT_TIME;
         int elapsedTime = (int) (System.currentTimeMillis() - frameTime);
         frameTime = System.currentTimeMillis();
-        Delta delta = new Delta(0, 0);
+        Delta delta = Delta.ZERO;
         Log.d("orientationData", "orientationData.getOrientation() = " + orientationData.getOrientation() + ", and orientationData.getStartOrientation() = " + orientationData.getStartOrientation());
         if (orientationData.getOrientation() != null && orientationData.getStartOrientation()
                 != null)

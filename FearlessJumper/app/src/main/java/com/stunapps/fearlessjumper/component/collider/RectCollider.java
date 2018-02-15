@@ -9,14 +9,19 @@ import com.stunapps.fearlessjumper.component.Delta;
 
 public class RectCollider extends Collider
 {
-    public RectCollider(Delta delta, float width, float height)
-    {
-        super(delta, width, height);
-    }
+	public RectCollider(Delta delta, float width, float height)
+	{
+		super(delta, width, height);
+	}
 
-    @Override
-    public RectCollider clone() throws CloneNotSupportedException
-    {
-        return new RectCollider(this.delta, this.width, this.height);
-    }
+	public RectCollider(Delta delta, float width, float height, boolean trigger)
+	{
+		super(delta, width, height, trigger);
+	}
+
+	@Override
+	public RectCollider clone() throws CloneNotSupportedException
+	{
+		return new RectCollider(this.delta, this.width, this.height, isTrigger());
+	}
 }

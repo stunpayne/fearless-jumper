@@ -10,21 +10,37 @@ import com.stunapps.fearlessjumper.component.transform.Position;
 
 public abstract class Collider extends Component
 {
-    public Delta delta;
-    public float width;
-    public float height;
+	public Delta delta;
+	public float width;
+	public float height;
+	protected boolean trigger;
 
-    public Collider(Delta delta, float width, float height)
-    {
-        super(Collider.class);
-        this.delta = delta;
-        this.width = width;
-        this.height = height;
-    }
+	public Collider(Delta delta, float width, float height)
+	{
+		super(Collider.class);
+		this.delta = delta;
+		this.width = width;
+		this.height = height;
+		this.trigger = false;
+	}
 
-    public Position getCenter(Position position)
-    {
-        //Position position = entity.transform.position;
-        return new Position(position.x + delta.x + width / 2, position.y + delta.y + height / 2);
-    }
+	public Collider(Delta delta, float width, float height, boolean trigger)
+	{
+		super(Collider.class);
+		this.delta = delta;
+		this.width = width;
+		this.height = height;
+		this.trigger = trigger;
+	}
+
+	public Position getCenter(Position position)
+	{
+		//Position position = entity.transform.position;
+		return new Position(position.x + delta.x + width / 2, position.y + delta.y + height / 2);
+	}
+
+	public boolean isTrigger()
+	{
+		return trigger;
+	}
 }

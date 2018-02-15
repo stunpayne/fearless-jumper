@@ -22,7 +22,6 @@ public class PlatformPrefab extends Prefab
 {
 	public PlatformPrefab()
 	{
-		components.add(new ObstacleComponent());
 
 		int x = Device.SCREEN_WIDTH / 4;
 		int y = Device.SCREEN_HEIGHT / 2 + 300;
@@ -31,9 +30,10 @@ public class PlatformPrefab extends Prefab
 
 		Bitmap sprite = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(),
 													 R.drawable.platform);
-		components.add(new SpriteComponent(sprite, new Delta(0, 0), sprite.getWidth(),
+		components.add(new ObstacleComponent());
+		components.add(new SpriteComponent(sprite, Delta.ZERO, sprite.getWidth(),
 										   sprite.getHeight()));
-		components.add(new RectCollider(new Delta(0, 0), sprite.getWidth(), sprite.getHeight()));
+		components.add(new RectCollider(Delta.ZERO, sprite.getWidth(), sprite.getHeight()));
 		components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false,
 											new PhysicsComponent.Friction(7.5f, 7.5f, 7.5f, 7.5f)));
 	}

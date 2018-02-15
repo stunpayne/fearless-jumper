@@ -12,6 +12,6 @@ public class SideBoundaryPrefab extends Prefab
 {
     public SideBoundaryPrefab()
     {
-        components.add(new RectCollider(new Delta(0, 0), 10, Device.SCREEN_HEIGHT));
+        components.add(new RectCollider(Delta.ZERO, 10, Device.SCREEN_HEIGHT));
     }
 }

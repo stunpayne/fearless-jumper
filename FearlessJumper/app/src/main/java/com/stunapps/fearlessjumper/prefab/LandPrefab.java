@@ -13,7 +13,7 @@ public class LandPrefab extends Prefab
 {
     public LandPrefab()
     {
-        components.add(new RectCollider(new Delta(0, 0), Device.SCREEN_WIDTH, 10));
+        components.add(new RectCollider(Delta.ZERO, Device.SCREEN_WIDTH, 10));
         components.add(new LowerBoundaryComponent());
     }
 }

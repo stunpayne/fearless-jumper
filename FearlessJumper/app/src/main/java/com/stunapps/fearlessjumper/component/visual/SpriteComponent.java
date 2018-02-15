@@ -14,7 +14,7 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
 
     public SpriteComponent()
     {
-        super(RenderType.SPRITE, new Delta(0,0), 0, 0);
+        super(RenderType.SPRITE, Delta.ZERO, 0, 0);
 
     }
 

@@ -9,7 +9,7 @@ package com.stunapps.fearlessjumper.component;
 // this class in.
 public class Delta
 {
-	public static Delta ZERO = new Delta(0, 0);
+	public static Delta ZERO = new Delta(0,0);
 
 	public float x;
 	public float y;

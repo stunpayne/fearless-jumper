@@ -20,6 +20,7 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGap.bridgeGapX;
 import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGap.bridgeGapY;
 
 
@@ -151,16 +152,24 @@ public class CollisionSystem implements UpdateSystem
              */
             //CollisionResolver.resolveXCollision(physicsEntity, fixedEntity, deltaXBetweenEntities,
             // intersectX, push);
-            BridgeGap.bridgeGapX(physicsEntity, fixedEntity);
-            physicsComponent1.velocity.x = 0;
+            if (!physicsEntity.getComponent(Collider.class).isTrigger() &&
+                    !fixedEntity.getComponent(Collider.class).isTrigger())
+            {
+                bridgeGapX(physicsEntity, fixedEntity);
+                physicsComponent1.velocity.x = 0;
+            }
             return new CollisionResponse(CollisionResponse.CollisionFace.VERTICAL);
         } else
         {
             //  Collision will be resolved in y axis
             //                resolveYCollision(entity1, entity2, deltaYBetweenEntities,
             // intersectY, push);
-            bridgeGapY(physicsEntity, fixedEntity);
-            physicsComponent1.velocity.y = 0;
+            if (!physicsEntity.getComponent(Collider.class).isTrigger() &&
+                    !fixedEntity.getComponent(Collider.class).isTrigger())
+            {
+                bridgeGapY(physicsEntity, fixedEntity);
+                physicsComponent1.velocity.y = 0;
+            }
             return new CollisionResponse(CollisionResponse.CollisionFace.HORIZONTAL);
         }
     }

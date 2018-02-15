@@ -24,7 +24,7 @@ public class ClockPrefab extends Prefab
 		float width = 100;
 		float height = 100;
 		components.add(new Pickup(PickupType.CLOCK, 10f));
-		components.add(new RectCollider(new Delta(0, 0), width, height));
+		components.add(new RectCollider(Delta.ZERO, width, height, true));
 		components.add(new SpriteComponent(clockSprite, Delta.ZERO, width, height));
 	}
 }

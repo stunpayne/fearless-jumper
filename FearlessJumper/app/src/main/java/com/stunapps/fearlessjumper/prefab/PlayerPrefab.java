@@ -64,10 +64,10 @@ public class PlayerPrefab extends Prefab
                 .from(HURT).onEvent(AnimationEvent.HURT).toState(HURT)
                 .from(HURT).onCountDown(16).toState(IDLE).build();
 
-        components.add(new Animator(stateAnimationMap, new Delta(0, 0), alien.getWidth(),
+        components.add(new Animator(stateAnimationMap, Delta.ZERO, alien.getWidth(),
                 alien.getHeight(), animationStateMachine));
 
-        components.add(new RectCollider(new Delta(0, 0), alien.getWidth(), alien.getHeight()));
+        components.add(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight()));
         components.add(new Health(100));
         components.add(new PhysicsComponent(50, new PhysicsComponent.Velocity()));
         OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
