@@ -15,7 +15,6 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.CollisionEventInfo;
 import com.stunapps.fearlessjumper.event.Event;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.system.listener.CollisionListener;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 import java.util.HashSet;
@@ -29,7 +28,7 @@ import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGa
  */
 
 @Singleton
-public class CollisionSystem extends Observable<CollisionListener> implements UpdateSystem
+public class CollisionSystem implements UpdateSystem
 {
     private final ComponentManager componentManager;
     private final EventSystem eventSystem;
@@ -69,29 +68,23 @@ public class CollisionSystem extends Observable<CollisionListener> implements Up
             }
         }
 
-		for (Entity mobileEntityWithPhysics : mobileEntitiesWithPhysics)
-		{
-			for (Entity immobileEntity : immobileEntities)
-			{
-				if (isColliding(mobileEntityWithPhysics, immobileEntity))
-				{
-					CollisionResponse collisionResponse =
-							resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
-					//  mObservers comes from the Observable parent class
-					for (CollisionListener collisionListener : mObservers)
-					{
-						collisionListener.onCollision(mobileEntityWithPhysics, immobileEntity,
-													  collisionResponse, deltaTime);
-					}
-					eventSystem.raiseEvent(Event.COLLISION_DETECTED,
-										   new CollisionEventInfo(mobileEntityWithPhysics,
-																  immobileEntity,
-																  collisionResponse
-																		  .collisionFace));
-				}
-			}
+        for (Entity mobileEntityWithPhysics : mobileEntitiesWithPhysics)
+        {
+            for (Entity immobileEntity : immobileEntities)
+            {
+                if (isColliding(mobileEntityWithPhysics, immobileEntity))
+                {
+                    CollisionResponse collisionResponse =
+                            resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
+                    eventSystem.raiseEvent(Event.COLLISION_DETECTED,
+                                           new CollisionEventInfo(mobileEntityWithPhysics,
+                                                                  immobileEntity,
+                                                                  collisionResponse.collisionFace,
+                                                                  deltaTime));
+                }
+            }
 
-		}
+        }
 
         /*
         Set<Entity> mobileEntities = new HashSet<>(mobileEntitiesWithPhysics);

@@ -5,8 +5,13 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.system.listener.CollisionListener;
-import com.stunapps.fearlessjumper.system.model.CollisionResponse;
+import com.stunapps.fearlessjumper.event.BaseEventInfo;
+import com.stunapps.fearlessjumper.event.BaseEventListener;
+import com.stunapps.fearlessjumper.event.CollisionEventInfo;
+import com.stunapps.fearlessjumper.event.Event;
+import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 import java.util.Set;
 
@@ -18,7 +23,7 @@ import static com.stunapps.fearlessjumper.helper.Environment.scale;
  */
 
 @Singleton
-public class PhysicsSystem implements UpdateSystem, CollisionListener
+public class PhysicsSystem implements UpdateSystem, BaseEventListener
 {
 	private final ComponentManager componentManager;
 	private static long lastProcessTime = System.nanoTime();
@@ -26,10 +31,10 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 	private static final float GRAVITY = -9.8f;
 
 	@Inject
-	public PhysicsSystem(ComponentManager componentManager, CollisionSystem collisionSystem)
+	public PhysicsSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
-		collisionSystem.registerObserver(this);
+		eventSystem.registerEventListener(Event.COLLISION_DETECTED, this);
 	}
 
 	@Override
@@ -55,27 +60,36 @@ public class PhysicsSystem implements UpdateSystem, CollisionListener
 		return lastProcessTime;
 	}
 
+	@Override
+	public void handleEvent(Event event, BaseEventInfo eventInfo) throws EventException
+	{
+		switch (event)
+		{
+			case COLLISION_DETECTED:
+				CollisionEventInfo collisionEventInfo = (CollisionEventInfo) eventInfo;
+				if (collisionEventInfo.entity1.hasComponent(PhysicsComponent.class) &&
+						collisionEventInfo.entity2.hasComponent(PhysicsComponent.class))
+					handleFriction(collisionEventInfo.entity1, collisionEventInfo.entity2,
+								   collisionEventInfo.collisionFace, collisionEventInfo.deltaTime);
+				else if (collisionEventInfo.entity2.hasComponent(PhysicsComponent.class) &&
+						collisionEventInfo.entity1.hasComponent(PhysicsComponent.class))
+					handleFriction(collisionEventInfo.entity2, collisionEventInfo.entity1,
+								   collisionEventInfo.collisionFace, collisionEventInfo.deltaTime);
+				break;
+		}
+	}
+
+
 	private void applyGravity(Entity entity, long deltaTime)
 	{
 		PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
 		physicsComponent.velocity.y -= (GRAVITY * scale() * deltaTime / ONE_SECOND_NANOS);
 	}
 
-	@Override
-	public void onCollision(Entity entity1, Entity entity2, CollisionResponse collisionResponse,
+	private void handleFriction(Entity entity1, Entity entity2, CollisionFace collisionFace,
 			long deltaTime)
 	{
-		if (entity1.hasComponent(PhysicsComponent.class) && entity2.hasComponent(
-				PhysicsComponent.class))
-		{
-			handleFriction(entity1, entity2, collisionResponse, deltaTime);
-		}
-	}
-
-	private void handleFriction(Entity entity1, Entity entity2, CollisionResponse collisionResponse,
-			long deltaTime)
-	{
-		switch ((collisionResponse.collisionFace))
+		switch ((collisionFace))
 		{
 			case HORIZONTAL:
 				resolveHorizontalFriction(entity1, entity2, deltaTime);

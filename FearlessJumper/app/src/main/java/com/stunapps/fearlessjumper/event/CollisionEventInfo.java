@@ -11,10 +11,19 @@ import lombok.Getter;
  */
 
 @Getter
-@AllArgsConstructor
 public class CollisionEventInfo extends BaseEventInfo
 {
 	public Entity entity1;
 	public Entity entity2;
 	public CollisionFace collisionFace;
+	public long deltaTime;
+
+	public CollisionEventInfo(Entity entity1, Entity entity2, CollisionFace collisionFace,
+			long deltaTime)
+	{
+		this.entity1 = entity1;
+		this.entity2 = entity2;
+		this.collisionFace = collisionFace;
+		this.deltaTime = deltaTime;
+	}
 }
