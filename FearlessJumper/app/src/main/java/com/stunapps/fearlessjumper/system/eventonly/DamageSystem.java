@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.system.update;
+package com.stunapps.fearlessjumper.system.eventonly;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationEvent;
@@ -10,6 +10,7 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.System;
 import com.stunapps.fearlessjumper.system.listener.CollisionListener;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse;
+import com.stunapps.fearlessjumper.system.update.CollisionSystem;
 
 /**
  * Created by anand.verma on 03/02/18.

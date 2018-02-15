@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.DragonComponent;
 import com.stunapps.fearlessjumper.component.specific.ObstacleComponent;
+import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
@@ -38,7 +39,6 @@ public class GenerationSystem implements UpdateSystem
 
 	private ArrayList<Entity> activeObstacles = new ArrayList<>();
 
-	private static Prefab platformPrefab;
 	private static float platformWidth;
 
 	private static long lastProcessTime = 0;
@@ -64,15 +64,15 @@ public class GenerationSystem implements UpdateSystem
 			initShuffler();
 			initActiveObstacles();
 
-			platformPrefab = Prefabs.PLATFORM.get();
-			platformWidth = calculator.getWidth(platformPrefab);
+			platformWidth = calculator.getWidth(Prefabs.PLATFORM.get());
 		}
 
 		Entity player = componentManager.getEntity(PlayerComponent.class);
-		Set<Entity> obstacles = componentManager.getEntities(ObstacleComponent.class);
+		Set<Entity> spawnables = componentManager.getEntities(ObstacleComponent.class);
+		spawnables.addAll((componentManager.getEntities(Pickup.class)));
 
-		deleteObstaclesOutOfScreen(obstacles);
-		createNewObstacleIfPossible(player.transform.position);
+		deleteSpawnablesOutOfScreen(spawnables);
+		createNewSpawnableIfPossible(player.transform.position);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class GenerationSystem implements UpdateSystem
 		return lastProcessTime;
 	}
 
-	private void deleteObstaclesOutOfScreen(Set<Entity> obstacles)
+	private void deleteSpawnablesOutOfScreen(Set<Entity> obstacles)
 	{
 		for (Entity obstacle : obstacles)
 		{
@@ -90,7 +90,7 @@ public class GenerationSystem implements UpdateSystem
 		}
 	}
 
-	private void createNewObstacleIfPossible(Position playerPosition)
+	private void createNewSpawnableIfPossible(Position playerPosition)
 	{
 		Entity topObstacle = activeObstacles.get(activeObstacles.size() - 1);
 

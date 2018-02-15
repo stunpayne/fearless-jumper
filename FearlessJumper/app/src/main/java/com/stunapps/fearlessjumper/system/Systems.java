@@ -4,7 +4,7 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.stunapps.fearlessjumper.system.update.DamageSystem;
+import com.stunapps.fearlessjumper.system.eventonly.DamageSystem;
 import com.stunapps.fearlessjumper.system.update.LowerBoundarySystem;
 import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.GenerationSystem;
