@@ -8,7 +8,7 @@ import java.util.EventListener;
  * Created by sunny.s on 13/02/18.
  */
 
-public interface BaseEventListener extends EventListener
+public interface BaseEventListener<E extends BaseEvent> extends EventListener
 {
-	void handleEvent(BaseEvent event) throws EventException;
+	void handleEvent(E event) throws EventException;
 }

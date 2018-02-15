@@ -1,14 +1,20 @@
 package com.stunapps.fearlessjumper;
 
+import android.util.Log;
+
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.event.impls.GameEventSystem;
 import com.stunapps.fearlessjumper.event.impls.StartGameEvent;
+import com.stunapps.fearlessjumper.exception.EventException;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by sunny.s on 13/02/18.
@@ -107,4 +113,40 @@ public class TransitionSystemTest
 			return eventRaised;
 		}
 	}
+
+	@Test
+	public void testRaiseV2(){
+		TestEventListnerV2 listnerV2 = new TestEventListnerV2();
+		System.out.println("starting test");
+		eventSystem.raiseEvent(new StartGameEvent());
+		eventSystem.raiseEvent(new CollisionEvent(null, null, null, 0));
+	}
+
+	class TestEventListnerV2 {
+
+		BaseEventListener<StartGameEvent> gameEventListner = new BaseEventListener<StartGameEvent>()
+		{
+			@Override
+			public void handleEvent(StartGameEvent event) throws EventException
+			{
+				System.out.println("StartGameEvent event received");
+			}
+		};
+
+		BaseEventListener<CollisionEvent> collisionEventListner = new BaseEventListener<CollisionEvent>()
+		{
+			@Override
+			public void handleEvent(CollisionEvent event) throws EventException
+			{
+				System.out.println("CollisionEvent event received");
+			}
+		};
+
+		public TestEventListnerV2()
+		{
+			eventSystem.registerEventListener(EventType.START_GAME, gameEventListner);
+			eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListner);
+		}
+	}
+
 }
