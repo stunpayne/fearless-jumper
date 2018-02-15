@@ -11,6 +11,7 @@ import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Shuffler;
+import com.stunapps.fearlessjumper.core.WeightedShuffler;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
@@ -138,7 +139,7 @@ public class ObstacleGenerationSystem implements UpdateSystem
         if (obstacleShuffler == null)
         {
             obstacleShuffler =
-                    new Shuffler.Builder<Prefab>()
+                    new WeightedShuffler.Builder<Prefab>()
                             .returnItem(Prefabs.PLATFORM.get()).withWeight(5f)
                             .returnItem(Prefabs.DRAGON.get()).withWeight(5f)
                             .build();
