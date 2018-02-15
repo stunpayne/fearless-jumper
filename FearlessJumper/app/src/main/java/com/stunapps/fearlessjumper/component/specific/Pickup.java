@@ -2,10 +2,13 @@ package com.stunapps.fearlessjumper.component.specific;
 
 import com.stunapps.fearlessjumper.component.Component;
 
+import lombok.Getter;
+
 /**
  * Created by sunny.s on 15/02/18.
  */
 
+@Getter
 public class Pickup extends Component
 {
 	private PickupType type;
