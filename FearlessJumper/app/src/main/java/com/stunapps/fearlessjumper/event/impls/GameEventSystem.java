@@ -5,10 +5,9 @@ import android.util.Log;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.exception.EventException;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,19 +18,21 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GameEventSystem implements EventSystem
 {
-	private Map<EventType, List<BaseEventListener>> eventListenersMap = new ConcurrentHashMap<>();
+	private Map<Class<? extends BaseEvent>, List<BaseEventListener>> eventListenersMap = new ConcurrentHashMap<>();
 
 	public GameEventSystem()
 	{
-		for (EventType eventType : EventType.values())
-		{
-			eventListenersMap.put(eventType, new ArrayList<BaseEventListener>());
-		}
+
 	}
 
 	@Override
 	public void raiseEvent(BaseEvent event)
 	{
+		if (eventListenersMap.get(event.eventType) == null)
+		{
+			eventListenersMap.put(event.eventType, new LinkedList<BaseEventListener>());
+		}
+
 		for (BaseEventListener eventListener : eventListenersMap.get(event.eventType))
 		{
 			try
@@ -46,20 +47,26 @@ public class GameEventSystem implements EventSystem
 	}
 
 	@Override
-	public void registerEventListener(EventType eventType, BaseEventListener eventListener)
+	public void registerEventListener(Class<? extends BaseEvent> eventType, BaseEventListener eventListener)
 	{
+		if (eventListenersMap.get(eventType) == null)
+		{
+			eventListenersMap.put(eventType, new LinkedList<BaseEventListener>());
+		}
 		eventListenersMap.get(eventType).add(eventListener);
 	}
 
 	@Override
-	public void unregisterEventListener(EventType eventType, BaseEventListener eventListener)
+	public void unregisterEventListener(Class<? extends BaseEvent> eventType, BaseEventListener eventListener)
 	{
 		if (eventListenersMap.get(eventType).contains(eventListener))
+		{
 			eventListenersMap.get(eventType).remove(eventListener);
+		}
 	}
 
 	@Override
-	public List<BaseEventListener> getEventListeners(EventType eventType)
+	public List<BaseEventListener> getEventListeners(Class<? extends BaseEvent> eventType)
 	{
 		return eventListenersMap.get(eventType);
 	}

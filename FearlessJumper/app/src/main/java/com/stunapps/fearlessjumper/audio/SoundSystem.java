@@ -3,7 +3,7 @@ package com.stunapps.fearlessjumper.audio;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.EventType;
+import com.stunapps.fearlessjumper.event.impls.StartGameEvent;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class SoundSystem extends AbstractEventSoundHandler implements OnDemandSo
 	{
 		super(soundEffectPlayer);
 		BACKGROUND_MUSIC_ID = soundEffectPlayer.loadSound(backGroundMusicResId, PRIORITY_MUSIC);
-		eventSystem.registerEventListener(EventType.START_GAME, this);
+		eventSystem.registerEventListener(StartGameEvent.class, this);
 	}
 
 	public static int BACKGROUND_MUSIC_ID;
@@ -38,10 +38,8 @@ public class SoundSystem extends AbstractEventSoundHandler implements OnDemandSo
 	@Override
 	void playSoundOnEvent(BaseEvent event)
 	{
-		switch (event.eventType)
-		{
-			case START_GAME:
-				break;
+		if(event.eventType.isAssignableFrom(StartGameEvent.class)){
+
 		}
 	}
 

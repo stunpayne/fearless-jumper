@@ -9,7 +9,7 @@ import java.util.List;
 public interface EventSystem
 {
 	void raiseEvent(BaseEvent event);
-	void registerEventListener(EventType event, BaseEventListener eventListener);
-	void unregisterEventListener(EventType event, BaseEventListener eventListener);
-	List<BaseEventListener> getEventListeners(EventType event);
+	void registerEventListener(Class<? extends BaseEvent> eventType, BaseEventListener eventListener);
+	void unregisterEventListener(Class<? extends BaseEvent> eventType, BaseEventListener eventListener);
+	List<BaseEventListener> getEventListeners(Class<? extends BaseEvent> eventType);
 }

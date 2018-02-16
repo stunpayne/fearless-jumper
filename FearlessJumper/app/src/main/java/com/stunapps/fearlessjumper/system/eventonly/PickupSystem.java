@@ -10,7 +10,6 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.System;
@@ -49,7 +48,7 @@ public class PickupSystem implements System
     public PickupSystem(EntityManager entityManager, EventSystem eventSystem)
     {
         this.entityManager = entityManager;
-        eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListener);
+        eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
     }
 
     private void pickupItem(Entity player, Entity pickup)

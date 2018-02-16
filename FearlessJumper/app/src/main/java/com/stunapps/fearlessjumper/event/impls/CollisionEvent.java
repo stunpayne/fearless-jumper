@@ -2,7 +2,6 @@ package com.stunapps.fearlessjumper.event.impls;
 
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEvent;
-import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 import lombok.Getter;
@@ -22,7 +21,7 @@ public class CollisionEvent extends BaseEvent
 	public CollisionEvent(Entity entity1, Entity entity2, CollisionFace collisionFace,
 						  long deltaTime)
 	{
-		super(EventType.COLLISION_DETECTED);
+		super(CollisionEvent.class);
 		this.entity1 = entity1;
 		this.entity2 = entity2;
 		this.collisionFace = collisionFace;

@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.stunapps.fearlessjumper.audio.SoundSystem;
-import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.event.impls.SceneStartEvent;
 import com.stunapps.fearlessjumper.event.impls.SceneStopEvent;
 import com.stunapps.fearlessjumper.helper.Environment;

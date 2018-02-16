@@ -6,9 +6,9 @@ package com.stunapps.fearlessjumper.event;
 
 abstract public class BaseEvent
 {
-    public EventType eventType;
+    public Class<? extends BaseEvent> eventType;
 
-    public BaseEvent(EventType eventType)
+    public BaseEvent(Class<? extends BaseEvent> eventType)
     {
         this.eventType = eventType;
     }

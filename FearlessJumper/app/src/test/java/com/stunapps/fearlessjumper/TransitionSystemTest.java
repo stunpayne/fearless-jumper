@@ -2,7 +2,6 @@ package com.stunapps.fearlessjumper;
 
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.event.impls.GameEventSystem;
@@ -23,7 +22,10 @@ public class TransitionSystemTest
 	@Test
 	public void testRegisterUnregister()
 	{
-		EventType testEvent = EventType.START_GAME;
+		//EventType testEvent = EventType.START_GAME;
+
+		Class<? extends BaseEvent> testEvent = StartGameEvent.class;
+
 		TestEventListener eventListener = new TestEventListener();
 		TestEventListener eventListener2 = new TestEventListener();
 		TestEventListener eventListener3 = new TestEventListener();
@@ -71,7 +73,9 @@ public class TransitionSystemTest
 	@Test
 	public void testRaise()
 	{
-		EventType testEvent = EventType.START_GAME;
+		//EventType testEvent = EventType.START_GAME;
+		Class<? extends BaseEvent> testEvent = StartGameEvent.class;
+
 		TestEventListener eventListener = new TestEventListener();
 		TestEventListener eventListener2 = new TestEventListener();
 
@@ -141,8 +145,8 @@ public class TransitionSystemTest
 
 		public TestEventListenerV2()
 		{
-			eventSystem.registerEventListener(EventType.START_GAME, gameEventListener);
-			eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListener);
+			eventSystem.registerEventListener(StartGameEvent.class, gameEventListener);
+			eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
 		}
 	}
 

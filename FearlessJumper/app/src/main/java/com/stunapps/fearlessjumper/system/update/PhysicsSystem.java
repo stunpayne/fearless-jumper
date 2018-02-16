@@ -6,9 +6,8 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.EventType;
+import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
@@ -52,7 +51,7 @@ public class PhysicsSystem implements UpdateSystem
 	public PhysicsSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
-		eventSystem.registerEventListener(EventType.COLLISION_DETECTED, collisionEventListener);
+		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
 	}
 
 	@Override

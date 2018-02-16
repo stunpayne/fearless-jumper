@@ -5,9 +5,7 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.EventType;
 import com.stunapps.fearlessjumper.event.impls.GameOverEvent;
 import com.stunapps.fearlessjumper.event.impls.StartGameEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
@@ -59,7 +57,7 @@ public class SceneManagerImpl implements SceneManager
 
 		this.mainMenuSceneProvider = mainMenuSceneProvider;
 		this.gameplaySceneProvider = gameplaySceneProvider;
-		eventSystem.registerEventListener(EventType.START_GAME, startGameListener);
+		eventSystem.registerEventListener(StartGameEvent.class, startGameListener);
 	}
 
 	@Override
