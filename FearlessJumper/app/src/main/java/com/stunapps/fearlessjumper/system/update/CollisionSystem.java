@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
+import com.stunapps.fearlessjumper.event.impl.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 

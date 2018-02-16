@@ -3,9 +3,9 @@ package com.stunapps.fearlessjumper;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.impls.CollisionEvent;
-import com.stunapps.fearlessjumper.event.impls.GameEventSystem;
-import com.stunapps.fearlessjumper.event.impls.StartGameEvent;
+import com.stunapps.fearlessjumper.event.impl.CollisionEvent;
+import com.stunapps.fearlessjumper.event.impl.GameEventSystem;
+import com.stunapps.fearlessjumper.event.impl.StartGameEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 
 import org.junit.Assert;

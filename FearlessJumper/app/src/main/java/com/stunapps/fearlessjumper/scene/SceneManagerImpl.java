@@ -6,8 +6,8 @@ import android.view.MotionEvent;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.impls.GameOverEvent;
-import com.stunapps.fearlessjumper.event.impls.StartGameEvent;
+import com.stunapps.fearlessjumper.event.impl.GameOverEvent;
+import com.stunapps.fearlessjumper.event.impl.StartGameEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.event.EventSystem;
 

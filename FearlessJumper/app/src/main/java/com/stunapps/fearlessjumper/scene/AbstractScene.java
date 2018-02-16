@@ -7,8 +7,8 @@ import android.view.View;
 
 import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.impls.SceneStartEvent;
-import com.stunapps.fearlessjumper.event.impls.SceneStopEvent;
+import com.stunapps.fearlessjumper.event.impl.SceneStartEvent;
+import com.stunapps.fearlessjumper.event.impl.SceneStopEvent;
 import com.stunapps.fearlessjumper.helper.Environment;
 
 import lombok.Getter;

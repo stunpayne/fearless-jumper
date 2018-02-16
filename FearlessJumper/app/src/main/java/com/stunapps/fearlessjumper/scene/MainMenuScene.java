@@ -10,7 +10,7 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.impls.StartGameEvent;
+import com.stunapps.fearlessjumper.event.impl.StartGameEvent;
 
 import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad;
 

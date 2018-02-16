@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.event.impls;
+package com.stunapps.fearlessjumper.event.impl;
 
 import com.stunapps.fearlessjumper.event.BaseEvent;
 
