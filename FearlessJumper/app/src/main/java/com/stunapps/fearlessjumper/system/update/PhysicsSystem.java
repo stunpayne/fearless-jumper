@@ -38,11 +38,6 @@ public class PhysicsSystem implements UpdateSystem
 			{
 				handleFriction(collisionEvent.entity1, collisionEvent.entity2,
 						collisionEvent.collisionFace, collisionEvent.deltaTime);
-			} else if (collisionEvent.entity2.hasComponent(PhysicsComponent.class) &&
-					collisionEvent.entity1.hasComponent(PhysicsComponent.class))
-			{
-				handleFriction(collisionEvent.entity2, collisionEvent.entity1,
-						collisionEvent.collisionFace, collisionEvent.deltaTime);
 			}
 		}
 	};
