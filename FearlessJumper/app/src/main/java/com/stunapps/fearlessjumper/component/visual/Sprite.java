@@ -8,17 +8,17 @@ import com.stunapps.fearlessjumper.component.Delta;
  * Created by sunny.s on 03/01/18.
  */
 
-public class SpriteComponent extends RenderableComponent<Bitmap>
+public class Sprite extends RenderableComponent<Bitmap>
 {
     private Bitmap sprite;
 
-    public SpriteComponent()
+    public Sprite()
     {
         super(RenderType.SPRITE, Delta.ZERO, 0, 0);
 
     }
 
-    public SpriteComponent(Bitmap sprite, Delta delta, float width, float height)
+    public Sprite(Bitmap sprite, Delta delta, float width, float height)
     {
         super(RenderType.SPRITE, delta, width, height);
         this.sprite = sprite;
@@ -40,8 +40,8 @@ public class SpriteComponent extends RenderableComponent<Bitmap>
     }
 
     @Override
-    public SpriteComponent clone() throws CloneNotSupportedException
+    public Sprite clone() throws CloneNotSupportedException
     {
-        return new SpriteComponent(sprite, delta, width, height);
+        return new Sprite(sprite, delta, width, height);
     }
 }

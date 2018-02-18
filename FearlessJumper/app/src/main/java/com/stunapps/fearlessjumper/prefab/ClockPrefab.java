@@ -8,7 +8,7 @@ import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.Pickup.PickupType;
-import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
+import com.stunapps.fearlessjumper.component.visual.Sprite;
 import com.stunapps.fearlessjumper.helper.Environment;
 
 /**
@@ -25,6 +25,6 @@ public class ClockPrefab extends Prefab
 		float height = 100;
 		components.add(new Pickup(PickupType.CLOCK, 10f));
 		components.add(new RectCollider(Delta.ZERO, width, height, true));
-		components.add(new SpriteComponent(clockSprite, Delta.ZERO, width, height));
+		components.add(new Sprite(clockSprite, Delta.ZERO, width, height));
 	}
 }

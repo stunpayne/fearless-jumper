@@ -5,8 +5,8 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.specific.DragonComponent;
-import com.stunapps.fearlessjumper.component.specific.ObstacleComponent;
+import com.stunapps.fearlessjumper.component.specific.Dragon;
+import com.stunapps.fearlessjumper.component.specific.Obstacle;
 import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Position;
@@ -68,7 +68,7 @@ public class GenerationSystem implements UpdateSystem
 		}
 
 		Entity player = componentManager.getEntity(PlayerComponent.class);
-		Set<Entity> spawnables = componentManager.getEntities(ObstacleComponent.class);
+		Set<Entity> spawnables = componentManager.getEntities(Obstacle.class);
 		spawnables.addAll((componentManager.getEntities(Pickup.class)));
 
 		deleteSpawnablesOutOfScreen(spawnables);
@@ -100,7 +100,7 @@ public class GenerationSystem implements UpdateSystem
 		{
 			Log.v("NEW_OBSTACLE", "Top Obstacle ID: " + topObstacle.getId() + " Position: " + "" +
 					topObstacle.transform.position + " Type: " +
-					(topObstacle.hasComponent(DragonComponent.class) ? "Dragon" : "Platform"));
+					(topObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
 
 			Prefab spawnPrefab = obstacleShuffler.shuffle();
 			//	TODO: Change platformWidth to spawnObstacle width
@@ -116,7 +116,7 @@ public class GenerationSystem implements UpdateSystem
 				Log.i("NEW_OBSTACLE",
 					  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
 							  spawnPosition + " of type: " + (newObstacle
-							  .hasComponent(DragonComponent.class) ? "Dragon" : "Platform"));
+							  .hasComponent(Dragon.class) ? "Dragon" : "Platform"));
 				Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
 			}
 			catch (CloneNotSupportedException e)
@@ -139,7 +139,7 @@ public class GenerationSystem implements UpdateSystem
 
 	private void initActiveObstacles()
 	{
-		Set<Entity> entities = componentManager.getEntities(ObstacleComponent.class);
+		Set<Entity> entities = componentManager.getEntities(Obstacle.class);
 		activeObstacles.addAll(entities);
 
 		Collections.sort(activeObstacles, new Comparator<Entity>()

@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
-import com.stunapps.fearlessjumper.component.visual.SpriteComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 
