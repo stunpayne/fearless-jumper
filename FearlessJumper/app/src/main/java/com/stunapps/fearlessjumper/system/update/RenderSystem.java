@@ -122,18 +122,18 @@ public class RenderSystem implements UpdateSystem
 		paint.setColor(Color.WHITE);
 		paint.setTextAlign(Align.CENTER);
 		paint.setTypeface(Typeface.SANS_SERIF);
-		paint.setTextSize(100);
+		paint.setTextSize(40);
 
 		Float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
-		String timeText = String.valueOf(remainingSeconds.intValue()).concat(" ");
+		String timeText = "Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" "));
 		canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 
 		Float playerScore = player.getComponent(Score.class).getScore();
-		String scoreText = String.valueOf(playerScore.intValue());
+		String scoreText = "Score: ".concat(String.valueOf(playerScore.intValue()));
 		canvas.drawText(scoreText, Device.SCREEN_WIDTH / 2, timeRectTop, paint);
 
 		Float fuel = player.getComponent(Fuel.class).getFuel();
-		String fuelText = String.valueOf(fuel.intValue());
+		String fuelText = "Fuel: ".concat(String.valueOf(fuel.intValue()));
 		canvas.drawText(fuelText, 3 * Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 	}
 }
