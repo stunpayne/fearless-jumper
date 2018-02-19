@@ -12,8 +12,6 @@ import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.impl.StartGameEvent;
 
-import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad;
-
 /**
  * Created by sunny.s on 11/02/18.
  */
@@ -65,6 +63,24 @@ public class MainMenuScene extends AbstractScene
 	public void playScene()
 	{
 
+	}
+
+	@Override
+	public void terminate()
+	{
+		super.terminate();
+	}
+
+	@Override
+	public void setup()
+	{
+
+	}
+
+	@Override
+	public void play()
+	{
+		super.play();
 	}
 
 	@Override

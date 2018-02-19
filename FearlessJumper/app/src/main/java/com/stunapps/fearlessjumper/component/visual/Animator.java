@@ -22,7 +22,7 @@ public class Animator extends RenderableComponent<Bitmap>
 {
     @Singular
     private Map<AnimationState, Animation> animations = new HashMap<>();
-    private StateMachine animationStateMachine;
+    private StateMachine<AnimationState, AnimationTransition> animationStateMachine;
     private State currentAnimationState;
 
     public Animator(Map<AnimationState, Animation> animations, Delta delta, float width, float height, StateMachine animationStateMachine)

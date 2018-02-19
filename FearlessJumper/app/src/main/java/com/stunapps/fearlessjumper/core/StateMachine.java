@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by anand.verma on 02/02/18.
  */
 
-public class StateMachine
+public class StateMachine<State, Transition>
 {
     private State currentState;
     private State startState;
@@ -21,9 +21,9 @@ public class StateMachine
     /**
      * Special state which will transaction to mapped state after specified number of calls to current state.
      */
-    private Map<State, CountDownState> countDownStates;
+    private Map<State, CountDownState<State>> countDownStates;
 
-    public StateMachine(State startState, State terminalState, Map<State, Map<Transition, State>> stateTransitionMap, Map<State, CountDownState> countDownStateMap)
+    public StateMachine(State startState, State terminalState, Map<State, Map<Transition, State>> stateTransitionMap, Map<State, CountDownState<State>> countDownStateMap)
     {
         this.startState = startState;
         this.terminalState = terminalState;
@@ -75,7 +75,7 @@ public class StateMachine
         return currentState;
     }
 
-    public static class CountDownState
+    public static class CountDownState<State>
     {
         private State fromState;
         private State toState;
@@ -109,7 +109,7 @@ public class StateMachine
         }
     }
 
-    public static class Builder
+    public static class Builder<State, Transition>
     {
         private State startState;
         private State terminalState;

@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.loop.GameView;
+import com.stunapps.fearlessjumper.scene.AbstractScene;
 
 import javax.inject.Inject;
 
@@ -42,6 +43,11 @@ public class GameplayScene extends AbstractScene
 	@Override
 	void setUpScene()
 	{
+
+	}
+
+	@Override
+	public void setup(){
 
 	}
 }

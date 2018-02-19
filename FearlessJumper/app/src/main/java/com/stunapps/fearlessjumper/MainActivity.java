@@ -12,7 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.stunapps.fearlessjumper.audio.PerfectLoopMediaPlayer;
-import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
@@ -36,57 +35,12 @@ public class MainActivity extends Activity
 	 */
 	public static MainActivity getInstance()
 	{
+		//TODO: On instance being null, it should throw exception.
 		if (instance == null)
 		{
 			instance = new MainActivity();
 		}
 		return instance;
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		instance = this;
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-							 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		Device.SCREEN_WIDTH = dm.widthPixels;
-		Device.SCREEN_HEIGHT = dm.heightPixels;
-		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
-		Environment.ACTIVITY = this;
-		Environment.CONTEXT = this;
-
-		Log.d("CONTEXT", "Context hash code: " + this.hashCode());
-
-		DI.install(new GameModule(this));
-		di().getInstance(Systems.class).initialise();
-
-		di().getInstance(SoundSystem.class);
-		di().getInstance(SceneManager.class).start();
-
-		//	TODO: Remove after testing
-//		PerfectLoopMediaPlayer perfectLoopMediaPlayer =
-//				PerfectLoopMediaPlayer.create(this, R.raw.second_try);
-//		perfectLoopMediaPlayer.start();
-	}
-
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		//        di().getInstance(OrientationData.class).register();
-	}
-
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-		//        di().getInstance(OrientationData.class).pause();
 	}
 
 	public LoadViewCallback getLoadViewCallback(View view)
@@ -134,6 +88,46 @@ public class MainActivity extends Activity
 		}
 	}
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		instance = this;
+		super.onCreate(savedInstanceState);
+
+		setupActivityContext();
+
+		Log.d("CONTEXT", "Context hash code: " + this.hashCode());
+
+		DI.install(new GameModule(this));
+
+		di().getInstance(Systems.class).initialise();
+		di().getInstance(SceneManager.class).initialise();
+
+		//	TODO: Remove after testing
+		PerfectLoopMediaPlayer perfectLoopMediaPlayer =
+				PerfectLoopMediaPlayer.create(this, R.raw.second_try);
+		perfectLoopMediaPlayer.start();
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		di().getInstance(SceneManager.class).destroy();
+	}
+
 	private void loadView(final View view)
 	{
 		runOnUiThread(new Runnable()
@@ -158,5 +152,21 @@ public class MainActivity extends Activity
 				Log.d("CONTENT_VIEW", "Content view changed");
 			}
 		});
+	}
+
+	private void setupActivityContext()
+	{
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		Device.SCREEN_WIDTH = dm.widthPixels;
+		Device.SCREEN_HEIGHT = dm.heightPixels;
+		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
+		Environment.ACTIVITY = this;
+		Environment.CONTEXT = this;
 	}
 }
