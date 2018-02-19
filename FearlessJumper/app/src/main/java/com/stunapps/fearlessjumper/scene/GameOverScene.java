@@ -14,35 +14,10 @@ import com.stunapps.fearlessjumper.scene.AbstractScene;
 
 public class GameOverScene extends AbstractScene
 {
-
     @Inject
     public GameOverScene(View view, EventSystem eventSystem, SoundSystem soundSystem)
     {
         super(view, eventSystem, soundSystem);
-    }
-
-    @Override
-    public void setup()
-    {
-
-    }
-
-    @Override
-    public void receiveTouch(MotionEvent motionEvent)
-    {
-
-    }
-
-    @Override
-    public void terminate()
-    {
-        super.terminate();
-    }
-
-    @Override
-    public void play()
-    {
-        super.play();
     }
 
     @Override
@@ -52,13 +27,13 @@ public class GameOverScene extends AbstractScene
     }
 
     @Override
-    void tearDownScene()
+    void playScene()
     {
 
     }
 
     @Override
-    void playScene()
+    void terminateScene()
     {
 
     }

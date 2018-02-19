@@ -23,31 +23,20 @@ public class GameplayScene extends AbstractScene
 	}
 
 	@Override
-	public void playScene()
-	{
-
-	}
-
-	@Override
-	public void tearDownScene()
-	{
-
-	}
-
-	@Override
-	public void receiveTouch(MotionEvent motionEvent)
-	{
-
-	}
-
-	@Override
 	void setUpScene()
 	{
 
 	}
 
 	@Override
-	public void setup(){
+	public void playScene()
+	{
+
+	}
+
+	@Override
+	public void terminateScene()
+	{
 
 	}
 }

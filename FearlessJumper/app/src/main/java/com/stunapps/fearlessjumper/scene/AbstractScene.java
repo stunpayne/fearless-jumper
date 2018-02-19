@@ -25,7 +25,7 @@ public abstract class AbstractScene implements Scene
 	@Getter
 	@Setter
 	View view;
-
+	protected Integer sceneId;
 	protected final EventSystem eventSystem;
 	protected final SoundSystem soundSystem;
 
@@ -34,33 +34,23 @@ public abstract class AbstractScene implements Scene
 		this.view = view;
 		this.eventSystem = eventSystem;
 		this.soundSystem = soundSystem;
-		setUpScene();
+
 	}
 
 	public AbstractScene(@LayoutRes int layoutResId, EventSystem eventSystem,
-			SoundSystem soundSystem)
+						 SoundSystem soundSystem)
 	{
-		this.view = LayoutInflater.from(Environment.CONTEXT).inflate(layoutResId, null);
-		this.eventSystem = eventSystem;
-		this.soundSystem = soundSystem;
-		setUpScene();
+		this(LayoutInflater.from(Environment.CONTEXT).inflate(layoutResId, null), eventSystem, soundSystem);
 	}
 
 	@Override
-	public void terminate()
-	{
-		tearDownScene();
-		soundSystem.stopSceneMusic(0);
-		eventSystem.raiseEvent(new SceneStopEvent());
-	}
-
-	@Override
-	public final void setActive()
+	public final void setup()
 	{
 		try
 		{
 			eventSystem.raiseEvent(new SceneStartEvent());
 			requestViewLoad(view);
+			setUpScene();
 		}
 		catch (Exception e)
 		{
@@ -74,9 +64,17 @@ public abstract class AbstractScene implements Scene
 		playScene();
 	}
 
+	@Override
+	public void terminate()
+	{
+		terminateScene();
+		soundSystem.stopSceneMusic(0);
+		eventSystem.raiseEvent(new SceneStopEvent());
+	}
+
 	abstract void setUpScene();
 
-	abstract void tearDownScene();
-
 	abstract void playScene();
+
+	abstract void terminateScene();
 }

@@ -54,38 +54,15 @@ public class MainMenuScene extends AbstractScene
 	}
 
 	@Override
-	public void tearDownScene()
-	{
-
-	}
-
-	@Override
 	public void playScene()
 	{
 
 	}
 
 	@Override
-	public void terminate()
-	{
-		super.terminate();
-	}
-
-	@Override
-	public void setup()
+	public void terminateScene()
 	{
 
 	}
 
-	@Override
-	public void play()
-	{
-		super.play();
-	}
-
-	@Override
-	public void receiveTouch(MotionEvent motionEvent)
-	{
-
-	}
 }

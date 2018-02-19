@@ -1,12 +1,10 @@
 package com.stunapps.fearlessjumper.animation;
 
-import com.stunapps.fearlessjumper.core.Transition;
-
 /**
  * Created by anand.verma on 02/02/18.
  */
 
-public enum AnimationTransition implements Transition
+public enum AnimationTransition
 {
     STOP,
     TERMINATE,

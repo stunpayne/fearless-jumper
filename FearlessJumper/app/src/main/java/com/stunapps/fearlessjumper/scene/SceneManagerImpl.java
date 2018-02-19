@@ -79,7 +79,7 @@ public class SceneManagerImpl implements SceneManager
 				.from(GameplayScene.class).onEvent(MainMenuEvent.class).toState(MainMenuScene.class).build();
 
 		Scene scene = sceneMap.get(sceneStateMachine.getStartState());
-		scene.setActive();
+		scene.setup();
 		scene.play();
 	}
 
@@ -95,10 +95,15 @@ public class SceneManagerImpl implements SceneManager
 
 	private void transitScene(GameEvent event)
 	{
+		//Terminate current scene.
 		sceneMap.get(sceneStateMachine.getCurrentState()).terminate();
-		Class<? extends Scene> sceneState = sceneStateMachine.transitStateOnEvent(event.eventType);
-		Scene scene = sceneMap.get(sceneState);
-		scene.setActive();
+
+		//Get new scene.
+		Class<? extends Scene> nextScene = sceneStateMachine.transitStateOnEvent(event.eventType);
+		Scene scene = sceneMap.get(nextScene);
+
+		//Initialize new scene.
+		scene.setup();
 		scene.play();
 	}
 }

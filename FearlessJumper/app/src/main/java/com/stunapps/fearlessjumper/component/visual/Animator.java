@@ -7,7 +7,6 @@ import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.core.StateMachine;
-import com.stunapps.fearlessjumper.core.State;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,14 +22,12 @@ public class Animator extends RenderableComponent<Bitmap>
     @Singular
     private Map<AnimationState, Animation> animations = new HashMap<>();
     private StateMachine<AnimationState, AnimationTransition> animationStateMachine;
-    private State currentAnimationState;
 
     public Animator(Map<AnimationState, Animation> animations, Delta delta, float width, float height, StateMachine animationStateMachine)
     {
         super(RenderType.ANIMATOR, delta, width, height);
         this.animations = animations;
         this.animationStateMachine = animationStateMachine;
-        this.currentAnimationState = AnimationState.IDLE;
     }
 
     //  TODO: We need to add
@@ -43,7 +40,7 @@ public class Animator extends RenderableComponent<Bitmap>
     public void triggerEvent(AnimationTransition event)
     {
         //Log.d(TAG, "triggerEvent: currentAnimationState before state transition = " + animationStateMachine.getCurrentState());
-        currentAnimationState = animationStateMachine.transitStateOnEvent(event);
+        animationStateMachine.transitStateOnEvent(event);
         //Log.d(TAG, "triggerEvent: currentAnimationState = " + animationStateMachine.getCurrentState() + " after eventType = " + eventType);
     }
 
@@ -63,10 +60,9 @@ public class Animator extends RenderableComponent<Bitmap>
     //  We will always reset the animation on stop
     public void stopAnimation()
     {
-        Animation animation = animations.get(currentAnimationState);
+        Animation animation = animations.get(animationStateMachine.getCurrentState());
         if (animation.isPlaying())
             animation.stopAndReset();
-        currentAnimationState = null;
     }
 
     @Override

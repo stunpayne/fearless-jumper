@@ -1,12 +1,10 @@
 package com.stunapps.fearlessjumper.animation;
 
-import com.stunapps.fearlessjumper.core.State;
-
 /**
  * Created by anand.verma on 02/02/18.
  */
 
-public enum AnimationState implements State
+public enum AnimationState
 {
     IDLE,
     WALK_RIGHT,
