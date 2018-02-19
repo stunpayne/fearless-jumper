@@ -15,6 +15,7 @@ import com.stunapps.fearlessjumper.system.input.InputSystem;
 import com.stunapps.fearlessjumper.system.update.CollisionSystem;
 import com.stunapps.fearlessjumper.system.update.PhysicsSystem;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
+import com.stunapps.fearlessjumper.system.update.ResourceDegradeSystem;
 import com.stunapps.fearlessjumper.system.update.ScoreUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.TransformUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
@@ -35,8 +36,8 @@ public class Systems
 	private static final List<Class<? extends UpdateSystem>> systemOrder =
 			Arrays.asList(PhysicsSystem.class, GenerationSystem.class, MovementUpdateSystem.class,
 						  CollisionSystem.class, LowerBoundarySystem.class,
-						  TransformUpdateSystem.class, ScoreUpdateSystem.class, RenderSystem
-								  .class);
+						  TransformUpdateSystem.class, ScoreUpdateSystem.class,
+						  ResourceDegradeSystem.class, RenderSystem.class);
 	//  Next lines is hacky. The variable should be list but we can't create a list of
 	//  subclasses with only one element
 	private static final Class<? extends InputSystem> inputSystem = GameInputSystem.class;

@@ -8,27 +8,32 @@ import com.stunapps.fearlessjumper.component.Component;
 
 public class RemainingTime extends Component
 {
-	private float remainingSeconds;
+	private long remainingMilliseconds;
 
-	public RemainingTime(float remainingSeconds)
+	public RemainingTime(long remainingMilliseconds)
 	{
 		super(RemainingTime.class);
-		this.remainingSeconds = remainingSeconds;
+		this.remainingMilliseconds = remainingMilliseconds;
 	}
 
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{
-		return new RemainingTime(remainingSeconds);
+		return new RemainingTime(remainingMilliseconds);
 	}
 
 	public float getRemainingSeconds()
 	{
-		return remainingSeconds;
+		return remainingMilliseconds / 1000;
 	}
 
-	public void addSeconds(float time)
+	public void addSeconds(long time)
 	{
-		remainingSeconds += time;
+		remainingMilliseconds += time;
+	}
+
+	public void decreaseSeconds(long time)
+	{
+		remainingMilliseconds -= time;
 	}
 }

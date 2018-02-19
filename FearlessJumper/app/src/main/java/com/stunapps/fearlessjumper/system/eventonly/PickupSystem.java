@@ -58,7 +58,7 @@ public class PickupSystem implements System
         {
             case CLOCK:
                 player.getComponent(RemainingTime.class)
-                        .addSeconds(pickupComponent.getPickupValue());
+                        .addSeconds((long) pickupComponent.getPickupValue());
                 break;
             case FUEL:
                 player.getComponent(Fuel.class).refuel(pickupComponent.getPickupValue());

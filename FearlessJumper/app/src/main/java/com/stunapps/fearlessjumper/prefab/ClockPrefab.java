@@ -23,7 +23,7 @@ public class ClockPrefab extends Prefab
 				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.clock);
 		float width = 100;
 		float height = 100;
-		components.add(new Pickup(PickupType.CLOCK, 10f));
+		components.add(new Pickup(PickupType.CLOCK, 5000f));
 		components.add(new RectCollider(Delta.ZERO, width, height, true));
 		components.add(new Sprite(clockSprite, Delta.ZERO, width, height));
 	}

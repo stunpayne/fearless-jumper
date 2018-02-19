@@ -13,6 +13,7 @@ import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.OrientationInput;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
@@ -74,7 +75,8 @@ public class PlayerPrefab extends Prefab
         OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
         components.add(orientationInput);
         components.add(new PlayerComponent());
-        components.add(new RemainingTime(30f));
+        components.add(new RemainingTime(10000));
         components.add(new Score());
+        components.add(new Fuel(100f));
     }
 }

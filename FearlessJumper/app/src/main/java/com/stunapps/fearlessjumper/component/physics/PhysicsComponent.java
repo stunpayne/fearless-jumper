@@ -49,7 +49,7 @@ public class PhysicsComponent extends Component
 
     @Getter
     @Setter
-    public static class Velocity
+    public static class Velocity implements Cloneable
     {
         public float x;
         public float y;

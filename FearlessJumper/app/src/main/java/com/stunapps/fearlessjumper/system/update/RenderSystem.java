@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
+import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
@@ -117,17 +118,22 @@ public class RenderSystem implements UpdateSystem
 	{
 		//	Render time and score
 		int timeRectTop = 80;
-
-		float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
-		Float playerScore = player.getComponent(Score.class).getScore();
-		String text = String.valueOf((int) remainingSeconds).concat(" ")
-				.concat(String.valueOf(playerScore.intValue()));
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
 		paint.setTextAlign(Align.CENTER);
 		paint.setTypeface(Typeface.SANS_SERIF);
 		paint.setTextSize(100);
 
-		canvas.drawText(text, Device.SCREEN_WIDTH / 2, timeRectTop, paint);
+		Float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
+		String timeText = String.valueOf(remainingSeconds.intValue()).concat(" ");
+		canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
+
+		Float playerScore = player.getComponent(Score.class).getScore();
+		String scoreText = String.valueOf(playerScore.intValue());
+		canvas.drawText(scoreText, Device.SCREEN_WIDTH / 2, timeRectTop, paint);
+
+		Float fuel = player.getComponent(Fuel.class).getFuel();
+		String fuelText = String.valueOf(fuel.intValue());
+		canvas.drawText(fuelText, 3 * Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 	}
 }
