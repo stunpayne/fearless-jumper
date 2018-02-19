@@ -9,11 +9,13 @@ import com.stunapps.fearlessjumper.component.Component;
 public class Fuel extends Component
 {
 	private float fuel;
+	private boolean discharging;
 
 	public Fuel(float fuel)
 	{
 		super(Fuel.class);
 		this.fuel = fuel;
+		this.discharging = false;
 	}
 
 	@Override
@@ -22,13 +24,33 @@ public class Fuel extends Component
 		return new Fuel(fuel);
 	}
 
+	public void refuel(float refuelAmount)
+	{
+		this.fuel += refuelAmount;
+	}
+
 	public float getFuel()
 	{
 		return fuel;
 	}
 
-	public void refuel(float fuel)
+	public void setFuel(float fuel)
 	{
-		this.fuel += fuel;
+		this.fuel = fuel;
+	}
+
+	public void dischargeFuel(float amountUsed)
+	{
+		this.fuel -= amountUsed;
+	}
+
+	public boolean isDischarging()
+	{
+		return discharging;
+	}
+
+	public void setDischarging(boolean discharging)
+	{
+		this.discharging = discharging;
 	}
 }

@@ -7,8 +7,10 @@ import android.view.MotionEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.helper.Environment.Constants;
 import com.stunapps.fearlessjumper.system.Systems;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
@@ -31,6 +33,7 @@ import static com.stunapps.fearlessjumper.helper.Environment.scale;
 public class PlayerInputProcessor implements InputProcessor
 {
 	private static float JUMP_IMPULSE = 1 / 80f;
+	private static float FUEL_DISCHARGE = 5f;
 	private static long lastProcessTime = System.nanoTime();
 
 	private static Map<Class, Long> debugSystemRunTimes = new HashMap<>();
@@ -41,17 +44,24 @@ public class PlayerInputProcessor implements InputProcessor
 	}
 
 	@Override
-	public void process(Entity entity, MotionEvent motionEvent)
+	public void process(Entity player, MotionEvent motionEvent)
 	{
+		long currentTime = System.currentTimeMillis();
+		long deltaTime = currentTime - lastProcessTime;
 		lastProcessTime = System.currentTimeMillis();
 		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			//  To test is input is occurring between collision and transform update
 			logSystemTimes();
 			Log.d("INPUT", "Action Down detected");
-			Rect entityCanvasRect = RenderSystem.getRenderRect(entity);
-			applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
-							   entity.getComponent(PhysicsComponent.class), motionEvent);
+			Rect entityCanvasRect = RenderSystem.getRenderRect(player);
+			Fuel fuel = player.getComponent(Fuel.class);
+			if (fuel.getFuel() > 0)
+			{
+				applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
+								   player.getComponent(PhysicsComponent.class), motionEvent);
+				dischargeFuel(fuel, deltaTime);
+			}
 		}
 	}
 
@@ -69,13 +79,20 @@ public class PlayerInputProcessor implements InputProcessor
 				physicsComponent.getVelocity().y);
 	}
 
+	private void dischargeFuel(Fuel fuel, long deltaTime)
+	{
+		Log.d("FUEL", "Current: " + fuel.getFuel() + " discharge amount: " +
+				FUEL_DISCHARGE * deltaTime / Constants.ONE_SECOND_NANOS);
+		fuel.dischargeFuel(FUEL_DISCHARGE);
+	}
+
 
 	/**
 	 * Helper methods to log the last times at which various systems ran. Used for some debugging
 	 */
 	private void logSystemTimes()
 	{
-		debugSystemRunTimes.put(this.getClass(), this.lastProcessTime);
+		debugSystemRunTimes.put(this.getClass(), lastProcessTime);
 		for (UpdateSystem system : Systems.getSystemsInOrder())
 		{
 			debugSystemRunTimes.put(system.getClass(), system.getLastProcessTime());

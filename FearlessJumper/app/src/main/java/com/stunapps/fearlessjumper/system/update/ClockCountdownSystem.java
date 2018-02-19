@@ -15,7 +15,7 @@ import javax.inject.Inject;
  * Created by sunny.s on 19/02/18.
  */
 
-public class ResourceDegradeSystem implements UpdateSystem
+public class ClockCountdownSystem implements UpdateSystem
 {
 	private final ComponentManager componentManager;
 
@@ -23,7 +23,7 @@ public class ResourceDegradeSystem implements UpdateSystem
 	private static long ONE_SECOND = 1;
 
 	@Inject
-	public ResourceDegradeSystem(ComponentManager componentManager)
+	public ClockCountdownSystem(ComponentManager componentManager)
 	{
 		this.componentManager = componentManager;
 	}
@@ -39,8 +39,6 @@ public class ResourceDegradeSystem implements UpdateSystem
 		{
 			entity.getComponent(RemainingTime.class)
 					.decreaseSeconds(deltaTime * ONE_SECOND / Constants.ONE_MILLION);
-			Log.d("RESOURCE_DEGRADE", "Delta time: " + deltaTime + " Remaining time: " +
-					entity.getComponent(RemainingTime.class).getRemainingSeconds());
 		}
 	}
 

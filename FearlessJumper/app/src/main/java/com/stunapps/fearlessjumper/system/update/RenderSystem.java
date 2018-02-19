@@ -116,7 +116,6 @@ public class RenderSystem implements UpdateSystem
 	 */
 	private void renderHUD(Entity player)
 	{
-		//	Render time and score
 		int timeRectTop = 80;
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
@@ -124,16 +123,37 @@ public class RenderSystem implements UpdateSystem
 		paint.setTypeface(Typeface.SANS_SERIF);
 		paint.setTextSize(40);
 
+		Paint fuelPaint = new Paint();
+		fuelPaint.setColor(Color.CYAN);
+		fuelPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+		Paint fuelTextPaint = new Paint();
+		fuelTextPaint.setColor(Color.WHITE);
+		fuelTextPaint.setTextAlign(Align.CENTER);
+		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
+		fuelTextPaint.setTextSize(50);
+
+		//	Time text
 		Float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
 		String timeText = "Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" "));
 		canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 
+		//	Score text
 		Float playerScore = player.getComponent(Score.class).getScore();
 		String scoreText = "Score: ".concat(String.valueOf(playerScore.intValue()));
 		canvas.drawText(scoreText, Device.SCREEN_WIDTH / 2, timeRectTop, paint);
 
+		//	Fuel box
 		Float fuel = player.getComponent(Fuel.class).getFuel();
-		String fuelText = "Fuel: ".concat(String.valueOf(fuel.intValue()));
-		canvas.drawText(fuelText, 3 * Device.SCREEN_WIDTH / 4, timeRectTop, paint);
+		int left = 1 * Device.SCREEN_WIDTH / 8;
+		int right = left + 80;
+		int bottom = 15 * Device.SCREEN_HEIGHT / 16;
+		int top = Math.min(bottom, bottom - 3 * fuel.intValue());
+		Rect fuelRect = new Rect(left, top, right, bottom);
+		canvas.drawRect(fuelRect, fuelPaint);
+
+		//	Fuel text
+		String fuelText = String.valueOf(fuel.intValue());
+		canvas.drawText(fuelText, (left + right) / 2, (top + bottom) / 2, fuelTextPaint);
 	}
 }
