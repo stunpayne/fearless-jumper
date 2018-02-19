@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
+import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.display.Cameras;
@@ -110,14 +111,17 @@ public class RenderSystem implements UpdateSystem
 	}
 
 	/**
-	 * Temporary method mainly for testing pickups
+	 * Temporary method mainly for testing pickups and score
 	 */
 	private void renderHUD(Entity player)
 	{
+		//	Render time and score
 		int timeRectTop = 80;
 
 		float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
-		String text = String.valueOf((int) remainingSeconds);
+		Float playerScore = player.getComponent(Score.class).getScore();
+		String text = String.valueOf((int) remainingSeconds).concat(" ")
+				.concat(String.valueOf(playerScore.intValue()));
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
 		paint.setTextAlign(Align.CENTER);

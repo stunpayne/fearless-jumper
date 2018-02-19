@@ -29,8 +29,12 @@ public class Environment
     public static Canvas CANVAS;
 
     public static float UNIT_DENSITY = 2.625f;
-    public static final long ONE_MILLION = 1000000;
-    public static final long ONE_SECOND_NANOS = 1000000000;
+
+    public class Constants
+    {
+        public static final long ONE_MILLION = 1000000;
+        public static final long ONE_SECOND_NANOS = 1000000000;
+    }
 
     public static float scale()
     {

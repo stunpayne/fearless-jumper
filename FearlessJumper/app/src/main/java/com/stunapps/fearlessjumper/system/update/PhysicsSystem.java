@@ -13,7 +13,7 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.helper.Environment.ONE_SECOND_NANOS;
+import static com.stunapps.fearlessjumper.helper.Environment.Constants.ONE_SECOND_NANOS;
 import static com.stunapps.fearlessjumper.helper.Environment.scale;
 
 /**

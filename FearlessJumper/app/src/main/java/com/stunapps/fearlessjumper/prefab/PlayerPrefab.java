@@ -15,6 +15,7 @@ import com.stunapps.fearlessjumper.component.input.OrientationInput;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
+import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
@@ -74,5 +75,6 @@ public class PlayerPrefab extends Prefab
         components.add(orientationInput);
         components.add(new PlayerComponent());
         components.add(new RemainingTime(30f));
+        components.add(new Score());
     }
 }
