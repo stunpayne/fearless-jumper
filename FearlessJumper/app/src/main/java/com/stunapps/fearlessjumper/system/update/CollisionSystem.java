@@ -154,7 +154,7 @@ public class CollisionSystem implements UpdateSystem
                     !fixedEntity.getComponent(Collider.class).isTrigger())
             {
                 bridgeGapX(physicsEntity, fixedEntity);
-                physicsComponent1.velocity.x = 0;
+                physicsComponent1.getVelocity().x = 0;
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.VERTICAL);
         } else
@@ -166,7 +166,7 @@ public class CollisionSystem implements UpdateSystem
                     !fixedEntity.getComponent(Collider.class).isTrigger())
             {
                 bridgeGapY(physicsEntity, fixedEntity);
-                physicsComponent1.velocity.y = 0;
+                physicsComponent1.getVelocity().y = 0;
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.HORIZONTAL);
         }
@@ -219,7 +219,7 @@ public class CollisionSystem implements UpdateSystem
             PhysicsComponent physicsComponent = physicalEntity.getComponent(
                     PhysicsComponent.class);
             physicalEntity.transform.position.x += sign(
-                    physicsComponent.velocity.x) * currentSeparationX;
+                    physicsComponent.getVelocity().x) * currentSeparationX;
 
             if (Float.isNaN(physicalEntity.transform.position.x))
                 Log.d("BAD_CASE", "Position  is Nan");
@@ -241,7 +241,7 @@ public class CollisionSystem implements UpdateSystem
             PhysicsComponent physicsComponent = physicalEntity.getComponent(
                     PhysicsComponent.class);
             physicalEntity.transform.position.y += sign(
-                    physicsComponent.velocity.y) * currentSeparationY;
+                    physicsComponent.getVelocity().y) * currentSeparationY;
         }
 
         /**
@@ -323,7 +323,7 @@ public class CollisionSystem implements UpdateSystem
                 PhysicsComponent.class);
 
         if (physicsComponent == null) return entity.transform.position;
-        return new Position(entity.transform.position.x + physicsComponent.velocity.x,
-                entity.transform.position.y + physicsComponent.velocity.y);
+        return new Position(entity.transform.position.x + physicsComponent.getVelocity().x,
+                entity.transform.position.y + physicsComponent.getVelocity().y);
     }
 }

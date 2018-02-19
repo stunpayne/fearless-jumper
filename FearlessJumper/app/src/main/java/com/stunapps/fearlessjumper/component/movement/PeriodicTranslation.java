@@ -6,7 +6,7 @@ import com.stunapps.fearlessjumper.component.Component;
  * This component can be used to provide automated periodic translation
  * to an entity. If an x movement is provided, the entity will move
  * periodically in the x axis between the bounds provided at the mentioned speed.
- * Should not be used on an entity that has a PhysicsComponent as well
+ * Should only be used on an entity that has a PhysicsComponent
  * <p>
  * Created by sunny.s on 21/01/18.
  */

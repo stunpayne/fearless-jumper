@@ -36,7 +36,7 @@ public class ScoreUpdateSystem implements UpdateSystem
 
 		Entity player = componentManager.getEntity(PlayerComponent.class);
 
-		updateScore(player, deltaTime);
+		updateScore(player);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class ScoreUpdateSystem implements UpdateSystem
 		return lastProcessTime;
 	}
 
-	private final void updateScore(Entity player, long deltaTime)
+	private void updateScore(Entity player)
 	{
 		if (topPlayerPosition != null && topPlayerPosition.isBelow(player.transform.position))
 		{
@@ -54,14 +54,6 @@ public class ScoreUpdateSystem implements UpdateSystem
 			player.getComponent(Score.class).addScore(scoreIncrease);
 			player.transform.position.copyTo(topPlayerPosition);
 		}
-
-		if (topPlayerPosition != null) Log.d("SCORE_UPDATE",
-											 "Last position: " + topPlayerPosition.y + " Current" +
-													 " " + "position: " +
-													 player.transform.position.y + " Delta: " +
-													 deltaTime + " Score increase: " + Math.abs(
-													 player.transform.position.y -
-															 topPlayerPosition.y) * deltaTime);
 
 		if (topPlayerPosition == null) topPlayerPosition = new Position(player.transform.position);
 	}

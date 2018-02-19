@@ -2,10 +2,15 @@ package com.stunapps.fearlessjumper.component.physics;
 
 import com.stunapps.fearlessjumper.component.Component;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by sunny.s on 03/01/18.
  */
 
+@Getter
+@Setter
 public class PhysicsComponent extends Component
 {
     public float mass;
@@ -42,6 +47,8 @@ public class PhysicsComponent extends Component
         this.friction = friction;
     }
 
+    @Getter
+    @Setter
     public static class Velocity
     {
         public float x;
@@ -56,6 +63,13 @@ public class PhysicsComponent extends Component
         {
             this.x = x;
             this.y = y;
+        }
+
+        @Override
+        protected Velocity clone() throws CloneNotSupportedException
+        {
+            super.clone();
+            return new Velocity(x, y);
         }
     }
 
@@ -108,6 +122,6 @@ public class PhysicsComponent extends Component
     @Override
     public PhysicsComponent clone() throws CloneNotSupportedException
     {
-        return new PhysicsComponent(mass, velocity, applyGravity, friction);
+        return new PhysicsComponent(mass, velocity.clone(), applyGravity, friction);
     }
 }

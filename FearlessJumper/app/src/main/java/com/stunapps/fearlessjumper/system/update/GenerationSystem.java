@@ -115,8 +115,8 @@ public class GenerationSystem implements UpdateSystem
 
 				Log.i("NEW_OBSTACLE",
 					  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
-							  spawnPosition + " of type: " + (newObstacle
-							  .hasComponent(Dragon.class) ? "Dragon" : "Platform"));
+							  spawnPosition + " of type: " +
+							  (newObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
 				Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
 			}
 			catch (CloneNotSupportedException e)
