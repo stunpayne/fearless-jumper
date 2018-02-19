@@ -14,12 +14,6 @@ import java.util.List;
 
 public interface SceneManager
 {
-
     void initialise();
     void destroy();
-
-
-    void start();
-    void receiveTouch(MotionEvent motionEvent);
-    void goToNextScene();
 }

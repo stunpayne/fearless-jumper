@@ -3,7 +3,7 @@ package com.stunapps.fearlessjumper.audio;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.impl.StartGameEvent;
+import com.stunapps.fearlessjumper.event.game.StartGameEvent;
 
 import java.util.List;
 import java.util.Map;

@@ -9,8 +9,9 @@ import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.impl.CollisionEvent;
 import com.stunapps.fearlessjumper.event.impl.HurtEvent;
+import com.stunapps.fearlessjumper.event.system.CollisionEvent;
+
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.System;
 

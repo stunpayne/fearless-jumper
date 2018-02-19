@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.scene;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.scene.AbstractScene;
@@ -14,14 +15,10 @@ import com.stunapps.fearlessjumper.scene.AbstractScene;
 public class GameOverScene extends AbstractScene
 {
 
+    @Inject
     public GameOverScene(View view, EventSystem eventSystem, SoundSystem soundSystem)
     {
         super(view, eventSystem, soundSystem);
-    }
-
-    public GameOverScene(int layoutResId, EventSystem eventSystem, SoundSystem soundSystem)
-    {
-        super(layoutResId, eventSystem, soundSystem);
     }
 
     @Override
