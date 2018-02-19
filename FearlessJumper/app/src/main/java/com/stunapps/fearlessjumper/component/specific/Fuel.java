@@ -9,19 +9,29 @@ import com.stunapps.fearlessjumper.component.Component;
 public class Fuel extends Component
 {
 	private float fuel;
-	private boolean discharging;
+
+	/**
+	 * Fields to enable waiting before refuelling
+	 */
+	private Long waitStartTime = null;
+	private Long refuelWaitMillis;
 
 	public Fuel(float fuel)
 	{
+		this(fuel, 400);
+	}
+
+	public Fuel(float fuel, long refuelWaitMillis)
+	{
 		super(Fuel.class);
 		this.fuel = fuel;
-		this.discharging = false;
+		this.refuelWaitMillis = refuelWaitMillis;
 	}
 
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{
-		return new Fuel(fuel);
+		return new Fuel(fuel, refuelWaitMillis);
 	}
 
 	public void refuel(float refuelAmount)
@@ -44,13 +54,23 @@ public class Fuel extends Component
 		this.fuel -= amountUsed;
 	}
 
-	public boolean isDischarging()
+	public void startWaitingToRefuel()
 	{
-		return discharging;
+		waitStartTime = System.currentTimeMillis();
 	}
 
-	public void setDischarging(boolean discharging)
+	public void exitWaiting()
 	{
-		this.discharging = discharging;
+		waitStartTime = null;
+	}
+
+	public boolean isWaitingToRefuel()
+	{
+		return waitStartTime != null;
+	}
+
+	public boolean canExitWaiting()
+	{
+		return System.currentTimeMillis() > waitStartTime + refuelWaitMillis;
 	}
 }

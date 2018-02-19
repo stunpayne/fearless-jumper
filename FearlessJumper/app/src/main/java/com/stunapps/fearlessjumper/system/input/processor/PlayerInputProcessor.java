@@ -81,7 +81,7 @@ public class PlayerInputProcessor implements InputProcessor
 
 	private void dischargeFuel(Fuel fuel, long deltaTime)
 	{
-		Log.d("FUEL", "Current: " + fuel.getFuel() + " discharge amount: " +
+		Log.v("FUEL", "Current: " + fuel.getFuel() + " discharge amount: " +
 				FUEL_DISCHARGE * deltaTime / Constants.ONE_SECOND_NANOS);
 		fuel.dischargeFuel(FUEL_DISCHARGE);
 	}
