@@ -1,10 +1,6 @@
-1.  Decide whether game is platformer or high scorer
-2.  Add Friction to Platform surfaces
-3.  Add Animation control with states and transition triggers (Move from one state to another
-    if some defined action is triggered
-4.  Generate both obstacles and enemies randomly, with increasing difficulty
+4.  Generate both obstacles and enemies randomly, (with increasing difficulty) - remaining
 5.  Add check for lower boundary better than camera + screen height
-6.  Add Scene management, main menu scene and gameplay scene
-7.  Add UI buttons if game is platformer
-    Add health/score HUD
-8.  Handle damage and health
+6.  Improve parallax background code
+7.  Refactor SoundPool after scene management is moved to state machine
+9.  Add player immunity on getting hurt
+10.

@@ -43,25 +43,27 @@ public class ParallaxBackground
 	public List<ParallaxDrawable> getDrawables(float position)
 	{
 		List<ParallaxDrawable> drawables = Lists.newArrayList();
+
+		//	Since the background is repeating, two instances of it will be drawn at any given
+		// instance. This is the position where the two will meet.
 		int cutPosition = (int) getSeparatingPosition(position);
 
+		//	Part of the bitmap needs to be cropped for each part
+		//	Draw the first bitmap from the cutPosition to the bottom of screen
 		if (displayHeight - cutPosition > 0)
 		{
 			int startY = scaleHeightToBitmap(bitmap, cutPosition, displayHeight);
 			int height = scaleHeightToBitmap(bitmap, displayHeight - cutPosition, displayHeight);
-			//			Bitmap first = Bitmap.createBitmap(this.bitmap, 0, startY, bitmap.getWidth
-			// (), height);
 			drawables.add(new ParallaxDrawable(bitmap, new Rect(0, startY, bitmap.getWidth(),
 																startY + height),
 											   new Rect(0, 0, displayWidth,
 														displayHeight - cutPosition)));
 		}
 
-		if (cutPosition > 0 && cutPosition < displayHeight)
+		//	Draw the second bitmap from 0 to the cutPosition
+		if (cutPosition >= 0 && cutPosition < displayHeight)
 		{
 			int height = scaleHeightToBitmap(bitmap, cutPosition, displayHeight);
-			//			Bitmap second = Bitmap.createBitmap(this.bitmap, 0, 0, bitmap.getWidth(),
-			// height);
 			drawables.add(new ParallaxDrawable(bitmap, new Rect(0, 0, bitmap.getWidth(), height),
 											   new Rect(0, displayHeight - cutPosition,
 														displayWidth, displayHeight)));
@@ -72,8 +74,8 @@ public class ParallaxBackground
 
 	private float getSeparatingPosition(float position)
 	{
-		return position > 0 ? position % displayHeight : displayHeight + (position %
-				displayHeight);
+		return position >= 0 ?
+				position % displayHeight : displayHeight + (position % displayHeight);
 	}
 
 	private int scaleHeightToBitmap(Bitmap bitmap, int height, int max)

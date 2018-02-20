@@ -52,8 +52,7 @@ public class PlayerInputProcessor implements InputProcessor
 		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			//  To test is input is occurring between collision and transform update
-			logSystemTimes();
-			Log.d("INPUT", "Action Down detected");
+			//			logSystemTimes();
 			Rect entityCanvasRect = RenderSystem.getRenderRect(player);
 			Fuel fuel = player.getComponent(Fuel.class);
 			if (fuel.getFuel() > 0)
@@ -71,12 +70,8 @@ public class PlayerInputProcessor implements InputProcessor
 		float forceX = motionEvent.getX() - position.x;
 		float forceY = motionEvent.getY() - position.y;
 
-		Log.v("INPUT", "Velocity before " + physicsComponent.getVelocity().x + " " +
-				physicsComponent.getVelocity().y);
 		physicsComponent.getVelocity().y += forceY * JUMP_IMPULSE * scale();
 		physicsComponent.getVelocity().x += forceX * JUMP_IMPULSE * scale();
-		Log.v("INPUT", "Velocity after " + physicsComponent.getVelocity().x + " " +
-				physicsComponent.getVelocity().y);
 	}
 
 	private void dischargeFuel(Fuel fuel, long deltaTime)

@@ -28,7 +28,6 @@ public class GameEventSystem implements EventSystem
 	@Override
 	public void raiseEvent(BaseEvent event)
 	{
-		Log.d("EVENT_SYSTEM", "Raising event: " + event.eventType);
 		if (eventListenersMap.get(event.eventType) == null)
 		{
 			eventListenersMap.put(event.eventType, new LinkedList<BaseEventListener>());

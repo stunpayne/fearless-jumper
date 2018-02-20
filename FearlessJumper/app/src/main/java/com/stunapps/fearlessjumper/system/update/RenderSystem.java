@@ -125,6 +125,8 @@ public class RenderSystem implements UpdateSystem
 	private void renderBackground()
 	{
 		canvas.drawColor(Color.BLACK);
+		Paint bgPaint = new Paint();
+		bgPaint.setAlpha(100);
 
 		List<ParallaxDrawable> drawables =
 				background.getDrawables(Cameras.getMainCamera().position.getY());
@@ -132,7 +134,7 @@ public class RenderSystem implements UpdateSystem
 		{
 			ParallaxDrawable drawable = drawables.get(i);
 			canvas.drawBitmap(drawable.getBitmap(), drawable.getCropRect(),
-							  drawable.getRenderRect(), new Paint());
+							  drawable.getRenderRect(), bgPaint);
 		}
 	}
 
