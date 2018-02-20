@@ -1,11 +1,16 @@
 package com.stunapps.fearlessjumper.core;
 
+import android.util.Log;
+
 import org.roboguice.shaded.goole.common.collect.Maps;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by anand.verma on 02/02/18.
@@ -22,6 +27,10 @@ public class StateMachine<State, Transition>
      * Special state which will transaction to mapped state after specified number of calls to current state.
      */
     private Map<State, CountDownState<State>> countDownStates;
+
+    public StateMachine()
+    {
+    }
 
     public StateMachine(State startState, State terminalState, Map<State, Map<Transition, State>> stateTransitionMap, Map<State, CountDownState<State>> countDownStateMap)
     {
@@ -107,6 +116,24 @@ public class StateMachine<State, Transition>
         {
             currentCount = countDown;
         }
+    }
+
+    @Override
+    public StateMachine<State, Transition> clone()
+    {
+        StateMachine<State, Transition> cloned = new StateMachine<>();
+        try
+        {
+            cloned.currentState = (State) currentState.getClass().getMethod("clone").invoke(currentState);
+            cloned.startState = (State) startState.getClass().getMethod("clone").invoke(startState);
+            cloned.terminalState = (State) terminalState.getClass().getMethod("clone").invoke(terminalState);
+            cloned.stateTransitionMap = (Map) stateTransitionMap.getClass().getMethod("clone").invoke(stateTransitionMap);
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "clone: Exception while cloning state machine", e);
+        }
+        return cloned;
     }
 
     public static class Builder<State, Transition>
@@ -235,9 +262,9 @@ public class StateMachine<State, Transition>
         }
     }
 
-    @Override
+    /*
     public StateMachine clone() throws CloneNotSupportedException
     {
         return new StateMachine(startState, terminalState, stateTransitionMap, countDownStates);
-    }
+    } */
 }
