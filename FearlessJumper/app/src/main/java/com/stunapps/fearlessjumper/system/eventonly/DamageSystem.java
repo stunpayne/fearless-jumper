@@ -10,6 +10,7 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.impl.CollisionEvent;
+import com.stunapps.fearlessjumper.event.impl.HurtEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.System;
 
@@ -19,6 +20,8 @@ import com.stunapps.fearlessjumper.system.System;
 
 public class DamageSystem implements System
 {
+	private EventSystem eventSystem;
+
 	private BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
 	{
 		@Override
@@ -35,6 +38,7 @@ public class DamageSystem implements System
 
 			if (health1 != null && damageComponent2 != null)
 			{
+				eventSystem.raiseEvent(new HurtEvent());
 				Animator animator =
 						((Animator) entity1.getComponent(RenderableComponent.class));
 				health1.takeDamage(damageComponent2.damage());
@@ -50,6 +54,7 @@ public class DamageSystem implements System
 
 			if (health2 != null && damageComponent1 != null)
 			{
+				eventSystem.raiseEvent(new HurtEvent());
 				Animator animator =
 						((Animator) entity2.getComponent(RenderableComponent.class));
 				health2.takeDamage(damageComponent1.damage());
@@ -68,6 +73,7 @@ public class DamageSystem implements System
 	@Inject
 	public DamageSystem(EventSystem eventSystem)
 	{
+		this.eventSystem = eventSystem;
 		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
 	}
 }

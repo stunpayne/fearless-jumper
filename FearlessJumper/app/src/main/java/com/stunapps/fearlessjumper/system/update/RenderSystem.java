@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
@@ -18,6 +20,10 @@ import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.event.BaseEventListener;
+import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.impl.HurtEvent;
+import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
@@ -34,10 +40,13 @@ public class RenderSystem implements UpdateSystem
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
 
+	private Handler handler = new Handler();
+
 	@Inject
-	public RenderSystem(GameComponentManager componentManager)
+	public RenderSystem(GameComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
+		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
 	}
 
 	@Override
@@ -66,16 +75,37 @@ public class RenderSystem implements UpdateSystem
 		return lastProcessTime;
 	}
 
+	private BaseEventListener<HurtEvent> playerHurtListener = new BaseEventListener<HurtEvent>()
+	{
+		@Override
+		public void handleEvent(HurtEvent event) throws EventException
+		{
+			//	Right now, this looks horrible. Need to implement a better hurt overlay
+			Runnable r = new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					Log.i("HURT", "Player hurt");
+					canvas.drawColor(Color.RED);
+				}
+			};
+
+			handler.post(r);
+		}
+	};
+
 	public static Rect getRenderRect(Entity entity)
 	{
 		Position camPosition = Cameras.getMainCamera().position;
 
-		RenderableComponent component = entity.getComponent(RenderableComponent.class);
-		int left = (int) ((entity.transform.position.x + component.delta.x) - camPosition.x);
-		int top = (int) ((entity.transform.position.y + component.delta.y) - camPosition.y);
-		int right = (int) ((entity.transform.position.x + component.delta.x + component.width) -
+		RenderableComponent renderable = entity.getComponent(RenderableComponent.class);
+		int left = (int) ((entity.transform.position.x + renderable.delta.x) - camPosition.x);
+		int top = (int) ((entity.transform.position.y + renderable.delta.y) - camPosition.y);
+		int right = (int) ((entity.transform.position.x + renderable.delta.x + renderable.width) -
 				camPosition.x);
-		int bottom = (int) ((entity.transform.position.y + component.delta.y + component.height) -
+		int bottom = (int) ((entity.transform.position.y + renderable.delta.y + renderable
+				.height) -
 				camPosition.y);
 
 		return new Rect(left, top, right, bottom);

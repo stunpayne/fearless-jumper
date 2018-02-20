@@ -42,20 +42,20 @@ public class FuelSystem implements UpdateSystem
 			Fuel fuel = entity.getComponent(Fuel.class);
 			if (fuel.getFuel() <= MIN_FUEL)
 			{
-				Log.d(TAG, "Less than minimum");
+				Log.v(TAG, "Less than minimum");
 				if (fuel.isWaitingToRefuel())
 				{
-					Log.d(TAG, "Already waiting");
+					Log.v(TAG, "Already waiting");
 					if (fuel.canExitWaiting())
 					{
-						Log.d(TAG, "Exiting waiting");
+						Log.v(TAG, "Exiting waiting");
 						fuel.exitWaiting();
 						refuel(fuel, deltaTime);
 					}
 				}
 				else
 				{
-					Log.d(TAG, "Starting waiting");
+					Log.v(TAG, "Starting waiting");
 					fuel.startWaitingToRefuel();
 				}
 			}
