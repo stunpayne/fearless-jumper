@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.system.update;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -18,6 +20,8 @@ import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
+import com.stunapps.fearlessjumper.core.ParallaxBackground;
+import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawable;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
@@ -27,6 +31,7 @@ import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,6 +45,7 @@ public class RenderSystem implements UpdateSystem
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
 
+	private ParallaxBackground background;
 	private Handler handler = new Handler();
 
 	@Inject
@@ -47,6 +53,10 @@ public class RenderSystem implements UpdateSystem
 	{
 		this.componentManager = componentManager;
 		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
+		background = new ParallaxBackground(
+				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable
+						.starbg),
+				Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
 	}
 
 	@Override
@@ -80,14 +90,14 @@ public class RenderSystem implements UpdateSystem
 		@Override
 		public void handleEvent(HurtEvent event) throws EventException
 		{
-			//	Right now, this looks horrible. Need to implement a better hurt overlay
+			//	TODO: Right now, this looks horrible. Need to implement a better hurt overlay
 			Runnable r = new Runnable()
 			{
 				@Override
 				public void run()
 				{
 					Log.i("HURT", "Player hurt");
-					for (int i=255; i>100; i--)
+					for (int i = 255; i > 100; i--)
 						canvas.drawARGB(i, 255, 0, 0);
 				}
 			};
@@ -115,6 +125,15 @@ public class RenderSystem implements UpdateSystem
 	private void renderBackground()
 	{
 		canvas.drawColor(Color.BLACK);
+
+		List<ParallaxDrawable> drawables =
+				background.getDrawables(Cameras.getMainCamera().position.getY());
+		for (int i = 0; i < drawables.size(); i++)
+		{
+			ParallaxDrawable drawable = drawables.get(i);
+			canvas.drawBitmap(drawable.getBitmap(), drawable.getCropRect(),
+							  drawable.getRenderRect(), new Paint());
+		}
 	}
 
 	private void renderEntities(Set<Entity> entities)

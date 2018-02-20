@@ -15,7 +15,7 @@ import org.junit.Test;
  * Created by sunny.s on 13/02/18.
  */
 
-public class TransitionSystemTest
+public class EventSystemTest
 {
 	EventSystem eventSystem = new GameEventSystem();
 
@@ -81,7 +81,8 @@ public class TransitionSystemTest
 
 		System.out.println(eventSystem.getEventListeners(testEvent));
 		System.out.println("Transition raised before: " + eventListener.hasEventBeenRaised());
-		Assert.assertTrue("Transition has already been raised!", !eventListener.hasEventBeenRaised());
+		Assert.assertTrue("Transition has already been raised!",
+						  !eventListener.hasEventBeenRaised());
 
 		eventSystem.registerEventListener(testEvent, eventListener);
 		eventSystem.raiseEvent(new StartGameEvent());
@@ -95,7 +96,8 @@ public class TransitionSystemTest
 		System.out.println("Transition 1 raised after: " + eventListener.hasEventBeenRaised());
 		System.out.println("Transition 2 raised after: " + eventListener2.hasEventBeenRaised());
 		Assert.assertTrue("Transition has not been raised!", eventListener.hasEventBeenRaised());
-		Assert.assertTrue("Transition 2 has not been raised!", eventListener2.hasEventBeenRaised());
+		Assert.assertTrue("Transition 2 has not been raised!", eventListener2.hasEventBeenRaised
+				());
 	}
 
 	class TestEventListener implements BaseEventListener
@@ -115,7 +117,8 @@ public class TransitionSystemTest
 	}
 
 	@Test
-	public void testRaiseV2(){
+	public void testRaiseV2()
+	{
 		TestEventListenerV2 listenerV2 = new TestEventListenerV2();
 		System.out.println("starting test");
 		eventSystem.raiseEvent(new StartGameEvent());
@@ -125,23 +128,25 @@ public class TransitionSystemTest
 	class TestEventListenerV2
 	{
 
-		BaseEventListener<StartGameEvent> gameEventListener = new BaseEventListener<StartGameEvent>()
-		{
-			@Override
-			public void handleEvent(StartGameEvent event) throws EventException
-			{
-				System.out.println("StartGameEvent event received");
-			}
-		};
+		BaseEventListener<StartGameEvent> gameEventListener =
+				new BaseEventListener<StartGameEvent>()
+				{
+					@Override
+					public void handleEvent(StartGameEvent event) throws EventException
+					{
+						System.out.println("StartGameEvent event received");
+					}
+				};
 
-		BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
-		{
-			@Override
-			public void handleEvent(CollisionEvent event) throws EventException
-			{
-				System.out.println("CollisionEvent event received");
-			}
-		};
+		BaseEventListener<CollisionEvent> collisionEventListener =
+				new BaseEventListener<CollisionEvent>()
+				{
+					@Override
+					public void handleEvent(CollisionEvent event) throws EventException
+					{
+						System.out.println("CollisionEvent event received");
+					}
+				};
 
 		public TestEventListenerV2()
 		{

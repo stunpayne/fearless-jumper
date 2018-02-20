@@ -43,6 +43,52 @@ public class MainActivity extends Activity
 		return instance;
 	}
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		instance = this;
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+							 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		Device.SCREEN_WIDTH = dm.widthPixels;
+		Device.SCREEN_HEIGHT = dm.heightPixels;
+		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
+		Environment.ACTIVITY = this;
+		Environment.CONTEXT = this;
+
+		Log.d("CONTEXT", "Context hash code: " + this.hashCode());
+
+		DI.install(new GameModule(this));
+		di().getInstance(Systems.class).initialise();
+
+		di().getInstance(SoundSystem.class);
+		di().getInstance(SceneManager.class).start();
+
+		//	TODO: Remove after testing
+//		PerfectLoopMediaPlayer perfectLoopMediaPlayer =
+//				PerfectLoopMediaPlayer.create(this, R.raw.second_try);
+//		perfectLoopMediaPlayer.start();
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		//        di().getInstance(OrientationData.class).register();
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		//        di().getInstance(OrientationData.class).pause();
+	}
+
 	public LoadViewCallback getLoadViewCallback(View view)
 	{
 		return new LoadViewCallback(view);
@@ -86,52 +132,6 @@ public class MainActivity extends Activity
 			}
 			return false;
 		}
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		instance = this;
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-							 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		Device.SCREEN_WIDTH = dm.widthPixels;
-		Device.SCREEN_HEIGHT = dm.heightPixels;
-		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
-		Environment.ACTIVITY = this;
-		Environment.CONTEXT = this;
-
-		Log.d("CONTEXT", "Context hash code: " + this.hashCode());
-
-		DI.install(new GameModule(this));
-		di().getInstance(Systems.class).initialise();
-
-		di().getInstance(SoundSystem.class);
-		di().getInstance(SceneManager.class).start();
-
-		//	TODO: Remove after testing
-		PerfectLoopMediaPlayer perfectLoopMediaPlayer =
-				PerfectLoopMediaPlayer.create(this, R.raw.second_try);
-		perfectLoopMediaPlayer.start();
-	}
-
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		//        di().getInstance(OrientationData.class).register();
-	}
-
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-		//        di().getInstance(OrientationData.class).pause();
 	}
 
 	private void loadView(final View view)
