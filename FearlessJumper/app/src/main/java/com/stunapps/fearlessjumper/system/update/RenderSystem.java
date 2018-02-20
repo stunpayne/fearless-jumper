@@ -87,7 +87,8 @@ public class RenderSystem implements UpdateSystem
 				public void run()
 				{
 					Log.i("HURT", "Player hurt");
-					canvas.drawColor(Color.RED);
+					for (int i=255; i>100; i--)
+						canvas.drawARGB(i, 255, 0, 0);
 				}
 			};
 
