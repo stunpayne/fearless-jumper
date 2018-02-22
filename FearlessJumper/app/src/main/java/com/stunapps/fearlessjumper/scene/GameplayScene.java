@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.scene;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -37,7 +39,8 @@ public class GameplayScene extends AbstractScene
 	{
 		LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
 		LinearLayout hud = (LinearLayout) inflater.inflate(R.layout.hud, null);
-		((FrameLayout)view).addView(DI.di().getInstance(GameView.class));
+		GameView gameView = DI.di().getInstance(GameView.class);
+		((FrameLayout)view).addView(gameView);
 		((FrameLayout)view).addView(hud);
 	}
 

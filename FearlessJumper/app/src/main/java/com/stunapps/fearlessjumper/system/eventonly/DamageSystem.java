@@ -10,6 +10,7 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.impl.HurtEvent;
+import com.stunapps.fearlessjumper.event.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
 
 import com.stunapps.fearlessjumper.exception.EventException;
@@ -46,6 +47,7 @@ public class DamageSystem implements System
 				if (health1.isOver())
 				{
 					animator.triggerEvent(AnimationTransition.TERMINATE);
+					eventSystem.raiseEvent(new GameOverEvent());
 				}
 				else
 				{
@@ -62,6 +64,7 @@ public class DamageSystem implements System
 				if (health2.isOver())
 				{
 					animator.triggerEvent(AnimationTransition.TERMINATE);
+					eventSystem.raiseEvent(new GameOverEvent());
 				}
 				else
 				{
@@ -76,5 +79,6 @@ public class DamageSystem implements System
 	{
 		this.eventSystem = eventSystem;
 		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
+		this.eventSystem = eventSystem;
 	}
 }

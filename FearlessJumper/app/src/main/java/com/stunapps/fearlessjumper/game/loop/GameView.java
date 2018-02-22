@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.system.Systems;
@@ -89,7 +90,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
         Systems.process(deltaTime);
 
-        invalidate();
+        postInvalidate();
     }
 
     @Override
