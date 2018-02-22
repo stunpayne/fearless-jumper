@@ -21,7 +21,7 @@ import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
-import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawable;
+import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
@@ -46,6 +46,9 @@ public class RenderSystem implements UpdateSystem
 	private static Canvas canvas = null;
 
 	private ParallaxBackground background;
+	private Bitmap bgSprite;
+	private Paint bgPaint = new Paint();
+
 	private Handler handler = new Handler();
 
 	@Inject
@@ -53,10 +56,15 @@ public class RenderSystem implements UpdateSystem
 	{
 		this.componentManager = componentManager;
 		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
-		background = new ParallaxBackground(
-				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable
-						.starbg),
-				Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
+
+		//	Initialise background bitmap
+		Bitmap originalBg =
+				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dotbg);
+		Bitmap bgBitmap =
+				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
+						false);
+		background = new ParallaxBackground(Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
+		bgSprite = bgBitmap;
 	}
 
 	@Override
@@ -125,16 +133,13 @@ public class RenderSystem implements UpdateSystem
 	private void renderBackground()
 	{
 		canvas.drawColor(Color.BLACK);
-		Paint bgPaint = new Paint();
-		bgPaint.setAlpha(100);
 
-		List<ParallaxDrawable> drawables =
+		List<ParallaxDrawableArea> drawableAreas =
 				background.getDrawables(Cameras.getMainCamera().position.getY());
-		for (int i = 0; i < drawables.size(); i++)
+		for (int i = 0; i < drawableAreas.size(); i++)
 		{
-			ParallaxDrawable drawable = drawables.get(i);
-			canvas.drawBitmap(drawable.getBitmap(), drawable.getCropRect(),
-							  drawable.getRenderRect(), bgPaint);
+			ParallaxDrawableArea drawable = drawableAreas.get(i);
+			canvas.drawBitmap(bgSprite, null, drawable.getRenderRect(), bgPaint);
 		}
 	}
 

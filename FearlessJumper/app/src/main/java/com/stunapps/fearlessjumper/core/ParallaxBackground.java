@@ -1,8 +1,8 @@
 package com.stunapps.fearlessjumper.core;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
 
@@ -21,81 +21,68 @@ import lombok.ToString;
 
 public class ParallaxBackground
 {
-	private final Bitmap bitmap;
-	private Canvas canvas;
+	/**
+	 * Should be provided scaled to the display
+	 */
 	private final int displayWidth;
 	private final int displayHeight;
 
-	public ParallaxBackground(Bitmap bitmap, int displayWidth, int displayHeight)
+	private List<ParallaxDrawableArea> drawables = Lists.newArrayList();
+
+	public ParallaxBackground(int displayWidth, int displayHeight)
 	{
-		this.bitmap = bitmap;
 		this.displayWidth = displayWidth;
 		this.displayHeight = displayHeight;
-		canvas = new Canvas();
 	}
 
 	/**
-	 * Function that provides a list of all the bitmaps to be drawn on the screen along with
-	 * their positions
+	 * Function that provides a list of all the areas on the screen where the bitmap is to be
+	 * drawn based on the current camera position
 	 *
-	 * @return list of bitmaps to be drawn on screen
+	 * @return list areas on screen where the bitmap is to be drawn
 	 */
-	public List<ParallaxDrawable> getDrawables(float position)
+	public List<ParallaxDrawableArea> getDrawables(float position)
 	{
-		List<ParallaxDrawable> drawables = Lists.newArrayList();
+		//	Clear the current values of the drawables list
+		drawables.clear();
 
 		//	Since the background is repeating, two instances of it will be drawn at any given
 		// instance. This is the position where the two will meet.
-		int cutPosition = (int) getSeparatingPosition(position);
+		int cutPosition = (int) getCutPositionFromCameraPosition(position);
 
-		//	Part of the bitmap needs to be cropped for each part
-		//	Draw the first bitmap from the cutPosition to the bottom of screen
-		if (displayHeight - cutPosition > 0)
-		{
-			int startY = scaleHeightToBitmap(bitmap, cutPosition, displayHeight);
-			int height = scaleHeightToBitmap(bitmap, displayHeight - cutPosition, displayHeight);
-			drawables.add(new ParallaxDrawable(bitmap, new Rect(0, startY, bitmap.getWidth(),
-																startY + height),
-											   new Rect(0, 0, displayWidth,
-														displayHeight - cutPosition)));
-		}
-
-		//	Draw the second bitmap from 0 to the cutPosition
-		if (cutPosition >= 0 && cutPosition < displayHeight)
-		{
-			int height = scaleHeightToBitmap(bitmap, cutPosition, displayHeight);
-			drawables.add(new ParallaxDrawable(bitmap, new Rect(0, 0, bitmap.getWidth(), height),
-											   new Rect(0, displayHeight - cutPosition,
-														displayWidth, displayHeight)));
-		}
+		drawables.add(new ParallaxDrawableArea(
+				new Rect(0, -cutPosition, displayWidth, -cutPosition + displayHeight)));
+		drawables.add(new ParallaxDrawableArea(
+				new Rect(0, -cutPosition + displayHeight, displayWidth,
+						-cutPosition + 2 * displayHeight)));
 
 		return drawables;
 	}
 
-	private float getSeparatingPosition(float position)
+	private float getCutPositionFromCameraPosition(float cameraPosition)
 	{
-		return position >= 0 ?
-				position % displayHeight : displayHeight + (position % displayHeight);
-	}
-
-	private int scaleHeightToBitmap(Bitmap bitmap, int height, int max)
-	{
-		return (int) (((float) height / (float) max) * bitmap.getHeight());
+		return cameraPosition >= 0 ?
+				cameraPosition % displayHeight : displayHeight + (cameraPosition % displayHeight);
 	}
 
 	@ToString
 	@Getter
-	public class ParallaxDrawable
+	public class ParallaxDrawableArea
 	{
-		private Bitmap bitmap;
-		private Rect cropRect;
 		private Rect renderRect;
+		private float ratio;
 
-		public ParallaxDrawable(Bitmap bitmap, Rect cropRect, Rect renderRect)
+		public ParallaxDrawableArea(Rect renderRect)
 		{
-			this.bitmap = bitmap;
-			this.cropRect = cropRect;
-			this.renderRect = renderRect;
+			this(renderRect, 1f);
+		}
+
+		public ParallaxDrawableArea(@NonNull Rect renderRect, float ratio)
+		{
+			this.ratio = ratio;
+			this.renderRect =
+					new Rect((int) (renderRect.left * ratio), (int) (renderRect.top * ratio),
+							(int) (renderRect.right * ratio), (int) (renderRect.bottom * ratio));
 		}
 	}
 }
