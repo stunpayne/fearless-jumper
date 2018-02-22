@@ -12,9 +12,10 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.GameComponentManager;
+import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
@@ -191,13 +192,15 @@ public class RenderSystem implements UpdateSystem
 
 		//	Time text
 		Float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
-		String timeText = "Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" "));
-		canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
+		String timeText = " Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" "));
+		MainActivity.getInstance().updateTime(timeText);
+		//canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 
 		//	Score text
 		Float playerScore = player.getComponent(Score.class).getScore();
-		String scoreText = "Score: ".concat(String.valueOf(playerScore.intValue()));
-		canvas.drawText(scoreText, Device.SCREEN_WIDTH / 2, timeRectTop, paint);
+		String scoreText = " Score: ".concat(String.valueOf(playerScore.intValue()));
+		MainActivity.getInstance().updateScore(scoreText);
+		//canvas.drawText(scoreText, Device.SCREEN_WIDTH / 2, timeRectTop, paint);
 
 		//	Fuel box
 		Float fuel = player.getComponent(Fuel.class).getFuel();
@@ -209,7 +212,12 @@ public class RenderSystem implements UpdateSystem
 		canvas.drawRect(fuelRect, fuelPaint);
 
 		//	Fuel text
-		String fuelText = String.valueOf(fuel.intValue());
-		canvas.drawText(fuelText, (left + right) / 2, (top + bottom) / 2, fuelTextPaint);
+		String fuelText = " Fuel: "+String.valueOf(fuel.intValue());
+		MainActivity.getInstance().updateFuel(fuelText);
+		//canvas.drawText(fuelText, (left + right) / 2, (top + bottom) / 2, fuelTextPaint);
+
+		Health health = player.getComponent(Health.class);
+		String healthText = " Health: "+health.getHealth();
+		MainActivity.getInstance().updateHealth(healthText);
 	}
 }

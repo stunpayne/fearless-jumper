@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.component.health;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.core.StateMachine;
 
 /**
  * Created by sunny.s on 03/01/18.
@@ -9,6 +10,8 @@ import com.stunapps.fearlessjumper.component.Component;
 public class Health extends Component
 {
     private float health;
+
+    StateMachine<HealthType, HealthType> stateMachine = new StateMachine<>();
 
     public Health(float health)
     {
@@ -40,5 +43,11 @@ public class Health extends Component
     public Health clone() throws CloneNotSupportedException
     {
         return new Health(health);
+    }
+
+    public enum HealthType
+    {
+        VULNERABLE,
+        NON_VULNERABLE
     }
 }

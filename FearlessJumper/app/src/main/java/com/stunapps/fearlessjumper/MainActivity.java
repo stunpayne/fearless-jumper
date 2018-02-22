@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.stunapps.fearlessjumper.audio.PerfectLoopMediaPlayer;
 import com.stunapps.fearlessjumper.di.DI;
@@ -107,6 +108,8 @@ public class MainActivity extends Activity
 		PerfectLoopMediaPlayer perfectLoopMediaPlayer =
 				PerfectLoopMediaPlayer.create(this, R.raw.second_try);
 		perfectLoopMediaPlayer.start();
+
+
 	}
 
 	@Override
@@ -168,5 +171,53 @@ public class MainActivity extends Activity
 		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
 		Environment.ACTIVITY = this;
 		Environment.CONTEXT = this;
+	}
+
+	public void updateScore(final String score)
+	{
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				((TextView) findViewById(R.id.score)).setText(score);
+			}
+		});
+	}
+
+	public void updateTime(final String time)
+	{
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				((TextView) findViewById(R.id.timeout)).setText(time);
+			}
+		});
+	}
+
+	public void updateFuel(final String fuel)
+	{
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				((TextView) findViewById(R.id.fuel)).setText(fuel);
+			}
+		});
+	}
+
+	public void updateHealth(final String health)
+	{
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				((TextView) findViewById(R.id.health)).setText(health);
+			}
+		});
 	}
 }

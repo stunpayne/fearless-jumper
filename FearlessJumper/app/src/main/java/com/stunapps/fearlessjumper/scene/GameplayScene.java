@@ -1,10 +1,20 @@
 package com.stunapps.fearlessjumper.scene;
 
+import android.support.constraint.ConstraintLayout;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
+import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.game.GameContext;
 import com.stunapps.fearlessjumper.game.loop.GameView;
+import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.scene.AbstractScene;
 
 import javax.inject.Inject;
@@ -17,15 +27,18 @@ import javax.inject.Inject;
 public class GameplayScene extends AbstractScene
 {
 	@Inject
-	public GameplayScene(GameView gameView, EventSystem eventSystem, SoundSystem soundSystem)
+	public GameplayScene(EventSystem eventSystem, SoundSystem soundSystem)
 	{
-		super(gameView, eventSystem, soundSystem);
+		super(R.layout.game_play_container, eventSystem, soundSystem);
 	}
 
 	@Override
 	void setUpScene()
 	{
-
+		LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
+		LinearLayout hud = (LinearLayout) inflater.inflate(R.layout.hud, null);
+		((FrameLayout)view).addView(DI.di().getInstance(GameView.class));
+		((FrameLayout)view).addView(hud);
 	}
 
 	@Override

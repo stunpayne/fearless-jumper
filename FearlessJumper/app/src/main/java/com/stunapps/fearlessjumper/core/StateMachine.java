@@ -1,16 +1,11 @@
 package com.stunapps.fearlessjumper.core;
 
-import android.util.Log;
-
 import org.roboguice.shaded.goole.common.collect.Maps;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by anand.verma on 02/02/18.
@@ -118,6 +113,7 @@ public class StateMachine<State, Transition>
         }
     }
 
+    /*
     @Override
     public StateMachine<State, Transition> clone()
     {
@@ -134,7 +130,7 @@ public class StateMachine<State, Transition>
             Log.d(TAG, "clone: Exception while cloning state machine", e);
         }
         return cloned;
-    }
+    } */
 
     public static class Builder<State, Transition>
     {
@@ -262,9 +258,9 @@ public class StateMachine<State, Transition>
         }
     }
 
-    /*
+    @Override
     public StateMachine clone() throws CloneNotSupportedException
     {
         return new StateMachine(startState, terminalState, stateTransitionMap, countDownStates);
-    } */
+    }
 }
