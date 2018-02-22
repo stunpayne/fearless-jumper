@@ -57,9 +57,7 @@ public class GameInitializerImpl implements GameInitializer
             Log.e("INIT_ERROR", "Error while initialising game.");
             e.printStackTrace();
         }
-
-        //        entityManager.instantiate(Prefabs.MIDSCREEN_COLLIDER.get());
-
+        
         //  Initialise enemies
         entityManager.instantiate(Prefabs.DRAGON.get());
 
@@ -86,17 +84,8 @@ public class GameInitializerImpl implements GameInitializer
 
     private void initBoundaries(Entity target) throws CloneNotSupportedException
     {
-//        Transform leftBoundaryTransform = new Transform(
-//                new Position(-10, Environment.SCREEN_HEIGHT / 2), null, null);
-//        entityManager.instantiate(Prefabs.BOUNDARY.get(), leftBoundaryTransform);
-//
-//        Transform rightBoundaryTransform = new Transform(
-//                new Position(Environment.SCREEN_WIDTH + 10, Environment.SCREEN_HEIGHT / 2), null, null);
-//        entityManager.instantiate(Prefabs.BOUNDARY.get(), rightBoundaryTransform);
-
         Transform landTransform = new Transform(new Position(0, Device.SCREEN_HEIGHT), null,
 												null);
-//        entityManager.instantiate(Prefabs.LAND.get());
         entityManager.instantiate(Prefabs.LAND.get(), landTransform);
     }
 }

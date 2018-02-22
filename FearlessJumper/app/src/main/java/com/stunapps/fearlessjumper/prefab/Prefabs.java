@@ -8,7 +8,6 @@ public enum Prefabs
 {
     PLAYER(new PlayerPrefab()),
     PLATFORM(new PlatformPrefab()),
-    BOUNDARY(new SideBoundaryPrefab()),
     LAND(new LandPrefab()),
     DRAGON(new DragonPrefab()),
     CLOCK(new ClockPrefab());
