@@ -56,7 +56,7 @@ public class RenderSystem implements UpdateSystem
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
-		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
+//		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
 
 		//	Initialise background bitmap
 		Bitmap originalBg =

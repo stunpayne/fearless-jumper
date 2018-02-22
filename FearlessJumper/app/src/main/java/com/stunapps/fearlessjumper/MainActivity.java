@@ -107,9 +107,7 @@ public class MainActivity extends Activity
 		//	TODO: Remove after testing
 		PerfectLoopMediaPlayer perfectLoopMediaPlayer =
 				PerfectLoopMediaPlayer.create(this, R.raw.second_try);
-		perfectLoopMediaPlayer.start();
-
-
+//		perfectLoopMediaPlayer.start();
 	}
 
 	@Override
