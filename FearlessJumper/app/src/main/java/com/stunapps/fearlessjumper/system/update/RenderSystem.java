@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -40,7 +41,7 @@ import java.util.Set;
 
 public class RenderSystem implements UpdateSystem
 {
-	private final GameComponentManager componentManager;
+	private final ComponentManager componentManager;
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
@@ -51,7 +52,7 @@ public class RenderSystem implements UpdateSystem
 	private Handler handler = new Handler();
 
 	@Inject
-	public RenderSystem(GameComponentManager componentManager, EventSystem eventSystem)
+	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
 		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
