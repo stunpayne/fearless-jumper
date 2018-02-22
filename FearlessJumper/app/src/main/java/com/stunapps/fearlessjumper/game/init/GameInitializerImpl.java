@@ -23,16 +23,14 @@ import com.stunapps.fearlessjumper.prefab.Prefabs;
 public class GameInitializerImpl implements GameInitializer
 {
     private final EntityManager entityManager;
-    private final ComponentManager componentManager;
 
     private OrientationData orientationData;
     private boolean initialised = false;
 
     @Inject
-    public GameInitializerImpl(EntityManager entityManager, ComponentManager componentManager)
+    public GameInitializerImpl(EntityManager entityManager)
     {
         this.entityManager = entityManager;
-        this.componentManager = componentManager;
     }
 
     @Override
@@ -57,7 +55,7 @@ public class GameInitializerImpl implements GameInitializer
             Log.e("INIT_ERROR", "Error while initialising game.");
             e.printStackTrace();
         }
-        
+
         //  Initialise enemies
         entityManager.instantiate(Prefabs.DRAGON.get());
 
