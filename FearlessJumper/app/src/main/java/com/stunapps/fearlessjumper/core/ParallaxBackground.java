@@ -24,13 +24,15 @@ public class ParallaxBackground
 	/**
 	 * Should be provided scaled to the display
 	 */
+	private Bitmap bitmap;
 	private final int displayWidth;
 	private final int displayHeight;
 
 	private List<ParallaxDrawableArea> drawables = Lists.newArrayList();
 
-	public ParallaxBackground(int displayWidth, int displayHeight)
+	public ParallaxBackground(Bitmap bitmap, int displayWidth, int displayHeight)
 	{
+		this.bitmap = bitmap;
 		this.displayWidth = displayWidth;
 		this.displayHeight = displayHeight;
 	}
@@ -63,6 +65,11 @@ public class ParallaxBackground
 	{
 		return cameraPosition >= 0 ?
 				cameraPosition % displayHeight : displayHeight + (cameraPosition % displayHeight);
+	}
+
+	public Bitmap getBitmap()
+	{
+		return bitmap;
 	}
 
 	@ToString

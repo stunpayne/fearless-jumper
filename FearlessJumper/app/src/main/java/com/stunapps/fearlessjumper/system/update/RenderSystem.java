@@ -46,7 +46,6 @@ public class RenderSystem implements UpdateSystem
 	private static Canvas canvas = null;
 
 	private ParallaxBackground background;
-	private Bitmap bgSprite;
 	private Paint bgPaint = new Paint();
 
 	private Handler handler = new Handler();
@@ -63,8 +62,7 @@ public class RenderSystem implements UpdateSystem
 		Bitmap bgBitmap =
 				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
 						false);
-		background = new ParallaxBackground(Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
-		bgSprite = bgBitmap;
+		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
 	}
 
 	@Override
@@ -139,7 +137,7 @@ public class RenderSystem implements UpdateSystem
 		for (int i = 0; i < drawableAreas.size(); i++)
 		{
 			ParallaxDrawableArea drawable = drawableAreas.get(i);
-			canvas.drawBitmap(bgSprite, null, drawable.getRenderRect(), bgPaint);
+			canvas.drawBitmap(background.getBitmap(), null, drawable.getRenderRect(), bgPaint);
 		}
 	}
 
