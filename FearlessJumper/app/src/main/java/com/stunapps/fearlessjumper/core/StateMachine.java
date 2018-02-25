@@ -120,6 +120,13 @@ public class StateMachine<State, Transition>
         {
             currentCount = countDown;
         }
+
+        @Override
+        public String toString()
+        {
+            return "CountDownState{" + "fromState=" + fromState + ", toState=" + toState +
+                    ", countDown=" + countDown + '}';
+        }
     }
 
     /*
@@ -147,11 +154,14 @@ public class StateMachine<State, Transition>
         private State terminalState;
         private Map<State, Map<Transition, State>> stateTransitionMap = Maps.newConcurrentMap();
         private Map<State, CountDownState> countDownStates = Maps.newConcurrentMap();
+        private Map<Transition, State> anyStateTransitionMap = Maps.newConcurrentMap();
 
         private Set<State> fromStates;
+        private Set<State> allStates = new HashSet<>();
         private Transition transition;
 
         private Integer countDown;
+        private boolean buildingAnyState;
 
         public Builder startState(State state)
         {
@@ -178,6 +188,7 @@ public class StateMachine<State, Transition>
             }
 
             fromStates = states;
+            allStates.addAll(fromStates);
 
             for (State state : states)
             {
@@ -186,6 +197,13 @@ public class StateMachine<State, Transition>
                     stateTransitionMap.put(state, new HashMap<Transition, State>());
                 }
             }
+            return this;
+        }
+
+        public Builder fromAnyStateOnEvent(Transition transition)
+        {
+            buildingAnyState = true;
+            this.transition = transition;
             return this;
         }
 
@@ -211,6 +229,14 @@ public class StateMachine<State, Transition>
 
         public Builder toState(State toState)
         {
+            allStates.add(toState);
+            if (buildingAnyState)
+            {
+                anyStateTransitionMap.put(transition, toState);
+                buildingAnyState = false;
+                return this;
+            }
+
             if (fromStates == null || fromStates.isEmpty() || transition == null)
             {
                 //TODO: throw invalid state transaction exception.
@@ -263,13 +289,37 @@ public class StateMachine<State, Transition>
 
         public StateMachine build()
         {
+        	addAnyStateTransitions();
             return new StateMachine(startState, terminalState, stateTransitionMap, countDownStates);
         }
-    }
+
+		private void addAnyStateTransitions()
+		{
+            for (State state : allStates)
+			{
+				for (Map.Entry<Transition, State> anyStateTransition : anyStateTransitionMap
+						.entrySet())
+				{
+				    if (stateTransitionMap.get(state) == null)
+				        stateTransitionMap.put(state, Maps.<Transition, State>newConcurrentMap());
+					stateTransitionMap.get(state)
+							.put(anyStateTransition.getKey(), anyStateTransition.getValue());
+				}
+			}
+		}
+	}
 
     @Override
     public StateMachine clone() throws CloneNotSupportedException
     {
         return new StateMachine(startState, terminalState, stateTransitionMap, countDownStates);
     }
+
+	@Override
+	public String toString()
+	{
+		return "StateMachine{" + "currentState=" + currentState + ", startState=" + startState +
+				", terminalState=" + terminalState + ", stateTransitionMap=" + stateTransitionMap +
+				", countDownStates=" + countDownStates + '}';
+	}
 }

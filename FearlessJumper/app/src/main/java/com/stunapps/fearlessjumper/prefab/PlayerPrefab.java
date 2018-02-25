@@ -61,12 +61,13 @@ public class PlayerPrefab extends Prefab
 		stateAnimationMap.put(TERMINATED, alienHurtAnim);
 
 		StateMachine animationStateMachine =
-				StateMachine.builder().startState(IDLE).from(IDLE).onEvent(AnimationTransition
-						.HURT)
-						.toState(HURT).from(HURT).onEvent(TERMINATE).toState(TERMINATED).from(IDLE)
-						.onEvent(TERMINATE).toState(TERMINATED).from(HURT)
-						.onEvent(AnimationTransition.HURT).toState(HURT).from(HURT).onCountDown(16)
-						.toState(IDLE).build();
+				StateMachine.builder()
+						.startState(IDLE)
+						.from(IDLE).onEvent(AnimationTransition.HURT).toState(HURT)
+						.from(HURT).onEvent(AnimationTransition.HURT).toState(HURT)
+						.from(HURT).onCountDown(16).toState(IDLE)
+						.fromAnyStateOnEvent(TERMINATE).toState(TERMINATED)
+						.build();
 
 		components.add(new Renderable(alien, Delta.ZERO, alien.getWidth(),
 				alien.getHeight()));
