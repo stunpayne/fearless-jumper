@@ -14,7 +14,8 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 import java.util.Set;
 
 import static com.stunapps.fearlessjumper.helper.Environment.Constants.ONE_SECOND_NANOS;
-import static com.stunapps.fearlessjumper.helper.Environment.scale;
+import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
+import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
 
 /**
  * Created by sunny.s on 19/01/18.
@@ -75,7 +76,7 @@ public class PhysicsSystem implements UpdateSystem
 	private void applyGravity(Entity entity, long deltaTime)
 	{
 		PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-		physicsComponent.getVelocity().y -= (GRAVITY * scale() * deltaTime / ONE_SECOND_NANOS);
+		physicsComponent.getVelocity().y -= (GRAVITY * scaleY() * deltaTime / ONE_SECOND_NANOS);
 	}
 
 	private void handleFriction(Entity entity1, Entity entity2, CollisionFace collisionFace,
@@ -105,7 +106,7 @@ public class PhysicsSystem implements UpdateSystem
 		float entity1XVel = Math.abs(physicsComponent1.getVelocity().x);
 		if (entity1XVel > 0)
 		{
-			entity1XVel -= (friction * scale() * deltaTime / ONE_SECOND_NANOS);
+			entity1XVel -= (friction * scaleX() * deltaTime / ONE_SECOND_NANOS);
 			physicsComponent1.getVelocity().x = entity1XVel * sign(physicsComponent1.getVelocity().x);
 			if (entity1XVel < 0)
 			{
@@ -116,7 +117,7 @@ public class PhysicsSystem implements UpdateSystem
 		float entity2XVel = Math.abs(physicsComponent2.getVelocity().x);
 		if (entity2XVel > 0)
 		{
-			entity2XVel -= (friction * scale() * deltaTime / ONE_SECOND_NANOS);
+			entity2XVel -= (friction * scaleX() * deltaTime / ONE_SECOND_NANOS);
 			physicsComponent2.getVelocity().x -= entity2XVel * sign(physicsComponent2.getVelocity().x);
 			if (entity2XVel < 0)
 			{
@@ -134,7 +135,7 @@ public class PhysicsSystem implements UpdateSystem
 		float entity1YVel = Math.abs(physicsComponent1.getVelocity().y);
 		if (entity1YVel > 0)
 		{
-			entity1YVel -= (friction * scale() * deltaTime / ONE_SECOND_NANOS);
+			entity1YVel -= (friction * scaleY() * deltaTime / ONE_SECOND_NANOS);
 			physicsComponent1.getVelocity().y = entity1YVel * sign(physicsComponent1.getVelocity().y);
 			if (entity1YVel < 0)
 			{
@@ -145,7 +146,7 @@ public class PhysicsSystem implements UpdateSystem
 		float entity2YVel = Math.abs(physicsComponent2.getVelocity().y);
 		if (entity2YVel > 0)
 		{
-			entity2YVel -= (friction * scale() * deltaTime / ONE_SECOND_NANOS);
+			entity2YVel -= (friction * scaleY() * deltaTime / ONE_SECOND_NANOS);
 			physicsComponent2.getVelocity().y -= entity2YVel * sign(physicsComponent2.getVelocity().y);
 			if (entity2YVel < 0)
 			{

@@ -29,6 +29,8 @@ public class Environment
     public static Canvas CANVAS;
 
     public static float UNIT_DENSITY = 2.625f;
+    public static float UNIT_HEIGHT = 1794f;
+    public static float UNIT_WIDTH = 1080f;
 
     public class Constants
     {
@@ -36,8 +38,13 @@ public class Environment
         public static final long ONE_SECOND_NANOS = 1000000000;
     }
 
-    public static float scale()
+    public static float scaleY()
     {
-        return Device.DISPLAY_DENSITY / UNIT_DENSITY;
+        return Device.SCREEN_HEIGHT / UNIT_HEIGHT;
+    }
+
+    public static float scaleX()
+    {
+        return Device.SCREEN_WIDTH / UNIT_WIDTH;
     }
 }

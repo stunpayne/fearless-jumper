@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static com.stunapps.fearlessjumper.helper.Environment.scale;
+import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
+import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
 
 /**
  * Created by sunny.s on 20/01/18.
@@ -70,8 +71,8 @@ public class PlayerInputProcessor implements InputProcessor
 		float forceX = motionEvent.getX() - position.x;
 		float forceY = motionEvent.getY() - position.y;
 
-		physicsComponent.getVelocity().y += forceY * JUMP_IMPULSE * scale();
-		physicsComponent.getVelocity().x += forceX * JUMP_IMPULSE * scale();
+		physicsComponent.getVelocity().y += forceY * JUMP_IMPULSE * scaleY();
+		physicsComponent.getVelocity().x += forceX * JUMP_IMPULSE * scaleX();
 	}
 
 	private void dischargeFuel(Fuel fuel, long deltaTime)
