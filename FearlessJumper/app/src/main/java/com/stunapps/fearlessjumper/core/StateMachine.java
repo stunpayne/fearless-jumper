@@ -129,25 +129,6 @@ public class StateMachine<State, Transition>
         }
     }
 
-    /*
-    @Override
-    public StateMachine<State, Transition> clone()
-    {
-        StateMachine<State, Transition> cloned = new StateMachine<>();
-        try
-        {
-            cloned.currentState = (State) currentState.getClass().getMethod("clone").invoke(currentState);
-            cloned.startState = (State) startState.getClass().getMethod("clone").invoke(startState);
-            cloned.terminalState = (State) terminalState.getClass().getMethod("clone").invoke(terminalState);
-            cloned.stateTransitionMap = (Map) stateTransitionMap.getClass().getMethod("clone").invoke(stateTransitionMap);
-        }
-        catch (Exception e)
-        {
-            Log.d(TAG, "clone: Exception while cloning state machine", e);
-        }
-        return cloned;
-    } */
-
     public static class Builder<State, Transition>
     {
         private State startState;

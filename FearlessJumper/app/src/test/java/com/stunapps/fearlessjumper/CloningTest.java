@@ -1,9 +1,11 @@
 package com.stunapps.fearlessjumper;
 
+import com.rits.cloning.Cloner;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.core.StateMachine;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -14,8 +16,27 @@ public class CloningTest
 {
     @Test
     public void testCloning(){
-        StateMachine<AnimationState, AnimationTransition> stateMachine = StateMachine.builder().startState(AnimationState.IDLE).from(AnimationState.FLY_RIGHT).onEvent(AnimationTransition.TURN_RIGHT).toState(AnimationState.FLY_RIGHT).build();
+        Cloner cloner = new Cloner();
+        StateMachine<AnimationState, AnimationTransition> stateMachine =
+                StateMachine.builder().startState(AnimationState.IDLE)
+                        .from(AnimationState.IDLE).onEvent(AnimationTransition.TURN_RIGHT)
+                        .toState(AnimationState.FLY_RIGHT)
+                        .terminalState(AnimationState.FLY_RIGHT).build();
 
+        StateMachine<AnimationState, AnimationTransition> clone1 = cloner.deepClone
+                (stateMachine);
+
+        Assert.assertFalse(stateMachine.getStateTransitionMap() == clone1.getStateTransitionMap());
+        Assert.assertTrue(stateMachine.getStateTransitionMap().hashCode() ==
+                                   clone1.getStateTransitionMap().hashCode());
+
+        Assert.assertTrue(stateMachine.getCurrentState() == clone1.getCurrentState());
+        Assert.assertTrue(stateMachine.getCurrentState().equals(clone1.getCurrentState()));
+
+        stateMachine.transitStateOnEvent(AnimationTransition.TURN_RIGHT);
+
+        Assert.assertFalse(stateMachine.getCurrentState() == clone1.getCurrentState());
+        Assert.assertFalse(stateMachine.getCurrentState().equals(clone1.getCurrentState()));
 
     }
 }

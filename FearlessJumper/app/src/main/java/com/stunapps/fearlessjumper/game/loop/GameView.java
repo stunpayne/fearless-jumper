@@ -2,12 +2,12 @@ package com.stunapps.fearlessjumper.game.loop;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.system.Systems;
@@ -18,6 +18,7 @@ import com.stunapps.fearlessjumper.system.Systems;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
+    private final static String TAG = "GameView";
     private MainThread thread;
     private GameInitializer gameInitializer;
 
@@ -92,7 +93,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
         if (!gameInitializer.isInitialized())
         {
+            Log.d(TAG, "update: start time = "+System.currentTimeMillis());
             gameInitializer.initialize();
+            Log.d(TAG, "update: end time = "+System.currentTimeMillis());
+            int i = 0;
         }
 
         Systems.process(deltaTime);
