@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.system.eventonly;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
+import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.visual.Animator;
@@ -44,12 +45,14 @@ public class DamageSystem implements System
 				health1.takeDamage(damageComponent2.damage());
 				if (health1.isOver())
 				{
-					animator.triggerEvent(AnimationTransition.TERMINATE);
+					//entity2.getComponent(Collider.class).setTrigger(true);
+					//animator.triggerTransition(AnimationTransition.TERMINATE);
 					eventSystem.raiseEvent(new GameOverEvent());
 				}
 				else
 				{
-					animator.triggerEvent(AnimationTransition.HURT);
+					//entity2.getComponent(Collider.class).setTrigger(true);
+					animator.triggerTransition(AnimationTransition.HURT);
 				}
 			}
 
@@ -60,12 +63,14 @@ public class DamageSystem implements System
 				health2.takeDamage(damageComponent1.damage());
 				if (health2.isOver())
 				{
-					animator.triggerEvent(AnimationTransition.TERMINATE);
+					//entity1.getComponent(Collider.class).setTrigger(true);
+					//animator.triggerTransition(AnimationTransition.TERMINATE);
 					eventSystem.raiseEvent(new GameOverEvent());
 				}
 				else
 				{
-					animator.triggerEvent(AnimationTransition.HURT);
+					//entity1.getComponent(Collider.class).setTrigger(true);
+					animator.triggerTransition(AnimationTransition.HURT);
 				}
 			}
 		}

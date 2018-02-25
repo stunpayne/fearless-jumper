@@ -2,12 +2,10 @@ package com.stunapps.fearlessjumper.prefab;
 
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.animation.Animation;
-import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.animation.AnimationState;
+import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.health.Health;
@@ -24,16 +22,15 @@ import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.di.DI;
-import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TERMINATE;
 import static com.stunapps.fearlessjumper.animation.AnimationState.HURT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationState.TERMINATED;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.TERMINATE;
 
 /**
  * Created by anand.verma on 12/01/18.
@@ -51,14 +48,17 @@ public class PlayerPrefab extends Prefab
 
 		Bitmap alien = Bitmaps.PLAYER_IDLE;
 		Bitmap alienHurt = Bitmaps.PLAYER_HURT;
+		Bitmap blankImage = Bitmaps.BLANK_IMAGE;
+		Bitmap alienDied = Bitmaps.PLAYER_DIED;
 
-		Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);
-		Animation alienHurtAnim = new Animation(new Bitmap[]{alienHurt}, 0.5f);
+        Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);
+        Animation alienHurtAnim = new Animation(new Bitmap[]{blankImage, alienHurt, blankImage}, 0.01f);
+        Animation alienDiedAnim = new Animation(new Bitmap[]{alienDied}, 0.5f);
 
-		Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
-		stateAnimationMap.put(IDLE, alienAnim);
-		stateAnimationMap.put(HURT, alienHurtAnim);
-		stateAnimationMap.put(TERMINATED, alienHurtAnim);
+        Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
+        stateAnimationMap.put(IDLE, alienAnim);
+        stateAnimationMap.put(HURT, alienHurtAnim);
+        stateAnimationMap.put(TERMINATED, alienDiedAnim);
 
 		StateMachine animationStateMachine =
 				StateMachine.builder()

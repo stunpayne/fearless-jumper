@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.entity;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.rits.cloning.Cloner;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Transform;
@@ -22,6 +23,7 @@ public class EntityManager
     private final Random rand = new Random();
     private final ComponentManager componentManager;
     private final Map<Integer, Entity> entityMap = new ConcurrentHashMap<>();
+    private final Cloner cloner = new Cloner();
 
     @Inject
     public EntityManager(ComponentManager componentManager)
@@ -42,16 +44,19 @@ public class EntityManager
         entityMap.put(entity.getId(), entity);
         for (Component component : prefab.components)
         {
+            /*
+        }
             try
-            {
-                Component clone = component.clone();
+            { */
+                //Component clone = component.clone();
+                Component clone = cloner.deepClone(component);
                 entity.addComponent(clone);
                 clone.setEntity(entity);
-            }
+            /*}
             catch (CloneNotSupportedException e)
             {
                 e.printStackTrace();
-            }
+            } */
         }
         return entity;
     }

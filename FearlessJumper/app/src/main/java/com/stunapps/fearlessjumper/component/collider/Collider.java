@@ -48,4 +48,9 @@ public abstract class Collider extends Component
 	{
 		return trigger;
 	}
+
+	public void setTrigger(boolean trigger)
+	{
+		this.trigger = trigger;
+	}
 }

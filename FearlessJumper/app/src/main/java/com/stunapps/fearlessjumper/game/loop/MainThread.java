@@ -100,7 +100,7 @@ public class MainThread extends Thread
                 averageFPS = 1000 / ((totalTime / frameCount) / ONE_MILLION);
                 frameCount = 0;
                 totalTime = 0;
-                Log.d("FPS", "Average: " + averageFPS);
+                Log.w("FPS", "Average: " + averageFPS);
             }
         }
     }

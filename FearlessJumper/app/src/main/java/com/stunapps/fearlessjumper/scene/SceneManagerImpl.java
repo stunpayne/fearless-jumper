@@ -29,39 +29,35 @@ public class SceneManagerImpl implements SceneManager
 	private StateMachine<Class<? extends Scene>, Class<? extends BaseEvent>> sceneStateMachine;
 	private Map<Class<? extends Scene>, Scene> sceneMap;
 
-	private BaseEventListener<StartGameEvent> startGameListener =
-			new BaseEventListener<StartGameEvent>()
-			{
-				@Override
-				public void handleEvent(StartGameEvent event) throws EventException
-				{
-					transitScene(event);
-				}
-			};
+	private BaseEventListener<MainMenuEvent> mainMenuListener = new BaseEventListener<MainMenuEvent>()
+	{
+		@Override
+		public void handleEvent(MainMenuEvent event) throws EventException
+		{
+			transitScene(event);
+		}
+	};
 
-	private BaseEventListener<GameOverEvent> gameOverListener =
-			new BaseEventListener<GameOverEvent>()
-			{
-				@Override
-				public void handleEvent(GameOverEvent event) throws EventException
-				{
-					transitScene(event);
-				}
-			};
+	private BaseEventListener<StartGameEvent> startGameListener = new BaseEventListener<StartGameEvent>()
+	{
+		@Override
+		public void handleEvent(StartGameEvent event) throws EventException
+		{
+			transitScene(event);
+		}
+	};
 
-	private BaseEventListener<MainMenuEvent> mainMenuListener =
-			new BaseEventListener<MainMenuEvent>()
-			{
-				@Override
-				public void handleEvent(MainMenuEvent event) throws EventException
-				{
-					transitScene(event);
-				}
-			};
+	private BaseEventListener<GameOverEvent> gameOverListener = new BaseEventListener<GameOverEvent>()
+	{
+		@Override
+		public void handleEvent(GameOverEvent event) throws EventException
+		{
+			transitScene(event);
+		}
+	};
 
 	@Inject
-	public SceneManagerImpl(MainMenuScene mainMenuScene, GameplayScene gameplayScene,
-			GameOverScene gameOverScene, EventSystem eventSystem, SoundSystem soundSystem)
+	public SceneManagerImpl(MainMenuScene mainMenuScene, GameplayScene gameplayScene, EventSystem eventSystem, SoundSystem soundSystem)
 	{
 		this.soundSystem = soundSystem;
 		Log.i("SCENE_MANAGER",
@@ -70,10 +66,9 @@ public class SceneManagerImpl implements SceneManager
 		sceneMap = new HashMap<>();
 		sceneMap.put(mainMenuScene.getClass(), mainMenuScene);
 		sceneMap.put(gameplayScene.getClass(), gameplayScene);
-		sceneMap.put(gameOverScene.getClass(), gameOverScene);
 
 		eventSystem.registerEventListener(StartGameEvent.class, startGameListener);
-		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
+		//eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		eventSystem.registerEventListener(MainMenuEvent.class, mainMenuListener);
 	}
 

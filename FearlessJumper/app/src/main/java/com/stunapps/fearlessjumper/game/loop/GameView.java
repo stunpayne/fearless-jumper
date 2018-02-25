@@ -69,6 +69,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
+    public MainThread getThread()
+    {
+        return thread;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -78,6 +83,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         return true;
 //        return super.onTouchEvent(eventType);
     }
+
+
 
     public void update(long deltaTime)
     {

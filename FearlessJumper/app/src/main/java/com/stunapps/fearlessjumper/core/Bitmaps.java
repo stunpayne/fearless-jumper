@@ -21,6 +21,7 @@ public class Bitmaps
 	//	Player bitmaps
 	public static Bitmap PLAYER_IDLE;
 	public static Bitmap PLAYER_HURT;
+	public static Bitmap PLAYER_DIED;
 
 	//	Obstacles
 	public static Bitmap PLATFORM;
@@ -32,10 +33,13 @@ public class Bitmaps
 	public static Bitmap DRAGON_FLY3;
 	public static Bitmap DRAGON_FLY4;
 
+	public static Bitmap BLANK_IMAGE;
+
 	public static void initialise()
 	{
 		PLAYER_IDLE = initBitmap(R.drawable.alienblue, 90, 125);
 		PLAYER_HURT = initBitmap(R.drawable.alienblue_hurt, 90, 125);
+		PLAYER_DIED = initBitmap(R.drawable.alienblue_died, 90, 125);
 
 		PLATFORM = initBitmap(R.drawable.platform, 400, 100);
 		CLOCK = initBitmap(R.drawable.clock, 115, 115);
@@ -44,6 +48,8 @@ public class Bitmaps
 		DRAGON_FLY2 = initBitmap(R.drawable.dragon_fly2, Dimensions.dragonX, Dimensions.dragonY);
 		DRAGON_FLY3 = initBitmap(R.drawable.dragon_fly3, Dimensions.dragonX, Dimensions.dragonY);
 		DRAGON_FLY4 = initBitmap(R.drawable.dragon_fly4, Dimensions.dragonX, Dimensions.dragonY);
+
+		BLANK_IMAGE = initBitmap(R.drawable.blank_image, 90, 125);
 	}
 
 	private static Bitmap initBitmap(int drawableResId, int width, int height)

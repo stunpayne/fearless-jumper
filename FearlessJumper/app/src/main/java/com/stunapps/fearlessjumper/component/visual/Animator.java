@@ -3,10 +3,9 @@ package com.stunapps.fearlessjumper.component.visual;
 import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.animation.Animation;
-import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.animation.AnimationState;
+import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.core.StateMachine;
 
 import java.util.HashMap;

@@ -1,10 +1,8 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
-import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
@@ -20,18 +18,16 @@ import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
-import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
-import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
+import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
 
 /**
  * Created by sunny.s on 21/01/18.
@@ -49,18 +45,6 @@ public class DragonPrefab extends Prefab
 						.from(FLY_LEFT).onEvent(TURN_RIGHT).toState(FLY_RIGHT).from(FLY_RIGHT)
 						.onEvent(TURN_LEFT).toState(FLY_LEFT).build();
 
-		//		Bitmap dragonSprite1 = BitmapFactory
-		//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable
-		// .dragon_fly1);
-		//		Bitmap dragonSprite2 = BitmapFactory
-		//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable
-		// .dragon_fly2);
-		//		Bitmap dragonSprite3 = BitmapFactory
-		//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable
-		// .dragon_fly3);
-		//		Bitmap dragonSprite4 = BitmapFactory
-		//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable
-		// .dragon_fly4);
 		Bitmap dragonSprite1 = Bitmaps.DRAGON_FLY1;
 		Bitmap dragonSprite2 = Bitmaps.DRAGON_FLY2;
 		Bitmap dragonSprite3 = Bitmaps.DRAGON_FLY3;

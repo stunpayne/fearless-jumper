@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.module;
 import android.content.Context;
 
 import com.google.inject.AbstractModule;
+import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.audio.SoundEffectPlayer;
 import com.stunapps.fearlessjumper.audio.SoundEffectPlayerImpl;
 import com.stunapps.fearlessjumper.component.ComponentManager;
@@ -23,6 +24,7 @@ import com.stunapps.fearlessjumper.scene.SceneManagerImpl;
 public class GameModule extends AbstractModule
 {
 	private Context context;
+	private MainActivity mainActivity;
 
 	public GameModule(Context context)
 	{
