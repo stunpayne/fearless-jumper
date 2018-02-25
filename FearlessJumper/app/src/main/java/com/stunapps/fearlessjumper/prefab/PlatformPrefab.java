@@ -10,7 +10,7 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Obstacle;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.Sprite;
+import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
@@ -31,7 +31,7 @@ public class PlatformPrefab extends Prefab
 		Bitmap sprite = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(),
 													 R.drawable.platform);
 		components.add(new Obstacle());
-		components.add(new Sprite(sprite, Delta.ZERO, sprite.getWidth(),
+		components.add(new Renderable(sprite, Delta.ZERO, sprite.getWidth(),
 								  sprite.getHeight()));
 		components.add(new RectCollider(Delta.ZERO, sprite.getWidth(), sprite.getHeight()));
 		components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false,

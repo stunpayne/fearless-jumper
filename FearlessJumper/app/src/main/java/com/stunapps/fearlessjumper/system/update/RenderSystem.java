@@ -21,7 +21,7 @@ import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.transform.Position;
-import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
+import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
 import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
 import com.stunapps.fearlessjumper.display.Cameras;
@@ -56,7 +56,7 @@ public class RenderSystem implements UpdateSystem
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
-//		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
+		//		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
 
 		//	Initialise background bitmap
 		Bitmap originalBg =
@@ -72,7 +72,7 @@ public class RenderSystem implements UpdateSystem
 	{
 		lastProcessTime = System.currentTimeMillis();
 
-		Set<Entity> entities = componentManager.getEntities(RenderableComponent.class);
+		Set<Entity> entities = componentManager.getEntities(Renderable.class);
 		Entity player = componentManager.getEntity(PlayerComponent.class);
 		if (canvas == null)
 		{
@@ -118,7 +118,7 @@ public class RenderSystem implements UpdateSystem
 	{
 		Position camPosition = Cameras.getMainCamera().position;
 
-		RenderableComponent renderable = entity.getComponent(RenderableComponent.class);
+		Renderable renderable = entity.getComponent(Renderable.class);
 		int left = (int) ((entity.transform.position.x + renderable.delta.x) - camPosition.x);
 		int top = (int) ((entity.transform.position.y + renderable.delta.y) - camPosition.y);
 		int right = (int) ((entity.transform.position.x + renderable.delta.x + renderable.width) -
@@ -148,23 +148,11 @@ public class RenderSystem implements UpdateSystem
 		//  Render all objects at their current positions
 		for (Entity entity : entities)
 		{
-			RenderableComponent component = entity.getComponent(RenderableComponent.class);
-			switch (component.renderType)
-			{
-				case SPRITE:
-					Bitmap bitmap = (Bitmap) component.getRenderable();
-					Rect destRect = getRenderRect(entity);
+			Renderable component = entity.getComponent(Renderable.class);
+			Bitmap bitmap = (Bitmap) component.getRenderable();
+			Rect destRect = getRenderRect(entity);
 
-					canvas.drawBitmap(bitmap, null, destRect, null);
-					break;
-				case ANIMATOR:
-					bitmap = (Bitmap) component.getRenderable();
-					destRect = getRenderRect(entity);
-
-					canvas.drawBitmap(bitmap, null, destRect, null);
-					break;
-				default:
-			}
+			canvas.drawBitmap(bitmap, null, destRect, null);
 		}
 	}
 
@@ -192,7 +180,8 @@ public class RenderSystem implements UpdateSystem
 
 		//	Time text
 		Float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
-		String timeText = " Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" "));
+		String timeText = " Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" " +
+				""));
 		MainActivity.getInstance().updateTime(timeText);
 		//canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 
@@ -212,12 +201,12 @@ public class RenderSystem implements UpdateSystem
 		canvas.drawRect(fuelRect, fuelPaint);
 
 		//	Fuel text
-		String fuelText = " Fuel: "+String.valueOf(fuel.intValue());
+		String fuelText = " Fuel: " + String.valueOf(fuel.intValue());
 		MainActivity.getInstance().updateFuel(fuelText);
 		//canvas.drawText(fuelText, (left + right) / 2, (top + bottom) / 2, fuelTextPaint);
 
 		Health health = player.getComponent(Health.class);
-		String healthText = " Health: "+health.getHealth();
+		String healthText = " Health: " + health.getHealth();
 		MainActivity.getInstance().updateHealth(healthText);
 	}
 }

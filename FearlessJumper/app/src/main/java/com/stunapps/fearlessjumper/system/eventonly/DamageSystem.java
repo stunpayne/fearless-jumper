@@ -5,7 +5,6 @@ import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.visual.Animator;
-import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
@@ -41,8 +40,7 @@ public class DamageSystem implements System
 			if (health1 != null && damageComponent2 != null)
 			{
 				eventSystem.raiseEvent(new HurtEvent());
-				Animator animator =
-						((Animator) entity1.getComponent(RenderableComponent.class));
+				Animator animator = entity1.getComponent(Animator.class);
 				health1.takeDamage(damageComponent2.damage());
 				if (health1.isOver())
 				{
@@ -58,8 +56,7 @@ public class DamageSystem implements System
 			if (health2 != null && damageComponent1 != null)
 			{
 				eventSystem.raiseEvent(new HurtEvent());
-				Animator animator =
-						((Animator) entity2.getComponent(RenderableComponent.class));
+				Animator animator = entity2.getComponent(Animator.class);
 				health2.takeDamage(damageComponent1.damage());
 				if (health2.isOver())
 				{

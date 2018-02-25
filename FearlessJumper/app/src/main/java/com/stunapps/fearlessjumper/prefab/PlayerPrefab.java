@@ -20,6 +20,7 @@ import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
+import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Environment;
@@ -39,44 +40,46 @@ import static com.stunapps.fearlessjumper.animation.AnimationState.TERMINATED;
 
 public class PlayerPrefab extends Prefab
 {
-    public PlayerPrefab()
-    {
+	public PlayerPrefab()
+	{
 
-        int x = 4 * Device.SCREEN_WIDTH / 5;
-        int y = Device.SCREEN_HEIGHT - 150;
-        transform = new Transform(new Position(x,
-                y), new Transform.Rotation(), new Transform.Scale());
-        Bitmap alien = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable
-                .alienblue);
-        Bitmap alienHurt = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable
-                .alienblue_hurt);
+		int x = 4 * Device.SCREEN_WIDTH / 5;
+		int y = Device.SCREEN_HEIGHT - 150;
+		transform =
+				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
+		Bitmap alien = BitmapFactory
+				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.alienblue);
+		Bitmap alienHurt = BitmapFactory
+				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.alienblue_hurt);
 
-        Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);
-        Animation alienHurtAnim = new Animation(new Bitmap[]{alienHurt}, 0.5f);
+		Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);
+		Animation alienHurtAnim = new Animation(new Bitmap[]{alienHurt}, 0.5f);
 
-        Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
-        stateAnimationMap.put(IDLE, alienAnim);
-        stateAnimationMap.put(HURT, alienHurtAnim);
-        stateAnimationMap.put(TERMINATED, alienHurtAnim);
+		Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
+		stateAnimationMap.put(IDLE, alienAnim);
+		stateAnimationMap.put(HURT, alienHurtAnim);
+		stateAnimationMap.put(TERMINATED, alienHurtAnim);
 
-        StateMachine animationStateMachine = StateMachine.builder().startState(IDLE)
-                .from(IDLE).onEvent(AnimationTransition.HURT).toState(HURT)
-                .from(HURT).onEvent(TERMINATE).toState(TERMINATED)
-                .from(IDLE).onEvent(TERMINATE).toState(TERMINATED)
-                .from(HURT).onEvent(AnimationTransition.HURT).toState(HURT)
-                .from(HURT).onCountDown(16).toState(IDLE).build();
+		StateMachine animationStateMachine =
+				StateMachine.builder().startState(IDLE).from(IDLE).onEvent(AnimationTransition
+						.HURT)
+						.toState(HURT).from(HURT).onEvent(TERMINATE).toState(TERMINATED).from(IDLE)
+						.onEvent(TERMINATE).toState(TERMINATED).from(HURT)
+						.onEvent(AnimationTransition.HURT).toState(HURT).from(HURT).onCountDown(16)
+						.toState(IDLE).build();
 
-        components.add(new Animator(stateAnimationMap, Delta.ZERO, alien.getWidth(),
-                alien.getHeight(), animationStateMachine));
+		components.add(new Renderable(alien, Delta.ZERO, alien.getWidth(),
+				alien.getHeight()));
+		components.add(new Animator(stateAnimationMap, animationStateMachine));
 
-        components.add(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight()));
-        components.add(new Health(100));
-        components.add(new PhysicsComponent(50, new PhysicsComponent.Velocity()));
-        OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
-        components.add(orientationInput);
-        components.add(new PlayerComponent());
-        components.add(new RemainingTime(10000));
-        components.add(new Score());
-        components.add(new Fuel(100f));
-    }
+		components.add(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight()));
+		components.add(new Health(100));
+		components.add(new PhysicsComponent(50, new PhysicsComponent.Velocity()));
+		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
+		components.add(orientationInput);
+		components.add(new PlayerComponent());
+		components.add(new RemainingTime(10000));
+		components.add(new Score());
+		components.add(new Fuel(100f));
+	}
 }

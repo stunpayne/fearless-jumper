@@ -17,6 +17,7 @@ import com.stunapps.fearlessjumper.component.specific.Obstacle;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
+import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
@@ -41,7 +42,7 @@ public class DragonPrefab extends Prefab
 		transform = new Transform(new Position(Device.SCREEN_WIDTH / 2, 200));
 
 		StateMachine animationStateMachine =
-				StateMachine.builder().startState(IDLE).from(IDLE).onEvent(TURN_LEFT)
+				StateMachine.builder().startState(FLY_RIGHT).from(IDLE).onEvent(TURN_LEFT)
 						.toState(FLY_LEFT).from(IDLE).onEvent(TURN_RIGHT).toState(FLY_RIGHT)
 						.from(FLY_LEFT).onEvent(TURN_RIGHT).toState(FLY_RIGHT).from(FLY_RIGHT)
 						.onEvent(TURN_LEFT).toState(FLY_LEFT).build();
@@ -78,9 +79,10 @@ public class DragonPrefab extends Prefab
 		stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
-		Animator animator = new Animator(stateAnimationMap, Delta.ZERO, dragonSprite1.getWidth(),
-				dragonSprite1.getHeight(), animationStateMachine);
+		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerEvent(TURN_RIGHT);
+		components.add(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+				dragonSprite1.getHeight()));
 		components.add(animator);
 		components.add(new Dragon());
 		components.add(new Obstacle());

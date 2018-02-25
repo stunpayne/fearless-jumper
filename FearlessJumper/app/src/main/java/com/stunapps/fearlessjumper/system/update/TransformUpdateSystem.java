@@ -8,9 +8,8 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent.Velocity;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
+import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 import java.util.Set;
@@ -39,7 +38,7 @@ public class TransformUpdateSystem implements UpdateSystem
 		for (Entity movable : movables)
 		{
 			PhysicsComponent physicsComponent = movable.getComponent(PhysicsComponent.class);
-			RenderableComponent renderable = movable.getComponent(RenderableComponent.class);
+			Renderable renderable = movable.getComponent(Renderable.class);
 			if (movable.hasComponent(PlayerComponent.class))
 				movePlayerTransform(movable.transform, physicsComponent.getVelocity(), renderable);
 			else moveTransform(movable.transform, physicsComponent.getVelocity());
@@ -53,7 +52,7 @@ public class TransformUpdateSystem implements UpdateSystem
 	}
 
 	private void movePlayerTransform(Transform transform, Velocity velocity,
-			RenderableComponent renderable)
+			Renderable renderable)
 	{
 		transform.position.x += velocity.x;
 		transform.position.y += velocity.y;

@@ -6,8 +6,6 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.visual.Animator;
-import com.stunapps.fearlessjumper.component.visual.RenderableComponent;
-import com.stunapps.fearlessjumper.component.visual.RenderableComponent.RenderType;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.Set;
@@ -80,23 +78,19 @@ public class MovementUpdateSystem implements UpdateSystem
 				periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
 
 				//TODO: need to write it in more cleaner way.
-				if (entity.hasComponent(RenderableComponent.class) &&
-						(entity.getComponent(RenderableComponent.class)).renderType ==
-								RenderType.ANIMATOR)
+				if (entity.hasComponent(Animator.class))
 				{
-					((Animator) entity.getComponent(RenderableComponent.class))
-							.triggerEvent(AnimationTransition.TURN_LEFT);
+					entity.getComponent(Animator.class).triggerEvent(AnimationTransition
+							.TURN_LEFT);
 				}
 			}
 			if (deltaX + entity.transform.position.x <= periodicTranslation.minX)
 			{
 				deltaX = periodicTranslation.minX - entity.transform.position.x;
 				periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
-				if (entity.hasComponent(RenderableComponent.class) &&
-						(entity.getComponent(RenderableComponent.class)).renderType ==
-								RenderType.ANIMATOR)
+				if (entity.hasComponent(Animator.class))
 				{
-					((Animator) entity.getComponent(RenderableComponent.class))
+					entity.getComponent(Animator.class)
 							.triggerEvent(AnimationTransition.TURN_RIGHT);
 				}
 			}
