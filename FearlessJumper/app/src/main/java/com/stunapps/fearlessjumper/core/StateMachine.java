@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.core;
 
+import android.util.Log;
+
 import org.roboguice.shaded.goole.common.collect.Maps;
 
 import java.util.HashMap;
@@ -13,6 +15,8 @@ import java.util.Set;
 
 public class StateMachine<State, Transition>
 {
+    private static final String TAG = "STATE_MACHINE";
+
     private State currentState;
     private State startState;
     private State terminalState;
@@ -48,7 +52,12 @@ public class StateMachine<State, Transition>
             //TODO: state transaction cannot happen.
             return null;
         }
-        currentState = stateTransitionMap.get(currentState).get(transition);
+        State nextState = stateTransitionMap.get(currentState).get(transition);
+        if (nextState != null)
+        {
+            currentState = nextState;
+        }
+        else Log.w(TAG, "No transition " + transition + "exists from state " + currentState);
         return currentState;
     }
 
