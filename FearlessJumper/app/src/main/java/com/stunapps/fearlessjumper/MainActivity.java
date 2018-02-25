@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
@@ -100,6 +101,7 @@ public class MainActivity extends Activity
 
 		DI.install(new GameModule(this));
 
+		Bitmaps.initialise();
 		di().getInstance(Systems.class).initialise();
 		di().getInstance(SceneManager.class).initialise();
 	}
@@ -161,7 +163,9 @@ public class MainActivity extends Activity
 		Device.SCREEN_WIDTH = dm.widthPixels;
 		Device.SCREEN_HEIGHT = dm.heightPixels;
 		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
-		Environment.ACTIVITY = this;
+
+		Log.d("MAIN_ACTIVITY",
+				"Width: " + Device.SCREEN_WIDTH + " Height: " + Device.SCREEN_HEIGHT);
 		Environment.CONTEXT = this;
 	}
 

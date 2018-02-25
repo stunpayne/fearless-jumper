@@ -73,7 +73,7 @@ public class GameInitializerImpl implements GameInitializer
         int y = Device.SCREEN_HEIGHT / 2 + 200;
         Transform transform1 = new Transform(new Position(x, y));
         Transform transform2 = new Transform(new Position(x, Device.SCREEN_HEIGHT / 2 - 500));
-        Transform transform3 = new Transform(new Position(3 * Device.SCREEN_WIDTH / 4, 300));
+        Transform transform3 = new Transform(new Position(5 * Device.SCREEN_WIDTH / 8, 300));
 
         entityManager.instantiate(platformPrefab, transform1);
         entityManager.instantiate(platformPrefab, transform2);

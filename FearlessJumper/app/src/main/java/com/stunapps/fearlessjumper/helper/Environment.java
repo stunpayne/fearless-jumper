@@ -14,7 +14,6 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 
 public class Environment
 {
-    //  Copying these values for now. Need to check if there is a better way to implement this
     public static class Device
     {
         public static int SCREEN_WIDTH;
@@ -23,7 +22,6 @@ public class Environment
     }
     public static Context CONTEXT;
 
-    public static Activity ACTIVITY;
     public static long INIT_TIME;
 
     public static Canvas CANVAS;

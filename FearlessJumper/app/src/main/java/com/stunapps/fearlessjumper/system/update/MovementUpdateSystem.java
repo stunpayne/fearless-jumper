@@ -10,6 +10,8 @@ import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.Set;
 
+import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
+import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
 import static com.stunapps.fearlessjumper.system.update.MovementUpdateSystem.MovementUpdater
 		.updatePeriodicMotion;
 
@@ -71,7 +73,7 @@ public class MovementUpdateSystem implements UpdateSystem
 				PeriodicTranslation periodicTranslation)
 		{
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-			float deltaX = physicsComponent.getVelocity().x;
+			float deltaX = physicsComponent.getVelocity().x * scaleX();
 			if (deltaX + entity.transform.position.x >= periodicTranslation.maxX)
 			{
 				deltaX = periodicTranslation.maxX - entity.transform.position.x;
@@ -102,7 +104,7 @@ public class MovementUpdateSystem implements UpdateSystem
 		private static void moveEntityVertically(Entity entity,
 				PeriodicTranslation periodicTranslation)
 		{
-			float deltaY = periodicTranslation.getCurrSpeedY();
+			float deltaY = periodicTranslation.getCurrSpeedY() * scaleY();
 			if (deltaY + entity.transform.position.y >= periodicTranslation.maxY)
 			{
 				deltaY = periodicTranslation.maxY - entity.transform.position.y;

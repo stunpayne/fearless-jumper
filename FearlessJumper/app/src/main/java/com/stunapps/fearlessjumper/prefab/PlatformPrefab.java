@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.Delta;
@@ -11,6 +12,7 @@ import com.stunapps.fearlessjumper.component.specific.Obstacle;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
@@ -28,8 +30,8 @@ public class PlatformPrefab extends Prefab
 		transform =
 				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
 
-		Bitmap sprite = BitmapFactory.decodeResource(Environment.CONTEXT.getResources(),
-													 R.drawable.platform);
+		Bitmap sprite = Bitmaps.PLATFORM;
+		Log.d("PLATFORM_PREFAB", "Width: " + sprite.getWidth() + " Height: " + sprite.getHeight());
 		components.add(new Obstacle());
 		components.add(new Renderable(sprite, Delta.ZERO, sprite.getWidth(),
 								  sprite.getHeight()));
