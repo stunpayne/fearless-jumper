@@ -15,9 +15,9 @@ import com.stunapps.fearlessjumper.scene.AbstractScene;
 public class GameOverScene extends AbstractScene
 {
     @Inject
-    public GameOverScene(View view, EventSystem eventSystem, SoundSystem soundSystem)
+    public GameOverScene(View view, EventSystem eventSystem)
     {
-        super(view, eventSystem, soundSystem);
+        super(view, eventSystem);
     }
 
     @Override

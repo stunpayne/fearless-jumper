@@ -1,11 +1,9 @@
 package com.stunapps.fearlessjumper.audio;
 
-import com.stunapps.fearlessjumper.R;
-import com.stunapps.fearlessjumper.event.BaseEvent;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.game.StartGameEvent;
+import com.stunapps.fearlessjumper.helper.Environment;
 
-import java.util.List;
+import org.roboguice.shaded.goole.common.collect.Maps;
+
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -14,50 +12,66 @@ import javax.inject.Inject;
  * Created by sunny.s on 14/02/18.
  */
 
-public class SoundSystem extends AbstractEventSoundHandler implements OnDemandSoundPlayer
+public class SoundSystem implements OnDemandSoundPlayer
 {
-	private static final int backGroundMusicResId = R.raw.second_try;
+	private final SoundEffectPlayer soundEffectPlayer;
 
 	private final static int PRIORITY_MUSIC = 10;
 	private final static int PRIORITY_SOUND_EFFECT = 8;
 
-	private Map<Integer, List<Integer>> sceneMusicMap;
-	private Map<Integer, List<Integer>> sceneSoundMap;
-	private Integer currentScene;
+	private Map<Integer, Integer> soundIdMap = Maps.newHashMap();
+	private Map<Integer, LoopingMediaPlayer> activeMusicPlayers = Maps.newHashMap();
 
 	@Inject
-	public SoundSystem(SoundEffectPlayer soundEffectPlayer, EventSystem eventSystem)
+	public SoundSystem(SoundEffectPlayer soundEffectPlayer)
 	{
-		super(soundEffectPlayer);
-		BACKGROUND_MUSIC_ID = soundEffectPlayer.loadSound(backGroundMusicResId, PRIORITY_MUSIC);
-		eventSystem.registerEventListener(StartGameEvent.class, this);
+		this.soundEffectPlayer = soundEffectPlayer;
 	}
 
-	public static int BACKGROUND_MUSIC_ID;
-
-	@Override
-	void playSoundOnEvent(BaseEvent event)
+	public void initialise()
 	{
-		if(event.eventType.isAssignableFrom(StartGameEvent.class)){
-
+		for (Sound sound : Sound.values())
+		{
+			soundIdMap.put(sound.getSoundResId(),
+					soundEffectPlayer.loadSound(sound.getSoundResId(), PRIORITY_SOUND_EFFECT));
 		}
 	}
 
-	@Override
-	public void playOnDemand(int soundResId)
+	public void playMusic()
 	{
 
 	}
 
 	@Override
-	public void loopOnDemand(int soundResId)
+	public void playSoundEffect(int soundResId)
+	{
+		Integer soundId = soundIdMap.get(soundResId);
+		if (soundId != null) soundEffectPlayer.playSoundEffect(soundId);
+	}
+
+	@Override
+	public void loopSoundEffect(int soundResId)
 	{
 
 	}
 
-	public void stopSceneMusic(int sceneId)
+	@Override
+	public void playMusic(int soundResId)
 	{
-		//	TODO: This is incorrect. This needs to be changed.
-		soundEffectPlayer.stopSoundEffect(sceneId);
+
+	}
+
+	@Override
+	public void loopMusic(Sound sound)
+	{
+		LoopingMediaPlayer loopingMediaPlayer =
+				LoopingMediaPlayer.create(Environment.CONTEXT, sound.getSoundResId());
+		loopingMediaPlayer.start();
+		activeMusicPlayers.put(sound.getSoundResId(), loopingMediaPlayer);
+	}
+
+	public void release()
+	{
+		soundEffectPlayer.release();
 	}
 }

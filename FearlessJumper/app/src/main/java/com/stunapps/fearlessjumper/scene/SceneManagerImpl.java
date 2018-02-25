@@ -3,6 +3,8 @@ package com.stunapps.fearlessjumper.scene;
 import android.util.Log;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.audio.SoundSystem;
+import com.stunapps.fearlessjumper.audio.Sound;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
@@ -22,40 +24,46 @@ import java.util.Map;
 
 public class SceneManagerImpl implements SceneManager
 {
+	private final SoundSystem soundSystem;
+
 	private StateMachine<Class<? extends Scene>, Class<? extends BaseEvent>> sceneStateMachine;
 	private Map<Class<? extends Scene>, Scene> sceneMap;
 
-	private BaseEventListener<StartGameEvent> startGameListener = new BaseEventListener<StartGameEvent>()
-	{
-		@Override
-		public void handleEvent(StartGameEvent event) throws EventException
-		{
-			transitScene(event);
-		}
-	};
+	private BaseEventListener<StartGameEvent> startGameListener =
+			new BaseEventListener<StartGameEvent>()
+			{
+				@Override
+				public void handleEvent(StartGameEvent event) throws EventException
+				{
+					transitScene(event);
+				}
+			};
 
-	private BaseEventListener<GameOverEvent> gameOverListener = new BaseEventListener<GameOverEvent>()
-	{
-		@Override
-		public void handleEvent(GameOverEvent event) throws EventException
-		{
-			transitScene(event);
-		}
-	};
+	private BaseEventListener<GameOverEvent> gameOverListener =
+			new BaseEventListener<GameOverEvent>()
+			{
+				@Override
+				public void handleEvent(GameOverEvent event) throws EventException
+				{
+					transitScene(event);
+				}
+			};
 
-	private BaseEventListener<MainMenuEvent> mainMenuListener = new BaseEventListener<MainMenuEvent>()
-	{
-		@Override
-		public void handleEvent(MainMenuEvent event) throws EventException
-		{
-			transitScene(event);
-		}
-	};
+	private BaseEventListener<MainMenuEvent> mainMenuListener =
+			new BaseEventListener<MainMenuEvent>()
+			{
+				@Override
+				public void handleEvent(MainMenuEvent event) throws EventException
+				{
+					transitScene(event);
+				}
+			};
 
 	@Inject
-	public SceneManagerImpl(MainMenuScene mainMenuScene,
-							GameplayScene gameplayScene, GameOverScene gameOverScene, EventSystem eventSystem)
+	public SceneManagerImpl(MainMenuScene mainMenuScene, GameplayScene gameplayScene,
+			GameOverScene gameOverScene, EventSystem eventSystem, SoundSystem soundSystem)
 	{
+		this.soundSystem = soundSystem;
 		Log.i("SCENE_MANAGER",
 				getClass().getSimpleName() + " Scene Manager hash code: " + hashCode());
 
@@ -72,15 +80,19 @@ public class SceneManagerImpl implements SceneManager
 	@Override
 	public void initialise()
 	{
-		sceneStateMachine = StateMachine.builder()
-				.startState(MainMenuScene.class)
-				.from(MainMenuScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
-				.from(GameplayScene.class).onEvent(GameOverEvent.class).toState(GameplayScene.class)
-				.from(GameplayScene.class).onEvent(MainMenuEvent.class).toState(MainMenuScene.class).build();
+		sceneStateMachine =
+				StateMachine.builder().startState(MainMenuScene.class).from(MainMenuScene.class)
+						.onEvent(StartGameEvent.class).toState(GameplayScene.class)
+						.from(GameplayScene.class).onEvent(GameOverEvent.class)
+						.toState(GameplayScene.class).from(GameplayScene.class)
+						.onEvent(MainMenuEvent.class).toState(MainMenuScene.class).build();
 
 		Scene scene = sceneMap.get(sceneStateMachine.getStartState());
 		scene.setup();
 		scene.play();
+
+		soundSystem.initialise();
+		soundSystem.loopMusic(Sound.BACKGROUND_MUSIC);
 	}
 
 	@Override

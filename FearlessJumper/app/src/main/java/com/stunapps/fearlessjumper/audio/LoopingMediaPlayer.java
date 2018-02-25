@@ -12,9 +12,9 @@ import java.io.IOException;
  * @since 15/02/18
  */
 
-public class PerfectLoopMediaPlayer
+public class LoopingMediaPlayer
 {
-	private static final String TAG = PerfectLoopMediaPlayer.class.getName();
+	private static final String TAG = LoopingMediaPlayer.class.getName();
 	private Context mContext = null;
 	private int mResId = 0;
 	private String mPath = null;
@@ -29,13 +29,13 @@ public class PerfectLoopMediaPlayer
 	 * @param resId   - raw resource
 	 * @return new instance
 	 */
-	public static PerfectLoopMediaPlayer create(Context context, int resId)
+	public static LoopingMediaPlayer create(Context context, int resId)
 	{
-		return new PerfectLoopMediaPlayer(context, resId);
+		return new LoopingMediaPlayer(context, resId);
 	}
 
 
-	private PerfectLoopMediaPlayer(Context context, int resId)
+	private LoopingMediaPlayer(Context context, int resId)
 	{
 		mContext = context;
 		mResId = resId;
@@ -97,12 +97,12 @@ public class PerfectLoopMediaPlayer
 	 * @param path    - internal memory/SD path to sound resource
 	 * @return new instance
 	 */
-	public static PerfectLoopMediaPlayer create(Context context, String path)
+	public static LoopingMediaPlayer create(Context context, String path)
 	{
-		return new PerfectLoopMediaPlayer(context, path);
+		return new LoopingMediaPlayer(context, path);
 	}
 
-	private PerfectLoopMediaPlayer(Context context, String path)
+	private LoopingMediaPlayer(Context context, String path)
 	{
 		mContext = context;
 		mPath = path;

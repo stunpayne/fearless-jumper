@@ -25,22 +25,22 @@ public abstract class AbstractScene implements Scene
 	@Getter
 	@Setter
 	View view;
-	protected Integer sceneId;
-	protected final EventSystem eventSystem;
-	protected final SoundSystem soundSystem;
 
-	public AbstractScene(View view, EventSystem eventSystem, SoundSystem soundSystem)
+	protected final EventSystem eventSystem;
+
+	//	Not used yet. Might be needed in future.
+	protected Integer sceneId;
+
+	public AbstractScene(View view, EventSystem eventSystem)
 	{
 		this.view = view;
 		this.eventSystem = eventSystem;
-		this.soundSystem = soundSystem;
 
 	}
 
-	public AbstractScene(@LayoutRes int layoutResId, EventSystem eventSystem,
-						 SoundSystem soundSystem)
+	public AbstractScene(@LayoutRes int layoutResId, EventSystem eventSystem)
 	{
-		this(LayoutInflater.from(Environment.CONTEXT).inflate(layoutResId, null), eventSystem, soundSystem);
+		this(LayoutInflater.from(Environment.CONTEXT).inflate(layoutResId, null), eventSystem);
 	}
 
 	@Override
@@ -68,7 +68,6 @@ public abstract class AbstractScene implements Scene
 	public void terminate()
 	{
 		terminateScene();
-		soundSystem.stopSceneMusic(0);
 		eventSystem.raiseEvent(new SceneStopEvent());
 	}
 

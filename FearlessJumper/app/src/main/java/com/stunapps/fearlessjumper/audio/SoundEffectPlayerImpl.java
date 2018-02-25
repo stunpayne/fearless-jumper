@@ -58,6 +58,12 @@ public class SoundEffectPlayerImpl implements SoundEffectPlayer
 		soundPool.stop(soundId);
 	}
 
+	@Override
+	public void release()
+	{
+		soundPool.release();
+	}
+
 	private void initSoundPool()
 	{
 		SoundPool.Builder soundPoolBuilder = new Builder();

@@ -29,9 +29,9 @@ import javax.inject.Inject;
 public class GameplayScene extends AbstractScene
 {
 	@Inject
-	public GameplayScene(EventSystem eventSystem, SoundSystem soundSystem)
+	public GameplayScene(EventSystem eventSystem)
 	{
-		super(R.layout.game_play_container, eventSystem, soundSystem);
+		super(R.layout.game_play_container, eventSystem);
 	}
 
 	@Override

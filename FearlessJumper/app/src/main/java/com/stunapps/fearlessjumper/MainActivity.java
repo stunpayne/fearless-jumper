@@ -12,7 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.stunapps.fearlessjumper.audio.PerfectLoopMediaPlayer;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
@@ -103,11 +102,6 @@ public class MainActivity extends Activity
 
 		di().getInstance(Systems.class).initialise();
 		di().getInstance(SceneManager.class).initialise();
-
-		//	TODO: Remove after testing
-		PerfectLoopMediaPlayer perfectLoopMediaPlayer =
-				PerfectLoopMediaPlayer.create(this, R.raw.second_try);
-//		perfectLoopMediaPlayer.start();
 	}
 
 	@Override
