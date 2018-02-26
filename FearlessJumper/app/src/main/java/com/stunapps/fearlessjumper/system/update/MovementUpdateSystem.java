@@ -103,19 +103,21 @@ public class MovementUpdateSystem implements UpdateSystem
 		private static void moveEntityVertically(Entity entity,
 				PeriodicTranslation periodicTranslation)
 		{
-			float deltaY = periodicTranslation.getCurrSpeedY();
+			float scaledSpeedY = periodicTranslation.getCurrSpeedY() * scaleY();
+
+			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
+			float deltaY = physicsComponent.getVelocity().y;
 			if (deltaY + entity.transform.position.y >= periodicTranslation.maxY)
 			{
-				deltaY = periodicTranslation.maxY - entity.transform.position.y;
-				periodicTranslation.setCurrSpeedY(-1 * periodicTranslation.getCurrSpeedY());
+				periodicTranslation.setCurrSpeedY(-1 * scaledSpeedY);
 			}
 			if (deltaY + entity.transform.position.y <= periodicTranslation.minY)
 			{
-				deltaY = periodicTranslation.minY - entity.transform.position.y;
-				periodicTranslation.setCurrSpeedY(-1 * periodicTranslation.getCurrSpeedY());
+				periodicTranslation.setCurrSpeedY(-1 * scaledSpeedY);
 			}
 
-			//			entity.transform.position.y += deltaY;
+			entity.getComponent(PhysicsComponent.class).getVelocity().y =
+					periodicTranslation.getCurrSpeedY();
 		}
 	}
 }
