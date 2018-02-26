@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.component;
 
+import android.util.Log;
+
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.entity.Entity;
 
@@ -22,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Singleton
 public class GameComponentManager implements ComponentManager
 {
+    private static final String TAG = "GameComponentManager";
     private Map<Class<? extends Component>, Set<Entity>> componentToTypeEntityMap;
     private Map<Entity, List<Component>> entityToComponentMap;
 
@@ -70,6 +73,11 @@ public class GameComponentManager implements ComponentManager
     {
         Component component = null;
         List<Component> components = entityToComponentMap.get(entity);
+        if (components == null)
+        {
+            Log.d(TAG, "getComponent: entity = " + entity);
+            return null;
+        }
         Iterator<Component> it = components.iterator();
         while (it.hasNext())
         {
@@ -134,6 +142,13 @@ public class GameComponentManager implements ComponentManager
             removeComponent(entity, component.componentType);
         }
         entityToComponentMap.remove(entity);
+    }
+
+    @Override
+    public void deleteEntities()
+    {
+        componentToTypeEntityMap.clear();
+        entityToComponentMap.clear();
     }
 
     @Override

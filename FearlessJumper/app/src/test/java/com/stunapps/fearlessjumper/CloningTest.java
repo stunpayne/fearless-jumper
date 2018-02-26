@@ -23,8 +23,16 @@ public class CloningTest
                         .toState(AnimationState.FLY_RIGHT)
                         .terminalState(AnimationState.FLY_RIGHT).build();
 
-        StateMachine<AnimationState, AnimationTransition> clone1 = cloner.deepClone
-                (stateMachine);
+        StateMachine<AnimationState, AnimationTransition> clone1 = null;
+
+        try
+        {
+            clone1 = stateMachine.clone();
+        }
+        catch (CloneNotSupportedException e)
+        {
+            e.printStackTrace();
+        }
 
         Assert.assertFalse(stateMachine.getStateTransitionMap() == clone1.getStateTransitionMap());
         Assert.assertTrue(stateMachine.getStateTransitionMap().hashCode() ==

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import com.stunapps.fearlessjumper.module.GameModule;
 import com.stunapps.fearlessjumper.scene.SceneManager;
 import com.stunapps.fearlessjumper.system.Systems;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
@@ -123,6 +125,7 @@ public class MainActivity extends Activity
 	{
 		super.onDestroy();
 		di().getInstance(SceneManager.class).destroy();
+		di().getInstance(Systems.class).reset();
 	}
 
 	private void loadView(final View view)
@@ -216,4 +219,5 @@ public class MainActivity extends Activity
 			}
 		});
 	}
+
 }

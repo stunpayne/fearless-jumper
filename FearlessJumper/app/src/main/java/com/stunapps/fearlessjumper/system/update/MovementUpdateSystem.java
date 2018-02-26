@@ -53,6 +53,12 @@ public class MovementUpdateSystem implements UpdateSystem
 	}
 
 
+	@Override
+	public void reset()
+	{
+		lastProcessTime = 0;
+	}
+
 	public static class MovementUpdater
 	{
 		public static void updatePeriodicMotion(Entity entity,

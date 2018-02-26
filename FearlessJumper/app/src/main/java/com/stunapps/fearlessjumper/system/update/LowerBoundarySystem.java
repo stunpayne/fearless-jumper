@@ -8,6 +8,8 @@ import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
+import java.util.ArrayList;
+
 /**
  * Created by sunny.s on 26/01/18.
  */
@@ -38,6 +40,12 @@ public class LowerBoundarySystem implements UpdateSystem
 
         lowerBoundary.transform.position.y = Cameras.getMainCamera().position.y + Device
                 .SCREEN_HEIGHT;
+    }
+
+    @Override
+    public void reset()
+    {
+        lastProcessTime = 0;
     }
 
     @Override

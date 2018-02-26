@@ -11,4 +11,6 @@ public interface UpdateSystem extends System
     void process(long deltaTime);
 
     long getLastProcessTime();
+
+    void reset();
 }

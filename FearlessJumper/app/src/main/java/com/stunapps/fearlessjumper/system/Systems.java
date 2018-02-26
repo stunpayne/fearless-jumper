@@ -88,6 +88,14 @@ public class Systems
 		}
 	}
 
+	public void reset()
+	{
+		for (UpdateSystem system : systemsInOrder)
+		{
+			system.reset();
+		}
+	}
+
 	public static ArrayList<UpdateSystem> getSystemsInOrder()
 	{
 		return systemsInOrder;

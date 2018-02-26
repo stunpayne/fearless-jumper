@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.scene;
 import android.support.annotation.LayoutRes;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 
 import com.google.inject.Inject;
@@ -13,6 +14,7 @@ import com.stunapps.fearlessjumper.event.scene.SceneStartEvent;
 import com.stunapps.fearlessjumper.event.scene.SceneStopEvent;
 import com.stunapps.fearlessjumper.helper.Environment;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
 
 import lombok.Getter;
@@ -26,6 +28,8 @@ import static com.stunapps.fearlessjumper.scene.Scene.ViewLoader.requestViewLoad
 
 public abstract class AbstractScene implements Scene
 {
+    private static final String TAG = "AbstractScene";
+
     @Getter
     @Setter
     View view;
@@ -52,9 +56,10 @@ public abstract class AbstractScene implements Scene
     {
         try
         {
-            eventSystem.raiseEvent(new SceneStartEvent());
+            //eventSystem.raiseEvent(new SceneStartEvent());
             setUpScene();
             requestViewLoad(view);
+            disableSurfaceViewLogging();
         }
         catch (Exception e)
         {
@@ -99,4 +104,18 @@ public abstract class AbstractScene implements Scene
     abstract void playScene();
 
     abstract void terminateScene();
+
+    private void disableSurfaceViewLogging() {
+        try {
+            Field debug = SurfaceView.class.getDeclaredField("DEBUG");
+            Field info = SurfaceView.class.getDeclaredField("INFO");
+            debug.setAccessible(true);
+            debug.set(null, false);
+            info.setAccessible(true);
+            info.set(null, false);
+            Log.i(TAG, "SurfaceView debug disabled");
+        } catch (Exception e) {
+            Log.e(TAG, "while trying to disable debug in SurfaceView", e);
+        }
+    }
 }

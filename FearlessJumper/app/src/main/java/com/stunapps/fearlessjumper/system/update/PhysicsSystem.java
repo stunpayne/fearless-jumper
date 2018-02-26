@@ -73,6 +73,12 @@ public class PhysicsSystem implements UpdateSystem
 		return lastProcessTime;
 	}
 
+	@Override
+	public void reset()
+	{
+		lastProcessTime = System.nanoTime();
+	}
+
 	private void applyGravity(Entity entity, long deltaTime)
 	{
 		PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);

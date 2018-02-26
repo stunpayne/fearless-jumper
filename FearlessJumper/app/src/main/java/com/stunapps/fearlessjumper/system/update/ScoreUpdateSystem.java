@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import android.graphics.Paint;
+import android.os.Handler;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.ComponentManager;
@@ -43,6 +45,13 @@ public class ScoreUpdateSystem implements UpdateSystem
 	public long getLastProcessTime()
 	{
 		return lastProcessTime;
+	}
+
+	@Override
+	public void reset()
+	{
+		lastProcessTime = System.nanoTime();
+		topPlayerPosition = null;
 	}
 
 	private void updateScore(Entity player)

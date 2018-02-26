@@ -51,6 +51,12 @@ public class TransformUpdateSystem implements UpdateSystem
 		return lastProcessTime;
 	}
 
+	@Override
+	public void reset()
+	{
+		lastProcessTime = System.nanoTime();
+	}
+
 	private void movePlayerTransform(Transform transform, Velocity velocity,
 			Renderable renderable)
 	{

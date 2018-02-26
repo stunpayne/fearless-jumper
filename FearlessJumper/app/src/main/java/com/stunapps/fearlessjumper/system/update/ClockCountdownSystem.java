@@ -47,4 +47,11 @@ public class ClockCountdownSystem implements UpdateSystem
 	{
 		return lastProcessTime;
 	}
+
+	@Override
+	public void reset()
+	{
+		lastProcessTime = 0;
+		ONE_SECOND = 1;
+	}
 }

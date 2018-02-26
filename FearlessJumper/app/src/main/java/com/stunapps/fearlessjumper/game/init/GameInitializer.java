@@ -9,4 +9,6 @@ public interface GameInitializer
     boolean isInitialized();
 
     void initialize();
+
+    void destroy();
 }

@@ -40,7 +40,6 @@ public class PlayerPrefab extends Prefab
 {
 	public PlayerPrefab()
 	{
-
 		int x = 4 * Device.SCREEN_WIDTH / 5;
 		int y = Device.SCREEN_HEIGHT - 150;
 		transform =

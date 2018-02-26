@@ -112,6 +112,12 @@ public class CollisionSystem implements UpdateSystem
         return lastProcessTime;
     }
 
+    @Override
+    public void reset()
+    {
+        lastProcessTime = 0;
+    }
+
     //TODO: Push can be derived from masses for entities.
     public static boolean isColliding(Entity physicsEntity, Entity fixedEntity)
     {

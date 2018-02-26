@@ -42,6 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
         thread.setRunning(true);
         thread.start();
+        int i = 0;
     }
 
     @Override
@@ -59,6 +60,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
             try
             {
                 thread.setRunning(false);
+                gameInitializer.destroy();
                 thread.join();
             }
             catch (InterruptedException e)

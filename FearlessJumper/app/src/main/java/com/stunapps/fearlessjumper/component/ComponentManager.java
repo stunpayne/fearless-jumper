@@ -28,4 +28,6 @@ public interface ComponentManager
     public Entity getEntity(Class<? extends Component> componentType);
 
     public  void deleteEntity(Entity entity);
+
+    public  void deleteEntities();
 }

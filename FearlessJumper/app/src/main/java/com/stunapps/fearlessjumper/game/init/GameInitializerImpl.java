@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.OrientationData;
@@ -86,4 +85,14 @@ public class GameInitializerImpl implements GameInitializer
 												null);
         entityManager.instantiate(Prefabs.LAND.get(), landTransform);
     }
+
+	@Override
+	public void destroy()
+	{
+		if (entityManager != null)
+		{
+			entityManager.deleteEntities();
+			initialised = false;
+		}
+	}
 }

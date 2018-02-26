@@ -81,6 +81,15 @@ public class GenerationSystem implements UpdateSystem
 		return lastProcessTime;
 	}
 
+	@Override
+	public void reset()
+	{
+		lastProcessTime = 0;
+		activeObstacles = new ArrayList<>();
+		lastProcessTime = 0;
+		NEW_OBSTACLE_OFFSET = -600f;
+	}
+
 	private void deleteSpawnablesOutOfScreen(Set<Entity> obstacles)
 	{
 		for (Entity obstacle : obstacles)
@@ -107,22 +116,16 @@ public class GenerationSystem implements UpdateSystem
 			Position spawnPosition =
 					new Position((float) Math.random() * (Device.SCREEN_WIDTH - platformWidth),
 								 topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
-			try
-			{
-				Entity newObstacle =
-						entityManager.instantiate(spawnPrefab, new Transform(spawnPosition));
-				activeObstacles.add(newObstacle);
+			Entity newObstacle =
+					entityManager.instantiate(spawnPrefab, new Transform(spawnPosition));
+			activeObstacles.add(newObstacle);
 
-				Log.i("NEW_OBSTACLE",
-					  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
-							  spawnPosition + " of type: " +
-							  (newObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
-				Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
-			}
-			catch (CloneNotSupportedException e)
-			{
-				e.printStackTrace();
-			}
+			Log.i("NEW_OBSTACLE",
+				  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
+						  spawnPosition +
+						  " of type: " +
+						  (newObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
+			Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
 		}
 	}
 

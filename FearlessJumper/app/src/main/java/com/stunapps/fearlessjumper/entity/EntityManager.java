@@ -23,7 +23,6 @@ public class EntityManager
 	private final Random rand = new Random();
 	private final ComponentManager componentManager;
 	private final Map<Integer, Entity> entityMap = new ConcurrentHashMap<>();
-	private final Cloner cloner = new Cloner();
 
 	@Inject
 	public EntityManager(ComponentManager componentManager)
@@ -58,7 +57,7 @@ public class EntityManager
         return entity;
     }
 
-	public Entity instantiate(Prefab prefab, Transform transform) throws CloneNotSupportedException
+	public Entity instantiate(Prefab prefab, Transform transform)
 	{
 		Entity entity = instantiate(prefab);
 		entity.transform = transform;
@@ -70,6 +69,12 @@ public class EntityManager
 		int id = entity.getId();
 		componentManager.deleteEntity(entity);
 		entityMap.remove(id);
+	}
+
+	public void deleteEntities()
+	{
+		componentManager.deleteEntities();
+		entityMap.clear();
 	}
 
 	public Entity getEntity(int id)

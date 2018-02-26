@@ -114,6 +114,15 @@ public class RenderSystem implements UpdateSystem
 		}
 	};
 
+	@Override
+	public void reset()
+	{
+		lastProcessTime = System.nanoTime();
+		canvas = null;
+		bgPaint = new Paint();
+		handler = new Handler();
+	}
+
 	public static Rect getRenderRect(Entity entity)
 	{
 		Position camPosition = Cameras.getMainCamera().position;

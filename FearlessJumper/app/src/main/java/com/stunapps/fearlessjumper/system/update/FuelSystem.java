@@ -65,6 +65,15 @@ public class FuelSystem implements UpdateSystem
 		return lastProcessTime;
 	}
 
+	@Override
+	public void reset()
+	{
+		lastProcessTime = 0;
+		ONE_SECOND_REFUEL_AMOUNT = 8f;
+		MAX_FUEL = 100f;
+		MIN_FUEL = 0f;
+	}
+
 	private void refuel(Fuel fuel, long deltaTime)
 	{
 		fuel.refuel(ONE_SECOND_REFUEL_AMOUNT * deltaTime / Constants.ONE_SECOND_NANOS);

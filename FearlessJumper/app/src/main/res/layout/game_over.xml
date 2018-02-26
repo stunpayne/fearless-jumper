@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@android:color/darker_gray">
+    android:background="@color/gray">
 
     <TextView
         android:id="@+id/message"
@@ -15,15 +15,12 @@
         android:textColor="@android:color/holo_red_dark"
         android:textSize="30dp"/>
 
-    <TextView
-        android:id="@+id/mainmenulink"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/mainMenu"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/message"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:text="Tap for main menu"
-        android:textColor="@android:color/black"
-        android:textSize="15dp"/>
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:text="Click To Main Menu"/>
+
 </RelativeLayout>
