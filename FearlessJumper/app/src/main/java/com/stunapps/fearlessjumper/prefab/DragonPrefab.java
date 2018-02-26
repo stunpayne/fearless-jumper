@@ -31,6 +31,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIG
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
+import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
 
 /**
  * Created by sunny.s on 21/01/18.
@@ -48,14 +49,18 @@ public class DragonPrefab extends Prefab
 						.from(FLY_LEFT).onEvent(TURN_RIGHT).toState(FLY_RIGHT).from(FLY_RIGHT)
 						.onEvent(TURN_LEFT).toState(FLY_LEFT).build();
 
-//		Bitmap dragonSprite1 = BitmapFactory
-//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly1);
-//		Bitmap dragonSprite2 = BitmapFactory
-//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly2);
-//		Bitmap dragonSprite3 = BitmapFactory
-//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly3);
-//		Bitmap dragonSprite4 = BitmapFactory
-//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly4);
+		//		Bitmap dragonSprite1 = BitmapFactory
+		//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable
+		// .dragon_fly1);
+		//		Bitmap dragonSprite2 = BitmapFactory
+		//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable
+		// .dragon_fly2);
+		//		Bitmap dragonSprite3 = BitmapFactory
+		//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable
+		// .dragon_fly3);
+		//		Bitmap dragonSprite4 = BitmapFactory
+		//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable
+		// .dragon_fly4);
 		Bitmap dragonSprite1 = Bitmaps.DRAGON_FLY1;
 		Bitmap dragonSprite2 = Bitmaps.DRAGON_FLY2;
 		Bitmap dragonSprite3 = Bitmaps.DRAGON_FLY3;
@@ -98,7 +103,6 @@ public class DragonPrefab extends Prefab
 				.withXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
 		components.add(new ContactDamageComponent(1));
 		components
-				.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(),
-						false));
+				.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false));
 	}
 }

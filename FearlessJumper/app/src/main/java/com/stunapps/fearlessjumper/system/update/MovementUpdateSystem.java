@@ -72,12 +72,12 @@ public class MovementUpdateSystem implements UpdateSystem
 		private static void moveEntityHorizontally(Entity entity,
 				PeriodicTranslation periodicTranslation)
 		{
+			float scaledSpeedX = periodicTranslation.getCurrSpeedX() * scaleX();
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-			float deltaX = physicsComponent.getVelocity().x * scaleX();
+			float deltaX = physicsComponent.getVelocity().x;
 			if (deltaX + entity.transform.position.x >= periodicTranslation.maxX)
 			{
-				deltaX = periodicTranslation.maxX - entity.transform.position.x;
-				periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
+				periodicTranslation.setCurrSpeedX(-1 * scaledSpeedX);
 
 				//TODO: need to write it in more cleaner way.
 				if (entity.hasComponent(Animator.class))
@@ -88,8 +88,7 @@ public class MovementUpdateSystem implements UpdateSystem
 			}
 			if (deltaX + entity.transform.position.x <= periodicTranslation.minX)
 			{
-				deltaX = periodicTranslation.minX - entity.transform.position.x;
-				periodicTranslation.setCurrSpeedX(-1 * periodicTranslation.getCurrSpeedX());
+				periodicTranslation.setCurrSpeedX(-1 * scaledSpeedX);
 				if (entity.hasComponent(Animator.class))
 				{
 					entity.getComponent(Animator.class)
@@ -98,13 +97,13 @@ public class MovementUpdateSystem implements UpdateSystem
 			}
 
 			entity.getComponent(PhysicsComponent.class).getVelocity().x =
-					periodicTranslation.getCurrSpeedX();
+					scaledSpeedX;
 		}
 
 		private static void moveEntityVertically(Entity entity,
 				PeriodicTranslation periodicTranslation)
 		{
-			float deltaY = periodicTranslation.getCurrSpeedY() * scaleY();
+			float deltaY = periodicTranslation.getCurrSpeedY();
 			if (deltaY + entity.transform.position.y >= periodicTranslation.maxY)
 			{
 				deltaY = periodicTranslation.maxY - entity.transform.position.y;
