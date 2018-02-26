@@ -14,6 +14,7 @@ import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.game.MainMenuEvent;
+import com.stunapps.fearlessjumper.event.game.StartGameEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.game.loop.GameView;
 import com.stunapps.fearlessjumper.helper.Environment;
@@ -51,9 +52,11 @@ public class GameplayScene extends AbstractScene
 				public Object call() throws Exception
 				{
 					gameView.getThread().setRunning(false);
+
 					LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
 					RelativeLayout gameOver = (RelativeLayout) inflater.inflate(R.layout.game_over, null);
 					((FrameLayout)view).addView(gameOver);
+
 					Button mainMenuButton = (Button)gameOver.findViewById(R.id.mainMenu);
 					mainMenuButton.setOnClickListener(new OnClickListener()
 					{
@@ -63,6 +66,17 @@ public class GameplayScene extends AbstractScene
 							eventSystem.raiseEvent(new MainMenuEvent());
 						}
 					});
+
+					Button restartButton = (Button)gameOver.findViewById(R.id.restart);
+					restartButton.setOnClickListener(new OnClickListener()
+					{
+						@Override
+						public void onClick(View v)
+						{
+							eventSystem.raiseEvent(new StartGameEvent());
+						}
+					});
+
 					return null;
 				}
 			});
