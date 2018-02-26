@@ -50,10 +50,9 @@ public class Bitmaps
 	{
 		Bitmap bitmap =
 				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), drawableResId);
-		return Bitmap.createScaledBitmap(bitmap,
-				(int) (width * scaleX() * (Environment.UNIT_DENSITY / Device.DISPLAY_DENSITY)),
-				(int) (height * scaleY() * (Environment.UNIT_DENSITY / Device.DISPLAY_DENSITY)),
-				false);
+		return Bitmap
+				.createScaledBitmap(bitmap, (int) (width * scaleX()), (int) (height * scaleY()),
+						false);
 	}
 
 	@Getter
