@@ -72,12 +72,12 @@ public class MovementUpdateSystem implements UpdateSystem
 		private static void moveEntityHorizontally(Entity entity,
 				PeriodicTranslation periodicTranslation)
 		{
-			float scaledSpeedX = periodicTranslation.getCurrSpeedX() * scaleX();
+			float speedX = periodicTranslation.getCurrSpeedX();
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
 			float deltaX = physicsComponent.getVelocity().x;
 			if (deltaX + entity.transform.position.x >= periodicTranslation.maxX)
 			{
-				periodicTranslation.setCurrSpeedX(-1 * scaledSpeedX);
+				periodicTranslation.setCurrSpeedX(-1 * speedX);
 
 				//TODO: need to write it in more cleaner way.
 				if (entity.hasComponent(Animator.class))
@@ -88,7 +88,7 @@ public class MovementUpdateSystem implements UpdateSystem
 			}
 			if (deltaX + entity.transform.position.x <= periodicTranslation.minX)
 			{
-				periodicTranslation.setCurrSpeedX(-1 * scaledSpeedX);
+				periodicTranslation.setCurrSpeedX(-1 * speedX);
 				if (entity.hasComponent(Animator.class))
 				{
 					entity.getComponent(Animator.class)
@@ -97,27 +97,27 @@ public class MovementUpdateSystem implements UpdateSystem
 			}
 
 			entity.getComponent(PhysicsComponent.class).getVelocity().x =
-					periodicTranslation.getCurrSpeedX();
+					periodicTranslation.getCurrSpeedX() * scaleX();
 		}
 
 		private static void moveEntityVertically(Entity entity,
 				PeriodicTranslation periodicTranslation)
 		{
-			float scaledSpeedY = periodicTranslation.getCurrSpeedY() * scaleY();
+			float speedY = periodicTranslation.getCurrSpeedY();
 
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
 			float deltaY = physicsComponent.getVelocity().y;
 			if (deltaY + entity.transform.position.y >= periodicTranslation.maxY)
 			{
-				periodicTranslation.setCurrSpeedY(-1 * scaledSpeedY);
+				periodicTranslation.setCurrSpeedY(-1 * speedY);
 			}
 			if (deltaY + entity.transform.position.y <= periodicTranslation.minY)
 			{
-				periodicTranslation.setCurrSpeedY(-1 * scaledSpeedY);
+				periodicTranslation.setCurrSpeedY(-1 * speedY);
 			}
 
 			entity.getComponent(PhysicsComponent.class).getVelocity().y =
-					periodicTranslation.getCurrSpeedY();
+					periodicTranslation.getCurrSpeedY() * scaleY();
 		}
 	}
 }
