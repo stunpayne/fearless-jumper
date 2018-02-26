@@ -21,6 +21,7 @@ import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Environment;
@@ -47,10 +48,9 @@ public class PlayerPrefab extends Prefab
 		int y = Device.SCREEN_HEIGHT - 150;
 		transform =
 				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
-		Bitmap alien = BitmapFactory
-				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.alienblue);
-		Bitmap alienHurt = BitmapFactory
-				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.alienblue_hurt);
+
+		Bitmap alien = Bitmaps.PLAYER_IDLE;
+		Bitmap alienHurt = Bitmaps.PLAYER_HURT;
 
 		Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);
 		Animation alienHurtAnim = new Animation(new Bitmap[]{alienHurt}, 0.5f);

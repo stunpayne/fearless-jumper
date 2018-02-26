@@ -92,7 +92,7 @@ public class SceneManagerImpl implements SceneManager
 		scene.play();
 
 		soundSystem.initialise();
-		soundSystem.loopMusic(Sound.BACKGROUND_MUSIC);
+//		soundSystem.loopMusic(Sound.BACKGROUND_MUSIC);
 	}
 
 	@Override

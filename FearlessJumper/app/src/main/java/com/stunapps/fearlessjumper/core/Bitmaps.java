@@ -7,6 +7,8 @@ import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 
+import lombok.Getter;
+
 import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
 import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
 
@@ -16,20 +18,51 @@ import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
 
 public class Bitmaps
 {
+	//	Player bitmaps
+	public static Bitmap PLAYER_IDLE;
+	public static Bitmap PLAYER_HURT;
+
+	//	Obstacles
 	public static Bitmap PLATFORM;
+	public static Bitmap CLOCK;
+
+	//	Dragon
+	public static Bitmap DRAGON_FLY1;
+	public static Bitmap DRAGON_FLY2;
+	public static Bitmap DRAGON_FLY3;
+	public static Bitmap DRAGON_FLY4;
 
 	public static void initialise()
 	{
-		PLATFORM = initBitmap(R.drawable.platform);
+		PLAYER_IDLE = initBitmap(R.drawable.alienblue, 90, 125);
+		PLAYER_HURT = initBitmap(R.drawable.alienblue_hurt, 90, 125);
+
+		PLATFORM = initBitmap(R.drawable.platform, 400, 100);
+		CLOCK = initBitmap(R.drawable.clock, 115, 115);
+
+		DRAGON_FLY1 = initBitmap(R.drawable.dragon_fly1, Dimensions.dragonX, Dimensions.dragonY);
+		DRAGON_FLY2 = initBitmap(R.drawable.dragon_fly2, Dimensions.dragonX, Dimensions.dragonY);
+		DRAGON_FLY3 = initBitmap(R.drawable.dragon_fly3, Dimensions.dragonX, Dimensions.dragonY);
+		DRAGON_FLY4 = initBitmap(R.drawable.dragon_fly4, Dimensions.dragonX, Dimensions.dragonY);
 	}
 
-	private static Bitmap initBitmap(int drawableResId)
+	private static Bitmap initBitmap(int drawableResId, int width, int height)
 	{
 		Bitmap bitmap =
 				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), drawableResId);
-		return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * scaleX() *
-						(Environment.UNIT_DENSITY / Device.DISPLAY_DENSITY)),
-				(int) (bitmap.getHeight() * scaleY() *
-						(Environment.UNIT_DENSITY / Device.DISPLAY_DENSITY)), false);
+		return Bitmap.createScaledBitmap(bitmap,
+				(int) (width * scaleX() * (Environment.UNIT_DENSITY / Device.DISPLAY_DENSITY)),
+				(int) (height * scaleY() * (Environment.UNIT_DENSITY / Device.DISPLAY_DENSITY)),
+				false);
+	}
+
+	@Getter
+	private static class Dimensions
+	{
+		private static int playerX = 90;
+		private static int playerY = 125;
+
+		private static int dragonX = 160;
+		private static int dragonY = 115;
 	}
 }

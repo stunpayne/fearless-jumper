@@ -9,6 +9,7 @@ import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.Pickup.PickupType;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.helper.Environment;
 
 /**
@@ -19,10 +20,9 @@ public class ClockPrefab extends Prefab
 {
 	public ClockPrefab()
 	{
-		Bitmap clockSprite =
-				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.clock);
-		float width = 100;
-		float height = 100;
+		Bitmap clockSprite = Bitmaps.CLOCK;
+		float width = clockSprite.getWidth();
+		float height = clockSprite.getHeight();
 		components.add(new Pickup(PickupType.CLOCK, 5000f));
 		components.add(new RectCollider(Delta.ZERO, width, height, true));
 		components.add(new Renderable(clockSprite, Delta.ZERO, width, height));

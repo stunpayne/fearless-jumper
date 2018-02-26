@@ -18,6 +18,7 @@ import com.stunapps.fearlessjumper.component.transform.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
@@ -47,14 +48,18 @@ public class DragonPrefab extends Prefab
 						.from(FLY_LEFT).onEvent(TURN_RIGHT).toState(FLY_RIGHT).from(FLY_RIGHT)
 						.onEvent(TURN_LEFT).toState(FLY_LEFT).build();
 
-		Bitmap dragonSprite1 = BitmapFactory
-				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly1);
-		Bitmap dragonSprite2 = BitmapFactory
-				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly2);
-		Bitmap dragonSprite3 = BitmapFactory
-				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly3);
-		Bitmap dragonSprite4 = BitmapFactory
-				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly4);
+//		Bitmap dragonSprite1 = BitmapFactory
+//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly1);
+//		Bitmap dragonSprite2 = BitmapFactory
+//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly2);
+//		Bitmap dragonSprite3 = BitmapFactory
+//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly3);
+//		Bitmap dragonSprite4 = BitmapFactory
+//				.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dragon_fly4);
+		Bitmap dragonSprite1 = Bitmaps.DRAGON_FLY1;
+		Bitmap dragonSprite2 = Bitmaps.DRAGON_FLY2;
+		Bitmap dragonSprite3 = Bitmaps.DRAGON_FLY3;
+		Bitmap dragonSprite4 = Bitmaps.DRAGON_FLY4;
 
 		Animation idleAnim = new Animation(new Bitmap[]{dragonSprite1}, 0.5f);
 
@@ -71,6 +76,7 @@ public class DragonPrefab extends Prefab
 				dragonSprite3.getHeight(), m, false);
 		dragonSprite4 = Bitmap.createBitmap(dragonSprite4, 0, 0, dragonSprite4.getWidth(),
 				dragonSprite4.getHeight(), m, false);
+
 		Animation flyLeftAnim = new Animation(
 				new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
 
