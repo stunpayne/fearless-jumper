@@ -45,8 +45,7 @@ public abstract class AbstractScene implements Scene
         this.eventSystem = eventSystem;
     }
 
-    public AbstractScene(@LayoutRes int layoutResId, EventSystem eventSystem,
-                         SoundSystem soundSystem)
+    public AbstractScene(@LayoutRes int layoutResId, EventSystem eventSystem)
     {
         this(LayoutInflater.from(Environment.CONTEXT).inflate(layoutResId, null), eventSystem);
     }
