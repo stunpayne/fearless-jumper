@@ -96,8 +96,7 @@ public class MovementUpdateSystem implements UpdateSystem
 				}
 			}
 
-			entity.getComponent(PhysicsComponent.class).getVelocity().x =
-					scaledSpeedX;
+			entity.getComponent(PhysicsComponent.class).getVelocity().x = scaledSpeedX;
 		}
 
 		private static void moveEntityVertically(Entity entity,
