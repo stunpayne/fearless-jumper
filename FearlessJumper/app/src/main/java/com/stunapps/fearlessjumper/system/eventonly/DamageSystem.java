@@ -2,17 +2,15 @@ package com.stunapps.fearlessjumper.system.eventonly;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
-import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.impl.HurtEvent;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
+import com.stunapps.fearlessjumper.event.impl.HurtEvent;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
-
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.System;
 
@@ -45,14 +43,12 @@ public class DamageSystem implements System
 				health1.takeDamage(damageComponent2.damage());
 				if (health1.isOver())
 				{
-					//entity2.getComponent(Collider.class).setTrigger(true);
-					//animator.triggerTransition(AnimationTransition.TERMINATE);
+					animator.triggerEvent(AnimationTransition.TERMINATE);
 					eventSystem.raiseEvent(new GameOverEvent());
 				}
 				else
 				{
-					//entity2.getComponent(Collider.class).setTrigger(true);
-					animator.triggerTransition(AnimationTransition.HURT);
+					animator.triggerEvent(AnimationTransition.HURT);
 				}
 			}
 
@@ -63,14 +59,12 @@ public class DamageSystem implements System
 				health2.takeDamage(damageComponent1.damage());
 				if (health2.isOver())
 				{
-					//entity1.getComponent(Collider.class).setTrigger(true);
-					//animator.triggerTransition(AnimationTransition.TERMINATE);
+					animator.triggerEvent(AnimationTransition.TERMINATE);
 					eventSystem.raiseEvent(new GameOverEvent());
 				}
 				else
 				{
-					//entity1.getComponent(Collider.class).setTrigger(true);
-					animator.triggerTransition(AnimationTransition.HURT);
+					animator.triggerEvent(AnimationTransition.HURT);
 				}
 			}
 		}

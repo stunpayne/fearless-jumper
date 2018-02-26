@@ -46,4 +46,10 @@ public class AnimationSystem implements UpdateSystem
 	{
 		return lastProcessTime;
 	}
+
+	@Override
+	public void reset()
+	{
+		lastProcessTime = 0;
+	}
 }

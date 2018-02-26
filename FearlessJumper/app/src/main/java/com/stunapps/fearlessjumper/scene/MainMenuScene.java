@@ -19,9 +19,9 @@ import com.stunapps.fearlessjumper.event.game.StartGameEvent;
 public class MainMenuScene extends AbstractScene
 {
 	@Inject
-	public MainMenuScene(EventSystem eventSystem)
+	public MainMenuScene(EventSystem eventSystem, SoundSystem soundSystem)
 	{
-		super(R.layout.main_menu, eventSystem);
+		super(R.layout.main_menu, eventSystem, soundSystem);
 	}
 
 	@Override
