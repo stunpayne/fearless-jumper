@@ -15,14 +15,11 @@ import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
-import com.stunapps.fearlessjumper.component.transform.Position;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.di.DI;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,11 +37,6 @@ public class PlayerPrefab extends Prefab
 {
 	public PlayerPrefab()
 	{
-		int x = 4 * Device.SCREEN_WIDTH / 5;
-		int y = Device.SCREEN_HEIGHT - 150;
-		transform =
-				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
-
 		Bitmap alien = Bitmaps.PLAYER_IDLE;
 		Bitmap alienHurt = Bitmaps.PLAYER_HURT;
 		Bitmap blankImage = Bitmaps.BLANK_IMAGE;

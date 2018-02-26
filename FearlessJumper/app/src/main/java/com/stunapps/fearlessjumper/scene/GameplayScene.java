@@ -33,9 +33,9 @@ public class GameplayScene extends AbstractScene
 	private GameView gameView;
 
 	@Inject
-	public GameplayScene(GameView gameView, EventSystem eventSystem, SoundSystem soundSystem)
+	public GameplayScene(GameView gameView, EventSystem eventSystem)
 	{
-		super(R.layout.game_play_container, eventSystem, soundSystem);
+		super(R.layout.game_play_container, eventSystem);
 		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		this.gameView = gameView;
 	}

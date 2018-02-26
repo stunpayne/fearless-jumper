@@ -42,7 +42,11 @@ public class GameInitializerImpl implements GameInitializer
     public void initialize()
     {
         Log.d("INIT", "Initialising game");
-        final Entity player = entityManager.instantiate(Prefabs.PLAYER.get());
+        int x = 4 * Device.SCREEN_WIDTH / 5;
+        int y = Device.SCREEN_HEIGHT - 150;
+        Transform transform =
+                new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
+        final Entity player = entityManager.instantiate(Prefabs.PLAYER.get(), transform);
 
         try
         {
