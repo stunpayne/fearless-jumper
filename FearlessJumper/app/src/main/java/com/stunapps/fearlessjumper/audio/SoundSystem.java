@@ -1,5 +1,8 @@
 package com.stunapps.fearlessjumper.audio;
 
+import android.util.Log;
+
+import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.helper.Environment;
 
 import org.roboguice.shaded.goole.common.collect.Maps;
@@ -12,8 +15,10 @@ import javax.inject.Inject;
  * Created by sunny.s on 14/02/18.
  */
 
+@Singleton
 public class SoundSystem implements OnDemandSoundPlayer
 {
+	private final static String TAG = "SoundSystem";
 	private final SoundEffectPlayer soundEffectPlayer;
 
 	private final static int PRIORITY_MUSIC = 10;
@@ -30,16 +35,11 @@ public class SoundSystem implements OnDemandSoundPlayer
 
 	public void initialise()
 	{
-		for (Sound sound : Sound.values())
+		for (Sound.Effect soundEffect : Sound.Effect.values())
 		{
-			soundIdMap.put(sound.getSoundResId(),
-					soundEffectPlayer.loadSound(sound.getSoundResId(), PRIORITY_SOUND_EFFECT));
+			soundIdMap.put(soundEffect.getSoundResId(), soundEffectPlayer
+					.loadSound(soundEffect.getSoundResId(), PRIORITY_SOUND_EFFECT));
 		}
-	}
-
-	public void playMusic()
-	{
-
 	}
 
 	@Override
@@ -47,6 +47,7 @@ public class SoundSystem implements OnDemandSoundPlayer
 	{
 		Integer soundId = soundIdMap.get(soundResId);
 		if (soundId != null) soundEffectPlayer.playSoundEffect(soundId);
+		else Log.d(TAG, "Could not find sound: " + soundResId);
 	}
 
 	@Override
@@ -62,12 +63,12 @@ public class SoundSystem implements OnDemandSoundPlayer
 	}
 
 	@Override
-	public void loopMusic(Sound sound)
+	public void loopMusic(int soundResId)
 	{
 		LoopingMediaPlayer loopingMediaPlayer =
-				LoopingMediaPlayer.create(Environment.CONTEXT, sound.getSoundResId());
+				LoopingMediaPlayer.create(Environment.CONTEXT, soundResId);
 		loopingMediaPlayer.start();
-		activeMusicPlayers.put(sound.getSoundResId(), loopingMediaPlayer);
+		activeMusicPlayers.put(soundResId, loopingMediaPlayer);
 	}
 
 	public void release()

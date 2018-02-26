@@ -10,5 +10,5 @@ public interface OnDemandSoundPlayer
 	void loopSoundEffect(int soundResId);
 
 	void playMusic(int soundResId);
-	void loopMusic(Sound soundResId);
+	void loopMusic(int soundResId);
 }

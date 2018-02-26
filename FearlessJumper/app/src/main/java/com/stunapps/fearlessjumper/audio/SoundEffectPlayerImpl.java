@@ -1,11 +1,9 @@
 package com.stunapps.fearlessjumper.audio;
 
 import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.media.SoundPool.Builder;
 
-import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.helper.Environment;
 
 /**
@@ -31,7 +29,7 @@ public class SoundEffectPlayerImpl implements SoundEffectPlayer
 {
 	private static final float LEFT_VOLUME = 1.0f;
 	private static final float RIGHT_VOLUME = 1.0f;
-	private static final int MUSIC_PRIORITY = 10;
+	private static final int SOUND_EFFECT_PRIORITY = 10;
 
 	private SoundPool soundPool;
 
@@ -49,7 +47,7 @@ public class SoundEffectPlayerImpl implements SoundEffectPlayer
 	@Override
 	public void playSoundEffect(int soundId)
 	{
-		soundPool.play(soundId, LEFT_VOLUME, RIGHT_VOLUME, MUSIC_PRIORITY, -1, 1.0f);
+		soundPool.play(soundId, LEFT_VOLUME, RIGHT_VOLUME, SOUND_EFFECT_PRIORITY, 0, 1.0f);
 	}
 
 	@Override

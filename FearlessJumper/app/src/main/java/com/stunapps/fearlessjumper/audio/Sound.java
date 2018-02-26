@@ -8,27 +8,50 @@ import com.stunapps.fearlessjumper.R;
 
 public enum Sound
 {
-	//	Background music
-	BACKGROUND_MUSIC (R.raw.second_try);
-//
-//	//	Game object interaction
-//	PLAYER_HURT, TIME_PICKUP, GAME_OVER,
-//
-//	//	Game state change events
-//	PAUSE_GAME, RESUME_GAME,
-//
-//	//	Notable events
-//	HIGH_SCORE;
-
-	private Integer soundResId;
-
-	Sound(Integer soundResId)
+	;
+	
+	public enum Music
 	{
-		this.soundResId = soundResId;
+		//	Background music
+		BACKGROUND_MUSIC(R.raw.second_try);
+
+		private Integer soundResId;
+
+		Music(Integer soundResId)
+		{
+			this.soundResId = soundResId;
+		}
+
+		public Integer getSoundResId()
+		{
+			return soundResId;
+		}
 	}
 
-	public Integer getSoundResId()
+	public enum Effect
 	{
-		return soundResId;
+		//
+		//	//	Game object interaction
+		//	PLAYER_HURT,
+		//	GAME_OVER,
+		TIME_PICKUP(R.raw.pickup);
+		//
+		//	//	Game state change events
+		//	PAUSE_GAME, RESUME_GAME,
+		//
+		//	//	Notable events
+		//	HIGH_SCORE;
+
+		private Integer soundResId;
+
+		Effect(Integer soundResId)
+		{
+			this.soundResId = soundResId;
+		}
+
+		public Integer getSoundResId()
+		{
+			return soundResId;
+		}
 	}
 }
