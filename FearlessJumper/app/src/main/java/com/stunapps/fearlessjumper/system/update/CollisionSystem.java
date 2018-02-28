@@ -18,9 +18,6 @@ import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGap.bridgeGapX;
-import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGap.bridgeGapY;
-
 
 /**
  * Created by sunny.s on 03/01/18.
@@ -29,6 +26,9 @@ import static com.stunapps.fearlessjumper.system.update.CollisionSystem.BridgeGa
 @Singleton
 public class CollisionSystem implements UpdateSystem
 {
+    public static final float TENTATIVE_X_POSITION_FACTOR = 0.1f;
+    public static final float TENTATIVE_Y_POSITION_FACTOR = 0.5f;
+
     private final ComponentManager componentManager;
     private final EventSystem eventSystem;
 
@@ -53,41 +53,48 @@ public class CollisionSystem implements UpdateSystem
         lastProcessTime = System.currentTimeMillis();
         Set<Entity> entities = componentManager.getEntities(Collider.class);
 
-        Set<Entity> mobileEntitiesWithPhysics = new HashSet<>();
+        Set<Entity> mobileEntities = new HashSet<>();
         Set<Entity> immobileEntities = new HashSet<>();
 
         for (Entity entity : entities)
         {
-            if (entity.hasComponent(PhysicsComponent.class) && entity.getComponent(PhysicsComponent.class).applyGravity)
+            boolean hasPhysics = entity.hasComponent(PhysicsComponent.class);
+            if (hasPhysics)
             {
-                mobileEntitiesWithPhysics.add(entity);
-            } else
+                PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
+                if (physicsComponent.getMass() == Float.MAX_VALUE)
+                {
+                    immobileEntities.add(entity);
+                }
+                else
+                {
+                    mobileEntities.add(entity);
+                }
+            }
+            else
             {
                 immobileEntities.add(entity);
             }
         }
 
-        for (Entity mobileEntityWithPhysics : mobileEntitiesWithPhysics)
+        for (Entity mobileEntity : mobileEntities)
         {
             for (Entity immobileEntity : immobileEntities)
             {
-                if (isColliding(mobileEntityWithPhysics, immobileEntity))
+                if (isColliding(mobileEntity, immobileEntity))
                 {
                     CollisionResponse collisionResponse =
-                            resolveCollision(mobileEntityWithPhysics, immobileEntity, -0.0f);
-                    eventSystem.raiseEvent(
-                            new CollisionEvent(mobileEntityWithPhysics,
-                                    immobileEntity,
-                                    collisionResponse.collisionFace,
-                                    deltaTime));
+                            resolveCollision(mobileEntity, immobileEntity, -0.0f);
+                    eventSystem.raiseEvent(new CollisionEvent(mobileEntity, immobileEntity,
+                                                              collisionResponse.collisionFace,
+                                                              deltaTime));
                 }
             }
-
         }
 
         /*
-        Set<Entity> mobileEntities = new HashSet<>(mobileEntitiesWithPhysics);
-        for (Entity mobileEntityWithPhysics : mobileEntitiesWithPhysics)
+        Set<Entity> mobileEntities = new HashSet<>(mobileEntities);
+        for (Entity mobileEntityWithPhysics : mobileEntities)
         {
             mobileEntities.remove(mobileEntityWithPhysics);
             for (Entity mobileEntity : mobileEntities)
@@ -131,16 +138,16 @@ public class CollisionSystem implements UpdateSystem
         return false;
     }
 
-    private static CollisionResponse resolveCollision(Entity physicsEntity, Entity fixedEntity, float push)
+    private static CollisionResponse resolveCollision(Entity mobileEntity, Entity immobileEntity, float push)
     {
         //  The two objects are colliding. Now we have to find out how much to move
         //  each object and in which direction, to resolve collision.
 
-        PhysicsComponent physicsComponent1 = physicsEntity.getComponent(
+        PhysicsComponent physicsComponent1 = mobileEntity.getComponent(
                 PhysicsComponent.class);
 
-        float intersectX = calculateXIntersection(physicsEntity, fixedEntity);
-        float intersectY = calculateYIntersection(physicsEntity, fixedEntity);
+        float intersectX = calculateXIntersection(mobileEntity, immobileEntity);
+        float intersectY = calculateYIntersection(mobileEntity, immobileEntity);
 
         /** Instead of considering current positions for collision, we are now considering
          *  the positions that the entities will be at in the next frame, if they travel at
@@ -154,12 +161,17 @@ public class CollisionSystem implements UpdateSystem
              *  Collision in x axis is of smaller magnitude than that in y axis
              *  So, collision will be resolved in x axis.
              */
-            //CollisionResolver.resolveXCollision(physicsEntity, fixedEntity, deltaXBetweenEntities,
+            //CollisionResolver.resolveXCollision(mobileEntity, immobileEntity, deltaXBetweenEntities,
             // intersectX, push);
-            if (!physicsEntity.getComponent(Collider.class).isTrigger() &&
-                    !fixedEntity.getComponent(Collider.class).isTrigger())
+            if (!mobileEntity.getComponent(Collider.class).isTrigger() &&
+                    !immobileEntity.getComponent(Collider.class).isTrigger())
             {
-                bridgeGapX(physicsEntity, fixedEntity);
+                //bridgeGapX(mobileEntity, immobileEntity);
+
+                CollisionResolver.resolveXCollision(mobileEntity, immobileEntity, intersectX, push);
+                /**
+                 * This can be instead handle with coefficient of restitution.
+                 */
                 physicsComponent1.getVelocity().x = 0;
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.VERTICAL);
@@ -168,10 +180,11 @@ public class CollisionSystem implements UpdateSystem
             //  Collision will be resolved in y axis
             //                resolveYCollision(entity1, entity2, deltaYBetweenEntities,
             // intersectY, push);
-            if (!physicsEntity.getComponent(Collider.class).isTrigger() &&
-                    !fixedEntity.getComponent(Collider.class).isTrigger())
+            if (!mobileEntity.getComponent(Collider.class).isTrigger() &&
+                    !immobileEntity.getComponent(Collider.class).isTrigger())
             {
-                bridgeGapY(physicsEntity, fixedEntity);
+                //bridgeGapY(mobileEntity, immobileEntity);
+                CollisionResolver.resolveYCollision(mobileEntity, immobileEntity, intersectY, push);
                 physicsComponent1.getVelocity().y = 0;
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.HORIZONTAL);
@@ -266,9 +279,9 @@ public class CollisionSystem implements UpdateSystem
     private static class CollisionResolver
     {
         public static void resolveXCollision(Entity entity1, Entity entity2,
-                                             float deltaXBetweenEntities, float intersectionMag, float push)
+                                             float intersectionMag, float push)
         {
-            if (deltaXBetweenEntities > 0.0f)
+            if ((entity1.transform.position.x - entity2.transform.position.x) > 0.0f)
             {
                 Log.v("CollisionSystem", "deltaXBetweenEntities < 0 :position1: ");
                 Log.v("CollisionSystem", "deltaXBetweenEntities < 0 :position2: ");
@@ -286,9 +299,9 @@ public class CollisionSystem implements UpdateSystem
         }
 
         public static void resolveYCollision(Entity entity1, Entity entity2,
-                                             float deltaYBetweenEntities, float intersectionMag, float push)
+                                             float intersectionMag, float push)
         {
-            if (deltaYBetweenEntities > 0.0f)
+            if ((entity1.transform.position.y - entity2.transform.position.y) > 0.0f)
             {
                 Log.v("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
                 Log.v("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
@@ -325,11 +338,14 @@ public class CollisionSystem implements UpdateSystem
      */
     private static Position getTentativePosition(Entity entity)
     {
+
         PhysicsComponent physicsComponent = entity.getComponent(
                 PhysicsComponent.class);
 
         if (physicsComponent == null) return entity.transform.position;
-        return new Position(entity.transform.position.x + physicsComponent.getVelocity().x,
-                entity.transform.position.y + physicsComponent.getVelocity().y);
+        return new Position(entity.transform.position.x +
+                                    physicsComponent.getVelocity().x * TENTATIVE_X_POSITION_FACTOR,
+                            entity.transform.position.y +
+                                    physicsComponent.getVelocity().y * TENTATIVE_Y_POSITION_FACTOR);
     }
 }
