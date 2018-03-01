@@ -16,6 +16,8 @@ import com.stunapps.fearlessjumper.event.system.CollisionEvent;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -92,25 +94,49 @@ public class CollisionSystem implements UpdateSystem
             }
         }
 
-        /*
-        Set<Entity> mobileEntities = new HashSet<>(mobileEntities);
-        for (Entity mobileEntityWithPhysics : mobileEntities)
+
+        /**
+         * Collision among mobile entities.
+         */
+        List<Entity> mobileEntityList = new LinkedList<>(mobileEntities);
+        for (int i = 1; i < mobileEntityList.size(); i++)
         {
-            mobileEntities.remove(mobileEntityWithPhysics);
-            for (Entity mobileEntity : mobileEntities)
+            for (int j = i + 1; j < mobileEntityList.size(); j++)
             {
-                if (isColliding(mobileEntityWithPhysics, mobileEntity))
+                Entity mobileEntity1 = mobileEntityList.get(i);
+                Entity mobileEntity2 = mobileEntityList.get(j);
+                if (isColliding(mobileEntity1, mobileEntity2))
                 {
-                    float mass1 = ((PhysicsComponent)mobileEntityWithPhysics.getComponent(PhysicsComponent.class)).mass;
-                    float mass2 = ((PhysicsComponent)mobileEntity.getComponent(PhysicsComponent.class)).mass;
-                    resolveCollision(mobileEntityWithPhysics, mobileEntity, mass1/mass2);
-                    for (CollisionListener collisionListener : collisionListeners)
+                    float mass1 = 0.0f;
+                    float mass2 = 0.0f;
+
+                    if (mobileEntity1.hasComponent(PhysicsComponent.class))
                     {
-                        collisionListener.onCollision(mobileEntityWithPhysics, mobileEntity, new CollisionResponse());
+                        mass1 = mobileEntity1.getComponent(PhysicsComponent.class).mass;
                     }
+
+                    if (mobileEntity2.hasComponent(PhysicsComponent.class))
+                    {
+                        mass2 = mobileEntity2.getComponent(PhysicsComponent.class).mass;
+                    }
+
+                    CollisionResponse collisionResponse = null;
+                    if (mass2 > 0)
+                    {
+                        collisionResponse =
+                                resolveCollision(mobileEntity1, mobileEntity2, mass1 / mass2);
+                    }
+                    else
+                    {
+                        collisionResponse =
+                                resolveCollision(mobileEntity2, mobileEntity1, mass2 / mass1);
+                    }
+                    eventSystem.raiseEvent(new CollisionEvent(mobileEntity1, mobileEntity2,
+                                                              collisionResponse.collisionFace,
+                                                              deltaTime));
                 }
             }
-        } */
+        }
     }
 
     @Override
