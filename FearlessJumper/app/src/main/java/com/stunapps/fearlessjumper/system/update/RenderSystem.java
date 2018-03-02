@@ -36,6 +36,9 @@ import com.stunapps.fearlessjumper.helper.Environment.Device;
 import java.util.List;
 import java.util.Set;
 
+import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
+import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
+
 /**
  * Created by sunny.s on 10/01/18.
  */
@@ -181,9 +184,10 @@ public class RenderSystem implements UpdateSystem
 		//	Fuel box
 		Float fuel = player.getComponent(Fuel.class).getFuel();
 		int left = 1 * Device.SCREEN_WIDTH / 8;
-		int right = left + (1 * Device.SCREEN_WIDTH / 16);
+		int right = (int) ((left + 80) * scaleX());
 		int bottom = 15 * Device.SCREEN_HEIGHT / 16;
-		int top = Math.min(bottom, bottom - 3 * fuel.intValue());
+		int fuelRectHeight = (int) (bottom - 3 * fuel.intValue() * scaleY());
+		int top = Math.min(bottom, fuelRectHeight);
 		Rect fuelRect = new Rect(left, top, right, bottom);
 		canvas.drawRect(fuelRect, fuelPaint);
 
