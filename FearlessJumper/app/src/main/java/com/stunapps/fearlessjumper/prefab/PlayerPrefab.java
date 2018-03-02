@@ -28,6 +28,7 @@ import java.util.Map;
 import static com.stunapps.fearlessjumper.animation.AnimationState.HURT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationState.TERMINATED;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.NORMALIZE;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TERMINATE;
 
 /**
@@ -59,6 +60,8 @@ public class PlayerPrefab extends Prefab
 						.from(HURT).onEvent(AnimationTransition.HURT).toState(HURT)
 						.from(HURT).onCountDown(1000l).toState(IDLE)
 						.fromAnyStateOnEvent(TERMINATE).toState(TERMINATED)
+						.fromAnyStateOnEvent(NORMALIZE).toState(IDLE)
+						.terminalState(TERMINATED)
 						.build();
 
 		components.add(new Renderable(alien, Delta.ZERO, alien.getWidth(),

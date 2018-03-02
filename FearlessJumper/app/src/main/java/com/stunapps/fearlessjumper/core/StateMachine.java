@@ -54,7 +54,14 @@ public class StateMachine<State, Transition>
             //TODO: state transaction cannot happen.
             return null;
         }
-        State nextState = stateTransitionMap.get(currentState).get(transition);
+
+        Map<Transition, State> currentStateTransitionMap = stateTransitionMap.get(currentState);
+        if (currentStateTransitionMap == null)
+        {
+            return currentState;
+        }
+
+        State nextState = currentStateTransitionMap.get(transition);
         if (nextState != null)
         {
             currentState = nextState;
@@ -293,6 +300,7 @@ public class StateMachine<State, Transition>
 
 		private void addAnyStateTransitions()
 		{
+		    allStates.remove(terminalState);
             for (State state : allStates)
 			{
 				for (Map.Entry<Transition, State> anyStateTransition : anyStateTransitionMap
