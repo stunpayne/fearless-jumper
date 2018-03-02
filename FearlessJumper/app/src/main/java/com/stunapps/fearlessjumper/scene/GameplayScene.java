@@ -55,7 +55,7 @@ public class GameplayScene extends AbstractScene
 						@Override
 						public Object call() throws Exception
 						{
-							gameView.getThread().setRunning(false);
+							gameView.pause();
 
 							LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
 							RelativeLayout gameOver =
@@ -103,6 +103,18 @@ public class GameplayScene extends AbstractScene
 	public void playScene()
 	{
 
+	}
+
+	@Override
+	void pauseScene()
+	{
+		gameView.pause();
+	}
+
+	@Override
+	void resumeScene()
+	{
+		gameView.resume();
 	}
 
 	@Override
