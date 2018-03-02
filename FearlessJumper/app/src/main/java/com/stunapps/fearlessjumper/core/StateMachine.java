@@ -60,7 +60,7 @@ public class StateMachine<State, Transition>
             currentState = nextState;
             if(countDownStates.containsKey(currentState)){
                 final CountDownState<State> countDownState = countDownStates.get(currentState);
-                HandlerThread handlerThread = new HandlerThread("background-thread");
+                final HandlerThread handlerThread = new HandlerThread("background-thread");
                 handlerThread.start();
                 new Handler(handlerThread.getLooper()).postDelayed(new Runnable()
                 {
@@ -68,6 +68,7 @@ public class StateMachine<State, Transition>
                     public void run()
                     {
                         currentState = countDownState.toState;
+                        handlerThread.quit();
                     }
                 }, countDownState.countDown);
             }
