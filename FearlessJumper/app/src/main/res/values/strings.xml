@@ -2,4 +2,7 @@
     <string name="app_name">FearlessJumper</string>
     <string name="menuStart">START GAME</string>
     <string name="menuQuit">QUIT GAME</string>
+    <string name="pauseButtonDesc">Pause Button for Game</string>
+    <string name="startButtonDesc">Start Button for Main menu</string>
+    <string name="resumeButtonDesc">Resume Button for Pause menu</string>
 </resources>

@@ -58,7 +58,7 @@ public abstract class AbstractScene implements Scene
             //eventSystem.raiseEvent(new SceneStartEvent());
             setUpScene();
             requestViewLoad(view);
-            disableSurfaceViewLogging();
+//            disableSurfaceViewLogging();
         }
         catch (Exception e)
         {
@@ -91,7 +91,7 @@ public abstract class AbstractScene implements Scene
         eventSystem.raiseEvent(new SceneStopEvent());
     }
 
-    protected void modifyScene(final Callable callable)
+    protected void modifyScene(final SceneModificationCallback callable)
     {
         mainActivity.runOnUiThread(new Runnable()
         {
@@ -132,5 +132,9 @@ public abstract class AbstractScene implements Scene
         } catch (Exception e) {
             Log.e(TAG, "while trying to disable debug in SurfaceView", e);
         }
+    }
+
+    protected interface SceneModificationCallback extends Callable
+    {
     }
 }
