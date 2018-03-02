@@ -34,10 +34,6 @@ public class CloningTest
             e.printStackTrace();
         }
 
-        Assert.assertFalse(stateMachine.getStateTransitionMap() == clone1.getStateTransitionMap());
-        Assert.assertTrue(stateMachine.getStateTransitionMap().hashCode() ==
-                                   clone1.getStateTransitionMap().hashCode());
-
         Assert.assertTrue(stateMachine.getCurrentState() == clone1.getCurrentState());
         Assert.assertTrue(stateMachine.getCurrentState().equals(clone1.getCurrentState()));
 

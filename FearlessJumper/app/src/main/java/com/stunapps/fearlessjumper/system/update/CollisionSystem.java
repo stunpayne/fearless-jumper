@@ -53,7 +53,8 @@ public class CollisionSystem implements UpdateSystem
     public void process(long deltaTime)
     {
         lastProcessTime = System.currentTimeMillis();
-        Set<Entity> entities = componentManager.getEntities(Collider.class);
+
+        Set<Entity> entities = getCollisionEntities();
 
         Set<Entity> mobileEntities = new HashSet<>();
         Set<Entity> immobileEntities = new HashSet<>();
@@ -137,6 +138,12 @@ public class CollisionSystem implements UpdateSystem
                 }
             }
         }
+    }
+
+    //TODO: This has to be modified once layers config is in place.
+    private Set<Entity> getCollisionEntities()
+    {
+        return componentManager.getEntities(Collider.class);
     }
 
     @Override

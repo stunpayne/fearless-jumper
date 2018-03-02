@@ -19,6 +19,7 @@ import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.manager.CollisionLayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,7 +83,7 @@ public class DragonPrefab extends Prefab
 		components.add(new Dragon());
 		components.add(new Obstacle());
 		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
-				dragonSprite1.getHeight()));
+										dragonSprite1.getHeight(), CollisionLayer.ENEMY));
 		components.add(new PeriodicTranslation()
 				.withXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
 		components.add(new ContactDamageComponent(1));

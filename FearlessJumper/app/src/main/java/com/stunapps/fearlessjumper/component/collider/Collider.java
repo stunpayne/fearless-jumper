@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.component.collider;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.manager.CollisionLayer;
 
 /**
  * Created by anand.verma on 12/01/18.
@@ -10,6 +11,8 @@ import com.stunapps.fearlessjumper.component.transform.Position;
 
 public abstract class Collider extends Component
 {
+	public boolean isActive;
+	public CollisionLayer collisionLayer;
 	public Delta delta;
 	public float width;
 	public float height;
@@ -20,22 +23,21 @@ public abstract class Collider extends Component
 	 */
 	protected boolean trigger;
 
-	public Collider(Delta delta, float width, float height)
+	public Collider(Delta delta, float width, float height, CollisionLayer collisionLayer)
 	{
-		super(Collider.class);
-		this.delta = delta;
-		this.width = width;
-		this.height = height;
-		this.trigger = false;
+		this(delta, width, height, false, collisionLayer);
 	}
 
-	public Collider(Delta delta, float width, float height, boolean trigger)
+	public Collider(Delta delta, float width, float height, boolean trigger,
+			CollisionLayer collisionLayer)
 	{
 		super(Collider.class);
 		this.delta = delta;
 		this.width = width;
 		this.height = height;
 		this.trigger = trigger;
+		this.isActive = true;
+		this.collisionLayer = collisionLayer;
 	}
 
 	public Position getCenter(Position position)

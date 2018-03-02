@@ -20,6 +20,7 @@ import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.di.DI;
+import com.stunapps.fearlessjumper.manager.CollisionLayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +65,8 @@ public class PlayerPrefab extends Prefab
 				alien.getHeight()));
 		components.add(new Animator(stateAnimationMap, animationStateMachine));
 
-		components.add(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight()));
+		components.add(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight(),
+										CollisionLayer.PLAYER));
 		components.add(new Health(100));
 		components.add(new PhysicsComponent(50, new PhysicsComponent.Velocity()));
 		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
