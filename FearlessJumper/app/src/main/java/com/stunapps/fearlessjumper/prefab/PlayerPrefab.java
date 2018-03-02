@@ -75,7 +75,7 @@ public class PlayerPrefab extends Prefab
 		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
 		components.add(orientationInput);
 		components.add(new PlayerComponent());
-		components.add(new RemainingTime(10000));
+		components.add(new RemainingTime(-97000));
 		components.add(new Score());
 		components.add(new Fuel(100f));
 	}
