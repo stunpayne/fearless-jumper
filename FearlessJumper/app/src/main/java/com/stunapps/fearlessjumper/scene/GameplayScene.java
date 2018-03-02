@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.scene;
 
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
@@ -42,57 +44,59 @@ public class GameplayScene extends AbstractScene
 		this.gameView = gameView;
 	}
 
-	private BaseEventListener<GameOverEvent> gameOverListener = new BaseEventListener<GameOverEvent>()
-	{
-		@Override
-		public void handleEvent(GameOverEvent event) throws EventException
-		{
-			modifyScene(new Callable()
+	private BaseEventListener<GameOverEvent> gameOverListener =
+			new BaseEventListener<GameOverEvent>()
 			{
 				@Override
-				public Object call() throws Exception
+				public void handleEvent(GameOverEvent event) throws EventException
 				{
-					gameView.pause();
-
-					LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
-					RelativeLayout gameOver = (RelativeLayout) inflater.inflate(R.layout.game_over, null);
-					((FrameLayout)view).addView(gameOver);
-
-					Button mainMenuButton = (Button)gameOver.findViewById(R.id.mainMenu);
-					mainMenuButton.setOnClickListener(new OnClickListener()
+					modifyScene(new Callable()
 					{
 						@Override
-						public void onClick(View v)
+						public Object call() throws Exception
 						{
-							eventSystem.raiseEvent(new MainMenuEvent());
+							gameView.getThread().setRunning(false);
+
+							LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
+							RelativeLayout gameOver =
+									(RelativeLayout) inflater.inflate(R.layout.game_over, null);
+							((FrameLayout) view).addView(gameOver);
+
+							Button mainMenuButton = (Button) gameOver.findViewById(R.id.mainMenu);
+							mainMenuButton.setOnClickListener(new OnClickListener()
+							{
+								@Override
+								public void onClick(View v)
+								{
+									eventSystem.raiseEvent(new MainMenuEvent());
+								}
+							});
+
+							Button restartButton = (Button) gameOver.findViewById(R.id.restart);
+							restartButton.setOnClickListener(new OnClickListener()
+							{
+								@Override
+								public void onClick(View v)
+								{
+									eventSystem.raiseEvent(new StartGameEvent());
+								}
+							});
+
+							return null;
 						}
 					});
-
-					Button restartButton = (Button)gameOver.findViewById(R.id.restart);
-					restartButton.setOnClickListener(new OnClickListener()
-					{
-						@Override
-						public void onClick(View v)
-						{
-							eventSystem.raiseEvent(new StartGameEvent());
-						}
-					});
-
-					return null;
 				}
-			});
-		}
-	};
+			};
 
 	@Override
 	void setUpScene()
 	{
 		LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
-		LinearLayout hud = (LinearLayout) inflater.inflate(R.layout.hud, null);
-		hud.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
-				.LayoutParams.WRAP_CONTENT));
-		((FrameLayout)view).addView(gameView);
-		((FrameLayout)view).addView(hud);
+		ConstraintLayout hud = (ConstraintLayout) inflater.inflate(R.layout.hud, null);
+		hud.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT));
+		((FrameLayout) view).addView(gameView);
+		((FrameLayout) view).addView(hud);
 	}
 
 	@Override
@@ -102,21 +106,9 @@ public class GameplayScene extends AbstractScene
 	}
 
 	@Override
-	void pauseScene()
-	{
-		gameView.pause();
-	}
-
-	@Override
-	void resumeScene()
-	{
-		gameView.resume();
-	}
-
-	@Override
 	public void terminateScene()
 	{
-		((FrameLayout)view).removeAllViews();
-		((FrameLayout)view).invalidate();
+		((FrameLayout) view).removeAllViews();
+		((FrameLayout) view).invalidate();
 	}
 }
