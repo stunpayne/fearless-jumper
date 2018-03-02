@@ -73,6 +73,18 @@ public abstract class AbstractScene implements Scene
     }
 
     @Override
+    public void pause()
+    {
+        pauseScene();
+    }
+
+    @Override
+    public void resume()
+    {
+        resumeScene();
+    }
+
+    @Override
     public void terminate()
     {
         terminateScene();
@@ -101,6 +113,10 @@ public abstract class AbstractScene implements Scene
     abstract void setUpScene();
 
     abstract void playScene();
+
+    abstract void pauseScene();
+
+    abstract void resumeScene();
 
     abstract void terminateScene();
 

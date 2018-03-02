@@ -13,6 +13,8 @@ public interface Scene
 {
     void setup();
     void play();
+    void pause();
+    void resume();
     void terminate();
 
     class ViewLoader

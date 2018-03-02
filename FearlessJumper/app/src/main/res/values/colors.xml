@@ -5,5 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="titleBackground">#36e6e206</color>
     <color name="hudText">#FFFFFF</color>
+    <color name="hudBg">#7020ecd8</color>
     <color name="gray">#55AAAAAA</color>
 </resources>

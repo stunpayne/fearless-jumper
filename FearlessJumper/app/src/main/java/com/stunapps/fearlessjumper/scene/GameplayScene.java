@@ -3,13 +3,14 @@ package com.stunapps.fearlessjumper.scene;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.stunapps.fearlessjumper.R;
-import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
@@ -51,7 +52,7 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public Object call() throws Exception
 				{
-					gameView.getThread().setRunning(false);
+					gameView.pause();
 
 					LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
 					RelativeLayout gameOver = (RelativeLayout) inflater.inflate(R.layout.game_over, null);
@@ -88,6 +89,8 @@ public class GameplayScene extends AbstractScene
 	{
 		LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
 		LinearLayout hud = (LinearLayout) inflater.inflate(R.layout.hud, null);
+		hud.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
+				.LayoutParams.WRAP_CONTENT));
 		((FrameLayout)view).addView(gameView);
 		((FrameLayout)view).addView(hud);
 	}
@@ -96,6 +99,18 @@ public class GameplayScene extends AbstractScene
 	public void playScene()
 	{
 
+	}
+
+	@Override
+	void pauseScene()
+	{
+		gameView.pause();
+	}
+
+	@Override
+	void resumeScene()
+	{
+		gameView.resume();
 	}
 
 	@Override

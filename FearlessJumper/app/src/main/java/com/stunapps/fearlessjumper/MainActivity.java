@@ -118,6 +118,7 @@ public class MainActivity extends Activity
 	protected void onPause()
 	{
 		super.onPause();
+
 	}
 
 	@Override

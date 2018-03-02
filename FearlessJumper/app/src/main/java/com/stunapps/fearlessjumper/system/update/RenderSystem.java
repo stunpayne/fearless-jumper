@@ -181,7 +181,7 @@ public class RenderSystem implements UpdateSystem
 		//	Fuel box
 		Float fuel = player.getComponent(Fuel.class).getFuel();
 		int left = 1 * Device.SCREEN_WIDTH / 8;
-		int right = left + 80;
+		int right = left + (1 * Device.SCREEN_WIDTH / 16);
 		int bottom = 15 * Device.SCREEN_HEIGHT / 16;
 		int top = Math.min(bottom, bottom - 3 * fuel.intValue());
 		Rect fuelRect = new Rect(left, top, right, bottom);

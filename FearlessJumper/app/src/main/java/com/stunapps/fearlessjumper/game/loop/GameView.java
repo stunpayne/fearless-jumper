@@ -27,11 +27,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     {
         super(context);
         this.gameInitializer = gameInitializer;
-        Environment.CONTEXT = context;
 
         getHolder().addCallback(this);
         setFocusable(true);
-        
     }
 
     @Override
@@ -72,27 +70,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
-    public MainThread getThread()
+    public void pause()
     {
-        return thread;
+        thread.setRunning(false);
+    }
+
+    public void resume()
+    {
+        thread.setRunning(true);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         //  Call Input System
-//        sceneManager.receiveTouch(eventType);
         Systems.processInput(event);
         return true;
-//        return super.onTouchEvent(eventType);
     }
 
 
 
     public void update(long deltaTime)
     {
-//        sceneManager.update();
-
         if (!gameInitializer.isInitialized())
         {
             Log.d(TAG, "update: start time = "+System.currentTimeMillis());
