@@ -14,6 +14,7 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.emitter.PickupEmitter;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -50,6 +51,7 @@ public class RenderSystem implements UpdateSystem
 	private Paint bgPaint = new Paint();
 
 	private Handler handler = new Handler();
+	PickupEmitter pickupEmitter = new PickupEmitter();
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem)
@@ -63,6 +65,9 @@ public class RenderSystem implements UpdateSystem
 				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
 						false);
 		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
+
+
+		pickupEmitter.init();
 	}
 
 	@Override
@@ -83,6 +88,11 @@ public class RenderSystem implements UpdateSystem
 		renderBackground();
 		renderEntities(entities);
 		renderHUD(player);
+
+		//TODO: Render particles for testing. Remove once tested.
+
+		pickupEmitter.update(deltaTime);
+		pickupEmitter.drawParticles(canvas);
 	}
 
 	@Override
