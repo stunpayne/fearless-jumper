@@ -57,7 +57,7 @@ public class PlayerPrefab extends Prefab
 						.startState(IDLE)
 						.from(IDLE).onEvent(AnimationTransition.HURT).toState(HURT)
 						.from(HURT).onEvent(AnimationTransition.HURT).toState(HURT)
-						.from(HURT).onCountDown(16).toState(IDLE)
+						.from(HURT).onCountDown(2000l).toState(IDLE)
 						.fromAnyStateOnEvent(TERMINATE).toState(TERMINATED)
 						.build();
 

@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.core;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 
 import org.roboguice.shaded.goole.common.collect.Maps;
@@ -56,6 +58,19 @@ public class StateMachine<State, Transition>
         if (nextState != null)
         {
             currentState = nextState;
+            if(countDownStates.containsKey(currentState)){
+                final CountDownState<State> countDownState = countDownStates.get(currentState);
+                HandlerThread handlerThread = new HandlerThread("background-thread");
+                handlerThread.start();
+                new Handler(handlerThread.getLooper()).postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        currentState = countDownState.toState;
+                    }
+                }, countDownState.countDown);
+            }
         }
         else Log.w(TAG, "No transition " + transition + "exists from state " + currentState);
         return currentState;
@@ -80,11 +95,12 @@ public class StateMachine<State, Transition>
      */
     public State getCurrentState()
     {
+        /*
         Set<State> states = countDownStates.keySet();
         if (states.contains(currentState))
         {
             currentState = countDownStates.get(currentState).countDown();
-        }
+        } */
         return currentState;
     }
 
@@ -92,10 +108,10 @@ public class StateMachine<State, Transition>
     {
         private State fromState;
         private State toState;
-        private Integer countDown;
-        private Integer currentCount;
+        private Long countDown;
+        private Long currentCount;
 
-        public CountDownState(State fromState, State toState, Integer countDown)
+        public CountDownState(State fromState, State toState, Long countDown)
         {
             this.fromState = fromState;
             this.toState = toState;
@@ -141,7 +157,7 @@ public class StateMachine<State, Transition>
         private Set<State> allStates = new HashSet<>();
         private Transition transition;
 
-        private Integer countDown;
+        private Long countDown;
         private boolean buildingAnyState;
 
         public Builder startState(State state)
@@ -198,7 +214,7 @@ public class StateMachine<State, Transition>
             return this;
         }
 
-        public Builder onCountDown(Integer countDown)
+        public Builder onCountDown(Long countDown)
         {
             if (fromStates == null || fromStates.isEmpty() || fromStates.size() > 1 || fromStates.iterator().next().equals(terminalState) || countDown == null)
             {

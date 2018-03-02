@@ -13,6 +13,8 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
+import com.stunapps.fearlessjumper.manager.CollisionLayer;
+import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 
 import java.util.HashSet;
@@ -33,6 +35,7 @@ public class CollisionSystem implements UpdateSystem
 
     private final ComponentManager componentManager;
     private final EventSystem eventSystem;
+    private final CollisionLayerManager collisionLayerManager;
 
     private static long lastProcessTime = System.nanoTime();
 
@@ -43,10 +46,12 @@ public class CollisionSystem implements UpdateSystem
     private static final boolean debugEnabled = false;
 
     @Inject
-    public CollisionSystem(ComponentManager componentManager, EventSystem eventSystem)
+    public CollisionSystem(ComponentManager componentManager, EventSystem eventSystem,
+            CollisionLayerManager collisionLayerManager)
     {
         this.componentManager = componentManager;
         this.eventSystem = eventSystem;
+        this.collisionLayerManager = collisionLayerManager;
     }
 
     @Override
@@ -84,7 +89,8 @@ public class CollisionSystem implements UpdateSystem
         {
             for (Entity immobileEntity : immobileEntities)
             {
-                if (isColliding(mobileEntity, immobileEntity))
+                if (isCollisionLayerMaskSet(mobileEntity, immobileEntity) &&
+                        isColliding(mobileEntity, immobileEntity))
                 {
                     CollisionResponse collisionResponse =
                             resolveCollision(mobileEntity, immobileEntity, -0.0f);
@@ -106,7 +112,8 @@ public class CollisionSystem implements UpdateSystem
             {
                 Entity mobileEntity1 = mobileEntityList.get(i);
                 Entity mobileEntity2 = mobileEntityList.get(j);
-                if (isColliding(mobileEntity1, mobileEntity2))
+                if (isCollisionLayerMaskSet(mobileEntity1, mobileEntity2) && isColliding
+                    (mobileEntity1, mobileEntity2))
                 {
                     float mass1 = 0.0f;
                     float mass2 = 0.0f;
@@ -158,8 +165,15 @@ public class CollisionSystem implements UpdateSystem
         lastProcessTime = 0;
     }
 
+    private boolean isCollisionLayerMaskSet(Entity entity, Entity entityCollidingWith)
+    {
+        Collider collider = entity.getComponent(Collider.class);
+        Collider collidesWith = entityCollidingWith.getComponent(Collider.class);
+        return collisionLayerManager.isCollisionMaskSet(collider, collidesWith);
+    }
+
     //TODO: Push can be derived from masses for entities.
-    public static boolean isColliding(Entity physicsEntity, Entity fixedEntity)
+    private static boolean isColliding(Entity physicsEntity, Entity fixedEntity)
     {
         float intersectX = calculateXIntersection(physicsEntity, fixedEntity);
         float intersectY = calculateYIntersection(physicsEntity, fixedEntity);

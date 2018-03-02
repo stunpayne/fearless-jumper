@@ -48,12 +48,12 @@ public class CollisionLayerManager
 		 */
 
 		setCollisionLayerMask(CollisionLayer.ENEMY,
-					  new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.PLAYER});
+							  new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.PLAYER});
 
 
 		setCollisionLayerMask(CollisionLayer.PLAYER,
-					  new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.ENEMY,
-							  CollisionLayer.BONUS});
+							  new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.ENEMY,
+									  CollisionLayer.BONUS});
 	}
 
 	public void setCollisionLayerMask(CollisionLayer collisionLayer,
@@ -62,8 +62,8 @@ public class CollisionLayerManager
 		setCollisionLayerMask(collisionLayer, new CollisionLayer[]{collidesWithLayer});
 	}
 
-	public void setCollisionLayerMask(CollisionLayer collisionLayer, CollisionLayer[]
-			collidesWithLayers)
+	public void setCollisionLayerMask(CollisionLayer collisionLayer,
+			CollisionLayer[] collidesWithLayers)
 	{
 		for (CollisionLayer collidesWithLayer : collidesWithLayers)
 		{
@@ -78,8 +78,8 @@ public class CollisionLayerManager
 		unsetCollisionLayerMask(collisionLayer, new CollisionLayer[]{collidesWithLayer});
 	}
 
-	public void unsetCollisionLayerMask(CollisionLayer collisionLayer, CollisionLayer[]
-			collidesWithLayers)
+	public void unsetCollisionLayerMask(CollisionLayer collisionLayer,
+			CollisionLayer[] collidesWithLayers)
 	{
 		for (CollisionLayer collidesWithLayer : collidesWithLayers)
 		{
@@ -88,8 +88,8 @@ public class CollisionLayerManager
 		}
 	}
 
-	public void timedFlipCollisionLayerMask(CollisionLayer collisionLayer1, CollisionLayer collisionLayer2,
-			long time)
+	public void timedFlipCollisionLayerMask(CollisionLayer collisionLayer1,
+			CollisionLayer collisionLayer2, long time)
 	{
 		final Coordinate coordinate = getCoordinate(collisionLayer1, collisionLayer2);
 		flipMask(coordinate);
@@ -137,8 +137,7 @@ public class CollisionLayerManager
 		else
 		{
 			return new Coordinate(matrixSize - collisionLayer1.getIndex() - 1,
-								  collisionLayer2.getIndex
-					());
+								  collisionLayer2.getIndex());
 		}
 	}
 
@@ -164,7 +163,7 @@ public class CollisionLayerManager
 		sb.append("\t\t\t");
 		for (int i = 0; i < size; i++)
 		{
-			sb.append(collisionLayers[i]+"\t\t");
+			sb.append(collisionLayers[i] + "\t\t");
 		}
 		sb.append("\n");
 

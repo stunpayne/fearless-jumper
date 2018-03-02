@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.system.eventonly;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
+import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.visual.Animator;
@@ -12,6 +13,7 @@ import com.stunapps.fearlessjumper.event.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.impl.HurtEvent;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
 import com.stunapps.fearlessjumper.system.System;
 
 /**
@@ -21,6 +23,7 @@ import com.stunapps.fearlessjumper.system.System;
 public class DamageSystem implements System
 {
 	private EventSystem eventSystem;
+	private CollisionLayerManager collisionLayerManager;
 
 	private BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
 	{
@@ -48,6 +51,11 @@ public class DamageSystem implements System
 				}
 				else
 				{
+					Collider collider = entity1.getComponent(Collider.class);
+					Collider collidesWith = entity2.getComponent(Collider.class);
+					collisionLayerManager.timedFlipCollisionLayerMask(collider.collisionLayer,
+																	  collidesWith.collisionLayer,
+																	  1000l);
 					animator.triggerEvent(AnimationTransition.HURT);
 				}
 			}
@@ -64,6 +72,11 @@ public class DamageSystem implements System
 				}
 				else
 				{
+					Collider collider = entity1.getComponent(Collider.class);
+					Collider collidesWith = entity2.getComponent(Collider.class);
+					collisionLayerManager.timedFlipCollisionLayerMask(collider.collisionLayer,
+																	  collidesWith.collisionLayer,
+																	  1000l);
 					animator.triggerEvent(AnimationTransition.HURT);
 				}
 			}
@@ -71,10 +84,10 @@ public class DamageSystem implements System
 	};
 
 	@Inject
-	public DamageSystem(EventSystem eventSystem)
+	public DamageSystem(EventSystem eventSystem, CollisionLayerManager collisionLayerManager)
 	{
 		this.eventSystem = eventSystem;
+		this.collisionLayerManager = collisionLayerManager;
 		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
-		this.eventSystem = eventSystem;
 	}
 }
