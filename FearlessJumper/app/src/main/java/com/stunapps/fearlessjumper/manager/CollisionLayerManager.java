@@ -40,8 +40,8 @@ public class CollisionLayerManager
 			}
 		}
 
-		/**
-		 * SOLID - colldes with ENEMY, PLAYER
+		/*
+		 * SOLID - collides with ENEMY, PLAYER
 		 * ENEMY - collides with SOLID, PLAYER
 		 * PLAYER - collides with SOLID, ENEMY, BONUS
 		 * BONUS - collides with PLAYER, BONUS
@@ -89,7 +89,7 @@ public class CollisionLayerManager
 	}
 
 	public void timedFlipCollisionLayerMask(CollisionLayer collisionLayer1,
-			CollisionLayer collisionLayer2, long time)
+			CollisionLayer collisionLayer2, long flipDuration)
 	{
 		final Coordinate coordinate = getCoordinate(collisionLayer1, collisionLayer2);
 		flipMask(coordinate);
@@ -100,7 +100,7 @@ public class CollisionLayerManager
 			{
 				flipMask(coordinate);
 			}
-		}, time);
+		}, flipDuration);
 	}
 
 	public boolean isCollisionMaskSet(Collider collider, Collider collidesWith)

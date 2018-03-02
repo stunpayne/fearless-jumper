@@ -25,6 +25,14 @@ public class DamageSystem implements System
 	private EventSystem eventSystem;
 	private CollisionLayerManager collisionLayerManager;
 
+	@Inject
+	public DamageSystem(EventSystem eventSystem, CollisionLayerManager collisionLayerManager)
+	{
+		this.eventSystem = eventSystem;
+		this.collisionLayerManager = collisionLayerManager;
+		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
+	}
+
 	private BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
 	{
 		@Override
@@ -82,12 +90,4 @@ public class DamageSystem implements System
 			}
 		}
 	};
-
-	@Inject
-	public DamageSystem(EventSystem eventSystem, CollisionLayerManager collisionLayerManager)
-	{
-		this.eventSystem = eventSystem;
-		this.collisionLayerManager = collisionLayerManager;
-		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
-	}
 }

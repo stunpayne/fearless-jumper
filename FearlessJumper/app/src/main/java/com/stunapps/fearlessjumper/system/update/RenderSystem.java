@@ -56,7 +56,6 @@ public class RenderSystem implements UpdateSystem
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
-		//		eventSystem.registerEventListener(HurtEvent.class, playerHurtListener);
 
 		//	Initialise background bitmap
 		Bitmap originalBg =
@@ -92,27 +91,6 @@ public class RenderSystem implements UpdateSystem
 	{
 		return lastProcessTime;
 	}
-
-	private BaseEventListener<HurtEvent> playerHurtListener = new BaseEventListener<HurtEvent>()
-	{
-		@Override
-		public void handleEvent(HurtEvent event) throws EventException
-		{
-			//	TODO: Right now, this looks horrible. Need to implement a better hurt overlay
-			Runnable r = new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					Log.i("HURT", "Player hurt");
-					for (int i = 255; i > 100; i--)
-						canvas.drawARGB(i, 255, 0, 0);
-				}
-			};
-
-			handler.post(r);
-		}
-	};
 
 	@Override
 	public void reset()
