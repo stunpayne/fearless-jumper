@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.manager;
 import android.os.Handler;
 
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.Set;
@@ -55,6 +56,12 @@ public class CollisionLayerManager
 							  CollisionLayer.BONUS});
 	}
 
+	public void setCollisionLayerMask(CollisionLayer collisionLayer,
+			CollisionLayer collidesWithLayer)
+	{
+		setCollisionLayerMask(collisionLayer, new CollisionLayer[]{collidesWithLayer});
+	}
+
 	public void setCollisionLayerMask(CollisionLayer collisionLayer, CollisionLayer[]
 			collidesWithLayers)
 	{
@@ -65,9 +72,10 @@ public class CollisionLayerManager
 		}
 	}
 
-	private void setMask(Coordinate coordinate)
+	public void unsetCollisionLayerMask(CollisionLayer collisionLayer,
+			CollisionLayer collidesWithLayer)
 	{
-		collisionMatrix[coordinate.x][coordinate.y] = true;
+		unsetCollisionLayerMask(collisionLayer, new CollisionLayer[]{collidesWithLayer});
 	}
 
 	public void unsetCollisionLayerMask(CollisionLayer collisionLayer, CollisionLayer[]
@@ -76,13 +84,8 @@ public class CollisionLayerManager
 		for (CollisionLayer collidesWithLayer : collidesWithLayers)
 		{
 			Coordinate coordinate = getCoordinate(collisionLayer, collidesWithLayer);
-			setMask(coordinate);
+			unsetMask(coordinate);
 		}
-	}
-
-	private void unsetMask(Coordinate coordinate)
-	{
-		collisionMatrix[coordinate.x][coordinate.y] = false;
 	}
 
 	public void timedFlipCollisionLayerMask(CollisionLayer collisionLayer1, CollisionLayer collisionLayer2,
@@ -98,6 +101,23 @@ public class CollisionLayerManager
 				flipMask(coordinate);
 			}
 		}, time);
+	}
+
+	public boolean isCollisionMaskSet(Collider collider, Collider collidesWith)
+	{
+		Coordinate coordinate = getCoordinate(collider.collisionLayer, collidesWith
+				.collisionLayer);
+		return collisionMatrix[coordinate.x][coordinate.y];
+	}
+
+	private void setMask(Coordinate coordinate)
+	{
+		collisionMatrix[coordinate.x][coordinate.y] = true;
+	}
+
+	private void unsetMask(Coordinate coordinate)
+	{
+		collisionMatrix[coordinate.x][coordinate.y] = false;
 	}
 
 	private void flipMask(Coordinate coordinate)
@@ -132,12 +152,6 @@ public class CollisionLayerManager
 			this.x = x;
 			this.y = y;
 		}
-	}
-
-
-	public Set<Entity> getCollisonEntities(Entity rawCollisionEntities)
-	{
-		return null;
 	}
 
 	@Override

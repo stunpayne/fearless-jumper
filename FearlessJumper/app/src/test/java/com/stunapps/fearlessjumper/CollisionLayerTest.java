@@ -1,11 +1,17 @@
 package com.stunapps.fearlessjumper;
 
-import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
+import com.stunapps.fearlessjumper.component.GameComponentManager;
+import com.stunapps.fearlessjumper.component.collider.Collider;
+import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.di.DI;
+import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
-import com.stunapps.fearlessjumper.prefab.PlatformPrefab;
+import com.stunapps.fearlessjumper.prefab.Prefabs;
 
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -14,10 +20,25 @@ import org.junit.Test;
 
 public class CollisionLayerTest
 {
+	EntityManager entityManager = new EntityManager(new GameComponentManager());
+
+	@Before
+	public void initialise(){
+		Bitmaps.initialise();
+	}
+
 	@Test
 	public void testCollisionLayer(){
 		CollisionLayerManager collisionLayerManager = DI.di().getInstance(CollisionLayerManager
 																				.class);
-		//System.out.println(collisionLayerManager);
+
+		collisionLayerManager.unsetCollisionLayerMask(CollisionLayer.PLAYER, CollisionLayer.ENEMY);
+
+
+		Entity dragonEntity = entityManager.instantiate(Prefabs.DRAGON.prefab);
+		Entity playerEntity = entityManager.instantiate(Prefabs.PLAYER.prefab);
+		Assert.assertTrue(collisionLayerManager
+								  .isCollisionMaskSet(dragonEntity.getComponent(Collider.class),
+													  playerEntity.getComponent(Collider.class)));
 	}
 }
