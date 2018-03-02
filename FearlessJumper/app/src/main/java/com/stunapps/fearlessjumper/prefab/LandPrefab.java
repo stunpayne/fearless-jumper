@@ -6,6 +6,7 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.LowerBoundaryComponent;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
+import com.stunapps.fearlessjumper.model.Velocity;
 
 /**
  * Created by anand.verma on 17/01/18.
@@ -17,8 +18,8 @@ public class LandPrefab extends Prefab
     {
         components.add(new RectCollider(Delta.ZERO, Device.SCREEN_WIDTH, 10, CollisionLayer.SOLID));
         components.add(new LowerBoundaryComponent());
-        components.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false,
-                                            new PhysicsComponent.Friction(50.0f, 7.5f, 7.5f,
+        components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false,
+											new PhysicsComponent.Friction(50.0f, 7.5f, 7.5f,
                                                                           7.5f)));
     }
 }

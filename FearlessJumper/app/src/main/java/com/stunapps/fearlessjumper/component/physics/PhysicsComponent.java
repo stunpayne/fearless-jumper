@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.component.physics;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.model.Velocity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,32 +46,6 @@ public class PhysicsComponent extends Component
         this.velocity = velocity;
         this.applyGravity = applyGravity;
         this.friction = friction;
-    }
-
-    @Getter
-    @Setter
-    public static class Velocity implements Cloneable
-    {
-        public float x;
-        public float y;
-
-        public Velocity()
-        {
-            x = y = 0;
-        }
-
-        public Velocity(float x, float y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        protected Velocity clone() throws CloneNotSupportedException
-        {
-            super.clone();
-            return new Velocity(x, y);
-        }
     }
 
     public static class Friction

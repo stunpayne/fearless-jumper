@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.helper.Environment.Constants;
 import com.stunapps.fearlessjumper.system.Systems;

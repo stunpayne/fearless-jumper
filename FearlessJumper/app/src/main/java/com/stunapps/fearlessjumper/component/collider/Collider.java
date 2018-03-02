@@ -2,7 +2,7 @@ package com.stunapps.fearlessjumper.component.collider;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 
 /**

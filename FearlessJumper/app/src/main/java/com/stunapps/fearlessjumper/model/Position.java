@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.component.transform;
+package com.stunapps.fearlessjumper.model;
 
 import lombok.Getter;
 import lombok.Setter;

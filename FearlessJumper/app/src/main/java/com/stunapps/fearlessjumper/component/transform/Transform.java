@@ -1,7 +1,7 @@
 package com.stunapps.fearlessjumper.component.transform;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.model.Position;
 
 import lombok.Builder;
 import lombok.ToString;

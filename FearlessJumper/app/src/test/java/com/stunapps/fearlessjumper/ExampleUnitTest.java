@@ -7,6 +7,7 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
+import com.stunapps.fearlessjumper.model.Velocity;
 
 import org.junit.Test;
 
@@ -49,7 +50,7 @@ public class ExampleUnitTest
         ComponentManager cm = new GameComponentManager();
         EntityManager em = new EntityManager(cm);
 
-        Component component = new PhysicsComponent(15, new PhysicsComponent.Velocity(10, 10));
+        Component component = new PhysicsComponent(15, new Velocity(10, 10));
         Entity entity = em.createEntity(new Transform(null, null, null));
         entity.addComponent(component);
         PhysicsComponent componentV2 = entity.getComponent(PhysicsComponent.class);

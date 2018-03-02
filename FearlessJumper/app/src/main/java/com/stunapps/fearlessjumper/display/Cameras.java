@@ -1,15 +1,12 @@
 package com.stunapps.fearlessjumper.display;
 
-import android.support.annotation.Nullable;
-
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
 
 import java.util.List;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

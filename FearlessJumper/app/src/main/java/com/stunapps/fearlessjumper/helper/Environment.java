@@ -1,11 +1,7 @@
 package com.stunapps.fearlessjumper.helper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-
-import com.stunapps.fearlessjumper.component.transform.Position;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 
 
 /**

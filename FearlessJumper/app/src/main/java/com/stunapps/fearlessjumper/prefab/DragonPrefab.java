@@ -12,7 +12,7 @@ import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Dragon;
 import com.stunapps.fearlessjumper.component.specific.Obstacle;
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
@@ -20,6 +20,7 @@ import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
+import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,6 +90,6 @@ public class DragonPrefab extends Prefab
 				.withXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
 		components.add(new ContactDamageComponent(1));
 		components
-				.add(new PhysicsComponent(Float.MAX_VALUE, new PhysicsComponent.Velocity(), false));
+				.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
 	}
 }

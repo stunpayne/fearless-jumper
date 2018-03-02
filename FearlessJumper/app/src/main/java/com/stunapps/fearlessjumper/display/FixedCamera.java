@@ -1,6 +1,6 @@
 package com.stunapps.fearlessjumper.display;
 
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 
 /**
  * Created by sunny.s on 25/01/18.

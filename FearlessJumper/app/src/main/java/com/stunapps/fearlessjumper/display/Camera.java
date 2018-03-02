@@ -1,7 +1,6 @@
 package com.stunapps.fearlessjumper.display;
 
-import com.stunapps.fearlessjumper.component.transform.Position;
-import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.model.Position;
 
 import lombok.Getter;
 

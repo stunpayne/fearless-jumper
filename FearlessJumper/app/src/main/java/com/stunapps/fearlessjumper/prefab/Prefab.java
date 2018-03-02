@@ -1,11 +1,10 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.transform.Transform.Rotation;
 import com.stunapps.fearlessjumper.component.transform.Transform.Scale;
-import com.stunapps.fearlessjumper.helper.Environment;
 
 import java.util.ArrayList;
 import java.util.List;

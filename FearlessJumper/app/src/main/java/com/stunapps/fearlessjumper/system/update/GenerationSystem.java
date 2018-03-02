@@ -9,7 +9,7 @@ import com.stunapps.fearlessjumper.component.specific.Dragon;
 import com.stunapps.fearlessjumper.component.specific.Obstacle;
 import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.core.WeightedShuffler;

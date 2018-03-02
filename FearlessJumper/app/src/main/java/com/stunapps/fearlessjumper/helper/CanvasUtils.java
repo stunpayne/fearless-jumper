@@ -1,7 +1,7 @@
 package com.stunapps.fearlessjumper.helper;
 
 import com.google.inject.Singleton;
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 /**

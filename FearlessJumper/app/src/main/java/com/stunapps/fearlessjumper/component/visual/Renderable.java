@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
-import com.stunapps.fearlessjumper.component.transform.Position;
+import com.stunapps.fearlessjumper.model.Position;
 
 /**
  * Created by sunny.s on 11/01/18.
