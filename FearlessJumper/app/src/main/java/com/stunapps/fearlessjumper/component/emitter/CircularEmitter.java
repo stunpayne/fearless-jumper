@@ -7,52 +7,46 @@ import android.graphics.Paint.Align;
 import android.graphics.Typeface;
 
 import com.stunapps.fearlessjumper.helper.Environment.Device;
-import com.stunapps.fearlessjumper.model.Particle;
-import com.stunapps.fearlessjumper.model.Velocity;
+import com.stunapps.fearlessjumper.particle.Particle;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by anand.verma on 02/03/18.
  */
 
-public class PickupEmitter extends BaseEmitter
+public class CircularEmitter extends BaseEmitter
 {
-	List<Particle> particles = new LinkedList<>();
-
-	public PickupEmitter()
+	public CircularEmitter()
 	{
-		super(PickupEmitter.class, 2000, 100);
+		super(CircularEmitter.class, 10, 2000l, 1000l);
 	}
 
 	@Override
 	public void init()
 	{
-		int particleCount = 500;
+		super.init();
+	}
 
-		particles = new LinkedList<>();
-
+	@Override
+	protected void setupParticleCluster(List<Particle> particles)
+	{
+		int size = particles.size();
 		float angle = 0;
-		for (int i = 0; i < particleCount; i++)
+		float angleDelta = 360.0f / size;
+		for (Particle particle : particles)
 		{
-			Particle particle = new Particle();
 			particle.setPosition(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
-			particle.setLife(5000l);
 			particle.setVelocity(angle, 1f);
-			angle += 10;
+			angle += angleDelta;
 			angle = angle % 360;
-			particles.add(particle);
 		}
 	}
 
 	@Override
 	public void update(long delta)
 	{
-		for (Particle particle : particles)
-		{
-			particle.update(delta);
-		}
+		super.update(delta);
 	}
 
 	public void drawParticles(Canvas canvas)
@@ -65,10 +59,12 @@ public class PickupEmitter extends BaseEmitter
 
 		for (Particle particle : particles)
 		{
-			fuelTextPaint.setAlpha((int)(255*particle.alpha));
-			//canvas.drawText("working", particle.position.x, particle.position.y, fuelTextPaint);
-			//canvas.drawPoint(particle.position.x, particle.position.y, fuelTextPaint);
-			canvas.drawCircle(particle.position.x, particle.position.y, 5, fuelTextPaint);
+			fuelTextPaint.setAlpha((int) (255 * particle.alpha));
+			if (particle.isActive)
+			{
+				canvas.drawCircle(particle.position.x, particle.position.y, 5, fuelTextPaint);
+				//canvas.drawPoint(particle.position.x, particle.position.y, fuelTextPaint);
+			}
 		}
 	}
 }
