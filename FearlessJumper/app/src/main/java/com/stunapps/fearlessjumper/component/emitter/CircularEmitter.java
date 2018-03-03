@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.particle.Particle;
@@ -19,7 +20,7 @@ public class CircularEmitter extends BaseEmitter
 {
 	public CircularEmitter()
 	{
-		super(CircularEmitter.class, 10, 2000l, 1000l);
+		super(CircularEmitter.class, 100, 4000l, 1000l);
 	}
 
 	@Override
@@ -37,6 +38,7 @@ public class CircularEmitter extends BaseEmitter
 		for (Particle particle : particles)
 		{
 			particle.setPosition(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
+
 			particle.setVelocity(angle, 1f);
 			angle += angleDelta;
 			angle = angle % 360;
@@ -56,6 +58,7 @@ public class CircularEmitter extends BaseEmitter
 		fuelTextPaint.setTextAlign(Align.CENTER);
 		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
 		fuelTextPaint.setTextSize(50);
+		//fuelTextPaint.setAlpha(255);
 
 		for (Particle particle : particles)
 		{

@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.particle;
 
+import com.stunapps.fearlessjumper.helper.Environment.Constants;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -15,11 +16,11 @@ public class Particle
 	public long totalLife;
 	public float life;
 	public float alpha;
-	public long activationWaitTime;
+	public long waitTime;
 
 	public Particle()
 	{
-		this.activationWaitTime = Long.MAX_VALUE;
+		this.waitTime = Long.MAX_VALUE;
 		this.alpha = 1;
 		this.isActive = false;
 	}
@@ -27,9 +28,8 @@ public class Particle
 	public void setVelocity(float angle, float speed)
 	{
 		double angleInRadians = Math.toRadians(angle);
-		this.velocity =
-				new Velocity((float) Math.cos(angleInRadians) * speed, -(float) Math.sin
-						(angleInRadians) * speed);
+		this.velocity = new Velocity((float) Math.cos(angleInRadians) * speed,
+									 -(float) Math.sin(angleInRadians) * speed);
 	}
 
 	public void setPosition(float x, float y)
@@ -45,21 +45,28 @@ public class Particle
 
 	long time = 0;
 
+	/**
+	 * Function to update particle
+	 *
+	 * @param delta in nano seconds
+	 * @return true if particle is alive after update, false if not
+	 */
 	public boolean update(long delta)
 	{
-		long milliDelta = delta / 1000000;
-		if (this.activationWaitTime > 0)
+		long milliDelta = delta / Constants.ONE_MILLION;
+		if (this.waitTime > 0)
 		{
-			activationWaitTime -= milliDelta;
+			waitTime -= milliDelta;
 			return true;
 		}
 
+		life -= delta / Constants.ONE_MILLION;
 		if (life > 0)
 		{
 			position.x += velocity.x;
 			position.y += velocity.y;
-			life -= delta / 1000000;
 			alpha = life / totalLife;
+			isActive = true;
 			return true;
 		}
 		else

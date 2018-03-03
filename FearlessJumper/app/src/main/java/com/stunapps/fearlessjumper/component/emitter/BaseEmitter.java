@@ -8,8 +8,6 @@ import com.stunapps.fearlessjumper.particle.ParticlePool;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by anand.verma on 02/03/18.
@@ -17,7 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 abstract public class BaseEmitter extends Emitter
 {
-	private static final String TAG = "BaseEmitter";
+	private static final String TAG = BaseEmitter.class.getSimpleName();
 
 	@Inject
 	private ParticlePool particlePool;
@@ -25,7 +23,7 @@ abstract public class BaseEmitter extends Emitter
 	private long particleLife;
 	private long emissionInterval;
 
-	private long particleDensity; //Number of particles in single emission.
+	private long batchSize; //Number of particles in single emission.
 
 	protected List<Particle> particles;
 
@@ -38,28 +36,27 @@ abstract public class BaseEmitter extends Emitter
 		this.emissionInterval = emissionInterval;
 		if (emissionInterval > 0)
 		{
-			this.particleDensity = totalParticleCount / (particleLife / emissionInterval);
+			this.batchSize = totalParticleCount / (particleLife / emissionInterval);
 		}
 		else
 		{
-			this.particleDensity = totalParticleCount;
+			this.batchSize = totalParticleCount;
 		}
 		this.particles = new LinkedList<>();
 	}
 
 	private List<Particle> getParticleCluster()
 	{
-		List<Particle> particles = new LinkedList<>();
-		for (int i = 0; i < particleDensity && (this.particles.size() < totalParticleCount); i++)
+		List<Particle> particlesCluster = new LinkedList<>();
+		for (int i = 0; i < batchSize && (this.particles.size() < totalParticleCount); i++)
 		{
 			Particle particle = particlePool.getObject();
-			particle.activationWaitTime =
-					emissionInterval * (this.particles.size() / particleDensity);
-			particle.isActive = true;
+			particle.waitTime =
+					emissionInterval * (this.particles.size() / batchSize);
 			particle.setLife(particleLife);
-			particles.add(particle);
+			particlesCluster.add(particle);
 		}
-		return particles;
+		return particlesCluster;
 	}
 
 	private void addParticles(List<Particle> particles)
@@ -99,10 +96,13 @@ abstract public class BaseEmitter extends Emitter
 	@Override
 	public void update(long delta)
 	{
-		for (Particle particle : particles)
+		Iterator<Particle> iterator = particles.iterator();
+		while (iterator.hasNext())
 		{
-			if(!particle.update(delta)){
-				this.particles.remove(particle);
+			Particle particle = iterator.next();
+			if (!particle.update(delta))
+			{
+				iterator.remove();
 				particlePool.returnObject(particle);
 			}
 		}
