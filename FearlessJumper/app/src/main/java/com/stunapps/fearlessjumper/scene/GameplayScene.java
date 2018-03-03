@@ -81,9 +81,18 @@ public class GameplayScene extends AbstractScene
 		viewSetup.setupPauseButton(pauseButton);
 		viewSetup.setupGameOverView(gameOverMenu);
 
+//		modifyScene(new SceneModificationCallback()
+//		{
+//			@Override
+//			public Object call() throws Exception
+//			{
+//
+//				return null;
+//			}
+//		});
 		((FrameLayout) view).addView(gameView);
 		((FrameLayout) view).addView(hud);
-		((FrameLayout) view).addView(pauseButton);
+		//		((FrameLayout) view).addView(pauseButton);
 	}
 
 	@Override
@@ -142,6 +151,15 @@ public class GameplayScene extends AbstractScene
 		{
 			e.printStackTrace();
 		}
+//		modifyScene(new SceneModificationCallback()
+//		{
+//			@Override
+//			public Object call() throws Exception
+//			{
+//
+//				return null;
+//			}
+//		});
 		((FrameLayout) view).removeAllViews();
 		((FrameLayout) view).invalidate();
 	}
