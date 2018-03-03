@@ -42,13 +42,13 @@ public class CollisionLayerManager
 
 		/*
 		 * SOLID - collides with ENEMY, PLAYER
-		 * ENEMY - collides with SOLID, PLAYER
+		 * ENEMY - collides with PLAYER
 		 * PLAYER - collides with SOLID, ENEMY, BONUS
 		 * BONUS - collides with PLAYER, BONUS
 		 */
 
 		setCollisionLayerMask(CollisionLayer.ENEMY,
-							  new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.PLAYER});
+							  new CollisionLayer[]{CollisionLayer.PLAYER});
 
 
 		setCollisionLayerMask(CollisionLayer.PLAYER,

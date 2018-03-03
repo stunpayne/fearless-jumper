@@ -89,6 +89,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         thread.resumeThread();
     }
 
+    public void stop()
+    {
+        //        thread.setRunning(true);
+        thread.stopThread();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {

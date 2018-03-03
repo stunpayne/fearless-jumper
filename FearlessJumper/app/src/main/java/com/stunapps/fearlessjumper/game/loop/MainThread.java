@@ -144,4 +144,9 @@ public class MainThread extends Thread
 			pauseLock.notifyAll(); // Unblocks thread
 		}
 	}
+
+	public void stopThread()
+	{
+		running = false;
+	}
 }

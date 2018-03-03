@@ -38,7 +38,8 @@ public class DragonPrefab extends Prefab
 {
 	public DragonPrefab()
 	{
-		transform = new Transform(new Position(Device.SCREEN_WIDTH / 2, 200));
+		transform = new Transform(new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT /
+				2 + 100));
 
 		StateMachine animationStateMachine =
 				StateMachine.builder().startState(FLY_RIGHT).from(IDLE).onEvent(TURN_LEFT)

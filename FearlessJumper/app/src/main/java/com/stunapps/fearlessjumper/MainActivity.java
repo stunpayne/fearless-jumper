@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.helper.Environment;
@@ -26,6 +27,7 @@ import java.util.concurrent.Callable;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
 
+@Singleton
 public class MainActivity extends Activity
 {
 	private static final String TAG = MainActivity.class.getSimpleName();
@@ -230,6 +232,20 @@ public class MainActivity extends Activity
 			public void run()
 			{
 				((TextView) findViewById(R.id.health)).setText(health);
+			}
+		});
+	}
+
+	public void setGameOverVisibility(final int visibility, final View gameOverMenu,
+			final View parent)
+	{
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				gameOverMenu.setVisibility(visibility);
+				parent.invalidate();
 			}
 		});
 	}

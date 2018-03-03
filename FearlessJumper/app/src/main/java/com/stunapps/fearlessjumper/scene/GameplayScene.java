@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.scene;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageButton;
 
+import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
@@ -39,6 +41,7 @@ public class GameplayScene extends AbstractScene
 	private View gameOverMenu;
 
 	private ViewSetup viewSetup = new ViewSetup();
+	Handler mainHandler;
 
 	@Inject
 	public GameplayScene(GameView gameView, EventSystem eventSystem)
@@ -48,28 +51,29 @@ public class GameplayScene extends AbstractScene
 		this.gameView = gameView;
 	}
 
-	private BaseEventListener<GameOverEvent> gameOverListener =
+	//	TODO: Game over visibility updation is intermittent. This needs to be fixed.
+	private final BaseEventListener<GameOverEvent> gameOverListener =
 			new BaseEventListener<GameOverEvent>()
 			{
 				@Override
 				public void handleEvent(GameOverEvent event) throws EventException
 				{
-					gameView.pause();
-					modifyScene(new SceneModificationCallback()
-					{
-						@Override
-						public Object call() throws Exception
-						{
-							((FrameLayout) view).addView(gameOverMenu);
-							return null;
-						}
-					});
+					gameView.stop();
+
+					MainActivity.getInstance().setGameOverVisibility(View.VISIBLE, gameOverMenu,
+							view);
+					Log.d(TAG, "Game Over Menu is shown: " + gameOverMenu.isShown());
+					Log.d(TAG, "Game Over Menu parent : " + gameOverMenu.getParent());
+//					Log.d(TAG, "Game Over Menu visibility: " + gameOverMenu.getVisibility());
 				}
 			};
 
 	@Override
 	void setUpScene()
 	{
+		mainHandler = new Handler(Environment.CONTEXT.getMainLooper());
+		view = LayoutInflater.from(Environment.CONTEXT).inflate(R.layout.game_play_container,
+				null);
 		LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
 		hud = inflater.inflate(R.layout.hud, null);
 		pauseMenu = inflater.inflate(R.layout.pause_menu, null);
@@ -81,18 +85,19 @@ public class GameplayScene extends AbstractScene
 		viewSetup.setupPauseButton(pauseButton);
 		viewSetup.setupGameOverView(gameOverMenu);
 
-//		modifyScene(new SceneModificationCallback()
-//		{
-//			@Override
-//			public Object call() throws Exception
-//			{
-//
-//				return null;
-//			}
-//		});
-		((FrameLayout) view).addView(gameView);
-		((FrameLayout) view).addView(hud);
-		//		((FrameLayout) view).addView(pauseButton);
+		modifyScene(new SceneModificationCallback()
+		{
+			@Override
+			public Object call() throws Exception
+			{
+				((FrameLayout) view).addView(gameView);
+				((FrameLayout) view).addView(hud);
+				((FrameLayout) view).addView(pauseButton);
+				((FrameLayout) view).addView(gameOverMenu);
+				gameOverMenu.setVisibility(View.GONE);
+				return null;
+			}
+		});
 	}
 
 	@Override
@@ -142,26 +147,21 @@ public class GameplayScene extends AbstractScene
 	@Override
 	public void terminateScene()
 	{
-		gameView.pause();
-		try
+		gameView.stop();
+		modifyScene(new SceneModificationCallback()
 		{
-			Thread.sleep(200);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-//		modifyScene(new SceneModificationCallback()
-//		{
-//			@Override
-//			public Object call() throws Exception
-//			{
-//
-//				return null;
-//			}
-//		});
-		((FrameLayout) view).removeAllViews();
-		((FrameLayout) view).invalidate();
+			@Override
+			public Object call() throws Exception
+			{
+				((FrameLayout) view).removeAllViews();
+				if (gameView.getParent() != null)
+				{
+					((ViewGroup) gameView.getParent()).removeView(gameView);
+				}
+				view.invalidate();
+				return null;
+			}
+		});
 	}
 
 	private class ViewSetup
@@ -206,6 +206,9 @@ public class GameplayScene extends AbstractScene
 
 		public void setupGameOverView(View gameOverView)
 		{
+			LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+					ViewGroup.LayoutParams.MATCH_PARENT);
+			gameOverView.setLayoutParams(layoutParams);
 			Button mainMenuButton = (Button) gameOverView.findViewById(R.id.mainMenu);
 			mainMenuButton.setOnClickListener(new OnClickListener()
 			{

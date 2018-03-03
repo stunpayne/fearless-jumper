@@ -104,7 +104,8 @@ public abstract class AbstractScene implements Scene
                 }
                 catch (Exception e)
                 {
-                    Log.e("MAIN_ACTIVITY", "Exception occurred while modifying scene");
+                    Log.e("MAIN_ACTIVITY", "Exception occurred while modifying scene: " + e.getMessage());
+                    e.printStackTrace();
                 }
             }
         });
