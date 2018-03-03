@@ -12,7 +12,7 @@ public class Particle
 	public Position position;
 	public Velocity velocity;
 	public long totalLife;
-	public long life;
+	public float life;
 	public float alpha;
 
 	public Particle()
@@ -22,8 +22,10 @@ public class Particle
 
 	public void setVelocity(float angle, float speed)
 	{
+		double angleInRadians = Math.toRadians(angle);
 		this.velocity =
-				new Velocity((float) Math.cosh(angle) * speed, (float) Math.sin(angle) * speed);
+				new Velocity((float) Math.cos(angleInRadians) * speed, -(float) Math.sin
+						(angleInRadians) * speed);
 	}
 
 	public void setPosition(float x, float y)
@@ -37,16 +39,18 @@ public class Particle
 		this.life = life;
 	}
 
+	long time = 0;
+
 	public void update(long delta)
 	{
 		if (life > 0)
 		{
-			position.x += velocity.x * delta;
-			position.y += velocity.y * delta;
+			position.x += velocity.x;
+			position.y += velocity.y;
+
 		}
 
 		alpha = life / totalLife;
-
-		life -= delta;
+		life -= delta/1000000;
 	}
 }
