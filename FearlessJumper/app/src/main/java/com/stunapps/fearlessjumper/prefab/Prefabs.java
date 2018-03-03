@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.prefab;
 
 /**
  * Created by sunny.s on 12/01/18.
+ * Note: This class should not be used before context is initialised
  */
 
 public enum Prefabs

@@ -1,6 +1,8 @@
 package com.stunapps.fearlessjumper.scene;
 
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,7 +43,7 @@ public class GameplayScene extends AbstractScene
 	private View gameOverMenu;
 
 	private ViewSetup viewSetup = new ViewSetup();
-	Handler mainHandler;
+	private Handler mainHandler;
 
 	@Inject
 	public GameplayScene(GameView gameView, EventSystem eventSystem)
@@ -51,7 +53,7 @@ public class GameplayScene extends AbstractScene
 		this.gameView = gameView;
 	}
 
-	//	TODO: Game over visibility updation is intermittent. This needs to be fixed.
+	//	TODO: Game over visibility updating is intermittent. This needs to be fixed.
 	private final BaseEventListener<GameOverEvent> gameOverListener =
 			new BaseEventListener<GameOverEvent>()
 			{
@@ -59,19 +61,13 @@ public class GameplayScene extends AbstractScene
 				public void handleEvent(GameOverEvent event) throws EventException
 				{
 					gameView.stop();
-
-					MainActivity.getInstance().setGameOverVisibility(View.VISIBLE, gameOverMenu,
-							view);
-					Log.d(TAG, "Game Over Menu is shown: " + gameOverMenu.isShown());
-					Log.d(TAG, "Game Over Menu parent : " + gameOverMenu.getParent());
-//					Log.d(TAG, "Game Over Menu visibility: " + gameOverMenu.getVisibility());
+					mainHandler.sendMessage(mainHandler.obtainMessage(Action.SHOW, gameOverMenu));
 				}
 			};
 
 	@Override
 	void setUpScene()
 	{
-		mainHandler = new Handler(Environment.CONTEXT.getMainLooper());
 		view = LayoutInflater.from(Environment.CONTEXT).inflate(R.layout.game_play_container,
 				null);
 		LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
@@ -93,11 +89,39 @@ public class GameplayScene extends AbstractScene
 				((FrameLayout) view).addView(gameView);
 				((FrameLayout) view).addView(hud);
 				((FrameLayout) view).addView(pauseButton);
+				((FrameLayout) view).addView(pauseMenu);
 				((FrameLayout) view).addView(gameOverMenu);
+
 				gameOverMenu.setVisibility(View.GONE);
+				pauseMenu.setVisibility(View.GONE);
+				pauseButton.setVisibility(View.VISIBLE);
+				hud.setVisibility(View.VISIBLE);
+
 				return null;
 			}
 		});
+
+		mainHandler = new Handler(Looper.getMainLooper())
+		{
+			@Override
+			public void handleMessage(Message msg)
+			{
+				Log.d(TAG, "New message received: " + msg);
+				super.handleMessage(msg);
+
+				View view = (View) msg.obj;
+
+				switch (msg.what)
+				{
+					case Action.SHOW:
+						view.setVisibility(View.VISIBLE);
+						break;
+					case Action.HIDE:
+						view.setVisibility(View.GONE);
+						break;
+				}
+			}
+		};
 	}
 
 	@Override
@@ -117,11 +141,12 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public Object call() throws Exception
 				{
-					((FrameLayout) view).removeView(pauseButton);
-					((FrameLayout) view).addView(pauseMenu);
+
 					return null;
 				}
 			});
+			pauseButton.setVisibility(View.GONE);
+			pauseMenu.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -136,12 +161,13 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public Object call() throws Exception
 				{
-					((FrameLayout) view).removeView(pauseMenu);
-					((FrameLayout) view).addView(pauseButton);
+
 					return null;
 				}
 			});
 		}
+		pauseButton.setVisibility(View.VISIBLE);
+		pauseMenu.setVisibility(View.GONE);
 	}
 
 	@Override
