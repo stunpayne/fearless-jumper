@@ -48,15 +48,6 @@ public class SceneManagerImpl implements SceneManager
 		}
 	};
 
-	private BaseEventListener<GameOverEvent> gameOverListener = new BaseEventListener<GameOverEvent>()
-	{
-		@Override
-		public void handleEvent(GameOverEvent event) throws EventException
-		{
-			transitScene(event);
-		}
-	};
-
 	@Inject
 	public SceneManagerImpl(MainMenuScene mainMenuScene, GameplayScene gameplayScene, EventSystem eventSystem, SoundSystem soundSystem)
 	{
@@ -69,7 +60,6 @@ public class SceneManagerImpl implements SceneManager
 		sceneMap.put(gameplayScene.getClass(), gameplayScene);
 
 		eventSystem.registerEventListener(StartGameEvent.class, startGameListener);
-		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		eventSystem.registerEventListener(MainMenuEvent.class, mainMenuListener);
 	}
 
