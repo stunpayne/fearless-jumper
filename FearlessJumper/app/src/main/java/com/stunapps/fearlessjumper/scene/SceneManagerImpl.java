@@ -24,6 +24,7 @@ import java.util.Map;
 
 public class SceneManagerImpl implements SceneManager
 {
+	private static final String TAG = SceneManagerImpl.class.getSimpleName();
 	private final SoundSystem soundSystem;
 
 	private StateMachine<Class<? extends Scene>, Class<? extends BaseEvent>> sceneStateMachine;
@@ -82,10 +83,6 @@ public class SceneManagerImpl implements SceneManager
 						.toState(GameplayScene.class).from(GameplayScene.class)
 						.onEvent(MainMenuEvent.class).toState(MainMenuScene.class).build();
 
-		Scene scene = sceneMap.get(sceneStateMachine.getStartState());
-		scene.setup();
-		scene.play();
-
 		soundSystem.initialise();
 //		soundSystem.loopMusic(Sound.BACKGROUND_MUSIC);
 	}
@@ -98,6 +95,23 @@ public class SceneManagerImpl implements SceneManager
 		{
 			scene.terminate();
 		}
+	}
+
+	@Override
+	public void pause()
+	{
+		Log.i(TAG, "Scene manager pause");
+		sceneMap.get(sceneStateMachine.getCurrentState()).pause();
+	}
+
+	@Override
+	public void resume()
+	{
+		Log.i(TAG, "Scene manager resume");
+		sceneMap.get(sceneStateMachine.getCurrentState()).resume();
+		Scene scene = sceneMap.get(sceneStateMachine.getStartState());
+		scene.setup();
+		scene.play();
 	}
 
 	private void transitScene(GameEvent event)

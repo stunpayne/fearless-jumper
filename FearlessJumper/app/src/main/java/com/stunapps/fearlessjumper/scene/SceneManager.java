@@ -16,4 +16,7 @@ public interface SceneManager
 {
     void initialise();
     void destroy();
+
+    void pause();
+    void resume();
 }

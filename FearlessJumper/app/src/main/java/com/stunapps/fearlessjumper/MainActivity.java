@@ -28,7 +28,10 @@ import static com.stunapps.fearlessjumper.di.DI.di;
 
 public class MainActivity extends Activity
 {
+	private static final String TAG = MainActivity.class.getSimpleName();
 	private static MainActivity instance = null;
+
+	private SceneManager sceneManager;
 
 	/**
 	 * Returns a singleton instance of MainActivity
@@ -99,26 +102,25 @@ public class MainActivity extends Activity
 
 		setupActivityContext();
 
-		Log.d("CONTEXT", "Context hash code: " + this.hashCode());
+		Log.d(TAG, "Context hash code: " + this.hashCode());
 
-		DI.install(new GameModule(this));
-
-		Bitmaps.initialise();
-		di().getInstance(Systems.class).initialise();
-		di().getInstance(SceneManager.class).initialise();
+		initialiseGame();
 	}
 
 	@Override
 	protected void onResume()
 	{
+		Log.i(TAG, "Activity resume");
 		super.onResume();
+		sceneManager.resume();
 	}
 
 	@Override
 	protected void onPause()
 	{
+		Log.i(TAG, "Activity pause");
 		super.onPause();
-
+		sceneManager.pause();
 	}
 
 	@Override
@@ -127,6 +129,17 @@ public class MainActivity extends Activity
 		super.onDestroy();
 		di().getInstance(SceneManager.class).destroy();
 		di().getInstance(Systems.class).reset();
+	}
+
+	private void initialiseGame()
+	{
+		DI.install(new GameModule(this));
+
+		Bitmaps.initialise();
+		di().getInstance(Systems.class).initialise();
+
+		sceneManager = di().getInstance(SceneManager.class);
+		sceneManager.initialise();
 	}
 
 	private void loadView(final View view)
