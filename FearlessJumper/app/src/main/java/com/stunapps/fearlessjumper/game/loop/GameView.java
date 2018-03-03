@@ -35,12 +35,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder)
     {
-        thread = new MainThread(getHolder(), this);
         Environment.INIT_TIME = System.currentTimeMillis();
-
-        thread.setRunning(true);
-        thread.start();
-        int i = 0;
     }
 
     @Override
@@ -52,27 +47,40 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder)
     {
-        boolean retry = true;
-        while (retry)
-        {
-            try
-            {
-                thread.setRunning(false);
-                gameInitializer.destroy();
-                thread.join();
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            retry = false;
-        }
+//        boolean retry = true;
+//        while (retry)
+//        {
+//            try
+//            {
+//                thread.setRunning(false);
+//                thread.join();
+//            }
+//            catch (InterruptedException e)
+//            {
+//                e.printStackTrace();
+//            }
+//            retry = false;
+//        }
 
+    }
+
+    public void start()
+    {
+        try
+        {
+            thread = new MainThread(getHolder(), this);
+            thread.setRunning(true);
+            thread.start();
+            thread.pauseThread();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void pause()
     {
-//        thread.setRunning(false);
         try
         {
             thread.pauseThread();
@@ -85,14 +93,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
     public void resume()
     {
-//        thread.setRunning(true);
         thread.resumeThread();
     }
 
     public void stop()
     {
-        //        thread.setRunning(true);
-        thread.stopThread();
+        try
+        {
+            thread.stopThread();
+            thread.join();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override

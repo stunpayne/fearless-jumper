@@ -50,9 +50,30 @@ public class GameplayScene extends AbstractScene
 		super(R.layout.game_play_container, eventSystem);
 		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		this.gameView = gameView;
+
+		mainHandler = new Handler(Looper.getMainLooper())
+		{
+			@Override
+			public void handleMessage(Message msg)
+			{
+				Log.d(TAG, "New message received: " + msg);
+				super.handleMessage(msg);
+
+				View view = (View) msg.obj;
+
+				switch (msg.what)
+				{
+					case Action.SHOW:
+						view.setVisibility(View.VISIBLE);
+						break;
+					case Action.HIDE:
+						view.setVisibility(View.GONE);
+						break;
+				}
+			}
+		};
 	}
 
-	//	TODO: Game over visibility updating is intermittent. This needs to be fixed.
 	private final BaseEventListener<GameOverEvent> gameOverListener =
 			new BaseEventListener<GameOverEvent>()
 			{
@@ -99,74 +120,41 @@ public class GameplayScene extends AbstractScene
 				return null;
 			}
 		});
-
-		mainHandler = new Handler(Looper.getMainLooper())
-		{
-			@Override
-			public void handleMessage(Message msg)
-			{
-				Log.d(TAG, "New message received: " + msg);
-				super.handleMessage(msg);
-
-				View view = (View) msg.obj;
-
-				switch (msg.what)
-				{
-					case Action.SHOW:
-						view.setVisibility(View.VISIBLE);
-						break;
-					case Action.HIDE:
-						view.setVisibility(View.GONE);
-						break;
-				}
-			}
-		};
 	}
 
 	@Override
 	public void playScene()
 	{
-
+		gameView.start();
 	}
 
 	@Override
 	void pauseScene()
 	{
-		gameView.pause();
+		gameView.stop();
 		if (!pauseMenu.isShown())
 		{
-			modifyScene(new SceneModificationCallback()
-			{
-				@Override
-				public Object call() throws Exception
-				{
-
-					return null;
-				}
-			});
 			pauseButton.setVisibility(View.GONE);
 			pauseMenu.setVisibility(View.VISIBLE);
 		}
 	}
 
 	@Override
+	void stopScene()
+	{
+		gameView.stop();
+	}
+
+	//	TODO: Split into resumeScene and resumeGame?
+	@Override
 	void resumeScene()
 	{
 		gameView.resume();
 		if (pauseMenu.isShown())
 		{
-			modifyScene(new SceneModificationCallback()
-			{
-				@Override
-				public Object call() throws Exception
-				{
-
-					return null;
-				}
-			});
+			pauseButton.setVisibility(View.VISIBLE);
+			pauseMenu.setVisibility(View.GONE);
 		}
-		pauseButton.setVisibility(View.VISIBLE);
-		pauseMenu.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -189,15 +177,25 @@ public class GameplayScene extends AbstractScene
 		});
 	}
 
+	private void pauseGame()
+	{
+		gameView.pause();
+		if (!pauseMenu.isShown())
+		{
+			pauseButton.setVisibility(View.GONE);
+			pauseMenu.setVisibility(View.VISIBLE);
+		}
+	}
+
 	private class ViewSetup
 	{
-		public void setupHud(View hud)
+		void setupHud(View hud)
 		{
 			hud.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT));
 		}
 
-		public void setupPauseButton(View pauseButtonView)
+		void setupPauseButton(View pauseButtonView)
 		{
 			LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -211,12 +209,12 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public void onClick(View v)
 				{
-					pauseScene();
+					pauseGame();
 				}
 			});
 		}
 
-		public void setupPauseMenu(View pauseMenu)
+		void setupPauseMenu(View pauseMenu)
 		{
 			final View resumeButton = pauseMenu.findViewById(R.id.resumeButton);
 			resumeButton.setOnClickListener(new OnClickListener()
@@ -229,7 +227,7 @@ public class GameplayScene extends AbstractScene
 			});
 		}
 
-		public void setupGameOverView(View gameOverView)
+		void setupGameOverView(View gameOverView)
 		{
 			LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.MATCH_PARENT);

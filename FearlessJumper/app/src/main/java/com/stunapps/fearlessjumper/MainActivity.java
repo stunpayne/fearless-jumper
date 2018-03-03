@@ -110,6 +110,14 @@ public class MainActivity extends Activity
 	}
 
 	@Override
+	protected void onStart()
+	{
+		Log.i(TAG, "Activity start");
+		super.onStart();
+		sceneManager.start();
+	}
+
+	@Override
 	protected void onResume()
 	{
 		Log.i(TAG, "Activity resume");
@@ -122,7 +130,18 @@ public class MainActivity extends Activity
 	{
 		Log.i(TAG, "Activity pause");
 		super.onPause();
-		sceneManager.pause();
+		if (!isFinishing())
+		{
+			sceneManager.pause();
+		}
+	}
+
+	@Override
+	protected void onStop()
+	{
+		Log.i(TAG, "Activity stop");
+		super.onStop();
+		sceneManager.stop();
 	}
 
 	@Override

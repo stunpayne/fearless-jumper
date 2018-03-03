@@ -11,22 +11,28 @@ import com.stunapps.fearlessjumper.MainActivity;
 
 public interface Scene
 {
-    void setup();
-    void play();
-    void pause();
-    void resume();
-    void terminate();
+	void setup();
 
-    class ViewLoader
-    {
-        public static void requestViewLoad(View view)
-        {
-            MainActivity.getInstance().getLoadViewCallback(view).call();
-        }
+	void play();
 
-        public static void requestViewLoad(@LayoutRes int layoutResId)
-        {
-            MainActivity.getInstance().getLoadViewCallback(layoutResId).call();
-        }
-    }
+	void pause();
+
+	void resume();
+
+	void stop();
+
+	void terminate();
+
+	class ViewLoader
+	{
+		public static void requestViewLoad(View view)
+		{
+			MainActivity.getInstance().getLoadViewCallback(view).call();
+		}
+
+		public static void requestViewLoad(@LayoutRes int layoutResId)
+		{
+			MainActivity.getInstance().getLoadViewCallback(layoutResId).call();
+		}
+	}
 }

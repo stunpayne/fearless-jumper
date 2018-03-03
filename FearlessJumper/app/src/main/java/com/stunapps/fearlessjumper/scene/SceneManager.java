@@ -14,9 +14,15 @@ import java.util.List;
 
 public interface SceneManager
 {
-    void initialise();
-    void destroy();
+	void initialise();
 
-    void pause();
-    void resume();
+	void destroy();
+
+	void start();
+
+	void stop();
+
+	void pause();
+
+	void resume();
 }

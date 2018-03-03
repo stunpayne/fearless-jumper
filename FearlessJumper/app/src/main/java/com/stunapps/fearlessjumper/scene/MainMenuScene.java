@@ -65,6 +65,12 @@ public class MainMenuScene extends AbstractScene
 	}
 
 	@Override
+	void stopScene()
+	{
+
+	}
+
+	@Override
 	void resumeScene()
 	{
 
