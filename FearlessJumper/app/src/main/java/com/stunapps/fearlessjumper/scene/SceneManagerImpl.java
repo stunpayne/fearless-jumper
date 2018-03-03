@@ -69,7 +69,7 @@ public class SceneManagerImpl implements SceneManager
 		sceneMap.put(gameplayScene.getClass(), gameplayScene);
 
 		eventSystem.registerEventListener(StartGameEvent.class, startGameListener);
-		//eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
+		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		eventSystem.registerEventListener(MainMenuEvent.class, mainMenuListener);
 	}
 

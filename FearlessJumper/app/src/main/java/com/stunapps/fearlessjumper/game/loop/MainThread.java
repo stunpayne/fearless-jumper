@@ -19,8 +19,11 @@ public class MainThread extends Thread
 	private double averageFPS;
 	private final SurfaceHolder surfaceHolder;
 	private GameView gameView;
-	private boolean running;
 	public static Canvas canvas;
+
+	private boolean running;
+	private boolean paused = false;
+	private final Object pauseLock = new Object();
 
 	@Inject
 	public MainThread(SurfaceHolder surfaceHolder, GameView gameView)
@@ -45,66 +48,100 @@ public class MainThread extends Thread
 		long totalTime = 0;
 		long targetTime = 1000 / MAX_FPS;
 
-		while (true)
+		while (running)
 		{
-			if (running)
-			{
-				lastStartTime = startTime;
-				startTime = System.nanoTime();
-				canvas = null;
-				try
-				{
-					canvas = this.surfaceHolder.lockCanvas();
-					Environment.CANVAS = canvas;
-					synchronized (surfaceHolder)
-					{
-						//  Replace with physics, collision, animation systemType updates
-						this.gameView.update((startTime - lastStartTime));
+			synchronized (pauseLock) {
+				if (!running) { // may have changed while waiting to
+					// synchronize on pauseLock
+					break;
+				}
+				if (paused) {
+					try {
+						pauseLock.wait(); // will cause this Thread to block until
+						// another thread calls pauseLock.notifyAll()
+						// Note that calling wait() will
+						// relinquish the synchronized lock that this
+						// thread holds on pauseLock so another thread
+						// can acquire the lock to call notifyAll()
+						// (link with explanation below this code)
+					} catch (InterruptedException ex) {
+						break;
 					}
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-				finally
-				{
-					if (canvas != null)
-					{
-						try
-						{
-							surfaceHolder.unlockCanvasAndPost(canvas);
-						}
-						catch (Exception e)
-						{
-							e.printStackTrace();
-						}
+					if (!running) { // running might have changed since we paused
+						break;
 					}
-				}
-				timeMillis = (System.nanoTime() - startTime) / ONE_MILLION;
-				waitTime = targetTime - timeMillis;
-				try
-				{
-					if (waitTime > 0)
-					{
-						sleep(waitTime);
-					}
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-
-				totalTime += System.nanoTime() - startTime;
-				frameCount++;
-
-				if (frameCount == MAX_FPS)
-				{
-					averageFPS = 1000 / ((totalTime / frameCount) / ONE_MILLION);
-					frameCount = 0;
-					totalTime = 0;
-					Log.w("FPS", "Average: " + averageFPS);
 				}
 			}
+
+			lastStartTime = startTime;
+			startTime = System.nanoTime();
+			canvas = null;
+			try
+			{
+				canvas = this.surfaceHolder.lockCanvas();
+				Environment.CANVAS = canvas;
+				synchronized (surfaceHolder)
+				{
+					//  Replace with physics, collision, animation systemType updates
+					this.gameView.update((startTime - lastStartTime));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				if (canvas != null)
+				{
+					try
+					{
+						surfaceHolder.unlockCanvasAndPost(canvas);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+			timeMillis = (System.nanoTime() - startTime) / ONE_MILLION;
+			waitTime = targetTime - timeMillis;
+			try
+			{
+				if (waitTime > 0)
+				{
+					sleep(waitTime);
+				}
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+
+			totalTime += System.nanoTime() - startTime;
+			frameCount++;
+
+			if (frameCount == MAX_FPS)
+			{
+				averageFPS = 1000 / ((totalTime / frameCount) / ONE_MILLION);
+				frameCount = 0;
+				totalTime = 0;
+				Log.w("FPS", "Average: " + averageFPS);
+			}
+		}
+	}
+
+	public void pauseThread() throws InterruptedException
+	{
+		// you may want to throw an IllegalStateException if !running
+		paused = true;
+	}
+
+	public void resumeThread()
+	{
+		synchronized (pauseLock) {
+			paused = false;
+			pauseLock.notifyAll(); // Unblocks thread
 		}
 	}
 }

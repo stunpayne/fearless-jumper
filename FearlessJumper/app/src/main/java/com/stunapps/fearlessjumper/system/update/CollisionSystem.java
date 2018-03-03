@@ -367,13 +367,13 @@ public class CollisionSystem implements UpdateSystem
 
         private static void move(Position position, float x, float y)
         {
-            Log.d("CollisionSystem", "Delta-> x: " + x + ", y: " + y);
-            Log.d("CollisionSystem", "Before-> x: " + position.x + ", y: " + position.y);
+            Log.v("CollisionSystem", "Delta-> x: " + x + ", y: " + y);
+            Log.v("CollisionSystem", "Before-> x: " + position.x + ", y: " + position.y);
 
             position.x += x;
             position.y += y;
 
-            Log.d("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
+            Log.v("CollisionSystem", "After-> x: " + position.x + ", y: " + position.y);
         }
     }
 

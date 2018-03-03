@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.scene;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,6 +133,15 @@ public class GameplayScene extends AbstractScene
 	@Override
 	public void terminateScene()
 	{
+		gameView.pause();
+		try
+		{
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 		((FrameLayout) view).removeAllViews();
 		((FrameLayout) view).invalidate();
 	}
@@ -184,6 +194,7 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public void onClick(View v)
 				{
+					Log.d("BUTTON", "Back to Main menu pressed");
 					eventSystem.raiseEvent(new MainMenuEvent());
 				}
 			});
@@ -194,6 +205,7 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public void onClick(View v)
 				{
+					Log.d("BUTTON", "Restart game pressed");
 					eventSystem.raiseEvent(new StartGameEvent());
 				}
 			});
