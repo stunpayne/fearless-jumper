@@ -19,9 +19,9 @@ public class FuelSystem implements UpdateSystem
 {
 	private static final String TAG = "Fuel";
 	private static long lastProcessTime = 0;
-	private static float ONE_SECOND_REFUEL_AMOUNT = 8f;
-	private static float MAX_FUEL = 100f;
-	private static float MIN_FUEL = 0f;
+	private static final float ONE_SECOND_REFUEL_AMOUNT = 8f;
+	private static final float MAX_FUEL = 100f;
+	private static final float MIN_FUEL = 0f;
 
 	private final ComponentManager componentManager;
 
@@ -69,9 +69,6 @@ public class FuelSystem implements UpdateSystem
 	public void reset()
 	{
 		lastProcessTime = 0;
-		ONE_SECOND_REFUEL_AMOUNT = 8f;
-		MAX_FUEL = 100f;
-		MIN_FUEL = 0f;
 	}
 
 	private void refuel(Fuel fuel, long deltaTime)

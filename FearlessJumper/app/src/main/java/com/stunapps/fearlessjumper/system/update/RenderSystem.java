@@ -53,8 +53,6 @@ public class RenderSystem implements UpdateSystem
 	private ParallaxBackground background;
 	private Paint bgPaint = new Paint();
 
-	private Handler handler = new Handler();
-
 	@Inject
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
@@ -100,8 +98,6 @@ public class RenderSystem implements UpdateSystem
 	{
 		lastProcessTime = System.nanoTime();
 		canvas = null;
-		bgPaint = new Paint();
-		handler = new Handler();
 	}
 
 	public static Rect getRenderRect(Entity entity)

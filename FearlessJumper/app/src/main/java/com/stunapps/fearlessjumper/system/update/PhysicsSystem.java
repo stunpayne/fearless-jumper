@@ -76,7 +76,7 @@ public class PhysicsSystem implements UpdateSystem
 	@Override
 	public void reset()
 	{
-		lastProcessTime = System.nanoTime();
+		lastProcessTime = 0;
 	}
 
 	private void applyGravity(Entity entity, long deltaTime)

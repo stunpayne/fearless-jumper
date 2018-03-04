@@ -18,6 +18,9 @@ public class Entity
     private final int id;
     public Transform transform;
 
+//    private List<Entity> children;
+//    private Entity parent;
+
     private ComponentManager componentManager;
     private EntityManager entityManager;
 
@@ -58,7 +61,6 @@ public class Entity
     public void delete()
     {
         entityManager.deleteEntity(this);
-        componentManager.deleteEntity(this);
     }
 
     public int getId()

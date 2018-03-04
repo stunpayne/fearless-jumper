@@ -20,7 +20,7 @@ public class ClockCountdownSystem implements UpdateSystem
 	private final ComponentManager componentManager;
 
 	private static long lastProcessTime = 0;
-	private static long ONE_SECOND = 1;
+	private static final long ONE_SECOND = 1;
 
 	@Inject
 	public ClockCountdownSystem(ComponentManager componentManager)
@@ -52,6 +52,5 @@ public class ClockCountdownSystem implements UpdateSystem
 	public void reset()
 	{
 		lastProcessTime = 0;
-		ONE_SECOND = 1;
 	}
 }

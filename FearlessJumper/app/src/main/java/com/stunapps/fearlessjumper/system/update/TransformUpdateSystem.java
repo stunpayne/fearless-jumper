@@ -54,7 +54,7 @@ public class TransformUpdateSystem implements UpdateSystem
 	@Override
 	public void reset()
 	{
-		lastProcessTime = System.nanoTime();
+		lastProcessTime = 0;
 	}
 
 	private void movePlayerTransform(Transform transform, Velocity velocity,

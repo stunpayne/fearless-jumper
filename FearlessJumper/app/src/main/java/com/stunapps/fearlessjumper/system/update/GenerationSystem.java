@@ -115,16 +115,14 @@ public class GenerationSystem implements UpdateSystem
 			//	TODO: Change platformWidth to spawnObstacle width
 			Position spawnPosition =
 					new Position((float) Math.random() * (Device.SCREEN_WIDTH - platformWidth),
-								 topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
+							topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
 			Entity newObstacle =
 					entityManager.instantiate(spawnPrefab, new Transform(spawnPosition));
 			activeObstacles.add(newObstacle);
 
 			Log.i("NEW_OBSTACLE",
-				  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
-						  spawnPosition +
-						  " of type: " +
-						  (newObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
+					"Created new obstacle with id: " + newObstacle.getId() + " at:" + " " +
+							spawnPosition);
 			Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
 		}
 	}
