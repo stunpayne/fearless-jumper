@@ -14,7 +14,7 @@ public class RotationalEmitter extends BaseEmitter
 {
 	public RotationalEmitter()
 	{
-		super(RotationalEmitter.class, 20, 6000l, 0);
+		super(RotationalEmitter.class, 1, 6000l, 0);
 	}
 
 	@Override
@@ -26,8 +26,8 @@ public class RotationalEmitter extends BaseEmitter
 		for (Particle particle : particles)
 		{
 			particle.setPosition(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
-			particle.setVelocity(angle, 0.001f);
-			particle.setAcceleration(90, 0.5f);
+			particle.setVelocity(angle, 1f);
+			particle.setAcceleration(90, 1f);
 			angle += angleDelta;
 			angle = angle % 360;
 		}
