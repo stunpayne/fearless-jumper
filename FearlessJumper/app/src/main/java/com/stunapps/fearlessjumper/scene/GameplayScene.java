@@ -153,10 +153,7 @@ public class GameplayScene extends AbstractScene
 	@Override
 	void resumeScene()
 	{
-		if (gameView.isPaused())
-		{
-			gameView.resume();
-		}
+		gameView.resume();
 		if (pauseMenu.isShown())
 		{
 			pauseButton.setVisibility(View.VISIBLE);

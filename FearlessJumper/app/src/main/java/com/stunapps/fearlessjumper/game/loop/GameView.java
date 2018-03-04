@@ -32,8 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 */
 	private MainThread previousThread;
 
-	@Getter
-	private boolean paused = true;
+	private boolean waitingForExplicitResume = false;
 
 	private boolean surfaceCreated = false;
 
@@ -53,6 +52,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		Log.i(TAG, "Surface created");
 		Environment.INIT_TIME = System.currentTimeMillis();
 		surfaceCreated = true;
+		if (!waitingForExplicitResume)
+		{
+			thread.resumeThread();
+		}
 	}
 
 	@Override
@@ -111,20 +114,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		{
 			e.printStackTrace();
 		}
-
-		paused = true;
 	}
 
 	public void resume()
 	{
-		paused = false;
-		thread.resumeThread();
+		if (surfaceCreated)
+		{
+			Log.i(TAG, "Resuming thread");
+			thread.resumeThread();
+		}
 	}
 
 	public void stop()
 	{
 		thread.stopThread();
 		previousThread = thread;
+
+		waitingForExplicitResume = true;
 	}
 
 	public void terminate()
@@ -137,9 +143,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		{
 			e.printStackTrace();
 		}
-		paused = true;
 		Systems.reset();
 		gameInitializer.destroy();
+
+		waitingForExplicitResume = false;
 	}
 
 	@Override
@@ -153,8 +160,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	public void update(long deltaTime)
 	{
-//		if (surfaceCreated)
-//		{
+		if (surfaceCreated)
+		{
 			if (!gameInitializer.isInitialized())
 			{
 				Log.d(TAG, "update: start time = " + System.currentTimeMillis());
@@ -165,7 +172,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			Systems.process(deltaTime);
 
 			postInvalidate();
-//		}
+		}
 	}
 
 	@Override

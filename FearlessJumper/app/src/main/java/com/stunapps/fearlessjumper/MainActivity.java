@@ -147,6 +147,7 @@ public class MainActivity extends Activity
 	@Override
 	protected void onDestroy()
 	{
+		Log.i(TAG, "Activity destroy");
 		super.onDestroy();
 		di().getInstance(SceneManager.class).destroy();
 		di().getInstance(Systems.class).reset();
