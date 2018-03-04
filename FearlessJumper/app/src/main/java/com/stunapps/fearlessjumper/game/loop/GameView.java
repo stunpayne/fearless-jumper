@@ -20,138 +20,151 @@ import lombok.Getter;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
-    private final static String TAG = GameView.class.getSimpleName();
-    private MainThread thread;
-    private GameInitializer gameInitializer;
+	private final static String TAG = GameView.class.getSimpleName();
+	private GameInitializer gameInitializer;
 
-    @Getter
-    private boolean paused = true;
+	private MainThread thread;
 
-    @Inject
-    public GameView(Context context, GameInitializer gameInitializer)
-    {
-        super(context);
-        this.gameInitializer = gameInitializer;
+	/*
+		When main thread is stopped, it is not joined immediately as the join, if called
+		from inside the thread run, will lead to inconsistent state. Hence, this variable
+		is used to track the previous thread and join it during the next start operation.
+	 */
+	private MainThread previousThread;
 
-        getHolder().addCallback(this);
-        setFocusable(true);
-    }
+	@Getter
+	private boolean paused = true;
 
-    @Override
-    public void surfaceCreated(SurfaceHolder surfaceHolder)
-    {
-        Log.i(TAG, "Surface created");
-        Environment.INIT_TIME = System.currentTimeMillis();
-    }
+	@Inject
+	public GameView(Context context, GameInitializer gameInitializer)
+	{
+		super(context);
+		this.gameInitializer = gameInitializer;
 
-    @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2)
-    {
+		getHolder().addCallback(this);
+		setFocusable(true);
+	}
 
-    }
+	@Override
+	public void surfaceCreated(SurfaceHolder surfaceHolder)
+	{
+		Log.i(TAG, "Surface created");
+		Environment.INIT_TIME = System.currentTimeMillis();
+	}
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder)
-    {
-//        boolean retry = true;
-//        while (retry)
-//        {
-//            try
-//            {
-//                thread.setRunning(false);
-//                thread.join();
-//            }
-//            catch (InterruptedException e)
-//            {
-//                e.printStackTrace();
-//            }
-//            retry = false;
-//        }
+	@Override
+	public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2)
+	{
 
-    }
+	}
 
-    public void start()
-    {
-        try
-        {
-            thread = new MainThread(getHolder(), this);
-            thread.setRunning(true);
-            thread.start();
-            thread.pauseThread();
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void surfaceDestroyed(SurfaceHolder surfaceHolder)
+	{
+		//        boolean retry = true;
+		//        while (retry)
+		//        {
+		//            try
+		//            {
+		//                thread.setRunning(false);
+		//                thread.join();
+		//            }
+		//            catch (InterruptedException e)
+		//            {
+		//                e.printStackTrace();
+		//            }
+		//            retry = false;
+		//        }
 
-    public void pause()
-    {
-        try
-        {
-            thread.pauseThread();
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+	}
 
-        paused = true;
-    }
+	public void start()
+	{
+		try
+		{
+			if (previousThread != null)
+			{
+				previousThread.join();
+			}
 
-    public void resume()
-    {
-        paused = false;
-        thread.resumeThread();
-    }
+			thread = new MainThread(getHolder(), this);
+			thread.setRunning(true);
+			thread.start();
+			thread.pauseThread();
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}
 
-    public void stop()
-    {
+	public void pause()
+	{
+		try
+		{
+			thread.pauseThread();
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+
+		paused = true;
+	}
+
+	public void resume()
+	{
+		paused = false;
+		thread.resumeThread();
+	}
+
+	public void stop()
+	{
 		thread.stopThread();
-    }
+		previousThread = thread;
+	}
 
-    public void terminate()
-    {
-        try
-        {
-            thread.join();
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-        paused = true;
-        gameInitializer.destroy();
-    }
+	public void terminate()
+	{
+		try
+		{
+			thread.join();
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		paused = true;
+		gameInitializer.destroy();
+	}
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        //  Call Input System
-        Systems.processInput(event);
-        return true;
-    }
+	@Override
+	public boolean onTouchEvent(MotionEvent event)
+	{
+		//  Call Input System
+		Systems.processInput(event);
+		return true;
+	}
 
 
+	public void update(long deltaTime)
+	{
+		if (!gameInitializer.isInitialized())
+		{
+			Log.d(TAG, "update: start time = " + System.currentTimeMillis());
+			gameInitializer.initialize();
+			Log.d(TAG, "update: end time = " + System.currentTimeMillis());
+			int i = 0;
+		}
 
-    public void update(long deltaTime)
-    {
-        if (!gameInitializer.isInitialized())
-        {
-            Log.d(TAG, "update: start time = "+System.currentTimeMillis());
-            gameInitializer.initialize();
-            Log.d(TAG, "update: end time = "+System.currentTimeMillis());
-            int i = 0;
-        }
+		Systems.process(deltaTime);
 
-        Systems.process(deltaTime);
+		postInvalidate();
+	}
 
-        postInvalidate();
-    }
-
-    @Override
-    public void draw(Canvas canvas)
-    {
-        super.draw(canvas);
-    }
+	@Override
+	public void draw(Canvas canvas)
+	{
+		super.draw(canvas);
+	}
 }
