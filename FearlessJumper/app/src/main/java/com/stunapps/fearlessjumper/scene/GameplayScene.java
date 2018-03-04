@@ -84,6 +84,7 @@ public class GameplayScene extends AbstractScene
 				public void handleEvent(GameOverEvent event) throws EventException
 				{
 					mainHandler.sendMessage(mainHandler.obtainMessage(Action.SHOW, gameOverMenu));
+					mainHandler.sendMessage(mainHandler.obtainMessage(Action.HIDE, pauseButton));
 					mainHandler.sendMessage(mainHandler.obtainMessage(Action.KILL));
 //					gameView.stop();
 				}
