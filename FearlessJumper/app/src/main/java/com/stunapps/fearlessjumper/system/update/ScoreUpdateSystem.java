@@ -56,14 +56,15 @@ public class ScoreUpdateSystem implements UpdateSystem
 
 	private void updateScore(Entity player)
 	{
-		if (topPlayerPosition != null && topPlayerPosition.isBelow(player.transform.position))
+		Position playerPosition = player.transform.position;
+		if (topPlayerPosition != null && topPlayerPosition.isBelow(playerPosition))
 		{
-			float topPosDiff = player.transform.position.y - topPlayerPosition.y;
+			float topPosDiff = playerPosition.y - topPlayerPosition.y;
 			float scoreIncrease = Math.abs(SCORE_MULTIPLIER * topPosDiff);
 			player.getComponent(Score.class).addScore(scoreIncrease);
-			player.transform.position.copyTo(topPlayerPosition);
+			playerPosition.copyTo(topPlayerPosition);
 		}
 
-		if (topPlayerPosition == null) topPlayerPosition = new Position(player.transform.position);
+		if (topPlayerPosition == null) topPlayerPosition = new Position(playerPosition);
 	}
 }
