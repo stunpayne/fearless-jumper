@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.particle;
 
+import android.util.Log;
+
 import com.stunapps.fearlessjumper.helper.Environment.Constants;
 import com.stunapps.fearlessjumper.model.Acceleration;
 import com.stunapps.fearlessjumper.model.Position;
@@ -11,6 +13,7 @@ import com.stunapps.fearlessjumper.model.Velocity;
 
 public class Particle
 {
+	private static final String TAG = Particle.class.getSimpleName();
 	public boolean isActive;
 	public Position position;
 	public Velocity velocity;
@@ -86,6 +89,7 @@ public class Particle
 		lifeTimer -= delta / Constants.ONE_MILLION;
 		if (lifeTimer > 0)
 		{
+			Log.d(TAG, "velocityAngle: " + velocityAngle);
 			position.x += velocity.x;
 			position.y += velocity.y;
 
@@ -99,7 +103,7 @@ public class Particle
 
 
 
-			alpha = lifeTimer / life;//calcAlpha();
+			alpha = 1;//lifeTimer / life;//calcAlpha();
 			isActive = true;
 			return true;
 		}
@@ -114,8 +118,21 @@ public class Particle
 
 	public static float getAngle(float x, float y)
 	{
-		return (float)(1.5 * Math.PI - Math.atan2(y,x)); //note the atan2 call, the order of
+		//return (float)(1.5 * Math.PI - Math.atan2(y,x)); //note the atan2 call, the order of
+		return (float)Math.toDegrees(Math.atan2(-y, x));
 		// paramers is y then x
+	}
+
+	public static void main(String[] args)
+	{
+		float speed = 3;
+		float angle = -30;
+
+		float x = (float)Math.cos(Math.toRadians(30))*speed;
+		float y = (float)Math.sin(Math.toRadians(30))*speed;
+
+		System.out.println("angle = " + Math.toDegrees(Math.atan2(y, x)));
+		System.out.println("angle v2 = " + getAngle(y, x));
 	}
 
 	private float calcAlpha()
