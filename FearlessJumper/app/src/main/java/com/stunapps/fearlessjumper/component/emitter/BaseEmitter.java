@@ -103,7 +103,7 @@ abstract public class BaseEmitter extends Emitter
 			if (!particle.update(delta))
 			{
 				iterator.remove();
-				particlePool.returnObject(particle);
+				destroyParticle(particle);
 			}
 		}
 	}
@@ -115,9 +115,9 @@ abstract public class BaseEmitter extends Emitter
 	}
 
 	@Override
-	public void destroy()
+	public void destroyParticle(Particle particleToDestroy)
 	{
-
+		particlePool.returnObject(particleToDestroy);
 	}
 
 	protected void releaseParticle(){

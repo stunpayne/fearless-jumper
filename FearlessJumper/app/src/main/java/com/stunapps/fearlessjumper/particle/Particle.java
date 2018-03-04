@@ -25,11 +25,17 @@ public class Particle
 		this.isActive = false;
 	}
 
-	public void setVelocity(float angle, float speed)
+	public void scaleVelocity(float angle, float speed)
 	{
 		double angleInRadians = Math.toRadians(angle);
 		this.velocity = new Velocity((float) Math.cos(angleInRadians) * speed,
 									 -(float) Math.sin(angleInRadians) * speed);
+	}
+
+	public void scaleVelocity(float scaleFactor)
+	{
+		this.velocity.x *= scaleFactor;
+		this.velocity.y *= scaleFactor;
 	}
 
 	public void setPosition(float x, float y)
@@ -65,7 +71,7 @@ public class Particle
 		{
 			position.x += velocity.x;
 			position.y += velocity.y;
-			alpha = life / totalLife;
+			alpha = calcAlpha();
 			isActive = true;
 			return true;
 		}
@@ -76,5 +82,14 @@ public class Particle
 			isActive = false;
 			return false;
 		}
+	}
+
+	private float calcAlpha()
+	{
+		if (life < 2 * totalLife / 5)
+		{
+			return 2 * life/totalLife;
+		}
+		return 1;
 	}
 }

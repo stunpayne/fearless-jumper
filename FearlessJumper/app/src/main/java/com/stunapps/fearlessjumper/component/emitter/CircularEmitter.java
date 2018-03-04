@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.particle.Particle;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ public class CircularEmitter extends BaseEmitter
 {
 	public CircularEmitter()
 	{
-		super(CircularEmitter.class, 100, 4000l, 1000l);
+		super(CircularEmitter.class, 20, 1000l, 0);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class CircularEmitter extends BaseEmitter
 		{
 			particle.setPosition(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
 
-			particle.setVelocity(angle, 1f);
+			particle.scaleVelocity(angle, 20f);
 			angle += angleDelta;
 			angle = angle % 360;
 		}
@@ -48,7 +48,24 @@ public class CircularEmitter extends BaseEmitter
 	@Override
 	public void update(long delta)
 	{
-		super.update(delta);
+		Iterator<Particle> iterator = particles.iterator();
+		while (iterator.hasNext())
+		{
+			Particle particle = iterator.next();
+			boolean aliveAfterUpdate = particle.update(delta);
+			if (aliveAfterUpdate)
+			{
+				if (particle.life < 97 * particle.totalLife / 100)
+				{
+					particle.scaleVelocity(0.8f);
+				}
+			}
+			else
+			{
+				iterator.remove();
+				destroyParticle(particle);
+			}
+		}
 	}
 
 	public void drawParticles(Canvas canvas)

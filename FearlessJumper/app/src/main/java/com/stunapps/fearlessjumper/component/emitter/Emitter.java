@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.particle.Particle;
 
 /**
  * Created by anand.verma on 02/03/18.
@@ -16,5 +17,5 @@ abstract public class Emitter extends Component
 	abstract void init();
 	abstract void update(long delta);
 	abstract void getBitmap();
-	abstract void destroy();
+	abstract void destroyParticle(Particle particleToDestroy);
 }
