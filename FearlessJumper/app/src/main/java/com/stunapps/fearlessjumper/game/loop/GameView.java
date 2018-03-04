@@ -35,6 +35,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	@Getter
 	private boolean paused = true;
 
+	private boolean surfaceCreated = false;
+
 	@Inject
 	public GameView(Context context, GameInitializer gameInitializer)
 	{
@@ -50,6 +52,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		Log.i(TAG, "Surface created");
 		Environment.INIT_TIME = System.currentTimeMillis();
+		surfaceCreated = true;
 	}
 
 	@Override
@@ -75,7 +78,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		//            }
 		//            retry = false;
 		//        }
-
+		surfaceCreated = false;
 	}
 
 	public void start()
@@ -89,8 +92,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 			thread = new MainThread(getHolder(), this);
 			thread.setRunning(true);
-			thread.start();
 			thread.pauseThread();
+			thread.start();
 		}
 		catch (InterruptedException e)
 		{
@@ -135,6 +138,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			e.printStackTrace();
 		}
 		paused = true;
+		Systems.reset();
 		gameInitializer.destroy();
 	}
 
@@ -149,17 +153,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	public void update(long deltaTime)
 	{
-		if (!gameInitializer.isInitialized())
-		{
-			Log.d(TAG, "update: start time = " + System.currentTimeMillis());
-			gameInitializer.initialize();
-			Log.d(TAG, "update: end time = " + System.currentTimeMillis());
-			int i = 0;
-		}
+//		if (surfaceCreated)
+//		{
+			if (!gameInitializer.isInitialized())
+			{
+				Log.d(TAG, "update: start time = " + System.currentTimeMillis());
+				gameInitializer.initialize();
+				Log.d(TAG, "update: end time = " + System.currentTimeMillis());
+			}
 
-		Systems.process(deltaTime);
+			Systems.process(deltaTime);
 
-		postInvalidate();
+			postInvalidate();
+//		}
 	}
 
 	@Override

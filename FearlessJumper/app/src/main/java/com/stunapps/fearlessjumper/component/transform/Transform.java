@@ -37,7 +37,7 @@ public class Transform extends Component
     @Override
     public Transform clone() throws CloneNotSupportedException
     {
-        return new Transform(position, rotation, scale);
+        return new Transform(new Position(position), new Rotation(rotation), new Scale(scale));
     }
 
     @ToString
@@ -50,6 +50,11 @@ public class Transform extends Component
         public Rotation()
         {
             azimuth = 0;
+        }
+
+        public Rotation(Rotation other)
+        {
+            this.azimuth = other.azimuth;
         }
 
         public Rotation(float azimuth)
@@ -69,6 +74,12 @@ public class Transform extends Component
         public Scale()
         {
             x = y = 1;
+        }
+
+        public Scale(Scale other)
+        {
+            this.x = other.x;
+            this.y = other.y;
         }
 
         public Scale(float x, float y)

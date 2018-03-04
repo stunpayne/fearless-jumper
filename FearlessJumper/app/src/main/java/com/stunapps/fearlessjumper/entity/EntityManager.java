@@ -37,25 +37,26 @@ public class EntityManager
 		return entity;
 	}
 
-    public Entity instantiate(Prefab prefab)
-    {
-        Entity entity = new Entity(componentManager, this, prefab.transform, rand.nextInt());
-        entityMap.put(entity.getId(), entity);
-        for (Component component : prefab.components)
-        {
-            try
-            {
-                Component clone = component.clone();
-                entity.addComponent(clone);
-                clone.setEntity(entity);
-            }
-            catch (CloneNotSupportedException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return entity;
-    }
+	public Entity instantiate(Prefab prefab)
+	{
+		Entity entity = null;
+		try
+		{
+			entity = new Entity(componentManager, this, prefab.transform.clone(), rand.nextInt());
+			entityMap.put(entity.getId(), entity);
+			for (Component component : prefab.components)
+			{
+				Component clone = component.clone();
+				entity.addComponent(clone);
+				clone.setEntity(entity);
+			}
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
+		return entity;
+	}
 
 	public Entity instantiate(Prefab prefab, Transform transform)
 	{
