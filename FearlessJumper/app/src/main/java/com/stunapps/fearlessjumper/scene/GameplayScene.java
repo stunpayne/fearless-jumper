@@ -124,6 +124,8 @@ public class GameplayScene extends AbstractScene
 				return null;
 			}
 		});
+
+		gameView.prepareForStart();
 	}
 
 	@Override
@@ -136,7 +138,7 @@ public class GameplayScene extends AbstractScene
 	void pauseScene()
 	{
 		gameView.stop();
-		if (!pauseMenu.isShown())
+		if (!pauseMenu.isShown() && !gameOverMenu.isShown())
 		{
 			pauseButton.setVisibility(View.GONE);
 			pauseMenu.setVisibility(View.VISIBLE);

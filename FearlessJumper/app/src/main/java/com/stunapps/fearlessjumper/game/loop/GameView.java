@@ -84,6 +84,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		surfaceCreated = false;
 	}
 
+	public void prepareForStart()
+	{
+		waitingForExplicitResume = false;
+	}
+
 	public void start()
 	{
 		try
