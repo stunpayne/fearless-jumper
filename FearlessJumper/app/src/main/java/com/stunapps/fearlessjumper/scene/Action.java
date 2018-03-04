@@ -8,4 +8,6 @@ public class Action
 {
 	public static final int SHOW = 0;
 	public static final int HIDE = 1;
+
+	public static final int KILL = 2;
 }

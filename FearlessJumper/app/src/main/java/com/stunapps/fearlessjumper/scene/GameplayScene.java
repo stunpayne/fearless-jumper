@@ -45,7 +45,7 @@ public class GameplayScene extends AbstractScene
 	private Handler mainHandler;
 
 	@Inject
-	public GameplayScene(GameView gameView, EventSystem eventSystem)
+	public GameplayScene(final GameView gameView, EventSystem eventSystem)
 	{
 		super(R.layout.game_play_container, eventSystem);
 		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
@@ -69,6 +69,9 @@ public class GameplayScene extends AbstractScene
 					case Action.HIDE:
 						view.setVisibility(View.GONE);
 						break;
+					case Action.KILL:
+						gameView.stop();
+						gameView.terminate();
 				}
 			}
 		};
@@ -80,8 +83,9 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public void handleEvent(GameOverEvent event) throws EventException
 				{
-					gameView.stop();
 					mainHandler.sendMessage(mainHandler.obtainMessage(Action.SHOW, gameOverMenu));
+					mainHandler.sendMessage(mainHandler.obtainMessage(Action.KILL));
+//					gameView.stop();
 				}
 			};
 
@@ -149,7 +153,10 @@ public class GameplayScene extends AbstractScene
 	@Override
 	void resumeScene()
 	{
-		gameView.resume();
+		if (gameView.isPaused())
+		{
+			gameView.resume();
+		}
 		if (pauseMenu.isShown())
 		{
 			pauseButton.setVisibility(View.VISIBLE);
@@ -160,7 +167,7 @@ public class GameplayScene extends AbstractScene
 	@Override
 	public void terminateScene()
 	{
-		gameView.stop();
+//		gameView.terminate();
 		modifyScene(new SceneModificationCallback()
 		{
 			@Override
@@ -184,6 +191,16 @@ public class GameplayScene extends AbstractScene
 		{
 			pauseButton.setVisibility(View.GONE);
 			pauseMenu.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void resumeGame()
+	{
+		gameView.resume();
+		if (pauseMenu.isShown())
+		{
+			pauseButton.setVisibility(View.VISIBLE);
+			pauseMenu.setVisibility(View.GONE);
 		}
 	}
 
@@ -222,7 +239,7 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public void onClick(View v)
 				{
-					resumeScene();
+					resumeGame();
 				}
 			});
 		}

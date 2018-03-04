@@ -12,15 +12,20 @@ import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.system.Systems;
 
+import lombok.Getter;
+
 /**
  * Created by sunny.s on 10/01/18.
  */
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
-    private final static String TAG = "GameView";
+    private final static String TAG = GameView.class.getSimpleName();
     private MainThread thread;
     private GameInitializer gameInitializer;
+
+    @Getter
+    private boolean paused = true;
 
     @Inject
     public GameView(Context context, GameInitializer gameInitializer)
@@ -35,6 +40,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder)
     {
+        Log.i(TAG, "Surface created");
         Environment.INIT_TIME = System.currentTimeMillis();
     }
 
@@ -89,24 +95,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         {
             e.printStackTrace();
         }
+
+        paused = true;
     }
 
     public void resume()
     {
+        paused = false;
         thread.resumeThread();
     }
 
     public void stop()
     {
+		thread.stopThread();
+    }
+
+    public void terminate()
+    {
         try
         {
-            thread.stopThread();
             thread.join();
         }
         catch (InterruptedException e)
         {
             e.printStackTrace();
         }
+        paused = true;
+        gameInitializer.destroy();
     }
 
     @Override
