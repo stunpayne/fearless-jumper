@@ -39,7 +39,7 @@ public class CircularEmitter extends BaseEmitter
 		{
 			particle.setPosition(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
 
-			particle.scaleVelocity(angle, 20f);
+			particle.setVelocity(angle, 20f);
 			angle += angleDelta;
 			angle = angle % 360;
 		}
@@ -55,7 +55,7 @@ public class CircularEmitter extends BaseEmitter
 			boolean aliveAfterUpdate = particle.update(delta);
 			if (aliveAfterUpdate)
 			{
-				if (particle.life < 97 * particle.totalLife / 100)
+				if (particle.lifeTimer < 97 * particle.life / 100)
 				{
 					particle.scaleVelocity(0.8f);
 				}
@@ -64,26 +64,6 @@ public class CircularEmitter extends BaseEmitter
 			{
 				iterator.remove();
 				destroyParticle(particle);
-			}
-		}
-	}
-
-	public void drawParticles(Canvas canvas)
-	{
-		Paint fuelTextPaint = new Paint();
-		fuelTextPaint.setColor(Color.WHITE);
-		fuelTextPaint.setTextAlign(Align.CENTER);
-		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
-		fuelTextPaint.setTextSize(50);
-		//fuelTextPaint.setAlpha(255);
-
-		for (Particle particle : particles)
-		{
-			fuelTextPaint.setAlpha((int) (255 * particle.alpha));
-			if (particle.isActive)
-			{
-				canvas.drawCircle(particle.position.x, particle.position.y, 5, fuelTextPaint);
-				//canvas.drawPoint(particle.position.x, particle.position.y, fuelTextPaint);
 			}
 		}
 	}

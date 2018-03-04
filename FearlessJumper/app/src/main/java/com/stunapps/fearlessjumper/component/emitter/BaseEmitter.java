@@ -1,5 +1,11 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Typeface;
+
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.particle.Particle;
@@ -19,44 +25,42 @@ abstract public class BaseEmitter extends Emitter
 
 	@Inject
 	private ParticlePool particlePool;
-	private long totalParticleCount;
+	private long particlesCount;
 	private long particleLife;
 	private long emissionInterval;
-
-	private long batchSize; //Number of particles in single emission.
-
+	private long clusterSize;
 	protected List<Particle> particles;
 
-	public BaseEmitter(Class<? extends Component> componentType, int totalParticleCount,
+	public BaseEmitter(Class<? extends Component> componentType, int particlesCount,
 			long particleLife, long emissionInterval)
 	{
 		super(componentType);
-		this.totalParticleCount = totalParticleCount;
+		this.particlesCount = particlesCount;
 		this.particleLife = particleLife;
 		this.emissionInterval = emissionInterval;
 		if (emissionInterval > 0)
 		{
-			this.batchSize = totalParticleCount / (particleLife / emissionInterval);
+			this.clusterSize = particlesCount / (particleLife / emissionInterval);
 		}
 		else
 		{
-			this.batchSize = totalParticleCount;
+			this.clusterSize = particlesCount;
 		}
 		this.particles = new LinkedList<>();
 	}
 
 	private List<Particle> getParticleCluster()
 	{
-		List<Particle> particlesCluster = new LinkedList<>();
-		for (int i = 0; i < batchSize && (this.particles.size() < totalParticleCount); i++)
+		List<Particle> particleCluster = new LinkedList<>();
+		for (int i = 0; i < clusterSize && (this.particles.size() < particlesCount); i++)
 		{
 			Particle particle = particlePool.getObject();
 			particle.waitTime =
-					emissionInterval * (this.particles.size() / batchSize);
-			particle.setLife(particleLife);
-			particlesCluster.add(particle);
+					emissionInterval * (this.particles.size() / clusterSize);
+			particle.setLifeTimer(particleLife);
+			particleCluster.add(particle);
 		}
-		return particlesCluster;
+		return particleCluster;
 	}
 
 	private void addParticles(List<Particle> particles)
@@ -82,7 +86,7 @@ abstract public class BaseEmitter extends Emitter
 		while (iterator.hasNext())
 		{
 			Particle particle = iterator.next();
-			if (particle.life <= 0)
+			if (particle.lifeTimer <= 0)
 			{
 				particle.isActive = false;
 				iterator.remove();
@@ -128,5 +132,25 @@ abstract public class BaseEmitter extends Emitter
 	public Component clone() throws CloneNotSupportedException
 	{
 		return null;
+	}
+
+	public void drawParticles(Canvas canvas)
+	{
+		Paint fuelTextPaint = new Paint();
+		fuelTextPaint.setColor(Color.WHITE);
+		fuelTextPaint.setTextAlign(Align.CENTER);
+		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
+		fuelTextPaint.setTextSize(50);
+		//fuelTextPaint.setAlpha(255);
+
+		for (Particle particle : particles)
+		{
+			fuelTextPaint.setAlpha((int) (255 * particle.alpha));
+			if (particle.isActive)
+			{
+				canvas.drawCircle(particle.position.x, particle.position.y, 5, fuelTextPaint);
+				//canvas.drawPoint(particle.position.x, particle.position.y, fuelTextPaint);
+			}
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.particle;
 
 import com.stunapps.fearlessjumper.helper.Environment.Constants;
+import com.stunapps.fearlessjumper.model.Acceleration;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -13,8 +14,13 @@ public class Particle
 	public boolean isActive;
 	public Position position;
 	public Velocity velocity;
-	public long totalLife;
-	public float life;
+	public Acceleration acceleration;
+	public float velocityAngle;
+	public float speed;
+	public float accelerationAngle;
+	public float accelerationRate;
+	public long life;
+	public float lifeTimer;
 	public float alpha;
 	public long waitTime;
 
@@ -25,11 +31,22 @@ public class Particle
 		this.isActive = false;
 	}
 
-	public void scaleVelocity(float angle, float speed)
+	public void setVelocity(float velocityAngle, float speed)
 	{
-		double angleInRadians = Math.toRadians(angle);
+		this.velocityAngle = velocityAngle;
+		this.speed = speed;
+		double angleInRadians = Math.toRadians(velocityAngle);
 		this.velocity = new Velocity((float) Math.cos(angleInRadians) * speed,
 									 -(float) Math.sin(angleInRadians) * speed);
+	}
+
+	public void setAcceleration(float accelerationAngle, float accelerationRate)
+	{
+		this.accelerationAngle = accelerationAngle;
+		this.accelerationRate = accelerationRate;
+		double angleInRadians = Math.toRadians(accelerationAngle);
+		this.acceleration = new Acceleration((float) Math.cos(angleInRadians) * accelerationRate,
+											 -(float) Math.sin(angleInRadians) * accelerationRate);
 	}
 
 	public void scaleVelocity(float scaleFactor)
@@ -43,10 +60,10 @@ public class Particle
 		this.position = new Position(x, y);
 	}
 
-	public void setLife(long life)
+	public void setLifeTimer(long life)
 	{
-		this.totalLife = life;
 		this.life = life;
+		this.lifeTimer = life;
 	}
 
 	long time = 0;
@@ -66,29 +83,46 @@ public class Particle
 			return true;
 		}
 
-		life -= delta / Constants.ONE_MILLION;
-		if (life > 0)
+		lifeTimer -= delta / Constants.ONE_MILLION;
+		if (lifeTimer > 0)
 		{
 			position.x += velocity.x;
 			position.y += velocity.y;
-			alpha = calcAlpha();
+
+			//Update velocity.
+			double relativeAccAngleInRadians = Math.toRadians((velocityAngle + accelerationAngle) % 360);
+			float xAccRate = (float)Math.cos(relativeAccAngleInRadians) * accelerationRate;
+			float yAccRate = -(float)Math.sin(relativeAccAngleInRadians) * accelerationRate;
+			velocity.x += xAccRate;
+			velocity.y += yAccRate;
+			velocityAngle = getAngle(velocity.x, velocity.y);
+
+
+
+			alpha = lifeTimer / life;//calcAlpha();
 			isActive = true;
 			return true;
 		}
 		else
 		{
 			alpha = 0;
-			life = 0;
+			lifeTimer = 0;
 			isActive = false;
 			return false;
 		}
 	}
 
+	public static float getAngle(float x, float y)
+	{
+		return (float)(1.5 * Math.PI - Math.atan2(y,x)); //note the atan2 call, the order of
+		// paramers is y then x
+	}
+
 	private float calcAlpha()
 	{
-		if (life < 2 * totalLife / 5)
+		if (lifeTimer < 2 * life / 5)
 		{
-			return 2 * life/totalLife;
+			return 2 * lifeTimer / life;
 		}
 		return 1;
 	}

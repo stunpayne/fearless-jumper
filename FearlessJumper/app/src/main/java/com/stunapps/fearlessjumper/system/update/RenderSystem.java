@@ -15,6 +15,7 @@ import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
+import com.stunapps.fearlessjumper.component.emitter.RotationalEmitter;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -53,11 +54,12 @@ public class RenderSystem implements UpdateSystem
 	private Handler handler = new Handler();
 
 
-	private CircularEmitter circularEmitter;
+	//private CircularEmitter circularEmitter;
+	private RotationalEmitter circularEmitter;
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem,
-			CircularEmitter circularEmitter)
+			RotationalEmitter circularEmitter)
 	{
 		this.componentManager = componentManager;
 		this.circularEmitter = circularEmitter;
