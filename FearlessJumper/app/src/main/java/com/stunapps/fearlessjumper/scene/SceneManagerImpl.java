@@ -67,11 +67,12 @@ public class SceneManagerImpl implements SceneManager
 	public void initialise()
 	{
 		sceneStateMachine =
-				StateMachine.builder().startState(MainMenuScene.class).from(MainMenuScene.class)
-						.onEvent(StartGameEvent.class).toState(GameplayScene.class)
-						.from(GameplayScene.class).onEvent(GameOverEvent.class)
-						.toState(GameplayScene.class).from(GameplayScene.class)
-						.onEvent(MainMenuEvent.class).toState(MainMenuScene.class).build();
+				StateMachine.builder().startState(MainMenuScene.class)
+						.from(MainMenuScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
+						.from(GameplayScene.class).onEvent(GameOverEvent.class).toState(GameplayScene.class)
+						.from(GameplayScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
+						.from(GameplayScene.class).onEvent(MainMenuEvent.class).toState(MainMenuScene.class)
+						.build();
 
 		soundSystem.initialise();
 //		soundSystem.loopMusic(Sound.BACKGROUND_MUSIC);

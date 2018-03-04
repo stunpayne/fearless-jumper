@@ -167,7 +167,6 @@ public class GameplayScene extends AbstractScene
 	@Override
 	public void terminateScene()
 	{
-//		gameView.terminate();
 		modifyScene(new SceneModificationCallback()
 		{
 			@Override
