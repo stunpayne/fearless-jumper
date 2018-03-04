@@ -1,6 +1,8 @@
 package com.stunapps.fearlessjumper.scene;
 
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageButton;
 
-import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
@@ -41,37 +42,57 @@ public class GameplayScene extends AbstractScene
 	private View gameOverMenu;
 
 	private ViewSetup viewSetup = new ViewSetup();
-	Handler mainHandler;
+	private Handler mainHandler;
 
 	@Inject
-	public GameplayScene(GameView gameView, EventSystem eventSystem)
+	public GameplayScene(final GameView gameView, EventSystem eventSystem)
 	{
 		super(R.layout.game_play_container, eventSystem);
 		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		this.gameView = gameView;
+
+		mainHandler = new Handler(Looper.getMainLooper())
+		{
+			@Override
+			public void handleMessage(Message msg)
+			{
+				Log.d(TAG, "New message received: " + msg);
+				super.handleMessage(msg);
+
+				View view = (View) msg.obj;
+
+				switch (msg.what)
+				{
+					case Action.SHOW:
+						view.setVisibility(View.VISIBLE);
+						break;
+					case Action.HIDE:
+						view.setVisibility(View.GONE);
+						break;
+					case Action.KILL:
+						gameView.stop();
+						gameView.terminate();
+				}
+			}
+		};
 	}
 
-	//	TODO: Game over visibility updation is intermittent. This needs to be fixed.
 	private final BaseEventListener<GameOverEvent> gameOverListener =
 			new BaseEventListener<GameOverEvent>()
 			{
 				@Override
 				public void handleEvent(GameOverEvent event) throws EventException
 				{
-					gameView.stop();
-
-					MainActivity.getInstance().setGameOverVisibility(View.VISIBLE, gameOverMenu,
-							view);
-					Log.d(TAG, "Game Over Menu is shown: " + gameOverMenu.isShown());
-					Log.d(TAG, "Game Over Menu parent : " + gameOverMenu.getParent());
-//					Log.d(TAG, "Game Over Menu visibility: " + gameOverMenu.getVisibility());
+					mainHandler.sendMessage(mainHandler.obtainMessage(Action.SHOW, gameOverMenu));
+					mainHandler.sendMessage(mainHandler.obtainMessage(Action.HIDE, pauseButton));
+					mainHandler.sendMessage(mainHandler.obtainMessage(Action.KILL));
+//					gameView.stop();
 				}
 			};
 
 	@Override
 	void setUpScene()
 	{
-		mainHandler = new Handler(Environment.CONTEXT.getMainLooper());
 		view = LayoutInflater.from(Environment.CONTEXT).inflate(R.layout.game_play_container,
 				null);
 		LayoutInflater inflater = LayoutInflater.from(Environment.CONTEXT);
@@ -93,61 +114,59 @@ public class GameplayScene extends AbstractScene
 				((FrameLayout) view).addView(gameView);
 				((FrameLayout) view).addView(hud);
 				((FrameLayout) view).addView(pauseButton);
+				((FrameLayout) view).addView(pauseMenu);
 				((FrameLayout) view).addView(gameOverMenu);
+
 				gameOverMenu.setVisibility(View.GONE);
+				pauseMenu.setVisibility(View.GONE);
+				pauseButton.setVisibility(View.VISIBLE);
+				hud.setVisibility(View.VISIBLE);
+
 				return null;
 			}
 		});
+
+		gameView.prepareForStart();
 	}
 
 	@Override
 	public void playScene()
 	{
-
+		gameView.start();
 	}
 
 	@Override
 	void pauseScene()
 	{
-		gameView.pause();
-		if (!pauseMenu.isShown())
+		gameView.stop();
+		if (!pauseMenu.isShown() && !gameOverMenu.isShown())
 		{
-			modifyScene(new SceneModificationCallback()
-			{
-				@Override
-				public Object call() throws Exception
-				{
-					((FrameLayout) view).removeView(pauseButton);
-					((FrameLayout) view).addView(pauseMenu);
-					return null;
-				}
-			});
+			pauseButton.setVisibility(View.GONE);
+			pauseMenu.setVisibility(View.VISIBLE);
 		}
 	}
 
+	@Override
+	void stopScene()
+	{
+		gameView.stop();
+	}
+
+	//	TODO: Split into resumeScene and resumeGame?
 	@Override
 	void resumeScene()
 	{
 		gameView.resume();
 		if (pauseMenu.isShown())
 		{
-			modifyScene(new SceneModificationCallback()
-			{
-				@Override
-				public Object call() throws Exception
-				{
-					((FrameLayout) view).removeView(pauseMenu);
-					((FrameLayout) view).addView(pauseButton);
-					return null;
-				}
-			});
+			pauseButton.setVisibility(View.VISIBLE);
+			pauseMenu.setVisibility(View.GONE);
 		}
 	}
 
 	@Override
 	public void terminateScene()
 	{
-		gameView.stop();
 		modifyScene(new SceneModificationCallback()
 		{
 			@Override
@@ -164,15 +183,35 @@ public class GameplayScene extends AbstractScene
 		});
 	}
 
+	private void pauseGame()
+	{
+		gameView.pause();
+		if (!pauseMenu.isShown())
+		{
+			pauseButton.setVisibility(View.GONE);
+			pauseMenu.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void resumeGame()
+	{
+		gameView.resume();
+		if (pauseMenu.isShown())
+		{
+			pauseButton.setVisibility(View.VISIBLE);
+			pauseMenu.setVisibility(View.GONE);
+		}
+	}
+
 	private class ViewSetup
 	{
-		public void setupHud(View hud)
+		void setupHud(View hud)
 		{
 			hud.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT));
 		}
 
-		public void setupPauseButton(View pauseButtonView)
+		void setupPauseButton(View pauseButtonView)
 		{
 			LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -186,12 +225,12 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public void onClick(View v)
 				{
-					pauseScene();
+					pauseGame();
 				}
 			});
 		}
 
-		public void setupPauseMenu(View pauseMenu)
+		void setupPauseMenu(View pauseMenu)
 		{
 			final View resumeButton = pauseMenu.findViewById(R.id.resumeButton);
 			resumeButton.setOnClickListener(new OnClickListener()
@@ -199,12 +238,12 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public void onClick(View v)
 				{
-					resumeScene();
+					resumeGame();
 				}
 			});
 		}
 
-		public void setupGameOverView(View gameOverView)
+		void setupGameOverView(View gameOverView)
 		{
 			LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.MATCH_PARENT);

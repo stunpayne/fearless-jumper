@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.system;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.google.inject.Inject;
@@ -34,6 +35,8 @@ import java.util.List;
 @Singleton
 public class Systems
 {
+	private static final String TAG = Systems.class.getSimpleName();
+
 	private static final List<Class<? extends UpdateSystem>> systemOrder =
 			Arrays.asList(PhysicsSystem.class, GenerationSystem.class, MovementUpdateSystem.class,
 					CollisionSystem.class, LowerBoundarySystem.class, TransformUpdateSystem.class,
@@ -88,8 +91,9 @@ public class Systems
 		}
 	}
 
-	public void reset()
+	public static void reset()
 	{
+		Log.i(TAG, "Resetting update systems");
 		for (UpdateSystem system : systemsInOrder)
 		{
 			system.reset();

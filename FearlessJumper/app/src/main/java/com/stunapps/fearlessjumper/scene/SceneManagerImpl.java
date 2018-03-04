@@ -67,14 +67,19 @@ public class SceneManagerImpl implements SceneManager
 	public void initialise()
 	{
 		sceneStateMachine =
-				StateMachine.builder().startState(MainMenuScene.class).from(MainMenuScene.class)
-						.onEvent(StartGameEvent.class).toState(GameplayScene.class)
-						.from(GameplayScene.class).onEvent(GameOverEvent.class)
-						.toState(GameplayScene.class).from(GameplayScene.class)
-						.onEvent(MainMenuEvent.class).toState(MainMenuScene.class).build();
+				StateMachine.builder().startState(MainMenuScene.class)
+						.from(MainMenuScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
+						.from(GameplayScene.class).onEvent(GameOverEvent.class).toState(GameplayScene.class)
+						.from(GameplayScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
+						.from(GameplayScene.class).onEvent(MainMenuEvent.class).toState(MainMenuScene.class)
+						.build();
 
 		soundSystem.initialise();
 //		soundSystem.loopMusic(Sound.BACKGROUND_MUSIC);
+
+		sceneMap.get(sceneStateMachine.getCurrentState()).resume();
+		Scene scene = sceneMap.get(sceneStateMachine.getStartState());
+		scene.setup();
 	}
 
 	@Override
@@ -88,20 +93,31 @@ public class SceneManagerImpl implements SceneManager
 	}
 
 	@Override
+	public void start()
+	{
+		Log.i(TAG, "Scene manager start at scene: " + sceneStateMachine.getCurrentState());
+		sceneMap.get(sceneStateMachine.getCurrentState()).play();
+	}
+
+	@Override
 	public void pause()
 	{
-		Log.i(TAG, "Scene manager pause");
+		Log.i(TAG, "Scene manager pause at scene: " + sceneStateMachine.getCurrentState());
 		sceneMap.get(sceneStateMachine.getCurrentState()).pause();
 	}
 
 	@Override
 	public void resume()
 	{
-		Log.i(TAG, "Scene manager resume");
+		Log.i(TAG, "Scene manager resume at scene: " + sceneStateMachine.getCurrentState());
 		sceneMap.get(sceneStateMachine.getCurrentState()).resume();
-		Scene scene = sceneMap.get(sceneStateMachine.getStartState());
-		scene.setup();
-		scene.play();
+	}
+
+	@Override
+	public void stop()
+	{
+		Log.i(TAG, "Scene manager stop at scene: " + sceneStateMachine.getCurrentState());
+		sceneMap.get(sceneStateMachine.getCurrentState()).stop();
 	}
 
 	private void transitScene(GameEvent event)
@@ -116,5 +132,6 @@ public class SceneManagerImpl implements SceneManager
 		//Initialize new scene.
 		scene.setup();
 		scene.play();
+		scene.resume();
 	}
 }

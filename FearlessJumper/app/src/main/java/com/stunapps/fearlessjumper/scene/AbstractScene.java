@@ -79,6 +79,12 @@ public abstract class AbstractScene implements Scene
     }
 
     @Override
+    public void stop()
+    {
+        stopScene();
+    }
+
+    @Override
     public void resume()
     {
         resumeScene();
@@ -91,7 +97,7 @@ public abstract class AbstractScene implements Scene
         eventSystem.raiseEvent(new SceneStopEvent());
     }
 
-    protected void modifyScene(final SceneModificationCallback callable)
+    protected void modifyScene(final SceneModificationCallback callback)
     {
         mainActivity.runOnUiThread(new Runnable()
         {
@@ -100,7 +106,7 @@ public abstract class AbstractScene implements Scene
             {
                 try
                 {
-                    callable.call();
+                    callback.call();
                 }
                 catch (Exception e)
                 {
@@ -116,6 +122,8 @@ public abstract class AbstractScene implements Scene
     abstract void playScene();
 
     abstract void pauseScene();
+
+    abstract void stopScene();
 
     abstract void resumeScene();
 

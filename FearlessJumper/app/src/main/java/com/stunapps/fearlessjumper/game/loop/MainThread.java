@@ -48,6 +48,9 @@ public class MainThread extends Thread
 		long totalTime = 0;
 		long targetTime = 1000 / MAX_FPS;
 
+		long pauseStartTime = startTime;
+		long pauseEndTime = startTime;
+
 		while (running)
 		{
 			synchronized (pauseLock) {
@@ -57,6 +60,7 @@ public class MainThread extends Thread
 				}
 				if (paused) {
 					try {
+						pauseStartTime = System.nanoTime();
 						pauseLock.wait(); // will cause this Thread to block until
 						// another thread calls pauseLock.notifyAll()
 						// Note that calling wait() will
@@ -70,10 +74,16 @@ public class MainThread extends Thread
 					if (!running) { // running might have changed since we paused
 						break;
 					}
+					pauseEndTime = System.nanoTime();
+				}
+				else
+				{
+					pauseStartTime = pauseEndTime = 0;
 				}
 			}
 
 			lastStartTime = startTime;
+			lastStartTime += (pauseEndTime - pauseStartTime);
 			startTime = System.nanoTime();
 			canvas = null;
 			try
@@ -148,5 +158,6 @@ public class MainThread extends Thread
 	public void stopThread()
 	{
 		running = false;
+		resumeThread();
 	}
 }
