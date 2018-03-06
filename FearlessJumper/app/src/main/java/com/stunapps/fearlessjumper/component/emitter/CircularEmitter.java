@@ -1,15 +1,12 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Typeface;
-
+import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.model.Velocity;
+import com.stunapps.fearlessjumper.particle.AlphaCalculator;
 import com.stunapps.fearlessjumper.particle.Particle;
+import com.stunapps.fearlessjumper.particle.VelocityScaler;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,7 +17,7 @@ public class CircularEmitter extends BaseEmitter
 {
 	public CircularEmitter()
 	{
-		super(CircularEmitter.class, 20, 1000l, 0);
+		super(Emitter.class, 20, 1000l, 0);
 	}
 
 	@Override
@@ -37,34 +34,43 @@ public class CircularEmitter extends BaseEmitter
 		float angleDelta = 360.0f / size;
 		for (Particle particle : particles)
 		{
+			particle.isActive = true;
+			//particle.setPosition(entity.transform.position.x, entity.transform.position.y);
 			particle.setPosition(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
-
 			particle.setVelocity(angle, 20f);
+			particle.setAlpha(new AlphaCalculator()
+			{
+				@Override
+				public float calculate(float life, float lifeTimer)
+				{
+					if (lifeTimer < 2 * life / 5)
+					{
+						return 2 * lifeTimer / life;
+					}
+					return 1;
+				}
+			});
+			particle.setVelocityScaler(new VelocityScaler()
+			{
+				@Override
+				public Velocity scale(Velocity velocity, float life, float lifeTimer)
+				{
+					if (lifeTimer < 97 * life / 100)
+					{
+						velocity.x *= 0.8f;
+						velocity.y *= 0.8f;
+					}
+					return velocity;
+				}
+			});
 			angle += angleDelta;
 			angle = angle % 360;
 		}
 	}
 
 	@Override
-	public void update(long delta)
+	public Component clone() throws CloneNotSupportedException
 	{
-		Iterator<Particle> iterator = particles.iterator();
-		while (iterator.hasNext())
-		{
-			Particle particle = iterator.next();
-			boolean aliveAfterUpdate = particle.update(delta);
-			if (aliveAfterUpdate)
-			{
-				if (particle.lifeTimer < 97 * particle.life / 100)
-				{
-					particle.scaleVelocity(0.8f);
-				}
-			}
-			else
-			{
-				iterator.remove();
-				destroyParticle(particle);
-			}
-		}
+		return new CircularEmitter();
 	}
 }

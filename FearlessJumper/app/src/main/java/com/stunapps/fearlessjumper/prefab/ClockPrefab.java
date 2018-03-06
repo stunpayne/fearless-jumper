@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
+import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
 import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.Pickup.PickupType;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
@@ -24,5 +25,6 @@ public class ClockPrefab extends Prefab
 		components.add(new Pickup(PickupType.CLOCK, 5000f));
 		components.add(new RectCollider(Delta.ZERO, width, height, true, CollisionLayer.BONUS));
 		components.add(new Renderable(clockSprite, Delta.ZERO, width, height));
+		components.add(new CircularEmitter());
 	}
 }

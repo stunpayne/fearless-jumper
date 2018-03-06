@@ -4,6 +4,10 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.Getter;
 
 /**
@@ -26,5 +30,10 @@ public class CollisionEvent extends SystemEvent
 		this.entity2 = entity2;
 		this.collisionFace = collisionFace;
 		this.deltaTime = deltaTime;
+	}
+
+	public Set<Entity> getCollidingEntities()
+	{
+		return new HashSet<>(Arrays.asList(entity1, entity2));
 	}
 }

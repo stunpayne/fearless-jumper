@@ -15,6 +15,7 @@ import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
+import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.emitter.RotationalEmitter;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
@@ -30,6 +31,7 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.List;
 import java.util.Set;
@@ -53,16 +55,11 @@ public class RenderSystem implements UpdateSystem
 
 	private Handler handler = new Handler();
 
-
-	//private CircularEmitter circularEmitter;
-	private RotationalEmitter circularEmitter;
-
 	@Inject
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem,
-			RotationalEmitter circularEmitter)
+			CircularEmitter circularEmitter, RotationalEmitter rotationalEmitter)
 	{
 		this.componentManager = componentManager;
-		this.circularEmitter = circularEmitter;
 
 		//	Initialise background bitmap
 		Bitmap originalBg =
@@ -71,9 +68,6 @@ public class RenderSystem implements UpdateSystem
 				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
 						false);
 		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
-
-
-		this.circularEmitter.init();
 	}
 
 	@Override
@@ -81,8 +75,6 @@ public class RenderSystem implements UpdateSystem
 	{
 		lastProcessTime = System.currentTimeMillis();
 
-		Set<Entity> entities = componentManager.getEntities(Renderable.class);
-		Entity player = componentManager.getEntity(PlayerComponent.class);
 		if (canvas == null)
 		{
 			canvas = Environment.CANVAS;
@@ -92,13 +84,17 @@ public class RenderSystem implements UpdateSystem
 		Cameras.update();
 
 		renderBackground();
-		renderEntities(entities);
-		renderHUD(player);
+		renderEntities();
+		renderHUD();
 
-		//TODO: Render particles for testing. Remove once tested.
-
-		circularEmitter.update(deltaTime);
-		circularEmitter.drawParticles(canvas);
+		//renderParticleEmission();
+		Paint fuelTextPaint = new Paint();
+		fuelTextPaint.setColor(Color.WHITE);
+		fuelTextPaint.setTextAlign(Align.CENTER);
+		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
+		fuelTextPaint.setTextSize(50);
+		//Environment.CANVAS.drawText("Chal gaya", Device.SCREEN_WIDTH/2, Device
+		//	.SCREEN_HEIGHT/2, fuelTextPaint);
 	}
 
 	@Override
@@ -145,8 +141,9 @@ public class RenderSystem implements UpdateSystem
 		}
 	}
 
-	private void renderEntities(Set<Entity> entities)
+	private void renderEntities()
 	{
+		Set<Entity> entities = componentManager.getEntities(Renderable.class);
 		//  Render all objects at their current positions
 		for (Entity entity : entities)
 		{
@@ -158,11 +155,47 @@ public class RenderSystem implements UpdateSystem
 		}
 	}
 
+	private void renderParticleEmission()
+	{
+		Set<Entity> emitterEntities = componentManager.getEntities(Emitter.class);
+		for (Entity emitterEntity : emitterEntities)
+		{
+			Emitter emitter = emitterEntity.getComponent(Emitter.class);
+			Set<Particle> particles = emitter.getParticles();
+			renderParticles(particles);
+		}
+	}
+
+	private void renderParticles(Set<Particle> particles)
+	{
+		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
+
+		Paint fuelTextPaint = new Paint();
+		fuelTextPaint.setColor(Color.WHITE);
+		fuelTextPaint.setTextAlign(Align.CENTER);
+		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
+		fuelTextPaint.setTextSize(50);
+		//fuelTextPaint.setAlpha(255);
+
+		for (Particle particle : particles)
+		{
+			fuelTextPaint.setAlpha((int) (255 * particle.alpha));
+			if (particle.isActive)
+			{
+				Position camPosition = Cameras.getMainCamera().position;
+				canvas.drawCircle(particle.position.x - camPosition.x,
+								  particle.position.y - camPosition.y, 5, fuelTextPaint);
+				//canvas.drawPoint(particle.position.x, particle.position.y, fuelTextPaint);
+			}
+		}
+	}
+
 	/**
 	 * Temporary method mainly for testing pickups and score
 	 */
-	private void renderHUD(Entity player)
+	private void renderHUD()
 	{
+		Entity player = componentManager.getEntity(PlayerComponent.class);
 		int timeRectTop = 80;
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);

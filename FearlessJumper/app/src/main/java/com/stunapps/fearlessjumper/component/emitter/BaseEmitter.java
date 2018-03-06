@@ -5,15 +5,21 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.particle.Particle;
 import com.stunapps.fearlessjumper.particle.ParticlePool;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by anand.verma on 02/03/18.
@@ -23,18 +29,25 @@ abstract public class BaseEmitter extends Emitter
 {
 	private static final String TAG = BaseEmitter.class.getSimpleName();
 
+	private Random random = new Random();
+	protected int emitterId;
+	protected Set<Particle> particles;
+	protected boolean isInitialised = false;
+
 	@Inject
 	private ParticlePool particlePool;
+
 	private long particlesCount;
 	private long particleLife;
 	private long emissionInterval;
 	private long clusterSize;
-	protected List<Particle> particles;
 
 	public BaseEmitter(Class<? extends Component> componentType, int particlesCount,
 			long particleLife, long emissionInterval)
 	{
 		super(componentType);
+		emitterId = random.nextInt(50);
+		this.particlePool = DI.di().getInstance(ParticlePool.class);
 		this.particlesCount = particlesCount;
 		this.particleLife = particleLife;
 		this.emissionInterval = emissionInterval;
@@ -46,53 +59,45 @@ abstract public class BaseEmitter extends Emitter
 		{
 			this.clusterSize = particlesCount;
 		}
-		this.particles = new LinkedList<>();
+		this.particles = new HashSet<>();
 	}
 
-	private List<Particle> getParticleCluster()
+	private List<Particle> generateParticleCluster()
 	{
 		List<Particle> particleCluster = new LinkedList<>();
 		for (int i = 0; i < clusterSize && (this.particles.size() < particlesCount); i++)
 		{
 			Particle particle = particlePool.getObject();
-			particle.waitTime =
-					emissionInterval * (this.particles.size() / clusterSize);
-			particle.setLifeTimer(particleLife);
+			particle.waitTime = emissionInterval * (this.particles.size() / clusterSize);
+			particle.setLife(particleLife);
 			particleCluster.add(particle);
 		}
 		return particleCluster;
 	}
 
-	private void addParticles(List<Particle> particles)
-	{
-		this.particles.addAll(particles);
-	}
-
 	@Override
 	public void init()
 	{
-		List<Particle> particles = getParticleCluster();
-		while(particles != null && particles.size() > 0)
+		List<Particle> particles = null;
+		while ((particles = generateParticleCluster()) != null && particles.size() > 0)
 		{
 			setupParticleCluster(particles);
 			this.particles.addAll(particles);
-			particles = getParticleCluster();
 		}
+		isInitialised = true;
+		Log.d(TAG, "init: emitter: emitterId = " + emitterId);
 	}
 
-	private void releaseDeadParticles()
+	@Override
+	public boolean isInitialised()
 	{
-		Iterator<Particle> iterator = this.particles.iterator();
-		while (iterator.hasNext())
-		{
-			Particle particle = iterator.next();
-			if (particle.lifeTimer <= 0)
-			{
-				particle.isActive = false;
-				iterator.remove();
-				particlePool.returnObject(particle);
-			}
-		}
+		return isInitialised;
+	}
+
+	@Override
+	public long getEmitterId()
+	{
+		return emitterId;
 	}
 
 	abstract void setupParticleCluster(List<Particle> particles);
@@ -100,11 +105,13 @@ abstract public class BaseEmitter extends Emitter
 	@Override
 	public void update(long delta)
 	{
+		Log.d(TAG, "update: emitter : updated called.");
 		Iterator<Particle> iterator = particles.iterator();
 		while (iterator.hasNext())
 		{
 			Particle particle = iterator.next();
-			if (!particle.update(delta))
+			boolean isAliveAfterUpdate = particle.update(delta);
+			if (!isAliveAfterUpdate)
 			{
 				iterator.remove();
 				destroyParticle(particle);
@@ -113,25 +120,16 @@ abstract public class BaseEmitter extends Emitter
 	}
 
 	@Override
-	public void getBitmap()
+	public Set<Particle> getParticles()
 	{
-
+		return Collections.unmodifiableSet(particles);
 	}
 
 	@Override
-	public void destroyParticle(Particle particleToDestroy)
+	protected void destroyParticle(Particle particle)
 	{
-		particlePool.returnObject(particleToDestroy);
-	}
-
-	protected void releaseParticle(){
-
-	}
-
-	@Override
-	public Component clone() throws CloneNotSupportedException
-	{
-		return null;
+		particle.reset();
+		particlePool.returnObject(particle);
 	}
 
 	public void drawParticles(Canvas canvas)

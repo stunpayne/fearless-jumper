@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.core;
 
 import android.util.Log;
 
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,11 +15,14 @@ import java.util.concurrent.TimeUnit;
 abstract public class ObjectPool<T>
 {
 	private static final String TAG = "ObjectPool";
+
+	protected final Random random;
 	private ConcurrentLinkedQueue<T> pool;
 	private ScheduledExecutorService executorService;
 
 	public ObjectPool(final int minSize, final int maxSize)
 	{
+		this.random = new Random();
 		initialise(minSize);
 
 		executorService = Executors.newSingleThreadScheduledExecutor();

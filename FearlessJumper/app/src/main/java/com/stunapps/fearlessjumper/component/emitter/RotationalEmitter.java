@@ -14,7 +14,7 @@ public class RotationalEmitter extends BaseEmitter
 {
 	public RotationalEmitter()
 	{
-		super(RotationalEmitter.class, 8, 6000l, 0);
+		super(Emitter.class, 8, 6000l, 0);
 	}
 
 	@Override
@@ -31,5 +31,11 @@ public class RotationalEmitter extends BaseEmitter
 			angle += angleDelta;
 			angle = angle % 360;
 		}
+	}
+
+	@Override
+	public Component clone() throws CloneNotSupportedException
+	{
+		return new RotationalEmitter();
 	}
 }
