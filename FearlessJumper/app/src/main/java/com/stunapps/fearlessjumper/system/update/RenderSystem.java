@@ -116,6 +116,25 @@ public class RenderSystem implements UpdateSystem
 		return new Rect(left, top, right, bottom);
 	}
 
+	public static Rect getRenderBounds(Entity entity)
+	{
+		Rect rectContainingBounds = getRenderRect(entity);
+		List<Entity> children = entity.getChildren();
+
+		for (Entity child : children)
+		{
+			Rect childRenderRect = getRenderRect(child);
+			rectContainingBounds.left = Math.min(rectContainingBounds.left, childRenderRect.left);
+			rectContainingBounds.right =
+					Math.max(rectContainingBounds.right, childRenderRect.right);
+			rectContainingBounds.top = Math.min(rectContainingBounds.top, childRenderRect.top);
+			rectContainingBounds.bottom =
+					Math.max(rectContainingBounds.bottom, childRenderRect.bottom);
+		}
+
+		return rectContainingBounds;
+	}
+
 	private void renderBackground()
 	{
 		canvas.drawColor(Color.BLACK);
@@ -166,8 +185,8 @@ public class RenderSystem implements UpdateSystem
 
 		//	Time text
 		Float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
-		String timeText = " Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" " +
-				""));
+		String timeText =
+				" Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" " + ""));
 		MainActivity.getInstance().updateTime(timeText);
 		//canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 

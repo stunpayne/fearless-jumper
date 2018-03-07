@@ -85,7 +85,6 @@ public class MovementUpdateSystem implements UpdateSystem
 			{
 				periodicTranslation.setCurrSpeedX(-1 * speedX);
 
-				//TODO: need to write it in more cleaner way.
 				if (entity.hasComponent(Animator.class))
 				{
 					entity.getComponent(Animator.class).triggerEvent(AnimationTransition

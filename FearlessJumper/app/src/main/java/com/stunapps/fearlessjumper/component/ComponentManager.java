@@ -11,29 +11,31 @@ import java.util.Set;
 
 public interface ComponentManager
 {
-    public <C extends Component> void addComponent(Entity entity, C componentType);
+	public <C extends Component> void addComponent(Entity entity, C componentType);
 
-    public void deleteComponent(Entity entity, Class<? extends Component> componentType);
+	public void deleteComponent(Entity entity, Class<? extends Component> componentType);
 
-    public <C extends Component> C getComponent(Entity entity, Class<C> componentType);
+	public <C extends Component> C getComponent(Entity entity, Class<C> componentType);
 
-    public <C extends Component> List<C> getComponentsInChildrenRecursive(Entity entity, Class<C>
-            componentType);
+	public <C extends Component> List<C> getComponentsInChildrenRecursive(Entity entity,
+			Class<C> componentType);
 
-    public <C extends Component> List<C> getComponentsInChildrenIterative(Entity entity, Class<C>
-            componentType);
+	public <C extends Component> List<C> getComponentsInChildrenIterative(Entity entity,
+			Class<C> componentType);
 
-    public boolean hasComponent(Entity entity, Class<? extends Component> componentType);
+	public boolean hasComponent(Entity entity, Class<? extends Component> componentType);
 
-    public List<Component> getComponents(Entity entity);
+	public List<Component> getComponents(Entity entity);
 
-    public void removeComponent(Entity entity, Class<? extends Component> componentType);
+	public <C extends Component> List<C> getAllComponents(Entity entity, Class<C> componentType);
 
-    public Set<Entity> getEntities(Class<? extends Component> componentType);
+	public void removeComponent(Entity entity, Class<? extends Component> componentType);
 
-    public Entity getEntity(Class<? extends Component> componentType);
+	public Set<Entity> getEntities(Class<? extends Component> componentType);
 
-    public  void deleteEntity(Entity entity);
+	public Entity getEntity(Class<? extends Component> componentType);
 
-    public  void deleteEntities();
+	public void deleteEntity(Entity entity);
+
+	public void deleteEntities();
 }

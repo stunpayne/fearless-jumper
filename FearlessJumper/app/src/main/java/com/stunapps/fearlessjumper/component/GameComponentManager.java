@@ -26,72 +26,72 @@ import java.util.concurrent.ConcurrentHashMap;
 @Singleton
 public class GameComponentManager implements ComponentManager
 {
-    private static final String TAG = "GameComponentManager";
-    private Map<Class<? extends Component>, Set<Entity>> componentToTypeEntityMap;
-    private Map<Entity, List<Component>> entityToComponentMap;
+	private static final String TAG = "GameComponentManager";
+	private Map<Class<? extends Component>, Set<Entity>> componentToTypeEntityMap;
+	private Map<Entity, List<Component>> entityToComponentMap;
 
-    public GameComponentManager()
-    {
-        componentToTypeEntityMap = new ConcurrentHashMap<>();
-        entityToComponentMap = new ConcurrentHashMap<>();
-    }
+	public GameComponentManager()
+	{
+		componentToTypeEntityMap = new ConcurrentHashMap<>();
+		entityToComponentMap = new ConcurrentHashMap<>();
+	}
 
-    @Override
-    public <C extends Component> void addComponent(Entity entity, C component)
-    {
-        Set<Entity> entities = componentToTypeEntityMap.get(component.componentType);
-        if (entities == null)
-        {
-            componentToTypeEntityMap.put(component.componentType, new HashSet<Entity>());
-        }
-        componentToTypeEntityMap.get(component.componentType).add(entity);
+	@Override
+	public <C extends Component> void addComponent(Entity entity, C component)
+	{
+		Set<Entity> entities = componentToTypeEntityMap.get(component.componentType);
+		if (entities == null)
+		{
+			componentToTypeEntityMap.put(component.componentType, new HashSet<Entity>());
+		}
+		componentToTypeEntityMap.get(component.componentType).add(entity);
 
-        List<Component> components = entityToComponentMap.get(entity);
-        if (components == null)
-        {
-            entityToComponentMap.put(entity, new LinkedList<Component>());
-        }
-        entityToComponentMap.get(entity).add(component);
-    }
+		List<Component> components = entityToComponentMap.get(entity);
+		if (components == null)
+		{
+			entityToComponentMap.put(entity, new LinkedList<Component>());
+		}
+		entityToComponentMap.get(entity).add(component);
+	}
 
-    @Override
-    public void deleteComponent(Entity entity, Class<? extends Component> componentType)
-    {
-        componentToTypeEntityMap.get(componentType).remove(entity);
-        List<Component> components = entityToComponentMap.get(entity);
-        Iterator<Component> it = components.iterator();
-        while (it.hasNext())
-        {
-            if (it.next().componentType == componentType)
-            {
-                it.remove();
-                break;
-            }
-        }
-    }
+	@Override
+	public void deleteComponent(Entity entity, Class<? extends Component> componentType)
+	{
+		componentToTypeEntityMap.get(componentType).remove(entity);
+		List<Component> components = entityToComponentMap.get(entity);
+		Iterator<Component> it = components.iterator();
+		while (it.hasNext())
+		{
+			if (it.next().componentType == componentType)
+			{
+				it.remove();
+				break;
+			}
+		}
+	}
 
-    @Override
-    public <C extends Component> C getComponent(Entity entity, Class<C> componentType)
-    {
-        Component component = null;
-        List<Component> components = entityToComponentMap.get(entity);
-        if (components == null)
-        {
-//            Log.d(TAG, "getComponent: entity = " + entity);
-            return null;
-        }
-        Iterator<Component> it = components.iterator();
-        while (it.hasNext())
-        {
-            Component componentFromList = it.next();
-            if (componentFromList.componentType.equals(componentType))
-            {
-                component = componentFromList;
-                break;
-            }
-        }
-        return componentType.cast(component);
-    }
+	@Override
+	public <C extends Component> C getComponent(Entity entity, Class<C> componentType)
+	{
+		Component component = null;
+		List<Component> components = entityToComponentMap.get(entity);
+		if (components == null)
+		{
+			//            Log.d(TAG, "getComponent: entity = " + entity);
+			return null;
+		}
+		Iterator<Component> it = components.iterator();
+		while (it.hasNext())
+		{
+			Component componentFromList = it.next();
+			if (componentFromList.componentType.equals(componentType))
+			{
+				component = componentFromList;
+				break;
+			}
+		}
+		return componentType.cast(component);
+	}
 
 	@Override
 	public <C extends Component> List<C> getComponentsInChildrenRecursive(Entity entity,
@@ -131,69 +131,76 @@ public class GameComponentManager implements ComponentManager
 		return components;
 	}
 
-    @Override
-    public List<Component> getComponents(Entity entity)
-    {
-        return entityToComponentMap.get(entity);
-    }
+	@Override
+	public List<Component> getComponents(Entity entity)
+	{
+		return entityToComponentMap.get(entity);
+	}
 
-    @Override
-    public void removeComponent(Entity entity, Class<? extends Component> componentType)
-    {
-        Set<Entity> entities = componentToTypeEntityMap.get(componentType);
-        Iterator<Entity> it = entities.iterator();
-        while (it.hasNext())
-        {
-            Entity entityFromList = it.next();
-            if (entityFromList.equals(entity))
-            {
-                it.remove();
-                break;
-            }
-        }
-    }
+	@Override
+	public <C extends Component> List<C> getAllComponents(Entity entity, Class<C> componentType)
+	{
+		List<C> components = new ArrayList<>();
+		components.add(getComponent(entity, componentType));
+		components.addAll(getComponentsInChildrenRecursive(entity, componentType));
+		return components;
+	}
 
-    @Override
-    public Set<Entity> getEntities(Class<? extends Component> componentType)
-    {
-        Set<Entity> entities = componentToTypeEntityMap.get(componentType);
-        if (null == entities)
-            return new HashSet<>();
-        return Sets.newHashSet(entities);
-    }
+	@Override
+	public void removeComponent(Entity entity, Class<? extends Component> componentType)
+	{
+		Set<Entity> entities = componentToTypeEntityMap.get(componentType);
+		Iterator<Entity> it = entities.iterator();
+		while (it.hasNext())
+		{
+			Entity entityFromList = it.next();
+			if (entityFromList.equals(entity))
+			{
+				it.remove();
+				break;
+			}
+		}
+	}
 
-    @Override
-    public Entity getEntity(Class<? extends Component> componentType)
-    {
-        Set<Entity> entities = componentToTypeEntityMap.get(componentType);
-        if (null == entities)
-            return null;
-        return entities.iterator().next();
-    }
+	@Override
+	public Set<Entity> getEntities(Class<? extends Component> componentType)
+	{
+		Set<Entity> entities = componentToTypeEntityMap.get(componentType);
+		if (null == entities) return new HashSet<>();
+		return Sets.newHashSet(entities);
+	}
 
-    @Override
-    public void deleteEntity(Entity entity)
-    {
-        List<Component> components = entityToComponentMap.get(entity);
-        Iterator<Component> componentIterator = components.iterator();
-        while (componentIterator.hasNext())
-        {
-            Component component = componentIterator.next();
-            removeComponent(entity, component.componentType);
-        }
-        entityToComponentMap.remove(entity);
-    }
+	@Override
+	public Entity getEntity(Class<? extends Component> componentType)
+	{
+		Set<Entity> entities = componentToTypeEntityMap.get(componentType);
+		if (null == entities) return null;
+		return entities.iterator().next();
+	}
 
-    @Override
-    public void deleteEntities()
-    {
-        componentToTypeEntityMap.clear();
-        entityToComponentMap.clear();
-    }
+	@Override
+	public void deleteEntity(Entity entity)
+	{
+		List<Component> components = entityToComponentMap.get(entity);
+		Iterator<Component> componentIterator = components.iterator();
+		while (componentIterator.hasNext())
+		{
+			Component component = componentIterator.next();
+			removeComponent(entity, component.componentType);
+		}
+		entityToComponentMap.remove(entity);
+	}
 
-    @Override
-    public boolean hasComponent(Entity entity, Class<? extends Component> componentType)
-    {
-        return getComponent(entity, componentType) != null;
-    }
+	@Override
+	public void deleteEntities()
+	{
+		componentToTypeEntityMap.clear();
+		entityToComponentMap.clear();
+	}
+
+	@Override
+	public boolean hasComponent(Entity entity, Class<? extends Component> componentType)
+	{
+		return getComponent(entity, componentType) != null;
+	}
 }

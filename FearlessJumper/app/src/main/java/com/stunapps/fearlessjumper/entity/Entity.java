@@ -68,6 +68,11 @@ public class Entity
 		return componentManager.getComponents(this);
 	}
 
+	public <C extends Component> List<C> getAllComponents(Class<C> componentType)
+	{
+		return componentManager.getAllComponents(this, componentType);
+	}
+
 	public <C extends Component> List<C> getComponentsInChildren(Class<C> componentType)
 	{
 		return componentManager.getComponentsInChildrenRecursive(this, componentType);

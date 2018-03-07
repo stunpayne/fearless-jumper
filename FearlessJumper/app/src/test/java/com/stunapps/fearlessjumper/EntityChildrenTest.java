@@ -37,7 +37,7 @@ public class EntityChildrenTest
 	public void compareMethods()
 	{
 		List<Integer> heights = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5));
-		List<Integer> childrens = new ArrayList<Integer>(Arrays.asList(1, 5, 10));
+		List<Integer> childrens = new ArrayList<Integer>(Arrays.asList(1, 5, 10, 20, 30, 40));
 
 		runAll(heights, childrens);
 	}
@@ -50,8 +50,8 @@ public class EntityChildrenTest
 			{
 				height = h;
 				numberOfChildren = c;
-				testGetComponentsInChildrenIterative();
 				testGetComponentsInChildrenRecursive();
+				testGetComponentsInChildrenIterative();
 
 				entityManager.deleteEntities();
 			}
