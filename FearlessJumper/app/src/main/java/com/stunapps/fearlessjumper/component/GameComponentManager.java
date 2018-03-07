@@ -9,11 +9,13 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import org.roboguice.shaded.goole.common.collect.Sets;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -75,7 +77,7 @@ public class GameComponentManager implements ComponentManager
         List<Component> components = entityToComponentMap.get(entity);
         if (components == null)
         {
-            Log.d(TAG, "getComponent: entity = " + entity);
+//            Log.d(TAG, "getComponent: entity = " + entity);
             return null;
         }
         Iterator<Component> it = components.iterator();
@@ -90,6 +92,44 @@ public class GameComponentManager implements ComponentManager
         }
         return componentType.cast(component);
     }
+
+	@Override
+	public <C extends Component> List<C> getComponentsInChildrenRecursive(Entity entity,
+			Class<C> componentType)
+	{
+		List<C> componentList = new ArrayList<>();
+		getComponentsInChildrenRecursive(entity, componentType, componentList);
+		return componentList;
+	}
+
+	private <C extends Component> void getComponentsInChildrenRecursive(Entity entity,
+			Class<C> componentType, List<C> list)
+	{
+		C component = getComponent(entity, componentType);
+		if (component != null && entity.hasParent()) list.add(component);
+
+		for (Entity child : entity.getChildren())
+			getComponentsInChildrenRecursive(child, componentType, list);
+	}
+
+	@Override
+	public <C extends Component> List<C> getComponentsInChildrenIterative(Entity entity,
+			Class<C> componentType)
+	{
+		List<C> components = new ArrayList<>();
+
+		Queue<Entity> entityQueue = new LinkedList<>();
+		entityQueue.addAll(entity.getChildren());
+		while (!entityQueue.isEmpty())
+		{
+			Entity polledElement = entityQueue.poll();
+			entityQueue.addAll(polledElement.getChildren());
+			C component = getComponent(polledElement, componentType);
+			if (component != null) components.add(component);
+		}
+
+		return components;
+	}
 
     @Override
     public List<Component> getComponents(Entity entity)

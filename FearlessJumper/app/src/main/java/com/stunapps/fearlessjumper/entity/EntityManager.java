@@ -9,6 +9,7 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,13 +38,19 @@ public class EntityManager
 		return entity;
 	}
 
+	public Entity createEntity(Transform transform, int id)
+	{
+		Entity entity = new Entity(componentManager, this, transform, id);
+		entityMap.put(entity.getId(), entity);
+		return entity;
+	}
+
 	public Entity instantiate(Prefab prefab)
 	{
 		Entity entity = null;
 		try
 		{
-			entity = new Entity(componentManager, this, prefab.transform.clone(), rand.nextInt());
-			entityMap.put(entity.getId(), entity);
+			entity = createEntity(prefab.transform.clone());
 			for (Component component : prefab.components)
 			{
 				Component clone = component.clone();

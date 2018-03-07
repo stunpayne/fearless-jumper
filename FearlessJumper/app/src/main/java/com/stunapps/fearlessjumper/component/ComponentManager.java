@@ -17,9 +17,15 @@ public interface ComponentManager
 
     public <C extends Component> C getComponent(Entity entity, Class<C> componentType);
 
+    public <C extends Component> List<C> getComponentsInChildrenRecursive(Entity entity, Class<C>
+            componentType);
+
+    public <C extends Component> List<C> getComponentsInChildrenIterative(Entity entity, Class<C>
+            componentType);
+
     public boolean hasComponent(Entity entity, Class<? extends Component> componentType);
 
-    public <C extends Component> List<C> getComponents(Entity entity);
+    public List<Component> getComponents(Entity entity);
 
     public void removeComponent(Entity entity, Class<? extends Component> componentType);
 
