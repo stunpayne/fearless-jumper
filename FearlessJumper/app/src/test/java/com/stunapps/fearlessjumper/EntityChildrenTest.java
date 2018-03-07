@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -22,8 +23,8 @@ public class EntityChildrenTest
 	private static ComponentManager componentManager;
 	private static EntityManager entityManager;
 
-	private static final int numberOfChildren = 10;
-	private static final int height = 5;
+	private static int numberOfChildren = 10;
+	private static int height = 5;
 
 	@BeforeClass
 	public static void setUp()
@@ -31,6 +32,32 @@ public class EntityChildrenTest
 		componentManager = new GameComponentManager();
 		entityManager = new EntityManager(componentManager);
 	}
+
+	@Test
+	public void compareMethods()
+	{
+		List<Integer> heights = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5));
+		List<Integer> childrens = new ArrayList<Integer>(Arrays.asList(1, 5, 10));
+
+		runAll(heights, childrens);
+	}
+
+	private void runAll(List<Integer> heights, List<Integer> childrens)
+	{
+		for (Integer h : heights)
+		{
+			for (Integer c : childrens)
+			{
+				height = h;
+				numberOfChildren = c;
+				testGetComponentsInChildrenIterative();
+				testGetComponentsInChildrenRecursive();
+
+				entityManager.deleteEntities();
+			}
+		}
+	}
+
 
 	@Test
 	public void testGetComponentsInChildrenRecursive()
@@ -48,7 +75,9 @@ public class EntityChildrenTest
 				componentManager.getComponentsInChildrenRecursive(root, PlayerComponent.class);
 		endTime = System.currentTimeMillis();
 
-		System.out.println("Duration: " + (endTime - startTime));
+		System.out.println("Recursive Height: " + height + " Children: " + numberOfChildren + " " +
+				"Duration: " +
+				(endTime - startTime));
 	}
 
 	@Test
@@ -67,7 +96,9 @@ public class EntityChildrenTest
 				componentManager.getComponentsInChildrenIterative(root, PlayerComponent.class);
 		endTime = System.currentTimeMillis();
 
-		System.out.println("Duration: " + (endTime - startTime));
+		System.out.println("Iterative Height: " + height + " Children: " + numberOfChildren + " " +
+				"Duration: " +
+				(endTime - startTime));
 	}
 
 	private void addChildren(Entity root, int height, int numberOfChildren)
