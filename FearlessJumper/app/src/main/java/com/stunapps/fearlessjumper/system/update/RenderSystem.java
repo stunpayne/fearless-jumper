@@ -116,6 +116,12 @@ public class RenderSystem implements UpdateSystem
 		return new Rect(left, top, right, bottom);
 	}
 
+	/**
+	 * Returns the render bounds of entity inclusive of its children
+	 * The returned values are not to be considered as an enclosing rect
+	 * @param entity the Entity to return the bounds for
+	 * @return Rect containing bound values
+	 */
 	public static Rect getRenderBounds(Entity entity)
 	{
 		Rect rectContainingBounds = getRenderRect(entity);
