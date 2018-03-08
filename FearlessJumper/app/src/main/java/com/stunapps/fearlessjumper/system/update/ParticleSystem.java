@@ -10,12 +10,13 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
+import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.system.CollisionEvent;
+import com.stunapps.fearlessjumper.event.system.EmitterEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.helper.Environment;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
@@ -24,6 +25,8 @@ import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -35,31 +38,34 @@ public class ParticleSystem implements UpdateSystem
 	private static final String TAG = ParticleSystem.class.getSimpleName();
 
 	private final ComponentManager componentManager;
+	private final EntityManager entityManager;
 	private static long lastProcessTime = System.nanoTime();
 	private Set<Emitter> emitters = new HashSet<>();
 
 	@Inject
-	public ParticleSystem(EventSystem eventSystem, ComponentManager componentManager)
+	public ParticleSystem(EventSystem eventSystem, ComponentManager componentManager,
+			EntityManager entityManager)
 	{
 		this.componentManager = componentManager;
-		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
+		this.entityManager = entityManager;
+		eventSystem.registerEventListener(EmitterEvent.class, collisionEventListener);
 	}
 
-	private BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
+	private BaseEventListener<EmitterEvent> collisionEventListener = new
+			BaseEventListener<EmitterEvent>()
 	{
 
 		@Override
-		public void handleEvent(CollisionEvent event) throws EventException
+		public void handleEvent(EmitterEvent event) throws EventException
 		{
-			Set<Entity> collidingEntities = event.getCollidingEntities();
-			for (Entity entity : collidingEntities)
+			Set<Entry<Emitter, Transform>> emitterSet = event.getEmitters().entrySet();
+			for (Entry<Emitter, Transform> emitterEntry : emitterSet)
 			{
-				if (entity.hasComponent(Emitter.class))
-				{
-					Emitter emitter = entity.getComponent(Emitter.class);
-					emitter.init();
-					emitters.add(emitter);
-				}
+				Emitter emitter = emitterEntry.getKey();
+				Transform transform = emitterEntry.getValue();
+				Entity entity = entityManager.createEntity(transform);
+				entity.addComponent(emitter);
+				emitter.init();
 			}
 		}
 	};
@@ -74,22 +80,25 @@ public class ParticleSystem implements UpdateSystem
 		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
 		fuelTextPaint.setTextSize(50);
 		Environment.CANVAS.drawText("Chal gaya", Device.SCREEN_WIDTH/2, Device.SCREEN_HEIGHT/2, fuelTextPaint);
-		Iterator<Emitter> iterator = emitters.iterator();
-		while (iterator.hasNext())
+
+		Set<Entity> entities = componentManager.getEntities(Emitter.class);
+		if (entities != null)
 		{
-			Emitter emitter = iterator.next();
-			Log.d(TAG, "process: emitter: emitterId = " + emitter.getEmitterId() + " and " +
-					"isInitialised = " + "" + emitter.isInitialised());
-			if (emitter.isInitialised())
+			Iterator<Entity> iterator = entities.iterator();
+			while (iterator.hasNext())
 			{
-				emitter.update(deltaTime);
-			}
-			Set<Particle> particles = emitter.getParticles();
-			if (particles.size() > 0)
-			{
-				render(particles);
-			}else{
-				iterator.remove();
+				Entity entity = iterator.next();
+				Emitter emitter = entity.getComponent(Emitter.class);
+				if (emitter.isInitialised())
+				{
+					emitter.update(deltaTime);
+				}
+
+				if (emitter.isExhausted())
+				{
+					iterator.remove();
+					componentManager.deleteEntity(entity);
+				}
 			}
 		}
 	}

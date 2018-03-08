@@ -18,13 +18,15 @@ abstract public class Emitter extends Component
 
 	abstract public boolean isInitialised();
 
-	abstract public long getEmitterId();
+	abstract public long getId();
 
 	abstract public void update(long delta);
 
 	abstract public Set<Particle> getParticles();
 
 	public abstract void init();
+
+	public abstract boolean isExhausted();
 
 	abstract void destroyParticle(Particle particleToDestroy);
 }

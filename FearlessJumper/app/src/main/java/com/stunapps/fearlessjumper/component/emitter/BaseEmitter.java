@@ -21,16 +21,19 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Created by anand.verma on 02/03/18.
  */
 
+@EqualsAndHashCode(of = "id")
 abstract public class BaseEmitter extends Emitter
 {
 	private static final String TAG = BaseEmitter.class.getSimpleName();
 
 	private Random random = new Random();
-	protected int emitterId;
+	protected int id;
 	protected Set<Particle> particles;
 	protected boolean isInitialised = false;
 
@@ -46,7 +49,7 @@ abstract public class BaseEmitter extends Emitter
 			long particleLife, long emissionInterval)
 	{
 		super(componentType);
-		emitterId = random.nextInt(50);
+		id = random.nextInt(50);
 		this.particlePool = DI.di().getInstance(ParticlePool.class);
 		this.particlesCount = particlesCount;
 		this.particleLife = particleLife;
@@ -85,7 +88,7 @@ abstract public class BaseEmitter extends Emitter
 			this.particles.addAll(particles);
 		}
 		isInitialised = true;
-		Log.d(TAG, "init: emitter: emitterId = " + emitterId);
+		Log.d(TAG, "init: emitter: id = " + id);
 	}
 
 	@Override
@@ -95,9 +98,9 @@ abstract public class BaseEmitter extends Emitter
 	}
 
 	@Override
-	public long getEmitterId()
+	public long getId()
 	{
-		return emitterId;
+		return id;
 	}
 
 	abstract void setupParticleCluster(List<Particle> particles);
@@ -123,6 +126,12 @@ abstract public class BaseEmitter extends Emitter
 	public Set<Particle> getParticles()
 	{
 		return Collections.unmodifiableSet(particles);
+	}
+
+	@Override
+	public boolean isExhausted()
+	{
+		return particles.size() <= 0;
 	}
 
 	@Override

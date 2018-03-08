@@ -5,17 +5,27 @@ import android.util.Log;
 import com.stunapps.fearlessjumper.audio.Sound;
 import com.stunapps.fearlessjumper.audio.Sound.Effect;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
+import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
+import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
+import com.stunapps.fearlessjumper.event.system.EmitterEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.system.System;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -29,6 +39,7 @@ public class PickupSystem implements System
 {
 	private final EntityManager entityManager;
 	private final SoundSystem soundSystem;
+	private final EventSystem eventSystem;
 
 	BaseEventListener<CollisionEvent> collisionEventListener =
 			new BaseEventListener<CollisionEvent>()
@@ -56,6 +67,7 @@ public class PickupSystem implements System
 	{
 		this.entityManager = entityManager;
 		this.soundSystem = soundSystem;
+		this.eventSystem = eventSystem;
 		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
 	}
 
@@ -75,6 +87,14 @@ public class PickupSystem implements System
 				Log.e("PICKUP", "Invalid pickup type: " + pickupComponent.getType());
 				break;
 		}
+
+		HashMap<Emitter, Transform> emitters = new HashMap<>();
+		if (pickup.hasComponent(Emitter.class))
+		{
+			Emitter emitter = pickup.getComponent(Emitter.class);
+			emitters.put(emitter, pickup.transform);
+		}
+		eventSystem.raiseEvent(new EmitterEvent(emitters));
 		entityManager.deleteEntity(pickup);
 		soundSystem.playSoundEffect(Effect.TIME_PICKUP.getSoundResId());
 	}

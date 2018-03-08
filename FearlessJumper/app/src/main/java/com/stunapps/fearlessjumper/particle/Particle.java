@@ -4,15 +4,18 @@ import com.stunapps.fearlessjumper.helper.Environment.Constants;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Velocity;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Created by anand.verma on 02/03/18.
  */
 
+@EqualsAndHashCode(of = "id")
 public class Particle
 {
 	private static final String TAG = Particle.class.getSimpleName();
 
-	public long particleId;
+	public long id;
 	public boolean isActive;
 	public Position position;
 	public Velocity velocity;
@@ -25,9 +28,9 @@ public class Particle
 	public float alpha;
 	public AlphaCalculator alphaCalculator;
 
-	public Particle(long particleId)
+	public Particle(long id)
 	{
-		this.particleId = particleId;
+		this.id = id;
 		this.isActive = false;
 		position = new Position(0, 0);
 		this.velocity = new Velocity(0, 0);
@@ -148,12 +151,12 @@ public class Particle
 
 		Particle particle = (Particle) o;
 
-		return particleId == particle.particleId;
+		return id == particle.id;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return (int) (particleId ^ (particleId >>> 32));
+		return (int) (id ^ (id >>> 32));
 	}
 }
