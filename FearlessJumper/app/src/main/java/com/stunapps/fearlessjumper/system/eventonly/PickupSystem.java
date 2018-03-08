@@ -18,6 +18,7 @@ import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.system.EmitterEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.prefab.Prefabs;
 import com.stunapps.fearlessjumper.system.System;
 
 import java.util.Arrays;
@@ -79,6 +80,9 @@ public class PickupSystem implements System
 			case CLOCK:
 				player.getComponent(RemainingTime.class)
 						.addSeconds((long) pickupComponent.getPickupValue());
+				Entity entity = entityManager.instantiate(Prefabs.CLOCK_PARTICLE.prefab, pickup
+						.transform);
+				eventSystem.raiseEvent(new EmitterEvent(entity));
 				break;
 			case FUEL:
 				player.getComponent(Fuel.class).refuel(pickupComponent.getPickupValue());
@@ -87,14 +91,6 @@ public class PickupSystem implements System
 				Log.e("PICKUP", "Invalid pickup type: " + pickupComponent.getType());
 				break;
 		}
-
-		HashMap<Emitter, Transform> emitters = new HashMap<>();
-		if (pickup.hasComponent(Emitter.class))
-		{
-			Emitter emitter = pickup.getComponent(Emitter.class);
-			emitters.put(emitter, pickup.transform);
-		}
-		eventSystem.raiseEvent(new EmitterEvent(emitters));
 		entityManager.deleteEntity(pickup);
 		soundSystem.playSoundEffect(Effect.TIME_PICKUP.getSoundResId());
 	}

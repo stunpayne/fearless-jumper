@@ -36,7 +36,7 @@ public class CircularEmitter extends BaseEmitter
 		{
 			particle.isActive = true;
 			//particle.setPosition(entity.transform.position.x, entity.transform.position.y);
-			particle.setPosition(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
+			particle.setPosition(entity.transform.position.x, entity.transform.position.y);
 			particle.setVelocity(angle, 20f);
 			particle.setAlpha(new AlphaCalculator()
 			{

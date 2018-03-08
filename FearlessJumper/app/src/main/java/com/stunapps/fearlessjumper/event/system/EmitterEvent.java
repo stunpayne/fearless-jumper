@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.event.system;
 
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,16 +13,11 @@ import java.util.Map;
 
 public class EmitterEvent extends SystemEvent
 {
-	HashMap<Emitter, Transform> emitters;
+	public Entity entity;
 
-	public EmitterEvent(HashMap<Emitter, Transform> emitters)
+	public EmitterEvent(Entity entity)
 	{
 		super(EmitterEvent.class);
-		this.emitters = emitters;
-	}
-
-	public Map<Emitter, Transform> getEmitters()
-	{
-		return emitters;
+		this.entity = entity;
 	}
 }

@@ -9,6 +9,7 @@ import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -161,8 +162,13 @@ public class RenderSystem implements UpdateSystem
 		for (Entity emitterEntity : emitterEntities)
 		{
 			Emitter emitter = emitterEntity.getComponent(Emitter.class);
-			Set<Particle> particles = emitter.getParticles();
-			renderParticles(particles);
+			if(emitter.isInitialised())
+			{
+				Log.d("rendersystem", "emitter: renderParticleEmission:");
+				Set<Particle> particles = emitter.getParticles();
+				Log.d("rendersystem", "emitter: particle count :"+particles.size());
+				renderParticles(particles);
+			}
 		}
 	}
 
@@ -184,8 +190,8 @@ public class RenderSystem implements UpdateSystem
 			{
 				Position camPosition = Cameras.getMainCamera().position;
 				canvas.drawCircle(particle.position.x - camPosition.x,
-								  particle.position.y - camPosition.y, 5, fuelTextPaint);
-				//canvas.drawPoint(particle.position.x, particle.position.y, fuelTextPaint);
+								  particle.position.y - camPosition.y,
+								  5, fuelTextPaint);
 			}
 		}
 	}

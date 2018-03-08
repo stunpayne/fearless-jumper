@@ -12,18 +12,13 @@ import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 
 /**
- * Created by sunny.s on 15/02/18.
+ * Created by anand.verma on 08/03/18.
  */
 
-public class ClockPrefab extends Prefab
+public class ClockParticlePrefab extends Prefab
 {
-	public ClockPrefab()
+	public ClockParticlePrefab()
 	{
-		Bitmap clockSprite = Bitmaps.CLOCK;
-		float width = clockSprite.getWidth();
-		float height = clockSprite.getHeight();
-		components.add(new Pickup(PickupType.CLOCK, 5000f));
-		components.add(new RectCollider(Delta.ZERO, width, height, true, CollisionLayer.BONUS));
-		components.add(new Renderable(clockSprite, Delta.ZERO, width, height));
+		components.add(new CircularEmitter());
 	}
 }
