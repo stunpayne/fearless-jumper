@@ -32,6 +32,11 @@ public class Environment
         public static final long ONE_SECOND_NANOS = 1000000000;
     }
 
+    public class Settings
+    {
+        public static final boolean DEBUG_MODE = true;
+    }
+
     public static float scaleY()
     {
         return Device.SCREEN_HEIGHT / UNIT_HEIGHT;

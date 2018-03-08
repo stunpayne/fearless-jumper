@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
@@ -15,6 +16,8 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.collider.Collider;
+import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.emitter.RotationalEmitter;
@@ -23,6 +26,7 @@ import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
+import com.stunapps.fearlessjumper.helper.Environment.Settings;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
@@ -53,6 +57,7 @@ public class RenderSystem implements UpdateSystem
 
 	private ParallaxBackground background;
 	private Paint bgPaint = new Paint();
+	private Paint colliderPaint = new Paint();
 
 	private Handler handler = new Handler();
 
@@ -69,6 +74,10 @@ public class RenderSystem implements UpdateSystem
 				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
 						false);
 		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
+
+
+		colliderPaint.setColor(Color.WHITE);
+		colliderPaint.setStyle(Style.STROKE);
 	}
 
 	@Override
@@ -146,8 +155,28 @@ public class RenderSystem implements UpdateSystem
 			Rect destRect = getRenderRect(entity);
 
 			canvas.drawBitmap(bitmap, null, destRect, null);
+
+			if (Settings.DEBUG_MODE)
+			{
+				renderCollider(entity);
+			}
 		}
 	}
+
+
+	private void renderCollider(Entity entity)
+	{
+		Position camPosition = Cameras.getMainCamera().position;
+		RectCollider collider = (RectCollider) entity.getComponent(Collider.class);
+		int left = (int) (entity.transform.position.x + collider.delta.x - camPosition.x);
+		int top = (int) (entity.transform.position.y + collider.delta.y - camPosition.y);
+		int right = (int) (entity.transform.position.x + collider.delta.x + collider.width -
+				camPosition.x);
+		int bottom = (int) (entity.transform.position.y + collider.delta.y + collider.height -
+				camPosition.y);
+		canvas.drawRect(left, top, right, bottom, colliderPaint);
+	}
+
 
 	private void renderParticleEmission()
 	{
