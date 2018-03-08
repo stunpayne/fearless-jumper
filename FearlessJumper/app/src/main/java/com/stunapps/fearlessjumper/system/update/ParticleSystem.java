@@ -73,7 +73,7 @@ public class ParticleSystem implements UpdateSystem
 	@Override
 	public void process(long deltaTime)
 	{
-		Log.d(TAG, "process: emitter: emitterEntities size = " + emitters.size());
+
 		Paint fuelTextPaint = new Paint();
 		fuelTextPaint.setColor(Color.WHITE);
 		fuelTextPaint.setTextAlign(Align.CENTER);
@@ -82,6 +82,7 @@ public class ParticleSystem implements UpdateSystem
 		Environment.CANVAS.drawText("Chal gaya", Device.SCREEN_WIDTH/2, Device.SCREEN_HEIGHT/2, fuelTextPaint);
 
 		Set<Entity> entities = componentManager.getEntities(Emitter.class);
+		Log.d(TAG, "process: emitter: emitterEntities size = " + entities.size());
 		if (entities != null)
 		{
 			Iterator<Entity> iterator = entities.iterator();
