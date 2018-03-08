@@ -124,9 +124,7 @@ public class GenerationSystem implements UpdateSystem
 				  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
 						  spawnPosition +
 						  " of type: " +
-						  ((!newObstacle.hasComponent(PlayerComponent.class) &&
-								  !newObstacle.hasComponent(Dragon.class) ? "Clock" :
-								  "Platform/Dragon")));
+						  (newObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
 			Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
 		}
 	}

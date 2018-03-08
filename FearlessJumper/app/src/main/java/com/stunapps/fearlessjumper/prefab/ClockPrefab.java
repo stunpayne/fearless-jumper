@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
-import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
 import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.Pickup.PickupType;
 import com.stunapps.fearlessjumper.component.visual.Renderable;

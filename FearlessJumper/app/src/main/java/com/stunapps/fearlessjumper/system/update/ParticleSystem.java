@@ -33,7 +33,6 @@ public class ParticleSystem implements UpdateSystem
 	private BaseEventListener<EmitterEvent> emitterEventListener =
 			new BaseEventListener<EmitterEvent>()
 			{
-
 				@Override
 				public void handleEvent(EmitterEvent event) throws EventException
 				{

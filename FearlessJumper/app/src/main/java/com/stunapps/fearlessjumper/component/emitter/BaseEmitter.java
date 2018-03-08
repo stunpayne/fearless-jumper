@@ -1,10 +1,5 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Typeface;
 import android.util.Log;
 
 import com.google.inject.Inject;
@@ -139,25 +134,5 @@ abstract public class BaseEmitter extends Emitter
 	{
 		particle.reset();
 		particlePool.returnObject(particle);
-	}
-
-	public void drawParticles(Canvas canvas)
-	{
-		Paint fuelTextPaint = new Paint();
-		fuelTextPaint.setColor(Color.WHITE);
-		fuelTextPaint.setTextAlign(Align.CENTER);
-		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
-		fuelTextPaint.setTextSize(50);
-		//fuelTextPaint.setAlpha(255);
-
-		for (Particle particle : particles)
-		{
-			fuelTextPaint.setAlpha((int) (255 * particle.alpha));
-			if (particle.isActive)
-			{
-				canvas.drawCircle(particle.position.x, particle.position.y, 5, fuelTextPaint);
-				//canvas.drawPoint(particle.position.x, particle.position.y, fuelTextPaint);
-			}
-		}
 	}
 }

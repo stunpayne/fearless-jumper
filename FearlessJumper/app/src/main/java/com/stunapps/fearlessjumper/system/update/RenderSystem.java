@@ -89,13 +89,6 @@ public class RenderSystem implements UpdateSystem
 		renderHUD();
 
 		renderParticleEmission();
-		/*(Paint fuelTextPaint = new Paint();
-		fuelTextPaint.setColor(Color.WHITE);
-		fuelTextPaint.setTextAlign(Align.CENTER);
-		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
-		fuelTextPaint.setTextSize(50); */
-		//Environment.CANVAS.drawText("Chal gaya", Device.SCREEN_WIDTH/2, Device
-		//	.SCREEN_HEIGHT/2, fuelTextPaint);
 	}
 
 	@Override

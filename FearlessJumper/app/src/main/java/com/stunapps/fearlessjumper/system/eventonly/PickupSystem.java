@@ -2,15 +2,12 @@ package com.stunapps.fearlessjumper.system.eventonly;
 
 import android.util.Log;
 
-import com.stunapps.fearlessjumper.audio.Sound;
 import com.stunapps.fearlessjumper.audio.Sound.Effect;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
-import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.Pickup;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
@@ -20,13 +17,6 @@ import com.stunapps.fearlessjumper.event.system.EmitterEvent;
 import com.stunapps.fearlessjumper.exception.EventException;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
 import com.stunapps.fearlessjumper.system.System;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -80,7 +70,7 @@ public class PickupSystem implements System
 			case CLOCK:
 				player.getComponent(RemainingTime.class)
 						.addSeconds((long) pickupComponent.getPickupValue());
-				Entity entity = entityManager.instantiate(Prefabs.CLOCK_PARTICLE.prefab, pickup
+				Entity entity = entityManager.instantiate(Prefabs.CLOCK_PARTICLE.get(), pickup
 						.transform);
 				eventSystem.raiseEvent(new EmitterEvent(entity));
 				break;

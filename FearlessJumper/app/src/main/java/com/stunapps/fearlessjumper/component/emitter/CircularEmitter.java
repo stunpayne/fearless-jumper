@@ -1,7 +1,6 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.particle.AlphaCalculator;
 import com.stunapps.fearlessjumper.particle.Particle;
@@ -35,7 +34,6 @@ public class CircularEmitter extends BaseEmitter
 		for (Particle particle : particles)
 		{
 			particle.isActive = true;
-			//particle.setPosition(entity.transform.position.x, entity.transform.position.y);
 			particle.setPosition(entity.transform.position.x, entity.transform.position.y);
 			particle.setVelocity(angle, 20f);
 			particle.setAlpha(new AlphaCalculator()
