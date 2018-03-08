@@ -35,6 +35,11 @@ public class Position
 		this.y = other.y;
 	}
 
+	public Position translateOrigin(Position origin)
+	{
+		return new Position(origin.x + this.x, origin.y + this.y);
+	}
+
 	public void copyTo(Position other)
 	{
 		other.x = this.x;

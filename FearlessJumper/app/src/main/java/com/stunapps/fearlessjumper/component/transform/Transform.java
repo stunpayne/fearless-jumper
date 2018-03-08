@@ -4,88 +4,95 @@ import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.model.Position;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.ToString;
 
 /**
  * Created by sunny.s on 03/01/18.
  */
 
+@Getter
 @Builder
 @ToString
 public class Transform extends Component
 {
-    public Position position = new Position();
-    public Rotation rotation = new Rotation();
-    public Scale scale = new Scale();
+	public Position position = new Position();
+	public Rotation rotation = new Rotation();
+	public Scale scale = new Scale();
 
-    public Transform(Position position)
-    {
-        super(Transform.class);
-        this.position = position;
-        this.rotation = Rotation.NO_ROTATION;
-        this.scale = Scale.UNIT_SCALE;
-    }
+	public Transform(Position position)
+	{
+		super(Transform.class);
+		this.position = position;
+		this.rotation = Rotation.NO_ROTATION;
+		this.scale = Scale.UNIT_SCALE;
+	}
 
-    public Transform(Position position, Rotation rotation, Scale scale)
-    {
-        super(Transform.class);
-        this.position = position;
-        this.rotation = rotation;
-        this.scale = scale;
-    }
+	public Transform(Position position, Rotation rotation, Scale scale)
+	{
+		super(Transform.class);
+		this.position = position;
+		this.rotation = rotation;
+		this.scale = scale;
+	}
 
-    @Override
-    public Transform clone() throws CloneNotSupportedException
-    {
-        return new Transform(new Position(position), new Rotation(rotation), new Scale(scale));
-    }
+	public Transform translateOrigin(Transform origin)
+	{
+		return new Transform(position.translateOrigin(origin.getPosition()));
+	}
 
-    @ToString
-    public static class Rotation
-    {
-        public float azimuth;
+	@Override
+	public Transform clone() throws CloneNotSupportedException
+	{
+		return new Transform(new Position(position), new Rotation(rotation), new Scale(scale));
+	}
 
-        public static Transform.Rotation NO_ROTATION = new Transform.Rotation(0);
+	@ToString
+	public static class Rotation
+	{
+		public float azimuth;
 
-        public Rotation()
-        {
-            azimuth = 0;
-        }
+		public static Transform.Rotation NO_ROTATION = new Transform.Rotation(0);
 
-        public Rotation(Rotation other)
-        {
-            this.azimuth = other.azimuth;
-        }
+		public Rotation()
+		{
+			azimuth = 0;
+		}
 
-        public Rotation(float azimuth)
-        {
-            this.azimuth = azimuth;
-        }
-    }
+		public Rotation(Rotation other)
+		{
+			this.azimuth = other.azimuth;
+		}
 
-    @ToString
-    public static class Scale
-    {
-        public float x;
-        public float y;
+		public Rotation(float azimuth)
+		{
+			this.azimuth = azimuth;
+		}
+	}
 
-        public static Scale UNIT_SCALE = new Scale(1, 1);
+	@ToString
+	public static class Scale
+	{
+		public float x;
+		public float y;
 
-        public Scale()
-        {
-            x = y = 1;
-        }
+		public static Scale UNIT_SCALE = new Scale(1, 1);
 
-        public Scale(Scale other)
-        {
-            this.x = other.x;
-            this.y = other.y;
-        }
+		public Scale()
+		{
+			x = y = 1;
+		}
 
-        public Scale(float x, float y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
+		public Scale(Scale other)
+		{
+			this.x = other.x;
+			this.y = other.y;
+		}
+
+		public Scale(float x, float y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+	}
 }

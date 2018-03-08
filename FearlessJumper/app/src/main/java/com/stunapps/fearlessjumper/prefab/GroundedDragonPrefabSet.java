@@ -11,11 +11,11 @@ import java.util.Set;
 
 public class GroundedDragonPrefabSet extends PrefabSet
 {
-	public GroundedDragonPrefabSet(Set<PrefabSetEntry> entries)
+	public GroundedDragonPrefabSet()
 	{
 		super();
-		entries.add(new PrefabSetEntry(Prefabs.DRAGON.get(), new Transform(Position.ORIGIN)));
-		entries.add(new PrefabSetEntry(Prefabs.PLATFORM.get(), new Transform(new Position(0, 150)
-		)));
+		entries.add(new PrefabSetEntry(Prefabs.GROUNDED_DRAGON.get(), new Transform(Position.ORIGIN)));
+		entries.add(
+				new PrefabSetEntry(Prefabs.PLATFORM.get(), new Transform(new Position(0, 150))));
 	}
 }

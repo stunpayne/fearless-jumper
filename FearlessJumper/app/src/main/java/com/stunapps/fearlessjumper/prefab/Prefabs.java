@@ -11,6 +11,7 @@ public enum Prefabs
     PLATFORM(new PlatformPrefab()),
     LAND(new LandPrefab()),
     DRAGON(new DragonPrefab()),
+    GROUNDED_DRAGON(new GroundedDragonPrefab()),
     CLOCK(new ClockPrefab()),
     CLOCK_PARTICLE(new ClockParticlePrefab());
 

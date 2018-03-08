@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 
 public abstract class PrefabSet
 {
-	private Set<PrefabSetEntry> entries;
+	protected Set<PrefabSetEntry> entries;
 
 	public PrefabSet()
 	{
@@ -26,11 +26,17 @@ public abstract class PrefabSet
 		return entries;
 	}
 
-	@AllArgsConstructor
+
 	public class PrefabSetEntry
 	{
 		Prefab prefab;
 		Transform relativeTransform;
+
+		public PrefabSetEntry(Prefab prefab, Transform relativeTransform)
+		{
+			this.prefab = prefab;
+			this.relativeTransform = relativeTransform;
+		}
 
 		public Prefab getPrefab()
 		{

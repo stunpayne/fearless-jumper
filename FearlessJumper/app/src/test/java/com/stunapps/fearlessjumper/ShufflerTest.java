@@ -1,23 +1,15 @@
 package com.stunapps.fearlessjumper;
 
-import android.util.Log;
-
 import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.core.WeightedShuffler;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Created by sunny.s on 11/02/18.
  */
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class ShufflerTest
 {
 	Shuffler<Integer> shuffler;
@@ -25,7 +17,6 @@ public class ShufflerTest
 	@BeforeClass
 	public static void mock()
 	{
-		PowerMockito.mockStatic(Log.class);
 	}
 
 	@Test

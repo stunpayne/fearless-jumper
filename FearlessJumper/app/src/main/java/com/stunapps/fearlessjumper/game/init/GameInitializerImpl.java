@@ -11,7 +11,9 @@ import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.prefab.GroundedDragonPrefabSet;
 import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.prefab.PrefabSet;
 import com.stunapps.fearlessjumper.prefab.Prefabs;
 
 /**
@@ -52,6 +54,7 @@ public class GameInitializerImpl implements GameInitializer
 		{
 			initPlatforms();
 			initBoundaries(player);
+			initEnemies();
 		}
 		catch (CloneNotSupportedException e)
 		{
@@ -59,10 +62,8 @@ public class GameInitializerImpl implements GameInitializer
 			e.printStackTrace();
 		}
 
-		//  Initialise enemies
-		entityManager.instantiate(Prefabs.DRAGON.get());
-
-		Cameras.setMainCamera(Cameras.createFollowCamera(new Position(0, 0), player, true, false, 0,
+		Cameras.setMainCamera(Cameras.createFollowCamera(new Position(0, 0), player, true,
+				false, 0,
 				65 * Device.SCREEN_HEIGHT / 100));
 
 		initialised = true;
@@ -75,18 +76,26 @@ public class GameInitializerImpl implements GameInitializer
 		int x = Device.SCREEN_WIDTH / 4;
 		int y = Device.SCREEN_HEIGHT / 2 + 200;
 		Transform transform1 = new Transform(new Position(x, y));
-		Transform transform2 = new Transform(new Position(x, Device.SCREEN_HEIGHT / 2 - 500));
 		Transform transform3 = new Transform(new Position(5 * Device.SCREEN_WIDTH / 8, 300));
 
 		entityManager.instantiate(platformPrefab, transform1);
-		entityManager.instantiate(platformPrefab, transform2);
-		entityManager.instantiate(platformPrefab, transform3);
 	}
 
 	private void initBoundaries(Entity target) throws CloneNotSupportedException
 	{
 		Transform landTransform = new Transform(new Position(0, Device.SCREEN_HEIGHT), null, null);
 		entityManager.instantiate(Prefabs.LAND.get(), landTransform);
+	}
+
+	private void initEnemies()
+	{
+		//  Initialise enemies
+		entityManager.instantiate(Prefabs.DRAGON.get());
+
+		PrefabSet prefabSet = new GroundedDragonPrefabSet();
+		Transform transform2 = new Transform(
+				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 200));
+		entityManager.instantiate(prefabSet, transform2);
 	}
 
 	@Override
