@@ -7,10 +7,14 @@ import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.prefab.PrefabSet;
+import com.stunapps.fearlessjumper.prefab.PrefabSet.PrefabSetEntry;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -35,6 +39,16 @@ public class EntityManager
 		Entity entity = new Entity(componentManager, this, transform, rand.nextInt());
 		entityMap.put(entity.getId(), entity);
 		return entity;
+	}
+
+	public void instantiate(PrefabSet prefabSet, Transform origin)
+	{
+		Iterator<PrefabSetEntry> iterator = prefabSet.getEntries().iterator();
+		while (iterator.hasNext())
+		{
+			PrefabSetEntry entry = iterator.next();
+			instantiate(entry.getPrefab(), entry.getRelativeTransform());
+		}
 	}
 
 	public Entity instantiate(Prefab prefab)
