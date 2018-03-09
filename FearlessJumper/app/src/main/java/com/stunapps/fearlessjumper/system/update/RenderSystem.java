@@ -166,6 +166,8 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderCollider(Entity entity)
 	{
+		if (!entity.hasComponent(Collider.class)) return;
+
 		Position camPosition = Cameras.getMainCamera().position;
 		RectCollider collider = (RectCollider) entity.getComponent(Collider.class);
 		int left = (int) (entity.transform.position.x + collider.delta.x - camPosition.x);
@@ -184,7 +186,7 @@ public class RenderSystem implements UpdateSystem
 		for (Entity emitterEntity : emitterEntities)
 		{
 			Emitter emitter = emitterEntity.getComponent(Emitter.class);
-			if(emitter.isInitialised())
+			if (emitter.isInitialised())
 			{
 				Set<Particle> particles = emitter.getParticles();
 				renderParticles(particles);
@@ -210,8 +212,7 @@ public class RenderSystem implements UpdateSystem
 			{
 				Position camPosition = Cameras.getMainCamera().position;
 				canvas.drawCircle(particle.position.x - camPosition.x,
-								  particle.position.y - camPosition.y,
-								  5, fuelTextPaint);
+						particle.position.y - camPosition.y, 5, fuelTextPaint);
 			}
 		}
 	}
@@ -241,8 +242,8 @@ public class RenderSystem implements UpdateSystem
 
 		//	Time text
 		Float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();
-		String timeText = " Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" " +
-				""));
+		String timeText =
+				" Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" " + ""));
 		MainActivity.getInstance().updateTime(timeText);
 		//canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 

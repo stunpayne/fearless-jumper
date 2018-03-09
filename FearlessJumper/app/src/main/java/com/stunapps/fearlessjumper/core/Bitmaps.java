@@ -32,6 +32,9 @@ public class Bitmaps
 	public static Bitmap DRAGON_FLY3;
 	public static Bitmap DRAGON_FLY4;
 
+	//	bullet
+	public static Bitmap BULLET;
+
 	public static Bitmap BLANK_IMAGE;
 
 	public static void initialise()
@@ -47,6 +50,8 @@ public class Bitmaps
 		DRAGON_FLY2 = initBitmap(R.drawable.dragon_fly2, Dimensions.dragonX, Dimensions.dragonY);
 		DRAGON_FLY3 = initBitmap(R.drawable.dragon_fly3, Dimensions.dragonX, Dimensions.dragonY);
 		DRAGON_FLY4 = initBitmap(R.drawable.dragon_fly4, Dimensions.dragonX, Dimensions.dragonY);
+
+		BULLET = initBitmap(R.drawable.bullet, Dimensions.bulletX, Dimensions.bulletY);
 
 		BLANK_IMAGE = initBitmap(R.drawable.blank_image, 90, 125);
 	}
@@ -68,5 +73,8 @@ public class Bitmaps
 
 		private static int dragonX = 160;
 		private static int dragonY = 115;
+
+		private static int bulletX = 100;
+		private static int bulletY = 32;
 	}
 }

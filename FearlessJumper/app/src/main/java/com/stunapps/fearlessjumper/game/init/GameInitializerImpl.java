@@ -72,13 +72,15 @@ public class GameInitializerImpl implements GameInitializer
 	private void initPlatforms() throws CloneNotSupportedException
 	{
 		Prefab platformPrefab = Prefabs.PLATFORM.get();
+		Prefab bulletPrefab = Prefabs.BULLET.get();
 
 		int x = Device.SCREEN_WIDTH / 4;
 		int y = Device.SCREEN_HEIGHT / 2 + 200;
 		Transform transform1 = new Transform(new Position(x, y));
-		Transform transform3 = new Transform(new Position(5 * Device.SCREEN_WIDTH / 8, 300));
+		Transform transform3 = new Transform(new Position(x - 100, y));
 
 		entityManager.instantiate(platformPrefab, transform1);
+		entityManager.instantiate(bulletPrefab, transform3);
 	}
 
 	private void initBoundaries(Entity target) throws CloneNotSupportedException

@@ -8,10 +8,14 @@ package com.stunapps.fearlessjumper.prefab;
 public enum Prefabs
 {
     PLAYER(new PlayerPrefab()),
+
     PLATFORM(new PlatformPrefab()),
     LAND(new LandPrefab()),
+
     DRAGON(new DragonPrefab()),
     GROUNDED_DRAGON(new GroundedDragonPrefab()),
+	BULLET(new BulletPrefab()),
+
     CLOCK(new ClockPrefab()),
     CLOCK_PARTICLE(new ClockParticlePrefab());
 

@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.google.inject.Inject;
@@ -32,6 +33,8 @@ import java.util.Set;
 @Singleton
 public class GenerationSystem implements UpdateSystem
 {
+	private static final String TAG = GenerationSystem.class.getSimpleName();
+
 	private final EntityManager entityManager;
 	private final ComponentManager componentManager;
 	private final EntityTransformCalculator calculator;
@@ -94,8 +97,12 @@ public class GenerationSystem implements UpdateSystem
 	{
 		for (Entity obstacle : obstacles)
 		{
-			if (RenderSystem.getRenderRect(obstacle).top > Device.SCREEN_HEIGHT)
+			Rect renderRect = RenderSystem.getRenderRect(obstacle);
+			if (renderRect.top > Device.SCREEN_HEIGHT || renderRect.left > Device.SCREEN_WIDTH)
+			{
+				Log.d(TAG, "Deleting spawnable: " + obstacle.getId());
 				entityManager.deleteEntity(obstacle);
+			}
 		}
 	}
 
