@@ -5,9 +5,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.game.Environment;
 
-import static com.stunapps.fearlessjumper.helper.Environment.Constants.ONE_MILLION;
+import static com.stunapps.fearlessjumper.game.Environment.Constants.ONE_MILLION;
 
 /**
  * Created by sunny.s on 10/01/18.

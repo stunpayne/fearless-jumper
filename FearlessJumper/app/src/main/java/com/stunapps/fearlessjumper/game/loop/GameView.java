@@ -9,10 +9,8 @@ import android.view.SurfaceView;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.system.Systems;
-
-import lombok.Getter;
 
 /**
  * Created by sunny.s on 10/01/18.

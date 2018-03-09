@@ -1,6 +1,6 @@
 package com.stunapps.fearlessjumper.particle;
 
-import com.stunapps.fearlessjumper.helper.Environment.Constants;
+import com.stunapps.fearlessjumper.game.Environment.Constants;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Velocity;
 

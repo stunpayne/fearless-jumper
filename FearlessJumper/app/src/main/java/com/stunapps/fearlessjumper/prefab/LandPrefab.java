@@ -4,7 +4,7 @@ import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.LowerBoundaryComponent;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Velocity;
 

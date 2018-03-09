@@ -26,7 +26,7 @@ import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
-import com.stunapps.fearlessjumper.helper.Environment.Settings;
+import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
@@ -34,15 +34,15 @@ import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.helper.Environment;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.List;
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
-import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
+import static com.stunapps.fearlessjumper.game.Environment.scaleX;
+import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -186,9 +186,7 @@ public class RenderSystem implements UpdateSystem
 			Emitter emitter = emitterEntity.getComponent(Emitter.class);
 			if(emitter.isInitialised())
 			{
-				Log.d("rendersystem", "emitter: renderParticleEmission:");
 				Set<Particle> particles = emitter.getParticles();
-				Log.d("rendersystem", "emitter: particle count :"+particles.size());
 				renderParticles(particles);
 			}
 		}

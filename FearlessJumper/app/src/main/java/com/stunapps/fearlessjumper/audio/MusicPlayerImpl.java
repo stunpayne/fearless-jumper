@@ -4,7 +4,7 @@ import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 
 import com.stunapps.fearlessjumper.R;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.game.Environment;
 
 /**
  * Created by sunny.s on 15/02/18.

@@ -3,7 +3,7 @@ package com.stunapps.fearlessjumper.audio;
 import android.util.Log;
 
 import com.google.inject.Singleton;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.game.Environment;
 
 import org.roboguice.shaded.goole.common.collect.Maps;
 

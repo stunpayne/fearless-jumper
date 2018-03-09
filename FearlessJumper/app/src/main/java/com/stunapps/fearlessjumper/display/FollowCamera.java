@@ -2,7 +2,7 @@ package com.stunapps.fearlessjumper.display;
 
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 
 import lombok.Getter;
 

@@ -5,8 +5,8 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.core.OrientationData;
-import com.stunapps.fearlessjumper.helper.Environment;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 
 /**
  * Created by anand.verma on 14/01/18.

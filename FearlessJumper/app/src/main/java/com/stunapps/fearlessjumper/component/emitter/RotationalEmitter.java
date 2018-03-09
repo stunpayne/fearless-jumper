@@ -1,7 +1,7 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.List;

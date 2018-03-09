@@ -20,9 +20,9 @@ import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.game.MainMenuEvent;
 import com.stunapps.fearlessjumper.event.game.StartGameEvent;
-import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.game.loop.GameView;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.game.Environment;
 
 import javax.inject.Inject;
 

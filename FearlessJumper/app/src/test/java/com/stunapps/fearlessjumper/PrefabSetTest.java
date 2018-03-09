@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Bitmaps;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.Prefabs;

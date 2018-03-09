@@ -83,7 +83,6 @@ abstract public class BaseEmitter extends Emitter
 			this.particles.addAll(particles);
 		}
 		isInitialised = true;
-		Log.d(TAG, "init: emitter: id = " + id);
 	}
 
 	@Override
@@ -103,7 +102,6 @@ abstract public class BaseEmitter extends Emitter
 	@Override
 	public void update(long delta)
 	{
-		Log.d(TAG, "update: emitter : updated called.");
 		Iterator<Particle> iterator = particles.iterator();
 		while (iterator.hasNext())
 		{

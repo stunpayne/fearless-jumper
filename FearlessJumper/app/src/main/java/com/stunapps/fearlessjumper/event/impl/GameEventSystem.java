@@ -5,7 +5,7 @@ import android.util.Log;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.event.EventException;
 
 import java.util.LinkedList;
 import java.util.List;

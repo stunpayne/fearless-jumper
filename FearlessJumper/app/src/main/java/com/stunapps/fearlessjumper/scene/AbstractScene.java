@@ -8,11 +8,9 @@ import android.view.View;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
-import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.scene.SceneStartEvent;
 import com.stunapps.fearlessjumper.event.scene.SceneStopEvent;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.game.Environment;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.Callable;

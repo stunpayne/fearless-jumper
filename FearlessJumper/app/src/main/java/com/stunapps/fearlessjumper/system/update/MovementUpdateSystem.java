@@ -10,8 +10,8 @@ import com.stunapps.fearlessjumper.entity.Entity;
 
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
-import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
+import static com.stunapps.fearlessjumper.game.Environment.scaleX;
+import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 import static com.stunapps.fearlessjumper.system.update.MovementUpdateSystem.MovementUpdater
 		.updatePeriodicMotion;
 

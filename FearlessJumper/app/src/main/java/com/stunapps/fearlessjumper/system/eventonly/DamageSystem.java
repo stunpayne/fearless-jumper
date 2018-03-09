@@ -12,7 +12,7 @@ import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.impl.HurtEvent;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
-import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
 import com.stunapps.fearlessjumper.system.System;
 

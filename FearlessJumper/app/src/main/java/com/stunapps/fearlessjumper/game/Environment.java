@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.helper;
+package com.stunapps.fearlessjumper.game;
 
 import android.content.Context;
 import android.graphics.Canvas;

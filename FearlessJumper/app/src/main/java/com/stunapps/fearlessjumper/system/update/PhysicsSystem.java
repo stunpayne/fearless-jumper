@@ -8,14 +8,14 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
-import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.helper.Environment.Constants.ONE_SECOND_NANOS;
-import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
-import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
+import static com.stunapps.fearlessjumper.game.Environment.Constants.ONE_SECOND_NANOS;
+import static com.stunapps.fearlessjumper.game.Environment.scaleX;
+import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 /**
  * Created by sunny.s on 19/01/18.

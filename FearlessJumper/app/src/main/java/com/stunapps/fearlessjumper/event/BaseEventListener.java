@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper.event;
 
-import com.stunapps.fearlessjumper.exception.EventException;
-
 import java.util.EventListener;
 
 /**

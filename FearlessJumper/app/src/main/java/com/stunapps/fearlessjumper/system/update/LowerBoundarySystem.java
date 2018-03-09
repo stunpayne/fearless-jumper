@@ -6,9 +6,7 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.LowerBoundaryComponent;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
-
-import java.util.ArrayList;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 
 /**
  * Created by sunny.s on 26/01/18.

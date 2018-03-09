@@ -6,7 +6,7 @@ import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.game.StartGameEvent;
 import com.stunapps.fearlessjumper.event.impl.GameEventSystem;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
-import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.event.EventException;
 
 import org.junit.Assert;
 import org.junit.Test;

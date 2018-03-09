@@ -10,7 +10,7 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.helper.Environment.Constants;
+import com.stunapps.fearlessjumper.game.Environment.Constants;
 import com.stunapps.fearlessjumper.system.Systems;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static com.stunapps.fearlessjumper.helper.Environment.scaleX;
-import static com.stunapps.fearlessjumper.helper.Environment.scaleY;
+import static com.stunapps.fearlessjumper.game.Environment.scaleX;
+import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 /**
  * Created by sunny.s on 20/01/18.

@@ -8,18 +8,14 @@ import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
-import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Dragon;
 import com.stunapps.fearlessjumper.component.specific.Obstacle;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
-import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.HashMap;

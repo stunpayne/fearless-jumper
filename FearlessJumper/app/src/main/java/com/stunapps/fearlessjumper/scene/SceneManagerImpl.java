@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
-import com.stunapps.fearlessjumper.audio.Sound;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
@@ -13,7 +12,7 @@ import com.stunapps.fearlessjumper.event.game.GameEvent;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.game.MainMenuEvent;
 import com.stunapps.fearlessjumper.event.game.StartGameEvent;
-import com.stunapps.fearlessjumper.exception.EventException;
+import com.stunapps.fearlessjumper.event.EventException;
 
 import java.util.HashMap;
 import java.util.Map;

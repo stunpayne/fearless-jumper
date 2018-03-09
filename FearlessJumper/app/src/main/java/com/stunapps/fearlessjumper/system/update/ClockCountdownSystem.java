@@ -1,11 +1,9 @@
 package com.stunapps.fearlessjumper.system.update;
 
-import android.util.Log;
-
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.helper.Environment.Constants;
+import com.stunapps.fearlessjumper.game.Environment.Constants;
 
 import java.util.Set;
 

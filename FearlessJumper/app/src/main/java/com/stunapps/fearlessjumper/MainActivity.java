@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,13 +15,12 @@ import android.widget.TextView;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.di.DI;
-import com.stunapps.fearlessjumper.helper.Environment;
-import com.stunapps.fearlessjumper.helper.Environment.Device;
+import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.module.GameModule;
 import com.stunapps.fearlessjumper.scene.SceneManager;
 import com.stunapps.fearlessjumper.system.Systems;
 
-import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
