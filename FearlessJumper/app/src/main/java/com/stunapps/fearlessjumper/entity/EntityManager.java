@@ -41,13 +41,13 @@ public class EntityManager
 		return entity;
 	}
 
-	public void instantiate(PrefabSet prefabSet, Transform origin)
+	public void instantiate(PrefabSet prefabSet, Transform spawnTransform)
 	{
 		Iterator<PrefabSetEntry> iterator = prefabSet.getEntries().iterator();
 		while (iterator.hasNext())
 		{
 			PrefabSetEntry entry = iterator.next();
-			instantiate(entry.getPrefab(), entry.getRelativeTransform().translateOrigin(origin));
+			instantiate(entry.getPrefab(), entry.getRelativeTransform().translateOrigin(spawnTransform));
 		}
 	}
 
