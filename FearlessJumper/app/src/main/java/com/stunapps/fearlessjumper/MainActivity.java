@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.media.AudioManager;
 import android.support.annotation.LayoutRes;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.stunapps.fearlessjumper.system.Systems;
 import java.util.concurrent.Callable;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
+import static com.stunapps.fearlessjumper.helper.Environment.SHARED_PREFERENCES;
 
 @Singleton
 public class MainActivity extends Activity
@@ -200,6 +202,7 @@ public class MainActivity extends Activity
 		Device.SCREEN_WIDTH = dm.widthPixels;
 		Device.SCREEN_HEIGHT = dm.heightPixels;
 		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
+		SHARED_PREFERENCES = getPreferences(Context.MODE_PRIVATE);
 
 		Log.d("MAIN_ACTIVITY",
 				"Width: " + Device.SCREEN_WIDTH + " Height: " + Device.SCREEN_HEIGHT);
