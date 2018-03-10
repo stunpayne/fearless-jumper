@@ -84,7 +84,7 @@ public class ShooterDragonPrefab extends ComponentPrefab
 		addComponent(
 				new RectCollider(Delta.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
 						CollisionLayer.ENEMY));
-		addComponent(new PeriodicTranslation().withAnchoredYMovement(scaleY(2f), scaleY(100f)));
+		addComponent(new PeriodicTranslation().withAnchoredYMovement(2f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 
 		addComponent(new ContactDamageComponent(1, false));

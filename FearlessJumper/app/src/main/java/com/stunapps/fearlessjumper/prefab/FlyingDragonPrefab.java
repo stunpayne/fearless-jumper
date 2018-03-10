@@ -90,7 +90,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 						CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation()
 				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(),
-						scaleX(5f)));
+						5f));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 	}
