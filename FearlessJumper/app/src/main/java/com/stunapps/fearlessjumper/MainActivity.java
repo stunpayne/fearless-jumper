@@ -1,7 +1,6 @@
 package com.stunapps.fearlessjumper;
 
 import android.app.Activity;
-import android.content.Context;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.core.Bitmaps;
-import com.stunapps.fearlessjumper.core.GameStatsManager;
+import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
