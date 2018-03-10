@@ -16,6 +16,9 @@ import lombok.ToString;
 @ToString
 public class Transform extends Component
 {
+	public static final Transform ORIGIN = new Transform(Position.ORIGIN, Rotation.NO_ROTATION,
+			Scale.UNIT_SCALE);
+
 	public Position position = new Position();
 	public Rotation rotation = new Rotation();
 	public Scale scale = new Scale();

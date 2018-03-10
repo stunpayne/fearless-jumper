@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.system.update;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.Score;
+import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
 
@@ -20,11 +21,13 @@ public class ScoreUpdateSystem implements UpdateSystem
 	private Position topPlayerPosition = null;
 
 	private final ComponentManager componentManager;
+	private final GameStatsManager gameStatsManager;
 
 	@Inject
-	public ScoreUpdateSystem(ComponentManager componentManager)
+	public ScoreUpdateSystem(ComponentManager componentManager, GameStatsManager gameStatsManager)
 	{
 		this.componentManager = componentManager;
+		this.gameStatsManager = gameStatsManager;
 	}
 
 	@Override
@@ -57,7 +60,10 @@ public class ScoreUpdateSystem implements UpdateSystem
 			float topPosDiff = player.transform.position.y - topPlayerPosition.y;
 			float scoreIncrease = Math.abs(SCORE_MULTIPLIER * topPosDiff);
 			player.getComponent(Score.class).addScore(scoreIncrease);
+			;
 			player.transform.position.copyTo(topPlayerPosition);
+			float score = player.getComponent(Score.class).getScore();
+			gameStatsManager.updateCurrentScore((long) score);
 		}
 
 		if (topPlayerPosition == null) topPlayerPosition = new Position(player.transform.position);

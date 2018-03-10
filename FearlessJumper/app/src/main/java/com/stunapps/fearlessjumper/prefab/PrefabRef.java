@@ -8,18 +8,28 @@ package com.stunapps.fearlessjumper.prefab;
 
 public enum PrefabRef
 {
+    /**
+     * Unit prefabs
+     */
     PLAYER(new PlayerPrefab()),
 
     PLATFORM(new PlatformPrefab()),
     LAND(new LandPrefab()),
 
     FLYING_DRAGON(new FlyingDragonPrefab()),
+    FOLLOWING_DRAGON(new FollowingDragonPrefab()),
     GROUNDED_DRAGON(new GroundedDragonPrefab()),
     BULLET(new BulletPrefab()),
     SHOOTER_DRAGON(new ShooterDragonPrefab()),
 
     CLOCK(new ClockPrefab()),
-    CLOCK_PARTICLE(new ClockParticlePrefab());
+    CLOCK_PARTICLE(new ClockParticlePrefab()),
+
+    /**
+     * Set prefabs
+     */
+    GROUNDED_DRAGON_SET(new GroundedDragonPrefabSet())
+    ;
 
     private Prefab prefab;
 

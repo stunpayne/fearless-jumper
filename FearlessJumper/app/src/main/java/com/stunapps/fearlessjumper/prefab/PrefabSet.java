@@ -1,51 +1,43 @@
 package com.stunapps.fearlessjumper.prefab;
 
+import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 
-import org.roboguice.shaded.goole.common.collect.Sets;
-
-import java.util.Set;
-
-import lombok.AllArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sunny.s on 09/03/18.
  */
 
-public abstract class PrefabSet
+public abstract class PrefabSet extends Prefab
 {
-	protected Set<PrefabSetEntry> entries;
+	private List<Instantiable> instantiables;
 
 	public PrefabSet()
 	{
-		this.entries = Sets.newHashSet();
+		this.instantiables = new ArrayList<>();
 	}
 
-	public Set<PrefabSetEntry> getEntries()
+	@Override
+	public List<Instantiable> getInstantiables()
 	{
-		return entries;
+		return instantiables;
 	}
 
-
-	public class PrefabSetEntry
+	protected void addPrefab(Prefab prefab, Transform relativeTransform)
 	{
-		PrefabRef prefab;
-		Transform relativeTransform;
-
-		public PrefabSetEntry(PrefabRef prefab, Transform relativeTransform)
+		List<Instantiable> instantiables = prefab.getInstantiables();
+		for (Instantiable instantiable : instantiables)
 		{
-			this.prefab = prefab;
-			this.relativeTransform = relativeTransform;
+			this.instantiables
+					.add(new Instantiable(instantiable.getComponents(), relativeTransform));
 		}
+	}
 
-		public PrefabRef getPrefabRef()
-		{
-			return prefab;
-		}
-
-		public Transform getRelativeTransform()
-		{
-			return relativeTransform;
-		}
+	@Override
+	public <C extends Component> C getComponent(Class<C> componentType)
+	{
+		throw new UnsupportedOperationException();
 	}
 }

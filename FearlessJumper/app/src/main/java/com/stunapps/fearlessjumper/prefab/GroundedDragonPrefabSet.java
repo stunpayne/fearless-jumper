@@ -16,10 +16,9 @@ public class GroundedDragonPrefabSet extends PrefabSet
 		super();
 		EntityTransformCalculator calculator = new EntityTransformCalculatorImpl();
 
-		entries.add(new PrefabSetEntry(PrefabRef.GROUNDED_DRAGON, new Transform(Position.ORIGIN)));
+		addPrefab(PrefabRef.GROUNDED_DRAGON.get(), new Transform(Position.ORIGIN));
 
 		float height = calculator.getHeight(PrefabRef.GROUNDED_DRAGON.get());
-		entries.add(new PrefabSetEntry(PrefabRef.PLATFORM, new Transform(new Position(0, height)
-		)));
+		addPrefab(PrefabRef.PLATFORM.get(), new Transform(new Position(0, height)));
 	}
 }

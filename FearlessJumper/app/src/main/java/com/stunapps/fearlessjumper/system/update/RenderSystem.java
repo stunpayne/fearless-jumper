@@ -33,6 +33,7 @@ import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
+import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
 
@@ -49,6 +50,7 @@ import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 public class RenderSystem implements UpdateSystem
 {
 	private final ComponentManager componentManager;
+	private final GameStatsManager gameStatsManager;
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
@@ -59,7 +61,8 @@ public class RenderSystem implements UpdateSystem
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem,
-			CircularEmitter circularEmitter, RotationalEmitter rotationalEmitter)
+			CircularEmitter circularEmitter, RotationalEmitter rotationalEmitter,
+			GameStatsManager gameStatsManager)
 	{
 		this.componentManager = componentManager;
 
@@ -74,6 +77,8 @@ public class RenderSystem implements UpdateSystem
 
 		colliderPaint.setColor(Color.WHITE);
 		colliderPaint.setStyle(Style.STROKE);
+
+		this.gameStatsManager = gameStatsManager;
 	}
 
 	@Override
@@ -94,6 +99,63 @@ public class RenderSystem implements UpdateSystem
 		renderHUD();
 
 		renderParticleEmission();
+
+		//testing
+		if (Settings.DEBUG_MODE)
+		{
+			//renderGameStats();
+		}
+	}
+
+	private void renderGameStats()
+	{
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		paint.setTextAlign(Align.CENTER);
+		paint.setTypeface(Typeface.SANS_SERIF);
+		paint.setTextSize(40);
+
+		float x = Device.SCREEN_WIDTH / 2;
+		float y = Device.SCREEN_HEIGHT / 2 - 300;
+
+		canvas.drawText(String.valueOf("current score : " + gameStatsManager.getCurrentScore()), x,
+						y, paint);
+		y += 50;
+		canvas.drawText(
+				String.valueOf("session high score : " + gameStatsManager.getSessionHighScore())
+				, x,
+				y, paint);
+		y += 50;
+		canvas.drawText(
+				String.valueOf("global high score : " + gameStatsManager.getGlobalHighScore()), x,
+				y, paint);
+
+		y += 50;
+		canvas.drawText(String.valueOf("average score : " + gameStatsManager.getAverageScore()), x,
+						y, paint);
+
+		if (!gameStatsManager.getDeathStat().isEmpty())
+		{
+			y += 50;
+			canvas.drawText(String.valueOf("death by : " + gameStatsManager.getDeathStat()), x, y,
+							paint);
+		}
+
+		y += 50;
+		canvas.drawText(String.valueOf("game play count : " + gameStatsManager.getGamePlayCount()),
+						x, y, paint);
+
+		y += 50;
+		int i = 1;
+		for (Long previousScore : gameStatsManager.getScoreHistory())
+		{
+			canvas.drawText("previous score " + i + " : " + String.valueOf(previousScore), x, y,
+
+							paint);
+			y += 50;
+			i++;
+
+		}
 	}
 
 	@Override

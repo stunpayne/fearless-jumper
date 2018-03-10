@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.component.specific;
+package com.stunapps.fearlessjumper.component.spawnable;
 
 import com.stunapps.fearlessjumper.component.Component;
 

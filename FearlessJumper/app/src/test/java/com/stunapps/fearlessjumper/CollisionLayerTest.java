@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper;
 
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.collider.Collider;
+import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.entity.Entity;
@@ -35,8 +36,10 @@ public class CollisionLayerTest
 		collisionLayerManager.unsetCollisionLayerMask(CollisionLayer.PLAYER, CollisionLayer.ENEMY);
 
 
-		Entity dragonEntity = entityManager.instantiate(PrefabRef.FLYING_DRAGON.get());
-		Entity playerEntity = entityManager.instantiate(PrefabRef.PLAYER.get());
+		Entity dragonEntity = entityManager.instantiate(PrefabRef.FLYING_DRAGON.get(), Transform
+				.ORIGIN).get(0);
+		Entity playerEntity = entityManager.instantiate(PrefabRef.PLAYER.get(), Transform.ORIGIN)
+				.get(0);
 		Assert.assertTrue(collisionLayerManager
 								  .isCollisionMaskSet(dragonEntity.getComponent(Collider.class),
 													  playerEntity.getComponent(Collider.class)));

@@ -5,12 +5,13 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.prefab.Instantiable;
 import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.PrefabSet;
-import com.stunapps.fearlessjumper.prefab.PrefabSet.PrefabSetEntry;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,46 +40,29 @@ public class EntityManager
 		return entity;
 	}
 
-	public void instantiate(PrefabSet prefabSet, Transform spawnTransform)
+	public List<Entity> instantiate(Prefab prefab, Transform spawnTransform)
 	{
-		Iterator<PrefabSetEntry> iterator = prefabSet.getEntries().iterator();
-		while (iterator.hasNext())
-		{
-			PrefabSetEntry entry = iterator.next();
-			instantiate(entry.getPrefabRef().get(),
-					entry.getRelativeTransform().translateOrigin(spawnTransform));
-		}
-	}
+		Iterator<Instantiable> iterator = prefab.getInstantiables().iterator();
+		List<Entity> createdEntities = new ArrayList<>();
 
-	public Entity instantiate(Prefab prefab)
-	{
-		Entity entity = null;
 		try
 		{
-			entity = createEntity(prefab.transform);
-			populateComponentsFromPrefab(entity, prefab);
+			while (iterator.hasNext())
+			{
+				Instantiable instantiable = iterator.next();
+				Entity entity = createEntity(
+						instantiable.getRelativeTransform().translateOrigin(spawnTransform));
+				populateComponentsFromInstantiable(entity, instantiable);
+				createdEntities.add(entity);
+			}
 		}
 		catch (CloneNotSupportedException e)
 		{
 			e.printStackTrace();
 		}
-		return entity;
+		return createdEntities;
 	}
 
-	public Entity instantiate(Prefab prefab, Transform transform)
-	{
-		Entity entity = null;
-		try
-		{
-			entity = createEntity(transform);
-			populateComponentsFromPrefab(entity, prefab);
-		}
-		catch (CloneNotSupportedException e)
-		{
-			e.printStackTrace();
-		}
-		return entity;
-	}
 
 	public void deleteEntity(Entity entity)
 	{
@@ -103,14 +87,28 @@ public class EntityManager
 		return entityMap.values();
 	}
 
-	private void populateComponentsFromPrefab(Entity entity, Prefab prefab)
+	private void populateComponentsFromInstantiable(Entity entity, Instantiable instantiable)
 			throws CloneNotSupportedException
 	{
-		for (Component component : prefab.getComponents())
+		for (Component component : instantiable.getComponents())
 		{
 			Component clone = component.clone();
 			entity.addComponent(clone);
 			clone.setEntity(entity);
+		}
+	}
+
+	private void populateComponentsFromPrefab(Entity entity, Prefab prefab)
+			throws CloneNotSupportedException
+	{
+		for (Instantiable instantiable : prefab.getInstantiables())
+		{
+			for (Component component : instantiable.getComponents())
+			{
+				Component clone = component.clone();
+				entity.addComponent(clone);
+				clone.setEntity(entity);
+			}
 		}
 	}
 }

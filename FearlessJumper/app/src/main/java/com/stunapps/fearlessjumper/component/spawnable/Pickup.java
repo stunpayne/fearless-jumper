@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.component.specific;
+package com.stunapps.fearlessjumper.component.spawnable;
 
 import com.stunapps.fearlessjumper.component.Component;
 
@@ -27,7 +27,7 @@ public class Pickup extends Component
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Pickup clone() throws CloneNotSupportedException
 	{
 		return new Pickup(type, pickupValue);
 	}

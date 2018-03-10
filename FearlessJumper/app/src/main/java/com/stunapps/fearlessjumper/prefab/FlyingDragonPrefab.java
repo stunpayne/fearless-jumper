@@ -10,8 +10,9 @@ import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.specific.Dragon;
-import com.stunapps.fearlessjumper.component.specific.Obstacle;
+import com.stunapps.fearlessjumper.component.spawnable.Dragon;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
+import com.stunapps.fearlessjumper.component.spawnable.Obstacle;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
@@ -35,7 +36,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIG
  * Created by sunny.s on 21/01/18.
  */
 
-public class FlyingDragonPrefab extends Prefab
+public class FlyingDragonPrefab extends ComponentPrefab
 {
 	public FlyingDragonPrefab()
 	{
@@ -79,16 +80,15 @@ public class FlyingDragonPrefab extends Prefab
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerTransition(TURN_RIGHT);
-		components.add(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
-		components.add(animator);
-		components.add(new Dragon());
-		components.add(new Obstacle());
-		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(animator);
+		addComponent(new Dragon(EnemyType.MINIGON));
+		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		components.add(new PeriodicTranslation()
+		addComponent(new PeriodicTranslation()
 				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
-		components.add(new ContactDamageComponent(1, false));
-		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
+		addComponent(new ContactDamageComponent(1, false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
 	}
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
+import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -42,6 +43,14 @@ public class TransformUpdateSystem implements UpdateSystem
 			if (movable.hasComponent(PlayerComponent.class))
 				movePlayerTransform(movable.transform, physicsComponent.getVelocity(), renderable);
 			else moveTransform(movable.transform, physicsComponent.getVelocity());
+
+			if (movable.hasComponent(FollowTranslation.class))
+			{
+				Log.d("EntityFollowSystem",
+					  "transform.position.x: " + movable.transform.position.x);
+				Log.d("EntityFollowSystem",
+					  "transform.position.y: " + movable.transform.position.y);
+			}
 		}
 	}
 

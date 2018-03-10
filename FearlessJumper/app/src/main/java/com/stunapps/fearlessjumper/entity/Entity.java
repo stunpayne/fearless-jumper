@@ -58,7 +58,6 @@ public class Entity
     public void delete()
     {
         entityManager.deleteEntity(this);
-        componentManager.deleteEntity(this);
     }
 
     public int getId()

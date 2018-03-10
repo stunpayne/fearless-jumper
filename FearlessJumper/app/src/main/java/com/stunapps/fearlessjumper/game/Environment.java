@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.game;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 
 
@@ -25,6 +26,8 @@ public class Environment
     public static float UNIT_DENSITY = 2.625f;
     public static float UNIT_HEIGHT = 1794f;
     public static float UNIT_WIDTH = 1080f;
+
+    public static SharedPreferences SHARED_PREFERENCES;
 
     public class Constants
     {

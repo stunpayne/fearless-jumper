@@ -18,6 +18,8 @@ import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.prefab.PrefabSet;
 
+import java.util.List;
+
 /**
  * Created by sunny.s on 12/01/18.
  */
@@ -49,7 +51,8 @@ public class GameInitializerImpl implements GameInitializer
 		int x = 4 * Device.SCREEN_WIDTH / 5;
 		int y = Device.SCREEN_HEIGHT - 150;
 		Transform transform = new Transform(new Position(x, y));
-		final Entity player = entityManager.instantiate(PrefabRef.PLAYER.get(), transform);
+		List<Entity> instantiate = entityManager.instantiate(PrefabRef.PLAYER.get(), transform);
+		Entity player = instantiate.get(0);
 
 		try
 		{
@@ -100,8 +103,11 @@ public class GameInitializerImpl implements GameInitializer
 		//				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 200));
 		//		entityManager.instantiate(prefabSet, transform2);
 
-		entityManager.instantiate(PrefabRef.SHOOTER_DRAGON.get(), new Transform(new Position
-				(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
+		/*entityManager.instantiate(PrefabRef.SHOOTER_DRAGON.get(), new Transform(new Position
+				(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150))); */
+
+		entityManager.instantiate(PrefabRef.FOLLOWING_DRAGON.get(), new Transform(
+				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
 	}
 
 	@Override

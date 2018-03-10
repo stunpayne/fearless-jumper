@@ -6,10 +6,10 @@ import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
  * Created by anand.verma on 08/03/18.
  */
 
-public class ClockParticlePrefab extends Prefab
+public class ClockParticlePrefab extends ComponentPrefab
 {
 	public ClockParticlePrefab()
 	{
-		components.add(new CircularEmitter());
+		addComponent(new CircularEmitter());
 	}
 }

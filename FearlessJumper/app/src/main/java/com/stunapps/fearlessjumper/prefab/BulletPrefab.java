@@ -6,7 +6,8 @@ import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.specific.Obstacle;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
@@ -16,17 +17,17 @@ import com.stunapps.fearlessjumper.model.Velocity;
  * Created by sunny.s on 09/03/18.
  */
 
-public class BulletPrefab extends Prefab
+public class BulletPrefab extends ComponentPrefab
 {
 	public BulletPrefab()
 	{
 		Bitmap bullet = Bitmaps.BULLET;
 
-		components.add(new Renderable(bullet, Delta.ZERO, bullet.getWidth(), bullet.getHeight()));
-		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(5f, 0), false));
-		components.add(new RectCollider(Delta.ZERO, bullet.getWidth(), bullet.getHeight(), true,
+		addComponent(new Renderable(bullet, Delta.ZERO, bullet.getWidth(), bullet.getHeight()));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(5f, 0), false));
+		addComponent(new RectCollider(Delta.ZERO, bullet.getWidth(), bullet.getHeight(), true,
 				CollisionLayer.BULLET));
-		components.add(new Obstacle());
-		components.add(new ContactDamageComponent(10, true));
+		addComponent(new Enemy(EnemyType.GRORUM));
+		addComponent(new ContactDamageComponent(10, true));
 	}
 }

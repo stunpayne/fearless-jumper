@@ -5,6 +5,7 @@ import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
@@ -13,6 +14,7 @@ import com.stunapps.fearlessjumper.event.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
+import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.system.System;
 
 /**
@@ -23,12 +25,15 @@ public class DamageSystem implements System
 {
 	private EventSystem eventSystem;
 	private CollisionLayerManager collisionLayerManager;
+	private GameStatsManager gameStatsManager;
 
 	@Inject
-	public DamageSystem(EventSystem eventSystem, CollisionLayerManager collisionLayerManager)
+	public DamageSystem(EventSystem eventSystem, CollisionLayerManager collisionLayerManager,
+			GameStatsManager gameStatsManager)
 	{
 		this.eventSystem = eventSystem;
 		this.collisionLayerManager = collisionLayerManager;
+		this.gameStatsManager = gameStatsManager;
 		eventSystem.registerEventListener(CollisionEvent.class, collisionEventListener);
 	}
 
@@ -65,6 +70,11 @@ public class DamageSystem implements System
 			{
 				animator.triggerTransition(AnimationTransition.TERMINATE);
 				eventSystem.raiseEvent(new GameOverEvent());
+				if (damaging.hasComponent(Enemy.class))
+				{
+					gameStatsManager.updateDeathStat(
+							damaging.getComponent(Enemy.class).getEnemyType().name());
+				}
 			}
 			else
 			{

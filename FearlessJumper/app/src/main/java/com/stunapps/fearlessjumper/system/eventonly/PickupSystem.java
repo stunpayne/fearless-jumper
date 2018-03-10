@@ -5,7 +5,7 @@ import android.util.Log;
 import com.stunapps.fearlessjumper.audio.Sound.Effect;
 import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
-import com.stunapps.fearlessjumper.component.specific.Pickup;
+import com.stunapps.fearlessjumper.component.spawnable.Pickup;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.entity.Entity;
@@ -71,7 +71,7 @@ public class PickupSystem implements System
 				player.getComponent(RemainingTime.class)
 						.addSeconds((long) pickupComponent.getPickupValue());
 				Entity entity = entityManager.instantiate(PrefabRef.CLOCK_PARTICLE.get(), pickup
-						.transform);
+						.transform).get(0);
 				eventSystem.raiseEvent(new EmitterEvent(entity));
 				break;
 			case FUEL:

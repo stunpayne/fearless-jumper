@@ -6,9 +6,10 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.specific.Dragon;
-import com.stunapps.fearlessjumper.component.specific.Obstacle;
-import com.stunapps.fearlessjumper.component.specific.Pickup;
+import com.stunapps.fearlessjumper.component.spawnable.Dragon;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy;
+import com.stunapps.fearlessjumper.component.spawnable.Obstacle;
+import com.stunapps.fearlessjumper.component.spawnable.Pickup;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
@@ -72,7 +73,8 @@ public class GenerationSystem implements UpdateSystem
 
 		Entity player = componentManager.getEntity(PlayerComponent.class);
 		Set<Entity> spawnables = componentManager.getEntities(Obstacle.class);
-		spawnables.addAll((componentManager.getEntities(Pickup.class)));
+		spawnables.addAll(componentManager.getEntities(Pickup.class));
+		spawnables.addAll(componentManager.getEntities(Enemy.class));
 
 		deleteSpawnablesOutOfScreen(spawnables);
 		createNewSpawnableIfPossible(player.transform.position);
@@ -101,7 +103,8 @@ public class GenerationSystem implements UpdateSystem
 			if (renderRect.top > Device.SCREEN_HEIGHT || renderRect.left > Device.SCREEN_WIDTH ||
 					renderRect.right < 0)
 			{
-				Log.d(TAG, "Deleting spawnable: " + obstacle.getId());
+				Log.d(TAG, "Deleting spawnable: " + obstacle.getId() + " of type: " +
+						getSpawnableName(obstacle));
 				entityManager.deleteEntity(obstacle);
 			}
 		}
@@ -123,16 +126,15 @@ public class GenerationSystem implements UpdateSystem
 			//	TODO: Change platformWidth to spawnObstacle width
 			Position spawnPosition =
 					new Position((float) Math.random() * (Device.SCREEN_WIDTH - platformWidth),
-								 topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
+							topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
 			Entity newObstacle =
-					entityManager.instantiate(spawnPrefab, new Transform(spawnPosition));
+					entityManager.instantiate(spawnPrefab, new Transform(spawnPosition)).get(0);
 			activeObstacles.add(newObstacle);
 
 			Log.i("NEW_OBSTACLE",
-				  "Created new obstacle with id: " + newObstacle.getId() + " at: " +
-						  spawnPosition +
-						  " of type: " +
-						  (newObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
+					"Created new obstacle with id: " + newObstacle.getId() + " at:" + " " +
+							spawnPosition + " of type: " +
+							(newObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
 			Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
 		}
 	}
@@ -143,9 +145,12 @@ public class GenerationSystem implements UpdateSystem
 		{
 			obstacleShuffler =
 					new WeightedShuffler.Builder<Prefab>().returnItem(PrefabRef.PLATFORM.get())
-							.withWeight(5f).returnItem(PrefabRef.FLYING_DRAGON.get()).withWeight(5f)
-							.returnItem(PrefabRef.CLOCK.get()).withWeight(5f).returnItem
-							(PrefabRef.SHOOTER_DRAGON.get()).withWeight(5f).build();
+							.withWeight(5f).returnItem(PrefabRef.FLYING_DRAGON.get()).withWeight
+							(5f)
+							.returnItem(PrefabRef.CLOCK.get()).withWeight(5f)
+							.returnItem(PrefabRef.SHOOTER_DRAGON.get()).withWeight(5f)
+							.returnItem(PrefabRef.GROUNDED_DRAGON_SET.get()).withWeight(5f)
+							.build();
 		}
 	}
 
@@ -164,5 +169,19 @@ public class GenerationSystem implements UpdateSystem
 				return (int) (o2.transform.position.y - o1.transform.position.y);
 			}
 		});
+	}
+
+	private String getSpawnableName(Entity entity)
+	{
+		String spawnableType;
+
+		if (entity.hasComponent(Obstacle.class)) spawnableType = Obstacle.class.getSimpleName();
+		else if (entity.hasComponent(Enemy.class))
+			spawnableType = entity.getComponent(Enemy.class).getEnemyType().name();
+		else if (entity.hasComponent(Pickup.class))
+			spawnableType = entity.getComponent(Pickup.class).getType().name();
+		else spawnableType = "ABETUKAUNHAI";
+
+		return spawnableType;
 	}
 }
