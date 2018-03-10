@@ -47,7 +47,8 @@ public class EntityManager
 		while (iterator.hasNext())
 		{
 			PrefabSetEntry entry = iterator.next();
-			instantiate(entry.getPrefab(), entry.getRelativeTransform().translateOrigin(spawnTransform));
+			instantiate(entry.getPrefab(),
+					entry.getRelativeTransform().translateOrigin(spawnTransform));
 		}
 	}
 
