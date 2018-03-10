@@ -43,29 +43,20 @@ public class GameStatsManager
 	{
 		maintainScoreHistory();
 		resetCurrentScore();
+		resetDeathStat();
 		increaseGamePlayCount();
 	}
 
 	public void resetGameStats(){
 		resetSessionHighScore();
 		resetCurrentScore();
+		resetDeathStat();
 	}
 
 	public void updateCurrentScore(long currentScore)
 	{
 		updateScore(currentScore);
 		updateGameScoreStats();
-	}
-
-	public void enemyEncountered(String enemy)
-	{
-		Set<String> enemyEncountered =
-				new HashSet<>(dataReader.getStringSet(ENEMY_ENCOUNTERED, new HashSet<String>()));
-		if (!enemyEncountered.contains(enemy))
-		{
-			enemyEncountered.add(enemy);
-			dataWriter.putStringSet(ENEMY_ENCOUNTERED, enemyEncountered);
-		}
 	}
 
 	public void updateDeathStat(String deathStat)
@@ -99,6 +90,11 @@ public class GameStatsManager
 		}
 		int maxGamePlayCountForStats = Math.min(Math.max(getGamePlayCount(), 1), 4);
 		return (historicalScore + getCurrentScore()) / maxGamePlayCountForStats;
+	}
+
+	public String getDeathStat()
+	{
+		return dataReader.getString(DEATH_STAT, "");
 	}
 
 	public int getGamePlayCount()
@@ -172,6 +168,12 @@ public class GameStatsManager
 	private void resetCurrentScore()
 	{
 		dataWriter.putLong(CURRENT_SCORE, 0l);
+		dataWriter.commit();
+	}
+
+	private void resetDeathStat()
+	{
+		dataWriter.putString(DEATH_STAT, "");
 		dataWriter.commit();
 	}
 
