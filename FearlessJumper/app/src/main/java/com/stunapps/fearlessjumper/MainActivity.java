@@ -27,7 +27,7 @@ import com.stunapps.fearlessjumper.system.Systems;
 import java.util.concurrent.Callable;
 
 import static com.stunapps.fearlessjumper.di.DI.di;
-import static com.stunapps.fearlessjumper.helper.Environment.SHARED_PREFERENCES;
+import static com.stunapps.fearlessjumper.game.Environment.SHARED_PREFERENCES;
 
 @Singleton
 public class MainActivity extends Activity

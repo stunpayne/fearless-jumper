@@ -1,10 +1,9 @@
 package com.stunapps.fearlessjumper.core;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.inject.Singleton;
-import com.stunapps.fearlessjumper.helper.Environment;
+import com.stunapps.fearlessjumper.game.Environment;
 
 import java.util.HashSet;
 import java.util.LinkedList;
