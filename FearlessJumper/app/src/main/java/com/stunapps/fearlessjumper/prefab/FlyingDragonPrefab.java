@@ -90,6 +90,5 @@ public class FlyingDragonPrefab extends Prefab
 				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
 		components.add(new ContactDamageComponent(1, false));
 		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
-
 	}
 }
