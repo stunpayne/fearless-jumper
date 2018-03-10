@@ -15,7 +15,7 @@ import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.system.EmitterEvent;
 import com.stunapps.fearlessjumper.event.EventException;
-import com.stunapps.fearlessjumper.prefab.Prefabs;
+import com.stunapps.fearlessjumper.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.system.System;
 
 import javax.inject.Inject;
@@ -70,7 +70,7 @@ public class PickupSystem implements System
 			case CLOCK:
 				player.getComponent(RemainingTime.class)
 						.addSeconds((long) pickupComponent.getPickupValue());
-				Entity entity = entityManager.instantiate(Prefabs.CLOCK_PARTICLE.get(), pickup
+				Entity entity = entityManager.instantiate(PrefabRef.CLOCK_PARTICLE.get(), pickup
 						.transform);
 				eventSystem.raiseEvent(new EmitterEvent(entity));
 				break;

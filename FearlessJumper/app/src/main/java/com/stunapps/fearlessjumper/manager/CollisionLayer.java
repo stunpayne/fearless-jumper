@@ -7,9 +7,10 @@ package com.stunapps.fearlessjumper.manager;
 public enum CollisionLayer
 {
 	SOLID(0),
-	ENEMY(1),
-	PLAYER(2),
-	BONUS(3);
+	PLAYER(1),
+	ENEMY(2),
+	BULLET(3),
+	BONUS(4);
 
 	private int index;
 

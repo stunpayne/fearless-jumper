@@ -1,9 +1,9 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
+import com.stunapps.fearlessjumper.helper.EntityTransformCalculatorImpl;
 import com.stunapps.fearlessjumper.model.Position;
-
-import java.util.Set;
 
 /**
  * Created by sunny.s on 09/03/18.
@@ -14,8 +14,13 @@ public class GroundedDragonPrefabSet extends PrefabSet
 	public GroundedDragonPrefabSet()
 	{
 		super();
-		entries.add(new PrefabSetEntry(Prefabs.GROUNDED_DRAGON.get(), new Transform(Position.ORIGIN)));
+		EntityTransformCalculator calculator = new EntityTransformCalculatorImpl();
+
+		entries.add(new PrefabSetEntry(PrefabRef.GROUNDED_DRAGON.get(), new Transform(Position.ORIGIN)));
+
+		float height = calculator.getHeight(PrefabRef.GROUNDED_DRAGON.get());
 		entries.add(
-				new PrefabSetEntry(Prefabs.PLATFORM.get(), new Transform(new Position(0, 150))));
+				new PrefabSetEntry(PrefabRef.PLATFORM.get(), new Transform(new Position(0,
+						height))));
 	}
 }

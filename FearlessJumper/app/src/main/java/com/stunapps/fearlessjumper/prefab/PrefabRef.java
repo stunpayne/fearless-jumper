@@ -2,10 +2,11 @@ package com.stunapps.fearlessjumper.prefab;
 
 /**
  * Created by sunny.s on 12/01/18.
- * Note: This class should not be used before context is initialised
+ * Note: This class should not be used before Bitmaps class is initialised
+ * @see com.stunapps.fearlessjumper.core.Bitmaps
  */
 
-public enum Prefabs
+public enum PrefabRef
 {
     PLAYER(new PlayerPrefab()),
 
@@ -14,14 +15,15 @@ public enum Prefabs
 
     DRAGON(new DragonPrefab()),
     GROUNDED_DRAGON(new GroundedDragonPrefab()),
-	BULLET(new BulletPrefab()),
+    BULLET(new BulletPrefab()),
+    SHOOTER_DRAGON(new ShooterDragonPrefab()),
 
     CLOCK(new ClockPrefab()),
     CLOCK_PARTICLE(new ClockParticlePrefab());
 
     public Prefab prefab;
 
-    Prefabs(Prefab prefab)
+    PrefabRef(Prefab prefab)
     {
         this.prefab = prefab;
     }

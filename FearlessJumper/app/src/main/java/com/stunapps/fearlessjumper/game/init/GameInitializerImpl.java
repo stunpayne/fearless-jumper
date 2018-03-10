@@ -13,8 +13,8 @@ import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.prefab.GroundedDragonPrefabSet;
 import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.prefab.PrefabSet;
-import com.stunapps.fearlessjumper.prefab.Prefabs;
 
 /**
  * Created by sunny.s on 12/01/18.
@@ -48,7 +48,7 @@ public class GameInitializerImpl implements GameInitializer
 		int y = Device.SCREEN_HEIGHT - 150;
 		Transform transform =
 				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
-		final Entity player = entityManager.instantiate(Prefabs.PLAYER.get(), transform);
+		final Entity player = entityManager.instantiate(PrefabRef.PLAYER.get(), transform);
 
 		try
 		{
@@ -71,8 +71,8 @@ public class GameInitializerImpl implements GameInitializer
 
 	private void initPlatforms() throws CloneNotSupportedException
 	{
-		Prefab platformPrefab = Prefabs.PLATFORM.get();
-		Prefab bulletPrefab = Prefabs.BULLET.get();
+		Prefab platformPrefab = PrefabRef.PLATFORM.get();
+		Prefab bulletPrefab = PrefabRef.BULLET.get();
 
 		int x = Device.SCREEN_WIDTH / 4;
 		int y = Device.SCREEN_HEIGHT / 2 + 200;
@@ -86,13 +86,13 @@ public class GameInitializerImpl implements GameInitializer
 	private void initBoundaries(Entity target) throws CloneNotSupportedException
 	{
 		Transform landTransform = new Transform(new Position(0, Device.SCREEN_HEIGHT), null, null);
-		entityManager.instantiate(Prefabs.LAND.get(), landTransform);
+		entityManager.instantiate(PrefabRef.LAND.get(), landTransform);
 	}
 
 	private void initEnemies()
 	{
 		//  Initialise enemies
-		entityManager.instantiate(Prefabs.DRAGON.get());
+		entityManager.instantiate(PrefabRef.DRAGON.get());
 
 		PrefabSet prefabSet = new GroundedDragonPrefabSet();
 		Transform transform2 = new Transform(

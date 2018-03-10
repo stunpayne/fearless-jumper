@@ -8,7 +8,7 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
-import com.stunapps.fearlessjumper.prefab.Prefabs;
+import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,8 +35,8 @@ public class CollisionLayerTest
 		collisionLayerManager.unsetCollisionLayerMask(CollisionLayer.PLAYER, CollisionLayer.ENEMY);
 
 
-		Entity dragonEntity = entityManager.instantiate(Prefabs.DRAGON.prefab);
-		Entity playerEntity = entityManager.instantiate(Prefabs.PLAYER.prefab);
+		Entity dragonEntity = entityManager.instantiate(PrefabRef.DRAGON.prefab);
+		Entity playerEntity = entityManager.instantiate(PrefabRef.PLAYER.prefab);
 		Assert.assertTrue(collisionLayerManager
 								  .isCollisionMaskSet(dragonEntity.getComponent(Collider.class),
 													  playerEntity.getComponent(Collider.class)));

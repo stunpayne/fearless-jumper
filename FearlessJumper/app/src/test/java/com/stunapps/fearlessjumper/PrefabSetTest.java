@@ -7,7 +7,7 @@ import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.Prefabs;
+import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -52,7 +52,7 @@ public class PrefabSetTest
 		Environment.CONTEXT = context;
 		Bitmaps.initialise();
 
-		Prefab prefab = Prefabs.DRAGON.get();
+		Prefab prefab = PrefabRef.DRAGON.get();
 		System.out.println(prefab);
 	}
 }

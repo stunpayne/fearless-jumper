@@ -19,7 +19,7 @@ import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.Prefabs;
+import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class GenerationSystem implements UpdateSystem
 			initShuffler();
 			initActiveObstacles();
 
-			platformWidth = calculator.getWidth(Prefabs.PLATFORM.get());
+			platformWidth = calculator.getWidth(PrefabRef.PLATFORM.get());
 		}
 
 		Entity player = componentManager.getEntity(PlayerComponent.class);
@@ -98,7 +98,8 @@ public class GenerationSystem implements UpdateSystem
 		for (Entity obstacle : obstacles)
 		{
 			Rect renderRect = RenderSystem.getRenderRect(obstacle);
-			if (renderRect.top > Device.SCREEN_HEIGHT || renderRect.left > Device.SCREEN_WIDTH)
+			if (renderRect.top > Device.SCREEN_HEIGHT || renderRect.left > Device.SCREEN_WIDTH ||
+					renderRect.left < 0)
 			{
 				Log.d(TAG, "Deleting spawnable: " + obstacle.getId());
 				entityManager.deleteEntity(obstacle);
@@ -141,9 +142,9 @@ public class GenerationSystem implements UpdateSystem
 		if (obstacleShuffler == null)
 		{
 			obstacleShuffler =
-					new WeightedShuffler.Builder<Prefab>().returnItem(Prefabs.PLATFORM.get())
-							.withWeight(5f).returnItem(Prefabs.DRAGON.get()).withWeight(5f)
-							.returnItem(Prefabs.CLOCK.get()).withWeight(5f).build();
+					new WeightedShuffler.Builder<Prefab>().returnItem(PrefabRef.PLATFORM.get())
+							.withWeight(5f).returnItem(PrefabRef.DRAGON.get()).withWeight(5f)
+							.returnItem(PrefabRef.CLOCK.get()).withWeight(5f).build();
 		}
 	}
 
