@@ -14,15 +14,15 @@ import com.stunapps.fearlessjumper.manager.CollisionLayer;
  * Created by sunny.s on 15/02/18.
  */
 
-public class ClockPrefab extends Prefab
+public class ClockPrefab extends ComponentPrefab
 {
 	public ClockPrefab()
 	{
 		Bitmap clockSprite = Bitmaps.CLOCK;
 		float width = clockSprite.getWidth();
 		float height = clockSprite.getHeight();
-		components.add(new Pickup(PickupType.CLOCK, 5000f));
-		components.add(new RectCollider(Delta.ZERO, width, height, true, CollisionLayer.BONUS));
-		components.add(new Renderable(clockSprite, Delta.ZERO, width, height));
+		addComponent(new Pickup(PickupType.CLOCK, 5000f));
+		addComponent(new RectCollider(Delta.ZERO, width, height, true, CollisionLayer.BONUS));
+		addComponent(new Renderable(clockSprite, Delta.ZERO, width, height));
 	}
 }

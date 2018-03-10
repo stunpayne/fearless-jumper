@@ -28,11 +28,10 @@ public class EntityTransformCalculatorImpl implements EntityTransformCalculator
 	@Override
 	public float getWidth(Prefab prefab)
 	{
-		Component component = prefab.getComponent(Renderable.class);
+		Renderable component = prefab.getComponent(Renderable.class);
 		if (component != null)
 		{
-			Renderable renderable = (Renderable) component;
-			return ((Bitmap) renderable.getRenderable()).getWidth();
+			return ((Bitmap) component.getRenderable()).getWidth();
 		}
 		return 0;
 	}
@@ -40,11 +39,10 @@ public class EntityTransformCalculatorImpl implements EntityTransformCalculator
 	@Override
 	public float getHeight(Prefab prefab)
 	{
-		Component component = prefab.getComponent(Renderable.class);
+		Renderable component = prefab.getComponent(Renderable.class);
 		if (component != null)
 		{
-			Renderable renderable = (Renderable) component;
-			return ((Bitmap) renderable.getRenderable()).getHeight();
+			return ((Bitmap) component.getRenderable()).getHeight();
 		}
 		return 0;
 	}

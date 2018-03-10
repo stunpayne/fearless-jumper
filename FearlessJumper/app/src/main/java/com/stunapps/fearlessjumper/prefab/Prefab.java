@@ -15,28 +15,7 @@ import lombok.Getter;
  * Created by sunny.s on 10/01/18.
  */
 
-public abstract class Prefab
+public abstract class Prefab implements Instantiator
 {
-	public Transform transform;
-
-	@Getter
-	protected List<Component> components;
-
-	public Prefab()
-	{
-		this.transform = new Transform(Position.ORIGIN, Rotation.NO_ROTATION, Scale.UNIT_SCALE);
-		this.components = new ArrayList<>();
-	}
-
-	public Component getComponent(Class<? extends Component> componentType)
-	{
-		for (Component component : components)
-		{
-			if (component.componentType == componentType)
-			{
-				return component;
-			}
-		}
-		return null;
-	}
+	abstract public <C extends Component> C getComponent(Class<C> componentType);
 }

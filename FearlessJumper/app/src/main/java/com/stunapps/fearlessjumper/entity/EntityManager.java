@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.prefab.Instantiable;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabSet;
 import com.stunapps.fearlessjumper.prefab.PrefabSet.PrefabSetEntry;
@@ -50,21 +51,6 @@ public class EntityManager
 		}
 	}
 
-	public Entity instantiate(Prefab prefab)
-	{
-		Entity entity = null;
-		try
-		{
-			entity = createEntity(prefab.transform);
-			populateComponentsFromPrefab(entity, prefab);
-		}
-		catch (CloneNotSupportedException e)
-		{
-			e.printStackTrace();
-		}
-		return entity;
-	}
-
 	public Entity instantiate(Prefab prefab, Transform transform)
 	{
 		Entity entity = null;
@@ -106,11 +92,14 @@ public class EntityManager
 	private void populateComponentsFromPrefab(Entity entity, Prefab prefab)
 			throws CloneNotSupportedException
 	{
-		for (Component component : prefab.getComponents())
+		for (Instantiable instantiable : prefab.getInstantiables())
 		{
-			Component clone = component.clone();
-			entity.addComponent(clone);
-			clone.setEntity(entity);
+			for (Component component : instantiable.getComponents())
+			{
+				Component clone = component.clone();
+				entity.addComponent(clone);
+				clone.setEntity(entity);
+			}
 		}
 	}
 }

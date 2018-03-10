@@ -36,7 +36,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TERMINAT
  * Created by anand.verma on 12/01/18.
  */
 
-public class PlayerPrefab extends Prefab
+public class PlayerPrefab extends ComponentPrefab
 {
 	public PlayerPrefab()
 	{
@@ -65,20 +65,20 @@ public class PlayerPrefab extends Prefab
 						.terminalState(TERMINATED)
 						.build();
 
-		components.add(new Renderable(alien, Delta.ZERO, alien.getWidth(),
+		addComponent(new Renderable(alien, Delta.ZERO, alien.getWidth(),
 				alien.getHeight()));
-		components.add(new Animator(stateAnimationMap, animationStateMachine));
+		addComponent(new Animator(stateAnimationMap, animationStateMachine));
 
-		components.add(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight(),
+		addComponent(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight(),
 										CollisionLayer.PLAYER));
 
-		components.add(new Health(10000));
-		components.add(new PhysicsComponent(50, new Velocity()));
+		addComponent(new Health(10000));
+		addComponent(new PhysicsComponent(50, new Velocity()));
 		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
-		components.add(orientationInput);
-		components.add(new PlayerComponent());
-		components.add(new RemainingTime(-97000));
-		components.add(new Score());
-		components.add(new Fuel(100f));
+		addComponent(orientationInput);
+		addComponent(new PlayerComponent());
+		addComponent(new RemainingTime(-97000));
+		addComponent(new Score());
+		addComponent(new Fuel(100f));
 	}
 }

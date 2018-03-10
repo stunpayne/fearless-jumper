@@ -31,7 +31,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIG
  * Created by sunny.s on 09/03/18.
  */
 
-public class GroundedDragonPrefab extends Prefab
+public class GroundedDragonPrefab extends ComponentPrefab
 {
 	public GroundedDragonPrefab()
 	{
@@ -72,14 +72,14 @@ public class GroundedDragonPrefab extends Prefab
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerTransition(TURN_RIGHT);
-		components.add(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
-		components.add(animator);
-		components.add(new Dragon());
-		components.add(new Obstacle());
-		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(animator);
+		addComponent(new Dragon());
+		addComponent(new Obstacle());
+		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		components.add(new ContactDamageComponent(1, false));
+		addComponent(new ContactDamageComponent(1, false));
 		components
 				.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
 	}

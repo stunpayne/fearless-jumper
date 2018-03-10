@@ -34,7 +34,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIG
  * Created by sunny.s on 10/03/18.
  */
 
-public class ShooterDragonPrefab extends Prefab
+public class ShooterDragonPrefab extends ComponentPrefab
 {
 	public ShooterDragonPrefab()
 	{
@@ -75,20 +75,20 @@ public class ShooterDragonPrefab extends Prefab
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerTransition(TURN_RIGHT);
-		components.add(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 
-		components.add(animator);
-		components.add(new Dragon());
-		components.add(new Obstacle());
+		addComponent(animator);
+		addComponent(new Dragon());
+		addComponent(new Obstacle());
 
-		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		components.add(new PeriodicTranslation()
+		addComponent(new PeriodicTranslation()
 				.withAnchoredYMovement(2f,100f));
-		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
 
-		components.add(new ContactDamageComponent(1, false));
-		components.add(new PeriodicGun(1000));
+		addComponent(new ContactDamageComponent(1, false));
+		addComponent(new PeriodicGun(1000));
 	}
 }
