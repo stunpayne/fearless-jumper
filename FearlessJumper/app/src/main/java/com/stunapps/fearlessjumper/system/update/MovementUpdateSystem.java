@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import android.util.Log;
+
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.ComponentManager;
@@ -21,6 +23,8 @@ import static com.stunapps.fearlessjumper.system.update.MovementUpdateSystem.Mov
 
 public class MovementUpdateSystem implements UpdateSystem
 {
+	private static final String TAG = MovementUpdateSystem.class.getSimpleName();
+
 	private final ComponentManager componentManager;
 
 	private static long lastProcessTime = 0;
@@ -88,7 +92,7 @@ public class MovementUpdateSystem implements UpdateSystem
 				//TODO: need to write it in more cleaner way.
 				if (entity.hasComponent(Animator.class))
 				{
-					entity.getComponent(Animator.class).triggerEvent(AnimationTransition
+					entity.getComponent(Animator.class).triggerTransition(AnimationTransition
 							.TURN_LEFT);
 				}
 			}
@@ -98,7 +102,7 @@ public class MovementUpdateSystem implements UpdateSystem
 				if (entity.hasComponent(Animator.class))
 				{
 					entity.getComponent(Animator.class)
-							.triggerEvent(AnimationTransition.TURN_RIGHT);
+							.triggerTransition(AnimationTransition.TURN_RIGHT);
 				}
 			}
 
@@ -124,6 +128,8 @@ public class MovementUpdateSystem implements UpdateSystem
 
 			entity.getComponent(PhysicsComponent.class).getVelocity().y =
 					periodicTranslation.getCurrSpeedY() * scaleY();
+			Log.v(TAG, "Updated velocity to : " + entity.getComponent(PhysicsComponent.class)
+					.getVelocity().y);
 		}
 	}
 }

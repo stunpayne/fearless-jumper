@@ -13,7 +13,7 @@ public enum PrefabRef
     PLATFORM(new PlatformPrefab()),
     LAND(new LandPrefab()),
 
-    DRAGON(new DragonPrefab()),
+    FLYING_DRAGON(new FlyingDragonPrefab()),
     GROUNDED_DRAGON(new GroundedDragonPrefab()),
     BULLET(new BulletPrefab()),
     SHOOTER_DRAGON(new ShooterDragonPrefab()),
@@ -21,7 +21,7 @@ public enum PrefabRef
     CLOCK(new ClockPrefab()),
     CLOCK_PARTICLE(new ClockParticlePrefab());
 
-    public Prefab prefab;
+    private Prefab prefab;
 
     PrefabRef(Prefab prefab)
     {

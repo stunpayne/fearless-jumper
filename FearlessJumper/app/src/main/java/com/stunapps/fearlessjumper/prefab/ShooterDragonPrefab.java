@@ -8,6 +8,7 @@ import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
+import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Dragon;
 import com.stunapps.fearlessjumper.component.specific.PeriodicGun;
@@ -16,6 +17,7 @@ import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -72,16 +74,22 @@ public class ShooterDragonPrefab extends Prefab
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-		//        animator.triggerEvent(TURN_RIGHT);
+		//        animator.triggerTransition(TURN_RIGHT);
 		components.add(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
+
 		components.add(animator);
 		components.add(new Dragon());
 		components.add(new Obstacle());
+
 		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		components.add(new ContactDamageComponent(1));
+		components.add(new PeriodicTranslation()
+				.withYMovement(Device.SCREEN_HEIGHT / 2 - 400, Device.SCREEN_HEIGHT / 2 + 100,
+						3f));
 		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
-		components.add(new PeriodicGun(4000));
+
+		components.add(new ContactDamageComponent(1));
+		components.add(new PeriodicGun(1000));
 	}
 }

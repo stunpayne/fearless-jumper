@@ -35,9 +35,9 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIG
  * Created by sunny.s on 21/01/18.
  */
 
-public class DragonPrefab extends Prefab
+public class FlyingDragonPrefab extends Prefab
 {
-	public DragonPrefab()
+	public FlyingDragonPrefab()
 	{
 		transform = new Transform(new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT /
 				2 + 100));
@@ -78,7 +78,7 @@ public class DragonPrefab extends Prefab
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-		//        animator.triggerEvent(TURN_RIGHT);
+		//        animator.triggerTransition(TURN_RIGHT);
 		components.add(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 		components.add(animator);

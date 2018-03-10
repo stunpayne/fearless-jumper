@@ -35,8 +35,8 @@ public class CollisionLayerTest
 		collisionLayerManager.unsetCollisionLayerMask(CollisionLayer.PLAYER, CollisionLayer.ENEMY);
 
 
-		Entity dragonEntity = entityManager.instantiate(PrefabRef.DRAGON.prefab);
-		Entity playerEntity = entityManager.instantiate(PrefabRef.PLAYER.prefab);
+		Entity dragonEntity = entityManager.instantiate(PrefabRef.FLYING_DRAGON.get());
+		Entity playerEntity = entityManager.instantiate(PrefabRef.PLAYER.get());
 		Assert.assertTrue(collisionLayerManager
 								  .isCollisionMaskSet(dragonEntity.getComponent(Collider.class),
 													  playerEntity.getComponent(Collider.class)));

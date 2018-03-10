@@ -14,7 +14,5 @@ public class ShooterDragonPrefabSet extends PrefabSet
 		super();
 		entries.add(
 				new PrefabSetEntry(PrefabRef.GROUNDED_DRAGON.get(), new Transform(Position.ORIGIN)));
-		entries.add(
-				new PrefabSetEntry(PrefabRef.PLATFORM.get(), new Transform(new Position(0, 150))));
 	}
 }

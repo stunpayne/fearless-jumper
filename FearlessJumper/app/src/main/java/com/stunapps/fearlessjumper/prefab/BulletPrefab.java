@@ -23,8 +23,8 @@ public class BulletPrefab extends Prefab
 		Bitmap bullet = Bitmaps.BULLET;
 
 		components.add(new Renderable(bullet, Delta.ZERO, bullet.getWidth(), bullet.getHeight()));
-		components.add(new PhysicsComponent(0, new Velocity(5f, 0), false));
-		components.add(new RectCollider(Delta.ZERO, bullet.getWidth(), bullet.getHeight(),
+		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(5f, 0), false));
+		components.add(new RectCollider(Delta.ZERO, bullet.getWidth(), bullet.getHeight(), true,
 				CollisionLayer.BULLET));
 		components.add(new Obstacle());
 		components.add(new ContactDamageComponent(10));

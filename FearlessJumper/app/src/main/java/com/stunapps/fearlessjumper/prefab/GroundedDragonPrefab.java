@@ -71,7 +71,7 @@ public class GroundedDragonPrefab extends Prefab
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-		//        animator.triggerEvent(TURN_RIGHT);
+		//        animator.triggerTransition(TURN_RIGHT);
 		components.add(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 		components.add(animator);

@@ -37,12 +37,12 @@ public class Animator extends Component
 	//  For now, we will just keep a map of animations and call out which one to play from
 	//  the game object
 
-	public void triggerEvent(AnimationTransition event)
+	public void triggerTransition(AnimationTransition event)
 	{
-		//Log.d(TAG, "triggerEvent: currentAnimationState before state transition = " +
+		//Log.d(TAG, "triggerTransition: currentAnimationState before state transition = " +
 		// animationStateMachine.getCurrentState());
 		animationStateMachine.transitStateOnEvent(event);
-		//Log.d(TAG, "triggerEvent: currentAnimationState = " + animationStateMachine
+		//Log.d(TAG, "triggerTransition: currentAnimationState = " + animationStateMachine
         // .getCurrentState() + " after eventType = " + eventType);
 	}
 

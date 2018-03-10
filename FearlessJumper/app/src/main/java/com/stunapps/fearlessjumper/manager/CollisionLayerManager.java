@@ -53,7 +53,7 @@ public class CollisionLayerManager
 
 		setCollisionLayerMask(CollisionLayer.PLAYER,
 							  new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.ENEMY,
-									  CollisionLayer.BONUS});
+									  CollisionLayer.BONUS, CollisionLayer.BULLET});
 	}
 
 	public void setCollisionLayerMask(CollisionLayer collisionLayer,

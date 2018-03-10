@@ -92,12 +92,15 @@ public class GameInitializerImpl implements GameInitializer
 	private void initEnemies()
 	{
 		//  Initialise enemies
-		entityManager.instantiate(PrefabRef.DRAGON.get());
+		entityManager.instantiate(PrefabRef.FLYING_DRAGON.get());
 
-		PrefabSet prefabSet = new GroundedDragonPrefabSet();
-		Transform transform2 = new Transform(
-				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 200));
-		entityManager.instantiate(prefabSet, transform2);
+//		PrefabSet prefabSet = new GroundedDragonPrefabSet();
+//		Transform transform2 = new Transform(
+//				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 200));
+//		entityManager.instantiate(prefabSet, transform2);
+
+//		entityManager.instantiate(PrefabRef.SHOOTER_DRAGON.get(), new Transform(new Position
+//				(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
 	}
 
 	@Override

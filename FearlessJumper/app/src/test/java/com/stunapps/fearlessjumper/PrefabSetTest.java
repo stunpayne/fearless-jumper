@@ -52,7 +52,7 @@ public class PrefabSetTest
 		Environment.CONTEXT = context;
 		Bitmaps.initialise();
 
-		Prefab prefab = PrefabRef.DRAGON.get();
+		Prefab prefab = PrefabRef.FLYING_DRAGON.get();
 		System.out.println(prefab);
 	}
 }

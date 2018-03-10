@@ -207,13 +207,9 @@ public class CollisionSystem implements UpdateSystem
              *  Collision in x axis is of smaller magnitude than that in y axis
              *  So, collision will be resolved in x axis.
              */
-            //CollisionResolver.resolveXCollision(mobileEntity, immobileEntity, deltaXBetweenEntities,
-            // intersectX, push);
             if (!mobileEntity.getComponent(Collider.class).isTrigger() &&
                     !immobileEntity.getComponent(Collider.class).isTrigger())
             {
-                //bridgeGapX(mobileEntity, immobileEntity);
-
                 CollisionResolver.resolveXCollision(mobileEntity, immobileEntity, intersectX, push);
                 /**
                  * This can be instead handle with coefficient of restitution.
@@ -221,15 +217,13 @@ public class CollisionSystem implements UpdateSystem
                 physicsComponent1.getVelocity().x = 0;
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.VERTICAL);
-        } else
+        }
+        else
         {
             //  Collision will be resolved in y axis
-            //                resolveYCollision(entity1, entity2, deltaYBetweenEntities,
-            // intersectY, push);
             if (!mobileEntity.getComponent(Collider.class).isTrigger() &&
                     !immobileEntity.getComponent(Collider.class).isTrigger())
             {
-                //bridgeGapY(mobileEntity, immobileEntity);
                 CollisionResolver.resolveYCollision(mobileEntity, immobileEntity, intersectY, push);
                 physicsComponent1.getVelocity().y = 0;
             }
