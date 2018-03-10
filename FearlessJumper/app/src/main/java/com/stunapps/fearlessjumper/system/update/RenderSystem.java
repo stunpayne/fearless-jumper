@@ -103,8 +103,11 @@ public class RenderSystem implements UpdateSystem
 
 		renderParticleEmission();
 
-		//TODO: testing
-		renderGameStats();
+		//testing
+		if (Settings.DEBUG_MODE)
+		{
+			renderGameStats();
+		}
 	}
 
 	private void renderGameStats()

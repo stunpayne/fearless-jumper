@@ -148,7 +148,6 @@ public class MainActivity extends Activity
 		Log.i(TAG, "Activity stop");
 		super.onStop();
 		sceneManager.stop();
-		Log.d(TAG, "onStop: GameStatsManager : stop");
 	}
 
 	@Override
@@ -158,7 +157,6 @@ public class MainActivity extends Activity
 		super.onDestroy();
 		di().getInstance(SceneManager.class).destroy();
 		di().getInstance(Systems.class).reset();
-		Log.d(TAG, "onStop: GameStatsManager : destroy");
 	}
 
 	private void initialiseGame()
