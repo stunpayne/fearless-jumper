@@ -106,7 +106,7 @@ public class RenderSystem implements UpdateSystem
 		//testing
 		if (Settings.DEBUG_MODE)
 		{
-			//renderGameStats();
+			renderGameStats();
 		}
 	}
 

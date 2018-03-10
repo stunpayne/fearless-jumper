@@ -68,6 +68,12 @@ public class GameStatsManager
 		}
 	}
 
+	public void updateDeathStat(String deathStat)
+	{
+		dataWriter.putString(DEATH_STAT, deathStat);
+		dataWriter.commit();
+	}
+
 	public long getGlobalHighScore()
 	{
 		return dataReader.getLong(GLOBAL_HIGH_SCORE, 0l);
@@ -160,13 +166,6 @@ public class GameStatsManager
 	private void resetSessionHighScore()
 	{
 		dataWriter.putLong(SESSION_HIGH_SCORE, 0l);
-		dataWriter.commit();
-	}
-
-
-	private void updateDeathStat(String deathStat)
-	{
-		dataWriter.putString(DEATH_STAT, deathStat);
 		dataWriter.commit();
 	}
 
