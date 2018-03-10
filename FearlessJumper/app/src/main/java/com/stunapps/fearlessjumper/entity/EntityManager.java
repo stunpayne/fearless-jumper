@@ -50,8 +50,6 @@ public class EntityManager
 			while (iterator.hasNext())
 			{
 				Instantiable instantiable = iterator.next();
-				//			instantiate(instantiable.getPrefabRef().get(),
-				//					entry.getRelativeTransform().translateOrigin(spawnTransform));
 				Entity entity = createEntity(
 						instantiable.getRelativeTransform().translateOrigin(spawnTransform));
 				populateComponentsFromInstantiable(entity, instantiable);
