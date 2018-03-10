@@ -9,8 +9,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.os.Handler;
-import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -26,8 +24,6 @@ import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
-import com.stunapps.fearlessjumper.game.Environment.Settings;
-import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
 import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
@@ -36,6 +32,8 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.game.Environment.Settings;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.List;
@@ -58,8 +56,6 @@ public class RenderSystem implements UpdateSystem
 	private ParallaxBackground background;
 	private Paint bgPaint = new Paint();
 	private Paint colliderPaint = new Paint();
-
-	private Handler handler = new Handler();
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem,
@@ -112,7 +108,6 @@ public class RenderSystem implements UpdateSystem
 		lastProcessTime = System.nanoTime();
 		canvas = null;
 		bgPaint = new Paint();
-		handler = new Handler();
 	}
 
 	public static Rect getRenderRect(Entity entity)
@@ -151,7 +146,7 @@ public class RenderSystem implements UpdateSystem
 		for (Entity entity : entities)
 		{
 			Renderable component = entity.getComponent(Renderable.class);
-			Bitmap bitmap = (Bitmap) component.getRenderable();
+			Bitmap bitmap = component.getRenderable();
 			Rect destRect = getRenderRect(entity);
 
 			canvas.drawBitmap(bitmap, null, destRect, null);
@@ -196,8 +191,6 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderParticles(Set<Particle> particles)
 	{
-		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
-
 		Paint fuelTextPaint = new Paint();
 		fuelTextPaint.setColor(Color.WHITE);
 		fuelTextPaint.setTextAlign(Align.CENTER);
