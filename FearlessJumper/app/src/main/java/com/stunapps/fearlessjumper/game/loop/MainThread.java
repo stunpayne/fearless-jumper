@@ -6,9 +6,9 @@ import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.Environment;
-import com.stunapps.fearlessjumper.game.Environment.Constants;
+import com.stunapps.fearlessjumper.game.Time;
 
-import static com.stunapps.fearlessjumper.game.Environment.Constants.ONE_MILLION;
+import static com.stunapps.fearlessjumper.game.Time.ONE_MILLION;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -101,13 +101,13 @@ public class MainThread extends Thread
 				Environment.CANVAS = canvas;
 				synchronized (surfaceHolder)
 				{
-					Environment.DELTA_TIME = (float) ((float) (startTime - lastStartTime) /
-							Constants.ONE_SECOND_NANOS);
+					Time.DELTA_TIME = (float) ((float) (startTime - lastStartTime) /
+							Time.ONE_SECOND_NANOS);
 					Log.d(TAG, "Start: " + startTime + " Last start: " + lastStartTime + " Long:" +
 							" " +
 							(startTime - lastStartTime) + "" + " Delta Time: " +
 							(float) ((float) (startTime - lastStartTime) /
-									Constants.ONE_SECOND_NANOS));
+									Time.ONE_SECOND_NANOS));
 					this.gameView.update(startTime - lastStartTime);
 				}
 			}

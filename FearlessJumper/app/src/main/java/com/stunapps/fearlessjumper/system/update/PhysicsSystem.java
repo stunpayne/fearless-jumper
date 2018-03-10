@@ -9,12 +9,12 @@ import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventException;
-import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.game.Environment.Constants.ONE_SECOND_NANOS;
+import static com.stunapps.fearlessjumper.game.Time.ONE_SECOND_NANOS;
 import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
@@ -83,7 +83,7 @@ public class PhysicsSystem implements UpdateSystem
 	private void applyGravity(Entity entity, long deltaTime)
 	{
 		PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-		physicsComponent.getVelocity().y -= (GRAVITY * scaleY() * Environment.DELTA_TIME);
+		physicsComponent.getVelocity().y -= (GRAVITY * scaleY() * Time.DELTA_TIME);
 	}
 
 	private void handleFriction(Entity entity1, Entity entity2, CollisionFace collisionFace,

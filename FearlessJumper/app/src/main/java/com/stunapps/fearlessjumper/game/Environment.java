@@ -20,9 +20,6 @@ public class Environment
 
 	public static Context CONTEXT;
 
-	public static long INIT_TIME;
-	public static float DELTA_TIME;
-
 	public static Canvas CANVAS;
 
 	public static float UNIT_DENSITY = 2.625f;
@@ -30,13 +27,6 @@ public class Environment
 	public static float UNIT_WIDTH = 1080f;
 
 	public static SharedPreferences SHARED_PREFERENCES;
-
-	public class Constants
-	{
-		public static final long ONE_MILLION = 1000000;
-		public static final long ONE_SECOND_NANOS = 1000000000;
-		public static final long ONE_SECOND_MILLIS = 1000;
-	}
 
 	public class Settings
 	{

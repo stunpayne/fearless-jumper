@@ -8,8 +8,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
-import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.system.Systems;
 
 /**
@@ -48,7 +48,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public void surfaceCreated(SurfaceHolder surfaceHolder)
 	{
 		Log.i(TAG, "Surface created");
-		Environment.INIT_TIME = System.currentTimeMillis();
+		Time.INIT_TIME = System.currentTimeMillis();
 		surfaceCreated = true;
 		if (!waitingForExplicitResume)
 		{

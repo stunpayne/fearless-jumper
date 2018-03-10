@@ -5,8 +5,8 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.core.OrientationData;
-import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.game.Time;
 
 /**
  * Created by anand.verma on 14/01/18.
@@ -28,8 +28,8 @@ public class OrientationInput extends Input
     {
         float deltaX = 0;
         float deltaY = 0;
-        if (frameTime < Environment.INIT_TIME)
-            frameTime = Environment.INIT_TIME;
+        if (frameTime < Time.INIT_TIME)
+            frameTime = Time.INIT_TIME;
         int elapsedTime = (int) (System.currentTimeMillis() - frameTime);
         frameTime = System.currentTimeMillis();
         Delta delta = Delta.ZERO;

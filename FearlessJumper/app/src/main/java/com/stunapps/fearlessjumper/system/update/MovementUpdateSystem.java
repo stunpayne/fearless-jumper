@@ -9,8 +9,8 @@ import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
+import com.stunapps.fearlessjumper.game.Time;
 
 import java.util.Set;
 
@@ -87,7 +87,7 @@ public class MovementUpdateSystem implements UpdateSystem
 		{
 			float speedX = periodicTranslation.getSpeedX();
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-			float deltaX = physicsComponent.getVelocity().x * Environment.DELTA_TIME;
+			float deltaX = physicsComponent.getVelocity().x * Time.DELTA_TIME;
 			if (deltaX + entity.transform.position.x >= periodicTranslation.maxX)
 			{
 				periodicTranslation.setSpeedX(-1 * speedX);
@@ -119,8 +119,8 @@ public class MovementUpdateSystem implements UpdateSystem
 			float speedY = periodicTranslation.getSpeedY();
 
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-			float deltaY = (float) (physicsComponent.getVelocity().y * Environment.DELTA_TIME);
-			Log.d(TAG, "DeltaY: " + deltaY + " Delta time:  " + Environment.DELTA_TIME);
+			float deltaY = (float) (physicsComponent.getVelocity().y * Time.DELTA_TIME);
+			Log.d(TAG, "DeltaY: " + deltaY + " Delta time:  " + Time.DELTA_TIME);
 			if (deltaY + entity.transform.position.y >= periodicTranslation.maxY)
 			{
 //				debugLog();
@@ -145,7 +145,7 @@ public class MovementUpdateSystem implements UpdateSystem
 				frames = 0;
 				Log.d(TAG, "Time since last reverse: " + (currentTime - lastReverseTime));
 				lastReverseTime = currentTime;
-				Log.d(TAG, "Delta Time: " + Environment.DELTA_TIME);
+				Log.d(TAG, "Delta Time: " + Time.DELTA_TIME);
 			}
 		}
 	}

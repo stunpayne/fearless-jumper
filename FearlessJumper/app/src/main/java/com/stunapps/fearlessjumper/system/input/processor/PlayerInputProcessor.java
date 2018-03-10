@@ -8,9 +8,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
+import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.game.Environment.Constants;
 import com.stunapps.fearlessjumper.system.Systems;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
@@ -78,7 +78,7 @@ public class PlayerInputProcessor implements InputProcessor
 	private void dischargeFuel(Fuel fuel, long deltaTime)
 	{
 		Log.v("FUEL", "Current: " + fuel.getFuel() + " discharge amount: " +
-				FUEL_DISCHARGE * deltaTime / Constants.ONE_SECOND_NANOS);
+				FUEL_DISCHARGE * deltaTime / Time.ONE_SECOND_NANOS);
 		fuel.dischargeFuel(FUEL_DISCHARGE);
 	}
 

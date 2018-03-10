@@ -1,6 +1,6 @@
 package com.stunapps.fearlessjumper.particle;
 
-import com.stunapps.fearlessjumper.game.Environment.Constants;
+import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -87,7 +87,7 @@ public class Particle
 	 */
 	public boolean update(long nanoDelta)
 	{
-		long milliDelta = nanoDelta / Constants.ONE_MILLION;
+		long milliDelta = nanoDelta / Time.ONE_MILLION;
 
 		if (this.waitTime > 0)
 		{

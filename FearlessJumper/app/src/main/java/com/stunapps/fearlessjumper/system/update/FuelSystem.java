@@ -3,7 +3,7 @@ package com.stunapps.fearlessjumper.system.update;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.game.Environment.Constants;
+import com.stunapps.fearlessjumper.game.Time;
 
 import java.util.Set;
 
@@ -74,7 +74,7 @@ public class FuelSystem implements UpdateSystem
 
 	private void refuel(Fuel fuel, long deltaTime)
 	{
-		fuel.refuel(ONE_SECOND_REFUEL_AMOUNT * deltaTime / Constants.ONE_SECOND_NANOS);
+		fuel.refuel(ONE_SECOND_REFUEL_AMOUNT * deltaTime / Time.ONE_SECOND_NANOS);
 
 		fuel.setFuel(Math.min(fuel.getFuel(), MAX_FUEL));
 		fuel.setFuel(Math.max(fuel.getFuel(), MIN_FUEL));

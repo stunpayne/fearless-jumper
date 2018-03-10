@@ -3,7 +3,7 @@ package com.stunapps.fearlessjumper.system.update;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.game.Environment.Constants;
+import com.stunapps.fearlessjumper.game.Time;
 
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class ClockCountdownSystem implements UpdateSystem
 		for (Entity entity : timedEntities)
 		{
 			entity.getComponent(RemainingTime.class)
-					.decreaseSeconds(deltaTime * ONE_SECOND / Constants.ONE_MILLION);
+					.decreaseSeconds(deltaTime * ONE_SECOND / Time.ONE_MILLION);
 		}
 	}
 
