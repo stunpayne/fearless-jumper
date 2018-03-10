@@ -39,8 +39,8 @@ public class FlyingDragonPrefab extends Prefab
 {
 	public FlyingDragonPrefab()
 	{
-		transform = new Transform(new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT /
-				2 + 100));
+		transform = new Transform(
+				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + 100));
 
 		StateMachine animationStateMachine =
 				StateMachine.builder().startState(FLY_RIGHT).from(IDLE).onEvent(TURN_LEFT)
@@ -85,11 +85,11 @@ public class FlyingDragonPrefab extends Prefab
 		components.add(new Dragon());
 		components.add(new Obstacle());
 		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
-										dragonSprite1.getHeight(), CollisionLayer.ENEMY));
+				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
 		components.add(new PeriodicTranslation()
-				.withXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
+				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
 		components.add(new ContactDamageComponent(1, false));
-		components
-				.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
+		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
+
 	}
 }

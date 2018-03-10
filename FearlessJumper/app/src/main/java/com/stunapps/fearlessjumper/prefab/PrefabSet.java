@@ -29,16 +29,16 @@ public abstract class PrefabSet
 
 	public class PrefabSetEntry
 	{
-		Prefab prefab;
+		PrefabRef prefab;
 		Transform relativeTransform;
 
-		public PrefabSetEntry(Prefab prefab, Transform relativeTransform)
+		public PrefabSetEntry(PrefabRef prefab, Transform relativeTransform)
 		{
 			this.prefab = prefab;
 			this.relativeTransform = relativeTransform;
 		}
 
-		public Prefab getPrefab()
+		public PrefabRef getPrefabRef()
 		{
 			return prefab;
 		}

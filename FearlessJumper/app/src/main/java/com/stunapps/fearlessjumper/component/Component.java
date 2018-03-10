@@ -17,7 +17,12 @@ public abstract class Component
         this.componentType = componentType;
     }
 
-    public final void setEntity(Entity entity)
+    public final Entity getEntity()
+    {
+        return entity;
+    }
+
+    public void setEntity(Entity entity)
     {
         this.entity = entity;
     }

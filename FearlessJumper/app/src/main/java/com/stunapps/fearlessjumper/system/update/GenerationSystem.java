@@ -99,7 +99,7 @@ public class GenerationSystem implements UpdateSystem
 		{
 			Rect renderRect = RenderSystem.getRenderRect(obstacle);
 			if (renderRect.top > Device.SCREEN_HEIGHT || renderRect.left > Device.SCREEN_WIDTH ||
-					renderRect.left < 0)
+					renderRect.right < 0)
 			{
 				Log.d(TAG, "Deleting spawnable: " + obstacle.getId());
 				entityManager.deleteEntity(obstacle);
@@ -144,7 +144,8 @@ public class GenerationSystem implements UpdateSystem
 			obstacleShuffler =
 					new WeightedShuffler.Builder<Prefab>().returnItem(PrefabRef.PLATFORM.get())
 							.withWeight(5f).returnItem(PrefabRef.FLYING_DRAGON.get()).withWeight(5f)
-							.returnItem(PrefabRef.CLOCK.get()).withWeight(5f).build();
+							.returnItem(PrefabRef.CLOCK.get()).withWeight(5f).returnItem
+							(PrefabRef.SHOOTER_DRAGON.get()).withWeight(5f).build();
 		}
 	}
 
