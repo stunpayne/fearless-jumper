@@ -9,8 +9,9 @@ import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.specific.Dragon;
-import com.stunapps.fearlessjumper.component.specific.Obstacle;
+import com.stunapps.fearlessjumper.component.spawnable.Dragon;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
+import com.stunapps.fearlessjumper.component.spawnable.Obstacle;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
@@ -75,8 +76,7 @@ public class GroundedDragonPrefab extends ComponentPrefab
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 		addComponent(animator);
-		addComponent(new Dragon());
-		addComponent(new Obstacle());
+		addComponent(new Dragon(EnemyType.PYRADON));
 		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new ContactDamageComponent(1, false));

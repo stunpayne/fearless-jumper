@@ -21,7 +21,7 @@ public abstract class ComponentPrefab extends Prefab
 
 	@Getter
 	protected List<Component> components;
-	protected List<Instantiable> instantiables;
+	private List<Instantiable> instantiables;
 
 	public ComponentPrefab()
 	{
@@ -44,13 +44,16 @@ public abstract class ComponentPrefab extends Prefab
 
 	protected void addComponent(Component component)
 	{
-		addComponent(component);
-		instantiables.add(new Instantiable(components, Transform.ORIGIN));
+		components.add(component);
 	}
 
 	@Override
 	public final List<Instantiable> getInstantiables()
 	{
+		if (instantiables.isEmpty())
+		{
+			instantiables.add(new Instantiable(components, Transform.ORIGIN));
+		}
 		return instantiables;
 	}
 }

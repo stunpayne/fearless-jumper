@@ -12,6 +12,6 @@ public class ShooterDragonPrefabSet extends PrefabSet
 	public ShooterDragonPrefabSet()
 	{
 		super();
-		entries.add(new PrefabSetEntry(PrefabRef.GROUNDED_DRAGON, new Transform(Position.ORIGIN)));
+		addPrefab(PrefabRef.GROUNDED_DRAGON.get(), new Transform(Position.ORIGIN));
 	}
 }

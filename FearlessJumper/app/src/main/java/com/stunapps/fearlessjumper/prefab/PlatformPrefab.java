@@ -6,7 +6,7 @@ import android.util.Log;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.specific.Obstacle;
+import com.stunapps.fearlessjumper.component.spawnable.Obstacle;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
