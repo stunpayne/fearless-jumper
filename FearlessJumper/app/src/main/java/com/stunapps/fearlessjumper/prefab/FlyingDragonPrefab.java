@@ -31,6 +31,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
+import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 
 /**
  * Created by sunny.s on 21/01/18.
@@ -84,11 +85,13 @@ public class FlyingDragonPrefab extends ComponentPrefab
 				dragonSprite1.getHeight()));
 		addComponent(animator);
 		addComponent(new Dragon(EnemyType.MINIGON));
-		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
-				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
+		addComponent(
+				new RectCollider(Delta.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
+						CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation()
-				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
+				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(),
+						scaleX(5f)));
 		addComponent(new ContactDamageComponent(1, false));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 	}
 }

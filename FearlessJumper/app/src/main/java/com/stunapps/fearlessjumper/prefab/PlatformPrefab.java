@@ -36,7 +36,7 @@ public class PlatformPrefab extends ComponentPrefab
 								  sprite.getHeight()));
 		addComponent(new RectCollider(Delta.ZERO, sprite.getWidth(), sprite.getHeight(),
 										CollisionLayer.SOLID));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false,
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false,
 											new PhysicsComponent.Friction(50.0f, 7.5f, 7.5f,
 																		  7.5f)));
 	}

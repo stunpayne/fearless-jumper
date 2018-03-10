@@ -26,7 +26,7 @@ public class PhysicsComponent extends Component
 
     public PhysicsComponent(float mass)
     {
-        this(mass, new Velocity());
+        this(mass, Velocity.ZERO);
     }
 
     public PhysicsComponent(float mass, Velocity velocity)

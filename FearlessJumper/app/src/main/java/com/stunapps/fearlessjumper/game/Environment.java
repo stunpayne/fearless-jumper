@@ -11,42 +11,53 @@ import android.graphics.Canvas;
 
 public class Environment
 {
-    public static class Device
-    {
-        public static int SCREEN_WIDTH;
-        public static int SCREEN_HEIGHT;
-        public static float DISPLAY_DENSITY;
-    }
-    public static Context CONTEXT;
+	public static class Device
+	{
+		public static int SCREEN_WIDTH;
+		public static int SCREEN_HEIGHT;
+		public static float DISPLAY_DENSITY;
+	}
 
-    public static long INIT_TIME;
+	public static Context CONTEXT;
 
-    public static Canvas CANVAS;
+	public static long INIT_TIME;
 
-    public static float UNIT_DENSITY = 2.625f;
-    public static float UNIT_HEIGHT = 1794f;
-    public static float UNIT_WIDTH = 1080f;
+	public static Canvas CANVAS;
 
-    public static SharedPreferences SHARED_PREFERENCES;
+	public static float UNIT_DENSITY = 2.625f;
+	public static float UNIT_HEIGHT = 1794f;
+	public static float UNIT_WIDTH = 1080f;
 
-    public class Constants
-    {
-        public static final long ONE_MILLION = 1000000;
-        public static final long ONE_SECOND_NANOS = 1000000000;
-    }
+	public static SharedPreferences SHARED_PREFERENCES;
 
-    public class Settings
-    {
-        public static final boolean DEBUG_MODE = true;
-    }
+	public class Constants
+	{
+		public static final long ONE_MILLION = 1000000;
+		public static final long ONE_SECOND_NANOS = 1000000000;
+	}
 
-    public static float scaleY()
-    {
-        return Device.SCREEN_HEIGHT / UNIT_HEIGHT;
-    }
+	public class Settings
+	{
+		public static final boolean DEBUG_MODE = true;
+	}
 
-    public static float scaleX()
-    {
-        return Device.SCREEN_WIDTH / UNIT_WIDTH;
-    }
+	public static float scaleY()
+	{
+		return Device.SCREEN_HEIGHT / UNIT_HEIGHT;
+	}
+
+	public static float scaleX()
+	{
+		return Device.SCREEN_WIDTH / UNIT_WIDTH;
+	}
+
+	public static float scaleY(float value)
+	{
+		return value * scaleY();
+	}
+
+	public static float scaleX(float value)
+	{
+		return value * scaleX();
+	}
 }

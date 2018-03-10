@@ -73,11 +73,11 @@ public class PlayerPrefab extends ComponentPrefab
 										CollisionLayer.PLAYER));
 
 		addComponent(new Health(10000));
-		addComponent(new PhysicsComponent(50, new Velocity()));
+		addComponent(new PhysicsComponent(50, Velocity.ZERO));
 		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
 		addComponent(orientationInput);
 		addComponent(new PlayerComponent());
-		addComponent(new RemainingTime(-97000));
+		addComponent(new RemainingTime(60000));
 		addComponent(new Score());
 		addComponent(new Fuel(100f));
 	}

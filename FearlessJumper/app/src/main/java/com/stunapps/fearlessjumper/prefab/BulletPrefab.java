@@ -13,6 +13,8 @@ import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Velocity;
 
+import static com.stunapps.fearlessjumper.game.Environment.scaleX;
+
 /**
  * Created by sunny.s on 09/03/18.
  */
@@ -24,7 +26,7 @@ public class BulletPrefab extends ComponentPrefab
 		Bitmap bullet = Bitmaps.BULLET;
 
 		addComponent(new Renderable(bullet, Delta.ZERO, bullet.getWidth(), bullet.getHeight()));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(5f, 0), false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(scaleX(5f), 0), false));
 		addComponent(new RectCollider(Delta.ZERO, bullet.getWidth(), bullet.getHeight(), true,
 				CollisionLayer.BULLET));
 		addComponent(new Enemy(EnemyType.GRORUM));

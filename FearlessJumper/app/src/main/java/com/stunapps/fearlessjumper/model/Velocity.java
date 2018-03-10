@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 public class Velocity implements Cloneable
 {
+	public static final Velocity ZERO = new Velocity(0, 0);
 	public float x;
 	public float y;
 

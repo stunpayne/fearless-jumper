@@ -81,6 +81,6 @@ public class GroundedDragonPrefab extends ComponentPrefab
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new ContactDamageComponent(1, false));
 		components
-				.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
+				.add(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 	}
 }

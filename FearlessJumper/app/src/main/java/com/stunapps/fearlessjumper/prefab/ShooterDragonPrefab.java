@@ -29,6 +29,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
+import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 /**
  * Created by sunny.s on 10/03/18.
@@ -74,18 +75,17 @@ public class ShooterDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-		//        animator.triggerTransition(TURN_RIGHT);
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 
 		addComponent(animator);
 		addComponent(new Dragon(EnemyType.GRORUM));
 
-		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
-				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		addComponent(new PeriodicTranslation()
-				.withAnchoredYMovement(2f,100f));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
+		addComponent(
+				new RectCollider(Delta.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
+						CollisionLayer.ENEMY));
+		addComponent(new PeriodicTranslation().withAnchoredYMovement(scaleY(2f), scaleY(100f)));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PeriodicGun(1000));
