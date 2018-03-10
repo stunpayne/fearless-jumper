@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.core;
+package com.stunapps.fearlessjumper.manager;
 
 import android.content.SharedPreferences;
 
