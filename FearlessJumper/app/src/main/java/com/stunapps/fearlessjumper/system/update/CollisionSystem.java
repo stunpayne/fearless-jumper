@@ -216,7 +216,6 @@ public class CollisionSystem implements UpdateSystem
                 /**
                  * This can be instead handle with coefficient of restitution.
                  */
-                Log.d(TAG, "resolveCollision: x = " + physicsComponent1.getVelocity().x);
                 physicsComponent1.getVelocity().x = 0;
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.VERTICAL);
@@ -229,7 +228,6 @@ public class CollisionSystem implements UpdateSystem
             {
                 CollisionResolver.resolveYCollision(mobileEntity, immobileEntity, intersectY, push);
                 physicsComponent1.getVelocity().y = 0;
-                Log.d(TAG, "resolveCollision: y = " + physicsComponent1.getVelocity().y);
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.HORIZONTAL);
         }

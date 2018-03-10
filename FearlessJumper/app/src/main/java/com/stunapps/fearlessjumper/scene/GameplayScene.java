@@ -15,6 +15,7 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageButton;
 
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.core.GameStatsManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
@@ -44,12 +45,15 @@ public class GameplayScene extends AbstractScene
 	private ViewSetup viewSetup = new ViewSetup();
 	private Handler mainHandler;
 
+	private GameStatsManager gameStatsManager;
+
 	@Inject
-	public GameplayScene(final GameView gameView, EventSystem eventSystem)
+	public GameplayScene(final GameView gameView, EventSystem eventSystem, GameStatsManager gameStatsManager)
 	{
 		super(R.layout.game_play_container, eventSystem);
 		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		this.gameView = gameView;
+		this.gameStatsManager = gameStatsManager;
 
 		mainHandler = new Handler(Looper.getMainLooper())
 		{
@@ -127,6 +131,7 @@ public class GameplayScene extends AbstractScene
 		});
 
 		gameView.prepareForStart();
+		gameStatsManager.handleGameStart();
 	}
 
 	@Override
