@@ -71,8 +71,8 @@ public class PlayerInputProcessor implements InputProcessor
 		float forceX = motionEvent.getX() - position.x;
 		float forceY = motionEvent.getY() - position.y;
 
-		physicsComponent.getVelocity().y += forceY * JUMP_IMPULSE ;
-		physicsComponent.getVelocity().x += forceX * JUMP_IMPULSE ;
+		physicsComponent.getVelocity().x += (forceX * JUMP_IMPULSE / scaleX());
+		physicsComponent.getVelocity().y += (forceY * JUMP_IMPULSE / scaleY());
 	}
 
 	private void dischargeFuel(Fuel fuel, long deltaTime)

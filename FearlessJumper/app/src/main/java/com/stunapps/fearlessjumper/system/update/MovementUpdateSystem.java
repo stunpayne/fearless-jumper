@@ -120,7 +120,6 @@ public class MovementUpdateSystem implements UpdateSystem
 
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
 			float deltaY = (float) (physicsComponent.getVelocity().y * Time.DELTA_TIME);
-			Log.d(TAG, "DeltaY: " + deltaY + " Delta time:  " + Time.DELTA_TIME);
 			if (deltaY + entity.transform.position.y >= periodicTranslation.maxY)
 			{
 //				debugLog();

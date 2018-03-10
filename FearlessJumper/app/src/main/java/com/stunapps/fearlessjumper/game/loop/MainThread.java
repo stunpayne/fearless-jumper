@@ -103,7 +103,7 @@ public class MainThread extends Thread
 				{
 					Time.DELTA_TIME = (float) ((float) (startTime - lastStartTime) /
 							Time.ONE_SECOND_NANOS);
-					Log.d(TAG, "Start: " + startTime + " Last start: " + lastStartTime + " Long:" +
+					Log.v(TAG, "Start: " + startTime + " Last start: " + lastStartTime + " Long:" +
 							" " +
 							(startTime - lastStartTime) + "" + " Delta Time: " +
 							(float) ((float) (startTime - lastStartTime) /

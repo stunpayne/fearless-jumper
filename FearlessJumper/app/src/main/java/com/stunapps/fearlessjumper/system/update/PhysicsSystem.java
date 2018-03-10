@@ -63,7 +63,7 @@ public class PhysicsSystem implements UpdateSystem
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
 			if (physicsComponent.mass > 0 && physicsComponent.applyGravity)
 			{
-				applyGravity(entity, deltaTime);
+				applyGravity(entity);
 			}
 		}
 	}
@@ -80,7 +80,7 @@ public class PhysicsSystem implements UpdateSystem
 		lastProcessTime = System.nanoTime();
 	}
 
-	private void applyGravity(Entity entity, long deltaTime)
+	private void applyGravity(Entity entity)
 	{
 		PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
 		physicsComponent.getVelocity().y -= (GRAVITY * scaleY() * Time.DELTA_TIME);
