@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.component.transform.Transform.Rotation;
+import com.stunapps.fearlessjumper.component.transform.Transform.Scale;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.OrientationData;
@@ -46,8 +48,7 @@ public class GameInitializerImpl implements GameInitializer
 		Log.d("INIT", "Initialising game");
 		int x = 4 * Device.SCREEN_WIDTH / 5;
 		int y = Device.SCREEN_HEIGHT - 150;
-		Transform transform =
-				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
+		Transform transform = new Transform(new Position(x, y));
 		final Entity player = entityManager.instantiate(PrefabRef.PLAYER.get(), transform);
 
 		try
@@ -85,22 +86,24 @@ public class GameInitializerImpl implements GameInitializer
 
 	private void initBoundaries(Entity target) throws CloneNotSupportedException
 	{
-		Transform landTransform = new Transform(new Position(0, Device.SCREEN_HEIGHT), null, null);
+		Transform landTransform = new Transform(new Position(0, Device.SCREEN_HEIGHT));
 		entityManager.instantiate(PrefabRef.LAND.get(), landTransform);
 	}
 
 	private void initEnemies()
 	{
 		//  Initialise enemies
-		entityManager.instantiate(PrefabRef.FLYING_DRAGON.get());
+		entityManager.instantiate(PrefabRef.FLYING_DRAGON.get(), new Transform(
+				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 - 150)));
 
-//		PrefabSet prefabSet = new GroundedDragonPrefabSet();
-//		Transform transform2 = new Transform(
-//				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 200));
-//		entityManager.instantiate(prefabSet, transform2);
+		//		PrefabSet prefabSet = new GroundedDragonPrefabSet();
+		//		Transform transform2 = new Transform(
+		//				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 200));
+		//		entityManager.instantiate(prefabSet, transform2);
 
-//		entityManager.instantiate(PrefabRef.SHOOTER_DRAGON.get(), new Transform(new Position
-//				(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
+		//		entityManager.instantiate(PrefabRef.SHOOTER_DRAGON.get(), new Transform(new
+		// Position
+		//				(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
 	}
 
 	@Override

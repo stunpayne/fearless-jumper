@@ -51,7 +51,15 @@ public class ExampleUnitTest
         EntityManager em = new EntityManager(cm);
 
         Component component = new PhysicsComponent(15, new Velocity(10, 10));
-        Entity entity = em.createEntity(new Transform(null, null, null));
+        Entity entity = null;
+        try
+        {
+            entity = em.createEntity(new Transform(null, null, null));
+        }
+        catch (CloneNotSupportedException e)
+        {
+            e.printStackTrace();
+        }
         entity.addComponent(component);
         PhysicsComponent componentV2 = entity.getComponent(PhysicsComponent.class);
         List<Component> components = entity.getComponents();

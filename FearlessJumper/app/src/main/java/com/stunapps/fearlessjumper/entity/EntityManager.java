@@ -34,9 +34,9 @@ public class EntityManager
 		this.componentManager = componentManager;
 	}
 
-	public Entity createEntity(Transform transform)
+	public Entity createEntity(Transform transform) throws CloneNotSupportedException
 	{
-		Entity entity = new Entity(componentManager, this, transform, rand.nextInt());
+		Entity entity = new Entity(componentManager, this, transform.clone(), rand.nextInt());
 		entityMap.put(entity.getId(), entity);
 		return entity;
 	}
@@ -57,14 +57,8 @@ public class EntityManager
 		Entity entity = null;
 		try
 		{
-			entity = new Entity(componentManager, this, prefab.transform.clone(), rand.nextInt());
-			entityMap.put(entity.getId(), entity);
-			for (Component component : prefab.components)
-			{
-				Component clone = component.clone();
-				entity.addComponent(clone);
-				clone.setEntity(entity);
-			}
+			entity = createEntity(prefab.transform);
+			populateComponentsFromPrefab(entity, prefab);
 		}
 		catch (CloneNotSupportedException e)
 		{
@@ -75,8 +69,16 @@ public class EntityManager
 
 	public Entity instantiate(Prefab prefab, Transform transform)
 	{
-		Entity entity = instantiate(prefab);
-		entity.transform = transform;
+		Entity entity = null;
+		try
+		{
+			entity = createEntity(transform);
+			populateComponentsFromPrefab(entity, prefab);
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
 		return entity;
 	}
 
@@ -101,5 +103,16 @@ public class EntityManager
 	public Collection<Entity> getEntities()
 	{
 		return entityMap.values();
+	}
+
+	private void populateComponentsFromPrefab(Entity entity, Prefab prefab)
+			throws CloneNotSupportedException
+	{
+		for (Component component : prefab.components)
+		{
+			Component clone = component.clone();
+			entity.addComponent(clone);
+			clone.setEntity(entity);
+		}
 	}
 }

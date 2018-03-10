@@ -99,7 +99,7 @@ public class GenerationSystem implements UpdateSystem
 		{
 			Rect renderRect = RenderSystem.getRenderRect(obstacle);
 			if (renderRect.top > Device.SCREEN_HEIGHT || renderRect.left > Device.SCREEN_WIDTH ||
-					renderRect.left < 0)
+					renderRect.right < 0)
 			{
 				Log.d(TAG, "Deleting spawnable: " + obstacle.getId());
 				entityManager.deleteEntity(obstacle);

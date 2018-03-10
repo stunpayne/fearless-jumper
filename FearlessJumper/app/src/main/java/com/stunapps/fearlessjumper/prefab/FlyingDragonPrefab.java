@@ -87,7 +87,8 @@ public class FlyingDragonPrefab extends Prefab
 		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
 		components.add(new PeriodicTranslation()
-				.withXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f));
+				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(), 5f)
+				.withAnchoredYMovement(5f, 150f));
 		components.add(new ContactDamageComponent(1));
 		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
 	}
