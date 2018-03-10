@@ -67,22 +67,22 @@ public class GameStatsManager
 
 	public long getGlobalHighScore()
 	{
-		return dataReader.getLong(GLOBAL_HIGH_SCORE, 0l);
+		return dataReader.getLong(GLOBAL_HIGH_SCORE, 0L);
 	}
 
 	public long getSessionHighScore()
 	{
-		return dataReader.getLong(SESSION_HIGH_SCORE, 0l);
+		return dataReader.getLong(SESSION_HIGH_SCORE, 0L);
 	}
 
 	public long getCurrentScore()
 	{
-		return dataReader.getLong(CURRENT_SCORE, 0l);
+		return dataReader.getLong(CURRENT_SCORE, 0L);
 	}
 
 	public long getAverageScore()
 	{
-		long historicalScore = 0l;
+		long historicalScore = 0L;
 		List<Long> scoreHistory = getScoreHistory();
 		for (Long score : scoreHistory)
 		{
@@ -112,7 +112,7 @@ public class GameStatsManager
 		}
 		for (int i = 1; i < gamePlayCount; i++)
 		{
-			scoreHistroy.add(dataReader.getLong(PREVIOUS_SCORE_ + i, 0l));
+			scoreHistroy.add(dataReader.getLong(PREVIOUS_SCORE_ + i, 0L));
 		}
 		return scoreHistroy;
 	}
@@ -122,13 +122,13 @@ public class GameStatsManager
 	 */
 	private void maintainScoreHistory()
 	{
-		long previousScore2 = dataReader.getLong(PREVIOUS_SCORE_2, 0l);
+		long previousScore2 = dataReader.getLong(PREVIOUS_SCORE_2, 0L);
 		dataWriter.putLong(PREVIOUS_SCORE_3, previousScore2);
 
-		long previousScore1 = dataReader.getLong(PREVIOUS_SCORE_1, 0l);
+		long previousScore1 = dataReader.getLong(PREVIOUS_SCORE_1, 0L);
 		dataWriter.putLong(PREVIOUS_SCORE_2, previousScore1);
 
-		long currentScore = dataReader.getLong(CURRENT_SCORE, 0l);
+		long currentScore = dataReader.getLong(CURRENT_SCORE, 0L);
 		dataWriter.putLong(PREVIOUS_SCORE_1, currentScore);
 
 		dataWriter.commit();
@@ -136,14 +136,14 @@ public class GameStatsManager
 
 	private void updateGameScoreStats()
 	{
-		long currentScore = dataReader.getLong(CURRENT_SCORE, 0l);
+		long currentScore = dataReader.getLong(CURRENT_SCORE, 0L);
 
-		long sessionHighScore = dataReader.getLong(SESSION_HIGH_SCORE, 0l);
+		long sessionHighScore = dataReader.getLong(SESSION_HIGH_SCORE, 0L);
 
 		if (currentScore > sessionHighScore)
 		{
 			dataWriter.putLong(SESSION_HIGH_SCORE, currentScore);
-			long globalHighScore = dataReader.getLong(GLOBAL_HIGH_SCORE, 0l);
+			long globalHighScore = dataReader.getLong(GLOBAL_HIGH_SCORE, 0L);
 			if (currentScore > globalHighScore)
 			{
 				dataWriter.putLong(GLOBAL_HIGH_SCORE, currentScore);
@@ -161,13 +161,13 @@ public class GameStatsManager
 
 	private void resetSessionHighScore()
 	{
-		dataWriter.putLong(SESSION_HIGH_SCORE, 0l);
+		dataWriter.putLong(SESSION_HIGH_SCORE, 0L);
 		dataWriter.commit();
 	}
 
 	private void resetCurrentScore()
 	{
-		dataWriter.putLong(CURRENT_SCORE, 0l);
+		dataWriter.putLong(CURRENT_SCORE, 0L);
 		dataWriter.commit();
 	}
 

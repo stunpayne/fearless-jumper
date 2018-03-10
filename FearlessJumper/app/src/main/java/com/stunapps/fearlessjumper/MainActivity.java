@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
@@ -112,6 +113,7 @@ public class MainActivity extends Activity
 		initialiseGame();
 
 		gameStatsManager.resetGameStats();
+		MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917");
 	}
 
 	@Override
