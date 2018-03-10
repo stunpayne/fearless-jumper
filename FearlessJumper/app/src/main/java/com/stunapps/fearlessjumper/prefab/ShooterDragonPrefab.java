@@ -85,11 +85,10 @@ public class ShooterDragonPrefab extends Prefab
 		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
 		components.add(new PeriodicTranslation()
-				.withAbsoluteYMovement(Device.SCREEN_HEIGHT / 2 - 400, Device.SCREEN_HEIGHT / 2 + 100,
-						3f));
+				.withAnchoredYMovement(2f,100f));
 		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
 
 		components.add(new ContactDamageComponent(1));
-		components.add(new PeriodicGun(1000));
+		components.add(new PeriodicGun(2500));
 	}
 }

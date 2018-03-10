@@ -2,7 +2,6 @@ package com.stunapps.fearlessjumper.entity;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.rits.cloning.Cloner;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Transform;
@@ -14,7 +13,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -47,7 +45,7 @@ public class EntityManager
 		while (iterator.hasNext())
 		{
 			PrefabSetEntry entry = iterator.next();
-			instantiate(entry.getPrefab(),
+			instantiate(entry.getPrefabRef().get(),
 					entry.getRelativeTransform().translateOrigin(spawnTransform));
 		}
 	}
@@ -108,7 +106,7 @@ public class EntityManager
 	private void populateComponentsFromPrefab(Entity entity, Prefab prefab)
 			throws CloneNotSupportedException
 	{
-		for (Component component : prefab.components)
+		for (Component component : prefab.getComponents())
 		{
 			Component clone = component.clone();
 			entity.addComponent(clone);

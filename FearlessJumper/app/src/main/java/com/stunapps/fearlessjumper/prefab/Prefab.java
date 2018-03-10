@@ -9,6 +9,8 @@ import com.stunapps.fearlessjumper.component.transform.Transform.Scale;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+
 /**
  * Created by sunny.s on 10/01/18.
  */
@@ -16,7 +18,9 @@ import java.util.List;
 public abstract class Prefab
 {
 	public Transform transform;
-	public List<Component> components;
+
+	@Getter
+	protected List<Component> components;
 
 	public Prefab()
 	{

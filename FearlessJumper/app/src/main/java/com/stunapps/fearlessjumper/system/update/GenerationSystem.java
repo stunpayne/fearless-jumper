@@ -144,7 +144,8 @@ public class GenerationSystem implements UpdateSystem
 			obstacleShuffler =
 					new WeightedShuffler.Builder<Prefab>().returnItem(PrefabRef.PLATFORM.get())
 							.withWeight(5f).returnItem(PrefabRef.FLYING_DRAGON.get()).withWeight(5f)
-							.returnItem(PrefabRef.CLOCK.get()).withWeight(5f).build();
+							.returnItem(PrefabRef.CLOCK.get()).withWeight(5f).returnItem
+							(PrefabRef.SHOOTER_DRAGON.get()).withWeight(5f).build();
 		}
 	}
 
