@@ -27,6 +27,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 
+import static com.stunapps.fearlessjumper.game.Environment.scaleY;
+
 /**
  * Created by sunny.s on 13/01/18.
  */
@@ -65,6 +67,7 @@ public class GenerationSystem implements UpdateSystem
 		{
 			lastProcessTime = System.currentTimeMillis();
 			MIN_ALLOWED_DISTANCE_FROM_PLAYER = Device.SCREEN_HEIGHT;
+			NEW_OBSTACLE_OFFSET *= scaleY();
 			initShuffler();
 			initActiveObstacles();
 
@@ -91,7 +94,6 @@ public class GenerationSystem implements UpdateSystem
 	{
 		lastProcessTime = 0;
 		activeObstacles = new ArrayList<>();
-		lastProcessTime = 0;
 		NEW_OBSTACLE_OFFSET = -600f;
 	}
 

@@ -9,6 +9,8 @@ import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.game.Environment.Settings;
 
 import java.util.Set;
 
@@ -65,6 +67,9 @@ public class MovementUpdateSystem implements UpdateSystem
 
 	static class MovementUpdater
 	{
+		private static int frames = 0;
+		private static long lastReverseTime = 0;
+
 		static void updatePeriodicMotion(Entity entity, PeriodicTranslation periodicTranslation)
 		{
 			if (periodicTranslation.movesInX())
@@ -82,7 +87,7 @@ public class MovementUpdateSystem implements UpdateSystem
 		{
 			float speedX = periodicTranslation.getSpeedX();
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-			float deltaX = physicsComponent.getVelocity().x;
+			float deltaX = physicsComponent.getVelocity().x * Environment.DELTA_TIME;
 			if (deltaX + entity.transform.position.x >= periodicTranslation.maxX)
 			{
 				periodicTranslation.setSpeedX(-1 * speedX);
@@ -105,28 +110,43 @@ public class MovementUpdateSystem implements UpdateSystem
 			}
 
 			entity.getComponent(PhysicsComponent.class).getVelocity().x =
-					periodicTranslation.getSpeedX() * scaleX();
+					(float) (periodicTranslation.getSpeedX() * scaleX());
 		}
 
 		static void moveEntityVertically(Entity entity, PeriodicTranslation periodicTranslation)
 		{
+			frames++;
 			float speedY = periodicTranslation.getSpeedY();
 
 			PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-			float deltaY = physicsComponent.getVelocity().y;
+			float deltaY = (float) (physicsComponent.getVelocity().y * Environment.DELTA_TIME);
+			Log.d(TAG, "DeltaY: " + deltaY + " Delta time:  " + Environment.DELTA_TIME);
 			if (deltaY + entity.transform.position.y >= periodicTranslation.maxY)
 			{
+//				debugLog();
 				periodicTranslation.setSpeedY(-1 * speedY);
 			}
 			if (deltaY + entity.transform.position.y <= periodicTranslation.minY)
 			{
+//				debugLog();
 				periodicTranslation.setSpeedY(-1 * speedY);
 			}
 
 			entity.getComponent(PhysicsComponent.class).getVelocity().y =
 					periodicTranslation.getSpeedY() * scaleY();
-			Log.v(TAG, "Updated velocity to : " +
-					entity.getComponent(PhysicsComponent.class).getVelocity().y);
+		}
+
+		static void debugLog()
+		{
+			if (Settings.DEBUG_MODE)
+			{
+				long currentTime = System.currentTimeMillis();
+				Log.d(TAG, "Frames since last reverse: " + frames);
+				frames = 0;
+				Log.d(TAG, "Time since last reverse: " + (currentTime - lastReverseTime));
+				lastReverseTime = currentTime;
+				Log.d(TAG, "Delta Time: " + Environment.DELTA_TIME);
+			}
 		}
 	}
 }

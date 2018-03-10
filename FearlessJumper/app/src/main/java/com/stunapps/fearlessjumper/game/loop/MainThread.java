@@ -6,6 +6,7 @@ import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.game.Environment.Constants;
 
 import static com.stunapps.fearlessjumper.game.Environment.Constants.ONE_MILLION;
 
@@ -15,6 +16,7 @@ import static com.stunapps.fearlessjumper.game.Environment.Constants.ONE_MILLION
 
 public class MainThread extends Thread
 {
+	private static final String TAG = MainThread.class.getSimpleName();
 	public static final int MAX_FPS = 60;
 	private double averageFPS;
 	private final SurfaceHolder surfaceHolder;
@@ -53,13 +55,17 @@ public class MainThread extends Thread
 
 		while (running)
 		{
-			synchronized (pauseLock) {
-				if (!running) { // may have changed while waiting to
+			synchronized (pauseLock)
+			{
+				if (!running)
+				{ // may have changed while waiting to
 					// synchronize on pauseLock
 					break;
 				}
-				if (paused) {
-					try {
+				if (paused)
+				{
+					try
+					{
 						pauseStartTime = System.nanoTime();
 						pauseLock.wait(); // will cause this Thread to block until
 						// another thread calls pauseLock.notifyAll()
@@ -68,10 +74,13 @@ public class MainThread extends Thread
 						// thread holds on pauseLock so another thread
 						// can acquire the lock to call notifyAll()
 						// (link with explanation below this code)
-					} catch (InterruptedException ex) {
+					}
+					catch (InterruptedException ex)
+					{
 						break;
 					}
-					if (!running) { // running might have changed since we paused
+					if (!running)
+					{ // running might have changed since we paused
 						break;
 					}
 					pauseEndTime = System.nanoTime();
@@ -92,8 +101,14 @@ public class MainThread extends Thread
 				Environment.CANVAS = canvas;
 				synchronized (surfaceHolder)
 				{
-					//  Replace with physics, collision, animation systemType updates
-					this.gameView.update((startTime - lastStartTime));
+					Environment.DELTA_TIME = (float) ((float) (startTime - lastStartTime) /
+							Constants.ONE_SECOND_NANOS);
+					Log.d(TAG, "Start: " + startTime + " Last start: " + lastStartTime + " Long:" +
+							" " +
+							(startTime - lastStartTime) + "" + " Delta Time: " +
+							(float) ((float) (startTime - lastStartTime) /
+									Constants.ONE_SECOND_NANOS));
+					this.gameView.update(startTime - lastStartTime);
 				}
 			}
 			catch (Exception e)
@@ -149,7 +164,8 @@ public class MainThread extends Thread
 
 	public void resumeThread()
 	{
-		synchronized (pauseLock) {
+		synchronized (pauseLock)
+		{
 			paused = false;
 			pauseLock.notifyAll(); // Unblocks thread
 		}

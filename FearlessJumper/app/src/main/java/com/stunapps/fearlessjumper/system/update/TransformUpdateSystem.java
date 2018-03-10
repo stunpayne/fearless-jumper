@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
@@ -82,7 +83,7 @@ public class TransformUpdateSystem implements UpdateSystem
 
 	private void moveTransform(Transform transform, Velocity velocity)
 	{
-		transform.position.x += velocity.x;
-		transform.position.y += velocity.y;
+		transform.position.x += (velocity.x * Environment.DELTA_TIME);
+		transform.position.y += (velocity.y * Environment.DELTA_TIME);
 	}
 }
