@@ -111,6 +111,8 @@ public class MainActivity extends Activity
 		Log.d(TAG, "Context hash code: " + this.hashCode());
 
 		initialiseGame();
+
+		gameStatsManager.resetGameStats();
 	}
 
 	@Override
@@ -147,7 +149,6 @@ public class MainActivity extends Activity
 		super.onStop();
 		sceneManager.stop();
 		Log.d(TAG, "onStop: GameStatsManager : stop");
-		gameStatsManager.handleGameExit();
 	}
 
 	@Override
@@ -158,7 +159,6 @@ public class MainActivity extends Activity
 		di().getInstance(SceneManager.class).destroy();
 		di().getInstance(Systems.class).reset();
 		Log.d(TAG, "onStop: GameStatsManager : destroy");
-		gameStatsManager.handleGameExit();
 	}
 
 	private void initialiseGame()

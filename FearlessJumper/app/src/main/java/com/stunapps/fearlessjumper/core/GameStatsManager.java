@@ -45,41 +45,11 @@ public class GameStatsManager
 		maintainScoreHistory();
 		resetCurrentScore();
 		increaseGamePlayCount();
-		//resetGameStats();
 	}
 
-	public void handleGameReStart()
-	{
-		maintainScoreHistory();
-		resetCurrentScore();
-		increaseGamePlayCount();
-	}
-
-	public void handleGameOver(String deathStat)
-	{
-		updateDeathStat(deathStat);
-	}
-
-	public void handleGamePause()
-	{
-		updateGameScoreStats();
-	}
-
-	public void handleGameStop()
-	{
-
-	}
-
-	public void handleGameResume()
-	{
-
-	}
-
-	public void handleGameExit()
-	{
-		Log.d(TAG, "handleGameExit: ");
-		updateGameScoreStats();
+	public void resetGameStats(){
 		resetSessionHighScore();
+		resetCurrentScore();
 	}
 
 	public void updateCurrentScore(long currentScore)
@@ -213,7 +183,7 @@ public class GameStatsManager
 		dataWriter.commit();
 	}
 
-	private void resetGameStats()
+	private void resetAllGameStats()
 	{
 		dataWriter.clear();
 		dataWriter.commit();

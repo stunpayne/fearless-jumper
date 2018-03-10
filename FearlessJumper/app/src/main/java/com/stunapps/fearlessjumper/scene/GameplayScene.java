@@ -149,14 +149,12 @@ public class GameplayScene extends AbstractScene
 			pauseButton.setVisibility(View.GONE);
 			pauseMenu.setVisibility(View.VISIBLE);
 		}
-		gameStatsManager.handleGamePause();
 	}
 
 	@Override
 	void stopScene()
 	{
 		gameView.stop();
-		gameStatsManager.handleGameStop();
 	}
 
 	//	TODO: Split into resumeScene and resumeGame?
@@ -169,7 +167,6 @@ public class GameplayScene extends AbstractScene
 			pauseButton.setVisibility(View.VISIBLE);
 			pauseMenu.setVisibility(View.GONE);
 		}
-		gameStatsManager.handleGameResume();
 	}
 
 	@Override
