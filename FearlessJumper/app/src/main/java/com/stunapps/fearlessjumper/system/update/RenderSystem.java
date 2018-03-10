@@ -118,26 +118,35 @@ public class RenderSystem implements UpdateSystem
 		paint.setTypeface(Typeface.SANS_SERIF);
 		paint.setTextSize(40);
 
-		float x = Device.SCREEN_WIDTH/2;
-		float y = Device.SCREEN_HEIGHT/2 - 300;
+		float x = Device.SCREEN_WIDTH / 2;
+		float y = Device.SCREEN_HEIGHT / 2 - 300;
 
-		canvas.drawText(String.valueOf("current score : "+gameStatsManager.getCurrentScore()), x,
+		canvas.drawText(String.valueOf("current score : " + gameStatsManager.getCurrentScore()), x,
 						y, paint);
 		y += 50;
-		canvas.drawText(String.valueOf("session high score : "+gameStatsManager.getSessionHighScore
-				()),	x, y, paint);
+		canvas.drawText(
+				String.valueOf("session high score : " + gameStatsManager.getSessionHighScore())
+				, x,
+				y, paint);
 		y += 50;
-		canvas.drawText(String.valueOf("global high score : "+gameStatsManager.getGlobalHighScore
-								()), x, y,
-						paint);
+		canvas.drawText(
+				String.valueOf("global high score : " + gameStatsManager.getGlobalHighScore()), x,
+				y, paint);
 
 		y += 50;
-		canvas.drawText(String.valueOf("average score : "+gameStatsManager.getAverageScore()), x,
+		canvas.drawText(String.valueOf("average score : " + gameStatsManager.getAverageScore()), x,
 						y, paint);
 
+		if (!gameStatsManager.getDeathStat().isEmpty())
+		{
+			y += 50;
+			canvas.drawText(String.valueOf("death by : " + gameStatsManager.getDeathStat()), x, y,
+							paint);
+		}
+
 		y += 50;
-		canvas.drawText(String.valueOf("game play count : "+gameStatsManager.getGamePlayCount()), x,
-						y, paint);
+		canvas.drawText(String.valueOf("game play count : " + gameStatsManager.getGamePlayCount()),
+						x, y, paint);
 
 		y += 50;
 		int i = 1;
