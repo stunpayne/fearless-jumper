@@ -1,11 +1,14 @@
 package com.stunapps.fearlessjumper.core;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.helper.Environment;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,61 +18,76 @@ import java.util.Set;
 @Singleton
 public class GameStatsManager
 {
-	private static final SharedPreferences dataReader = Environment.SHARED_PREFERENCES;
-	private static final SharedPreferences.Editor dataWriter =
-			Environment.SHARED_PREFERENCES.edit();
-	public static final String CURRENT_SCORE = "current_score";
-	public static final String PREVIOUS_SCORE_1 = "previous_score1";
-	public static final String PREVIOUS_SCORE_2 = "previous_score2";
-	public static final String PREVIOUS_SCORE_3 = "previous_score3";
-	public static final String SESSION_HIGH_SCORE = "session_high_score";
-	public static final String GLOBAL_HIGH_SCORE = "global_high_score";
-	public static final String ENEMY_ENCOUNTERED = "enemy_encountered";
-	public static final String DEATH_STAT = "death_stat";
+	private static final String TAG = GameStatsManager.class.getSimpleName();
 
-	public void onGameStart()
+	private static SharedPreferences dataReader;
+	private static SharedPreferences.Editor dataWriter;
+
+	private static final String GAME_PLAY_COUNT = "game_play_count";
+	private static final String CURRENT_SCORE = "current_score";
+	private static final String PREVIOUS_SCORE_ = "previous_score";
+	private static final String PREVIOUS_SCORE_1 = "previous_score1";
+	private static final String PREVIOUS_SCORE_2 = "previous_score2";
+	private static final String PREVIOUS_SCORE_3 = "previous_score3";
+	private static final String SESSION_HIGH_SCORE = "session_high_score";
+	private static final String GLOBAL_HIGH_SCORE = "global_high_score";
+	private static final String ENEMY_ENCOUNTERED = "enemy_encountered";
+	private static final String DEATH_STAT = "death_stat";
+
+	public GameStatsManager()
 	{
-		updateGamePlayCount();
-		movePrevious3Scores();
+		dataReader = Environment.SHARED_PREFERENCES;
+		dataWriter = dataReader.edit();
 	}
 
-	public void onGameReStart()
+	public void handleGameStart()
 	{
-		updateGamePlayCount();
-		movePrevious3Scores();
+		maintainScoreHistory();
+		resetCurrentScore();
+		increaseGamePlayCount();
+		//resetGameStats();
 	}
 
-	public void onGameOver(String deathBy)
+	public void handleGameReStart()
+	{
+		maintainScoreHistory();
+		resetCurrentScore();
+		increaseGamePlayCount();
+	}
+
+	public void handleGameOver(String deathStat)
+	{
+		updateDeathStat(deathStat);
+	}
+
+	public void handleGamePause()
 	{
 		updateGameScoreStats();
-		dataWriter.putString(DEATH_STAT, deathBy);
 	}
 
-	public void onGamePause()
+	public void handleGameStop()
 	{
-		updateGameScoreStats();
+
 	}
 
-	public void onGameExit()
+	public void handleGameResume()
 	{
-		updateGameScoreStats();
+
 	}
 
-	/**
-	 * Call it whenever score is updated.
-	 *
-	 * @param currentScore
-	 */
+	public void handleGameExit()
+	{
+		Log.d(TAG, "handleGameExit: ");
+		updateGameScoreStats();
+		resetSessionHighScore();
+	}
+
 	public void updateCurrentScore(long currentScore)
 	{
-		dataWriter.putLong(CURRENT_SCORE, currentScore);
+		updateScore(currentScore);
+		updateGameScoreStats();
 	}
 
-	/**
-	 * Call it when any enemy encountered
-	 *
-	 * @param enemy
-	 */
 	public void enemyEncountered(String enemy)
 	{
 		Set<String> enemyEncountered =
@@ -81,19 +99,68 @@ public class GameStatsManager
 		}
 	}
 
+	public long getGlobalHighScore()
+	{
+		return dataReader.getLong(GLOBAL_HIGH_SCORE, 0l);
+	}
+
+	public long getSessionHighScore()
+	{
+		return dataReader.getLong(SESSION_HIGH_SCORE, 0l);
+	}
+
+	public long getCurrentScore()
+	{
+		return dataReader.getLong(CURRENT_SCORE, 0l);
+	}
+
+	public long getAverageScore()
+	{
+		long historicalScore = 0l;
+		List<Long> scoreHistory = getScoreHistory();
+		for (Long score : scoreHistory)
+		{
+			historicalScore += score;
+		}
+		int maxGamePlayCountForStats = Math.min(Math.max(getGamePlayCount(), 1), 4);
+		return (historicalScore + getCurrentScore()) / maxGamePlayCountForStats;
+	}
+
+	public int getGamePlayCount()
+	{
+		return dataReader.getInt(GAME_PLAY_COUNT, 0);
+	}
+
+	public List<Long> getScoreHistory()
+	{
+		List<Long> scoreHistroy = new LinkedList<>();
+		int gamePlayCount = Math.min(getGamePlayCount(), 4);
+		if (gamePlayCount == 1)
+		{
+			return scoreHistroy;
+		}
+		for (int i = 1; i < gamePlayCount; i++)
+		{
+			scoreHistroy.add(dataReader.getLong(PREVIOUS_SCORE_ + i, 0l));
+		}
+		return scoreHistroy;
+	}
+
 	/**
 	 * Maintain previous 3 scores.
 	 */
-	private void movePrevious3Scores()
+	private void maintainScoreHistory()
 	{
-
 		long previousScore2 = dataReader.getLong(PREVIOUS_SCORE_2, 0l);
 		dataWriter.putLong(PREVIOUS_SCORE_3, previousScore2);
 
 		long previousScore1 = dataReader.getLong(PREVIOUS_SCORE_1, 0l);
 		dataWriter.putLong(PREVIOUS_SCORE_2, previousScore1);
 
-		dataWriter.putLong(PREVIOUS_SCORE_1, 0l);
+		long currentScore = dataReader.getLong(CURRENT_SCORE, 0l);
+		dataWriter.putLong(PREVIOUS_SCORE_1, currentScore);
+
+		dataWriter.commit();
 	}
 
 	private void updateGameScoreStats()
@@ -111,11 +178,44 @@ public class GameStatsManager
 				dataWriter.putLong(GLOBAL_HIGH_SCORE, currentScore);
 			}
 		}
+		dataWriter.commit();
 	}
 
-	private void updateGamePlayCount()
+	private void increaseGamePlayCount()
 	{
-		int gamePlayCount = dataReader.getInt("game_play_count", 1);
-		dataWriter.putInt("game_play_count", (gamePlayCount + 1));
+		int gamePlayCount = dataReader.getInt(GAME_PLAY_COUNT, 0);
+		dataWriter.putInt(GAME_PLAY_COUNT, (gamePlayCount + 1));
+		dataWriter.commit();
+	}
+
+	private void resetSessionHighScore()
+	{
+		dataWriter.putLong(SESSION_HIGH_SCORE, 0l);
+		dataWriter.commit();
+	}
+
+
+	private void updateDeathStat(String deathStat)
+	{
+		dataWriter.putString(DEATH_STAT, deathStat);
+		dataWriter.commit();
+	}
+
+	private void resetCurrentScore()
+	{
+		dataWriter.putLong(CURRENT_SCORE, 0l);
+		dataWriter.commit();
+	}
+
+	private void updateScore(long currentScore)
+	{
+		dataWriter.putLong(CURRENT_SCORE, currentScore);
+		dataWriter.commit();
+	}
+
+	private void resetGameStats()
+	{
+		dataWriter.clear();
+		dataWriter.commit();
 	}
 }

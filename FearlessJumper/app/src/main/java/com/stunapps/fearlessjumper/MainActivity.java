@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.core.Bitmaps;
+import com.stunapps.fearlessjumper.core.GameStatsManager;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
@@ -34,6 +36,8 @@ public class MainActivity extends Activity
 	private static MainActivity instance = null;
 
 	private SceneManager sceneManager;
+
+	private GameStatsManager gameStatsManager;
 
 	/**
 	 * Returns a singleton instance of MainActivity
@@ -142,6 +146,8 @@ public class MainActivity extends Activity
 		Log.i(TAG, "Activity stop");
 		super.onStop();
 		sceneManager.stop();
+		Log.d(TAG, "onStop: GameStatsManager : stop");
+		gameStatsManager.handleGameExit();
 	}
 
 	@Override
@@ -151,6 +157,8 @@ public class MainActivity extends Activity
 		super.onDestroy();
 		di().getInstance(SceneManager.class).destroy();
 		di().getInstance(Systems.class).reset();
+		Log.d(TAG, "onStop: GameStatsManager : destroy");
+		gameStatsManager.handleGameExit();
 	}
 
 	private void initialiseGame()
@@ -162,6 +170,8 @@ public class MainActivity extends Activity
 
 		sceneManager = di().getInstance(SceneManager.class);
 		sceneManager.initialise();
+
+		gameStatsManager = di().getInstance(GameStatsManager.class);
 	}
 
 	private void loadView(final View view)
@@ -202,11 +212,14 @@ public class MainActivity extends Activity
 		Device.SCREEN_WIDTH = dm.widthPixels;
 		Device.SCREEN_HEIGHT = dm.heightPixels;
 		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
-		SHARED_PREFERENCES = getPreferences(Context.MODE_PRIVATE);
+
+
 
 		Log.d("MAIN_ACTIVITY",
 				"Width: " + Device.SCREEN_WIDTH + " Height: " + Device.SCREEN_HEIGHT);
 		Environment.CONTEXT = this;
+
+		SHARED_PREFERENCES = PreferenceManager.getDefaultSharedPreferences(Environment.CONTEXT);
 	}
 
 	public void updateScore(final String score)
