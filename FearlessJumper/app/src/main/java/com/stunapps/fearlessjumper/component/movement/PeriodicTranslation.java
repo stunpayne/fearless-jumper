@@ -40,12 +40,6 @@ public class PeriodicTranslation extends Component
     //  Set to true automatically upon providing a y movement
     private boolean movesInY = false;
 
-    //  Speed at which the entity is currently moving horizontally
-    private float currSpeedX = 0.0f;
-
-    //  Speed at which the entity is currently moving vertically
-    private float currSpeedY = 0.0f;
-
     public PeriodicTranslation()
     {
         super(PeriodicTranslation.class);
@@ -63,7 +57,6 @@ public class PeriodicTranslation extends Component
         this.minX = minX;
         this.maxX = maxX;
         this.speedX = speedX;
-        this.currSpeedX = speedX;
 
         this.movesInX = true;
 
@@ -75,11 +68,30 @@ public class PeriodicTranslation extends Component
         this.minY = minY;
         this.maxY = maxY;
         this.speedY = speedY;
-        this.currSpeedY = speedY;
 
         this.movesInY = true;
 
         return this;
+    }
+
+    public float getSpeedX()
+    {
+        return speedX;
+    }
+
+    public void setSpeedX(float speedX)
+    {
+        this.speedX = speedX;
+    }
+
+    public float getSpeedY()
+    {
+        return speedY;
+    }
+
+    public void setSpeedY(float speedY)
+    {
+        this.speedY = speedY;
     }
 
     public boolean movesInX()
@@ -90,26 +102,6 @@ public class PeriodicTranslation extends Component
     public boolean movesInY()
     {
         return movesInY;
-    }
-
-    public float getCurrSpeedX()
-    {
-        return currSpeedX;
-    }
-
-    public float getCurrSpeedY()
-    {
-        return currSpeedY;
-    }
-
-    public void setCurrSpeedX(float newSpeedX)
-    {
-        this.currSpeedX = newSpeedX;
-    }
-
-    public void setCurrSpeedY(float newSpeedY)
-    {
-        this.currSpeedY = newSpeedY;
     }
 
     @Override
