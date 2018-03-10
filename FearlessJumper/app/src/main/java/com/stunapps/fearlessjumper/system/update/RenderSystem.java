@@ -9,7 +9,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.os.Handler;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -59,8 +58,6 @@ public class RenderSystem implements UpdateSystem
 	private ParallaxBackground background;
 	private Paint bgPaint = new Paint();
 	private Paint colliderPaint = new Paint();
-
-	private Handler handler = new Handler();
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem,
@@ -173,7 +170,6 @@ public class RenderSystem implements UpdateSystem
 		lastProcessTime = System.nanoTime();
 		canvas = null;
 		bgPaint = new Paint();
-		handler = new Handler();
 	}
 
 	public static Rect getRenderRect(Entity entity)
@@ -212,7 +208,7 @@ public class RenderSystem implements UpdateSystem
 		for (Entity entity : entities)
 		{
 			Renderable component = entity.getComponent(Renderable.class);
-			Bitmap bitmap = (Bitmap) component.getRenderable();
+			Bitmap bitmap = component.getRenderable();
 			Rect destRect = getRenderRect(entity);
 
 			canvas.drawBitmap(bitmap, null, destRect, null);
@@ -257,8 +253,6 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderParticles(Set<Particle> particles)
 	{
-		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
-
 		Paint fuelTextPaint = new Paint();
 		fuelTextPaint.setColor(Color.WHITE);
 		fuelTextPaint.setTextAlign(Align.CENTER);
