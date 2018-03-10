@@ -43,11 +43,13 @@ public class DamageSystem implements System
 			if (entity1.hasComponent(Health.class) && entity2.hasComponent(DamageComponent.class))
 			{
 				handleDamage(entity1, entity2);
+				handleSelfDestruct(entity2);
 			}
 
 			if (entity2.hasComponent(Health.class) && entity1.hasComponent(DamageComponent.class))
 			{
 				handleDamage(entity2, entity1);
+				handleSelfDestruct(entity1);
 			}
 		}
 
@@ -74,5 +76,15 @@ public class DamageSystem implements System
 				animator.triggerTransition(AnimationTransition.HURT);
 			}
 		}
+
+		private void handleSelfDestruct(Entity entity)
+		{
+			if (entity.getComponent(DamageComponent.class).selfDestructOnContact)
+			{
+				entity.delete();
+			}
+		}
 	};
+
+
 }

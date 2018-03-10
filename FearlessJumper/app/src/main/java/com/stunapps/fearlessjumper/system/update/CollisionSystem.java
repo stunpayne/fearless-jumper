@@ -29,6 +29,8 @@ import java.util.Set;
 @Singleton
 public class CollisionSystem implements UpdateSystem
 {
+    private static final String TAG = CollisionSystem.class.getSimpleName();
+
     public static final float TENTATIVE_X_POSITION_FACTOR = 0.1f;
     public static final float TENTATIVE_Y_POSITION_FACTOR = 0.5f;
 
@@ -214,6 +216,7 @@ public class CollisionSystem implements UpdateSystem
                 /**
                  * This can be instead handle with coefficient of restitution.
                  */
+                Log.d(TAG, "resolveCollision: x = " + physicsComponent1.getVelocity().x);
                 physicsComponent1.getVelocity().x = 0;
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.VERTICAL);
@@ -226,6 +229,7 @@ public class CollisionSystem implements UpdateSystem
             {
                 CollisionResolver.resolveYCollision(mobileEntity, immobileEntity, intersectY, push);
                 physicsComponent1.getVelocity().y = 0;
+                Log.d(TAG, "resolveCollision: y = " + physicsComponent1.getVelocity().y);
             }
             return new CollisionResponse(CollisionResponse.CollisionFace.HORIZONTAL);
         }

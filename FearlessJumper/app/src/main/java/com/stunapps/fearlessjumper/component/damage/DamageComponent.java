@@ -9,13 +9,15 @@ import com.stunapps.fearlessjumper.component.Component;
 public abstract class DamageComponent extends Component implements Opponent
 {
     protected int damage;
+    public boolean selfDestructOnContact;
     public DamageType damageType;
 
-    public DamageComponent(int damage, DamageType damageType)
+    public DamageComponent(int damage, DamageType damageType, boolean selfDestructOnContact)
     {
         super(DamageComponent.class);
         this.damage = damage;
         this.damageType = damageType;
+        this.selfDestructOnContact = selfDestructOnContact;
     }
 
     public enum DamageType

@@ -110,24 +110,30 @@ public class PhysicsSystem implements UpdateSystem
 		float friction =
 				physicsComponent1.friction.bottomFriction + physicsComponent2.friction.topFriction;
 		float entity1XVel = Math.abs(physicsComponent1.getVelocity().x);
-		if (entity1XVel > 0)
-		{
-			entity1XVel -= (friction * scaleX() * deltaTime / ONE_SECOND_NANOS);
-			physicsComponent1.getVelocity().x = entity1XVel * sign(physicsComponent1.getVelocity().x);
-			if (entity1XVel < 0)
-			{
-				physicsComponent1.getVelocity().x = 0;
-			}
-		}
 
-		float entity2XVel = Math.abs(physicsComponent2.getVelocity().x);
-		if (entity2XVel > 0)
+		if (friction > 0)
 		{
-			entity2XVel -= (friction * scaleX() * deltaTime / ONE_SECOND_NANOS);
-			physicsComponent2.getVelocity().x -= entity2XVel * sign(physicsComponent2.getVelocity().x);
-			if (entity2XVel < 0)
+			if (entity1XVel > 0)
 			{
-				physicsComponent2.getVelocity().x = 0;
+				entity1XVel -= (friction * scaleX() * deltaTime / ONE_SECOND_NANOS);
+				physicsComponent1.getVelocity().x =
+						entity1XVel * sign(physicsComponent1.getVelocity().x);
+				if (entity1XVel < 0)
+				{
+					physicsComponent1.getVelocity().x = 0;
+				}
+			}
+
+			float entity2XVel = Math.abs(physicsComponent2.getVelocity().x);
+			if (entity2XVel > 0)
+			{
+				entity2XVel -= (friction * scaleX() * deltaTime / ONE_SECOND_NANOS);
+				physicsComponent2.getVelocity().x =
+						entity2XVel * sign(physicsComponent2.getVelocity().x);
+				if (entity2XVel < 0)
+				{
+					physicsComponent2.getVelocity().x = 0;
+				}
 			}
 		}
 	}
@@ -139,24 +145,30 @@ public class PhysicsSystem implements UpdateSystem
 		float friction =
 				physicsComponent1.friction.rightFriction + physicsComponent2.friction.leftFriction;
 		float entity1YVel = Math.abs(physicsComponent1.getVelocity().y);
-		if (entity1YVel > 0)
-		{
-			entity1YVel -= (friction * scaleY() * deltaTime / ONE_SECOND_NANOS);
-			physicsComponent1.getVelocity().y = entity1YVel * sign(physicsComponent1.getVelocity().y);
-			if (entity1YVel < 0)
-			{
-				physicsComponent1.getVelocity().y = 0;
-			}
-		}
 
-		float entity2YVel = Math.abs(physicsComponent2.getVelocity().y);
-		if (entity2YVel > 0)
+		if (friction > 0)
 		{
-			entity2YVel -= (friction * scaleY() * deltaTime / ONE_SECOND_NANOS);
-			physicsComponent2.getVelocity().y -= entity2YVel * sign(physicsComponent2.getVelocity().y);
-			if (entity2YVel < 0)
+			if (entity1YVel > 0)
 			{
-				physicsComponent2.getVelocity().y = 0;
+				entity1YVel -= (friction * scaleY() * deltaTime / ONE_SECOND_NANOS);
+				physicsComponent1.getVelocity().y =
+						entity1YVel * sign(physicsComponent1.getVelocity().y);
+				if (entity1YVel < 0)
+				{
+					physicsComponent1.getVelocity().y = 0;
+				}
+			}
+
+			float entity2YVel = Math.abs(physicsComponent2.getVelocity().y);
+			if (entity2YVel > 0)
+			{
+				entity2YVel -= (friction * scaleY() * deltaTime / ONE_SECOND_NANOS);
+				physicsComponent2.getVelocity().y =
+						entity2YVel * sign(physicsComponent2.getVelocity().y);
+				if (entity2YVel < 0)
+				{
+					physicsComponent2.getVelocity().y = 0;
+				}
 			}
 		}
 	}

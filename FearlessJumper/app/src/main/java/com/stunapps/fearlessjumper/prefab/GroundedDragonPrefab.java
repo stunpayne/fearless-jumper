@@ -79,7 +79,7 @@ public class GroundedDragonPrefab extends Prefab
 		components.add(new Obstacle());
 		components.add(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		components.add(new ContactDamageComponent(1));
+		components.add(new ContactDamageComponent(1, false));
 		components
 				.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
 	}

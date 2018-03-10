@@ -10,7 +10,7 @@ public class AreaDamageComponent extends DamageComponent
 {
     public AreaDamageComponent(int damage)
     {
-        super(damage, DamageComponent.DamageType.AREA);
+        super(damage, DamageComponent.DamageType.AREA, false);
     }
 
     @Override

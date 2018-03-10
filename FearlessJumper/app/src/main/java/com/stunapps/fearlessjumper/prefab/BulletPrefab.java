@@ -27,6 +27,6 @@ public class BulletPrefab extends Prefab
 		components.add(new RectCollider(Delta.ZERO, bullet.getWidth(), bullet.getHeight(), true,
 				CollisionLayer.BULLET));
 		components.add(new Obstacle());
-		components.add(new ContactDamageComponent(10));
+		components.add(new ContactDamageComponent(10, true));
 	}
 }

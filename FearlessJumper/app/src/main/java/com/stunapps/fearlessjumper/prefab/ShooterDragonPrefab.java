@@ -89,7 +89,7 @@ public class ShooterDragonPrefab extends Prefab
 						3f));
 		components.add(new PhysicsComponent(Float.MAX_VALUE, new Velocity(), false));
 
-		components.add(new ContactDamageComponent(1));
+		components.add(new ContactDamageComponent(1, false));
 		components.add(new PeriodicGun(1000));
 	}
 }

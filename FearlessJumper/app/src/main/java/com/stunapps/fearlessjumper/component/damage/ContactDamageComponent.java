@@ -12,12 +12,12 @@ public class ContactDamageComponent extends DamageComponent
 {
     public ContactDamageComponent()
     {
-        this(0);
+        this(0, false);
     }
 
-    public ContactDamageComponent(int damage)
+    public ContactDamageComponent(int damage, boolean selfDestructOnContact)
     {
-        super(damage, DamageType.CONTACT);
+        super(damage, DamageType.CONTACT, selfDestructOnContact);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class ContactDamageComponent extends DamageComponent
     @Override
     public ContactDamageComponent clone() throws CloneNotSupportedException
     {
-        return new ContactDamageComponent(damage);
+        return new ContactDamageComponent(damage, selfDestructOnContact);
     }
 }
