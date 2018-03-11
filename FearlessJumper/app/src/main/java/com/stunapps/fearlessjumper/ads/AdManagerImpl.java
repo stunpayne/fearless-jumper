@@ -17,7 +17,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class AdManagerImpl implements AdManager
 {
-	private final String ADS_APP_ID = "ca-app-pub-3940256099942544/5224354917";
+	private final String ADS_APP_ID = "ca-app-pub-3940256099942544~3347511713";
+	private final String ADS_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
 
 	private final Context context;
 	private final RewardedVideoAd mRewardedVideoAd;
@@ -82,7 +83,7 @@ public class AdManagerImpl implements AdManager
 	@Override
 	public void loadAd()
 	{
-		mRewardedVideoAd.loadAd(ADS_APP_ID, new AdRequest.Builder().build());
+		mRewardedVideoAd.loadAd(ADS_UNIT_ID, new AdRequest.Builder().build());
 	}
 
 	@Override
