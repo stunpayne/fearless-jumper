@@ -15,6 +15,7 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageButton;
 
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.ads.AdManager;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
@@ -45,12 +46,15 @@ public class GameplayScene extends AbstractScene
 	private ViewSetup viewSetup = new ViewSetup();
 	private Handler mainHandler;
 
-	private GameStatsManager gameStatsManager;
+	private final GameStatsManager gameStatsManager;
+	private final AdManager mAdManager;
 
 	@Inject
-	public GameplayScene(final GameView gameView, EventSystem eventSystem, GameStatsManager gameStatsManager)
+	public GameplayScene(final GameView gameView, EventSystem eventSystem,
+			GameStatsManager gameStatsManager, final AdManager mAdManager)
 	{
 		super(R.layout.game_play_container, eventSystem);
+		this.mAdManager = mAdManager;
 		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		this.gameView = gameView;
 		this.gameStatsManager = gameStatsManager;
@@ -76,6 +80,9 @@ public class GameplayScene extends AbstractScene
 					case Action.KILL:
 						gameView.stop();
 						gameView.terminate();
+						break;
+					case Action.SHOW_AD:
+						mAdManager.showAd();
 				}
 			}
 		};
@@ -90,7 +97,7 @@ public class GameplayScene extends AbstractScene
 					mainHandler.sendMessage(mainHandler.obtainMessage(Action.SHOW, gameOverMenu));
 					mainHandler.sendMessage(mainHandler.obtainMessage(Action.HIDE, pauseButton));
 					mainHandler.sendMessage(mainHandler.obtainMessage(Action.KILL));
-//					gameView.stop();
+					mainHandler.sendMessage(mainHandler.obtainMessage(Action.SHOW_AD));
 				}
 			};
 

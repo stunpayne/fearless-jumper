@@ -10,4 +10,6 @@ public class Action
 	public static final int HIDE = 1;
 
 	public static final int KILL = 2;
+
+	public static final int SHOW_AD = 3;
 }

@@ -13,8 +13,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.MobileAds;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.ads.AdManager;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.di.DI;
@@ -35,9 +35,9 @@ public class MainActivity extends Activity
 	private static final String TAG = MainActivity.class.getSimpleName();
 	private static MainActivity instance = null;
 
-	private SceneManager sceneManager;
-
-	private GameStatsManager gameStatsManager;
+	private SceneManager mSceneManager;
+	private GameStatsManager mGameStatsManager;
+	private AdManager mAdManager;
 
 	/**
 	 * Returns a singleton instance of MainActivity
@@ -112,7 +112,6 @@ public class MainActivity extends Activity
 
 		initialiseGame();
 
-//		MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917");
 	}
 
 	@Override
@@ -120,7 +119,7 @@ public class MainActivity extends Activity
 	{
 		Log.i(TAG, "Activity start");
 		super.onStart();
-		sceneManager.start();
+		mSceneManager.start();
 	}
 
 	@Override
@@ -128,7 +127,8 @@ public class MainActivity extends Activity
 	{
 		Log.i(TAG, "Activity resume");
 		super.onResume();
-		sceneManager.resume();
+		mSceneManager.resume();
+		mAdManager.resume();
 	}
 
 	@Override
@@ -138,8 +138,9 @@ public class MainActivity extends Activity
 		super.onPause();
 		if (!isFinishing())
 		{
-			sceneManager.pause();
+			mSceneManager.pause();
 		}
+		mAdManager.pause();
 	}
 
 	@Override
@@ -147,7 +148,7 @@ public class MainActivity extends Activity
 	{
 		Log.i(TAG, "Activity stop");
 		super.onStop();
-		sceneManager.stop();
+		mSceneManager.stop();
 	}
 
 	@Override
@@ -156,7 +157,8 @@ public class MainActivity extends Activity
 		Log.i(TAG, "Activity destroy");
 		super.onDestroy();
 		di().getInstance(SceneManager.class).destroy();
-		di().getInstance(Systems.class).reset();
+		Systems.reset();
+		mAdManager.destroy();
 	}
 
 	private void initialiseGame()
@@ -166,11 +168,14 @@ public class MainActivity extends Activity
 		Bitmaps.initialise();
 		di().getInstance(Systems.class).initialise();
 
-		sceneManager = di().getInstance(SceneManager.class);
-		sceneManager.initialise();
+		mSceneManager = di().getInstance(SceneManager.class);
+		mSceneManager.initialise();
 
-		gameStatsManager = di().getInstance(GameStatsManager.class);
-		gameStatsManager.resetGameStats();
+		mGameStatsManager = di().getInstance(GameStatsManager.class);
+		mGameStatsManager.resetGameStats();
+
+		mAdManager = di().getInstance(AdManager.class);
+		mAdManager.loadAd();
 	}
 
 	private void loadView(final View view)
@@ -211,7 +216,6 @@ public class MainActivity extends Activity
 		Device.SCREEN_WIDTH = dm.widthPixels;
 		Device.SCREEN_HEIGHT = dm.heightPixels;
 		Device.DISPLAY_DENSITY = getResources().getDisplayMetrics().density;
-
 
 
 		Log.d("MAIN_ACTIVITY",
