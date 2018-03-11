@@ -112,8 +112,7 @@ public class MainActivity extends Activity
 
 		initialiseGame();
 
-		gameStatsManager.resetGameStats();
-		MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917");
+//		MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917");
 	}
 
 	@Override
@@ -171,6 +170,7 @@ public class MainActivity extends Activity
 		sceneManager.initialise();
 
 		gameStatsManager = di().getInstance(GameStatsManager.class);
+		gameStatsManager.resetGameStats();
 	}
 
 	private void loadView(final View view)

@@ -60,7 +60,7 @@ public class ScoreUpdateSystem implements UpdateSystem
 			float topPosDiff = player.transform.position.y - topPlayerPosition.y;
 			float scoreIncrease = Math.abs(SCORE_MULTIPLIER * topPosDiff);
 			player.getComponent(Score.class).addScore(scoreIncrease);
-			;
+
 			player.transform.position.copyTo(topPlayerPosition);
 			float score = player.getComponent(Score.class).getScore();
 			gameStatsManager.updateCurrentScore((long) score);

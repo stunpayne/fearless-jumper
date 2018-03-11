@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="jquery.min.js"></script>
+	<script>
+		window.onload = function () {
+
+			function toogleDataSeries(e){
+				if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+					e.dataSeries.visible = false;
+				} else{
+					e.dataSeries.visible = true;
+				}
+				// chart.render();
+			}
+
+			function initSystemIndices(systemsInOrder)
+			{
+				str = "{";
+				for (i = 0; i < systemsInOrder.length; i++)	{
+					str += ("\"" + systemsInOrder[i] + "\": " + i + ",");
+				}
+				str = str.slice(0, -1);
+				str += "}";
+				var systemIndices = JSON.parse(str);
+				return systemIndices;
+			}
+
+			function reOrderSystems(firstSystemInData)
+			{
+				var orderedSystems = ["PhysicsSystem", "GenerationSystem", "MovementUpdateSystem", "CollisionSystem", "LowerBoundarySystem", "TransformUpdateSystem", "ScoreUpdateSystem", "ClockCountdownSystem", "FuelSystem", "PeriodicGunSystem", "AnimationSystem", "ParticleSystem", "RenderSystem"];
+			    var secondHalf = orderedSystems.splice(orderedSystems.indexOf(firstSystemInData), orderedSystems.length);
+			    orderedSystems = secondHalf.concat(orderedSystems);
+			    console.log("First system in data: " + firstSystemInData);
+
+			    return orderedSystems;
+			}
+
+			function processData(allText, chart) {
+			    var record_num = 3;  // or however many elements there are in each row
+			    var allTextLines = allText.split(/\r\n|\n/);
+			    var lines = [];
+
+			    //	The first system in the data could be any system. 
+			    //	We need to reorder all of them to read data correctly
+			    var systems = reOrderSystems(allTextLines[0].split(',')[0]);
+			    console.log("Systems reordered: " + systems);
+			    var systemIndices = initSystemIndices(systems);
+
+
+			    //	Split every line by comma and fill into an array
+				console.log(allTextLines.length);
+			    for (l = 0; l < allTextLines.length - 1; l++) {
+			    	var entries = allTextLines[l].split(',');
+			    	var tarr = [];
+
+			    	var systemLineIndex = systemIndices[entries[0]];
+			    	var frameNum = entries[1];
+			    	var systemProcessTime = entries[2];
+
+			    	// console.log("Line: " + l);
+			    	// console.log(allTextLines[l]);	
+			    	// console.log(entries);
+			    	// console.log(systemLineIndex + " " + frameNum + " " + systemProcessTime);
+
+			    	for (var j=0; j<record_num; j++) {
+			    		tarr.push(entries[j]);
+			    	}
+			    	// chart.options.data[systemLineIndex].dataPoints.push({ x: frameNum , y: systemProcessTime});
+			    	lines.push(tarr);
+			    }
+			    var minFrame = parseInt(lines[0][1] - 50);
+			    var maxFrame = parseInt(lines[lines.length - 1][1]) + 50;
+			    console.log("Min frame: " + minFrame + " maxFrame: " + maxFrame);
+			    chart.options.axisX.minimum = minFrame;
+			    chart.options.axisX.maximum = maxFrame;
+			    
+
+			    //	Set the labels for each data line as system names
+				for (var i in systemIndices)
+				{
+					var key = i;
+    				var val = systemIndices[i];
+
+    				chart.data[val].set("name", key);
+				}
+				
+
+				//	Finally load all the data into the chart
+				for (i=0; i< lines.length; i++)
+				{
+					chart.options.data[ i % 13].dataPoints.push({ x: lines[i][1] , y: lines[i][2] / 100});
+				}
+				chart.render();
+
+			    return lines;
+			}
+
+
+			$.get("http://localhost:5500/systems_data.csv", function(data) {
+
+				var chart = new CanvasJS.Chart("chartContainer", {
+					title: {
+						text: "System times"
+					},
+					axisX:{
+						minimum: 1850,
+						maximum: 2100,
+						interval: 60
+					},
+					axisY: {
+						title: "Time taken",
+						minimum: 0,
+						maximum: 300
+					},
+					toolTip: {
+						shared: true
+					},
+					legend: {
+						cursor: "pointer",
+						verticalAlign: "top",
+						itemclick: toogleDataSeries
+					},
+					data: [{
+						type:"line",
+						axisYType: "primary",
+						name: "0",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [		
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "1",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "2",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "3",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type:"line",
+						axisYType: "primary",
+						name: "4",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [		
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "5",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "6",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "7",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type:"line",
+						axisYType: "primary",
+						name: "8",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [		
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "9",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "10",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "11",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					},
+					{
+						type: "line",
+						axisYType: "primary",
+						name: "12",
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					}]
+				});
+				chart.render();
+
+				var lines = processData(data, chart);
+
+			});
+
+		}
+	</script>
+</head>
+<body>
+	<div id="chartContainer" style="height: 700px; width: 100%;"></div>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
+
+
+

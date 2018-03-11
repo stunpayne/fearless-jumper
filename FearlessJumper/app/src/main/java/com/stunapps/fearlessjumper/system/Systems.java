@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.system.eventonly.DamageSystem;
 import com.stunapps.fearlessjumper.system.eventonly.PickupSystem;
 import com.stunapps.fearlessjumper.system.update.AnimationSystem;
@@ -38,6 +39,11 @@ import java.util.List;
 public class Systems
 {
 	private static final String TAG = Systems.class.getSimpleName();
+	private static final String PROCESS_SUFFIX = ".Time";
+	private static int frameNum = 0;
+
+	private static long startTime = 0;
+	private static long endTime = 0;
 
 	private static final List<Class<? extends UpdateSystem>> systemOrder =
 			Arrays.asList(PhysicsSystem.class, GenerationSystem.class, MovementUpdateSystem.class,
@@ -67,8 +73,14 @@ public class Systems
 	{
 		for (UpdateSystem system : systemsInOrder)
 		{
+			startTime = java.lang.System.nanoTime();
 			system.process(deltaTime);
+			endTime = java.lang.System.nanoTime();
+			Log.d(TAG.concat(PROCESS_SUFFIX),
+					system.getClass().getSimpleName() + "," + frameNum + "," +
+							((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 		}
+		frameNum++;
 	}
 
 	public static void processInput(MotionEvent motionEvent)
