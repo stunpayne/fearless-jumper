@@ -76,7 +76,7 @@ public class PlayerPrefab extends ComponentPrefab
 		addComponent(new PhysicsComponent(50, Velocity.ZERO));
 		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
 		addComponent(orientationInput);
-		addComponent(new PlayerComponent("Van Andel"));
+		addComponent(new PlayerComponent());
 		addComponent(new RemainingTime(60000));
 		addComponent(new Score());
 		addComponent(new Fuel(100f));

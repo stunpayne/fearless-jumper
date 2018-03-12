@@ -71,7 +71,7 @@ public class DamageSystem implements System
 			{
 				animator.triggerTransition(AnimationTransition.TERMINATE);
 				eventSystem.raiseEvent(new GameOverEvent());
-				if (damaging.hasComponent(Enemy.class) && damaged.hasComponent(PlayerComponent.class))
+				if (damaging.hasComponent(Enemy.class))
 				{
 					gameStatsManager.updateDeathStat(
 							damaging.getComponent(Enemy.class).getEnemyType().name());
@@ -85,7 +85,7 @@ public class DamageSystem implements System
 																  collidesWith.collisionLayer,
 																  1000l);
 				animator.triggerTransition(AnimationTransition.HURT);
-				if (damaging.hasComponent(Enemy.class) && damaged.hasComponent(PlayerComponent.class))
+				if (damaging.hasComponent(Enemy.class))
 				{
 					gameStatsManager.updateHurtStat(
 							damaging.getComponent(Enemy.class).getEnemyType().name());
