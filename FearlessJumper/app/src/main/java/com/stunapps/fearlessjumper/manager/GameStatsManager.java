@@ -20,7 +20,6 @@ import java.util.Set;
 public class GameStatsManager
 {
 	private static final String TAG = GameStatsManager.class.getSimpleName();
-	public static final String PLAERY_ENEMY_DELEMITER = ".";
 	public static final String ENEMIES_ENCOUNTERED = "enemies-encountered";
 
 	private static SharedPreferences dataReader;
@@ -34,7 +33,6 @@ public class GameStatsManager
 	private static final String PREVIOUS_SCORE_3 = "previous_score3";
 	private static final String SESSION_HIGH_SCORE = "session_high_score";
 	private static final String GLOBAL_HIGH_SCORE = "global_high_score";
-	private static final String ENEMY_ENCOUNTERED = "enemy_encountered";
 	private static final String TERMINATED_BY = "terminated_by";
 
 	public GameStatsManager()
