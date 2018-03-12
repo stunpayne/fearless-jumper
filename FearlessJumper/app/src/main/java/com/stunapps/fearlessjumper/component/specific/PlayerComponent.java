@@ -8,14 +8,17 @@ import com.stunapps.fearlessjumper.component.Component;
 
 public class PlayerComponent extends Component
 {
-    public PlayerComponent()
+    public String name;
+
+    public PlayerComponent(String name)
     {
         super(PlayerComponent.class);
+        this.name = name;
     }
 
     @Override
     public PlayerComponent clone() throws CloneNotSupportedException
     {
-        return new PlayerComponent();
+        return new PlayerComponent(this.name);
     }
 }

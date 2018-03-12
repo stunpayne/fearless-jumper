@@ -38,7 +38,10 @@ import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import static com.stunapps.fearlessjumper.game.Environment.scaleX;
@@ -106,7 +109,7 @@ public class RenderSystem implements UpdateSystem
 		//testing
 		if (Settings.DEBUG_MODE)
 		{
-			//renderGameStats();
+			renderGameStats();
 		}
 	}
 
@@ -121,43 +124,62 @@ public class RenderSystem implements UpdateSystem
 		float x = Device.SCREEN_WIDTH / 2;
 		float y = Device.SCREEN_HEIGHT / 2 - 300;
 
-		canvas.drawText(String.valueOf("current score : " + gameStatsManager.getCurrentScore()), x,
+		canvas.drawText(String.valueOf("Score : " + gameStatsManager.getCurrentScore()), x,
 						y, paint);
 		y += 50;
 		canvas.drawText(
-				String.valueOf("session high score : " + gameStatsManager.getSessionHighScore())
+				String.valueOf("High Score : " + gameStatsManager.getSessionHighScore())
 				, x,
 				y, paint);
 		y += 50;
 		canvas.drawText(
-				String.valueOf("global high score : " + gameStatsManager.getGlobalHighScore()), x,
+				String.valueOf("All Time High Score : " + gameStatsManager.getGlobalHighScore()), x,
 				y, paint);
 
 		y += 50;
-		canvas.drawText(String.valueOf("average score : " + gameStatsManager.getAverageScore()), x,
+		canvas.drawText(String.valueOf("Avg Score : " + gameStatsManager.getAverageScore()), x,
 						y, paint);
 
 		if (!gameStatsManager.getDeathStat().isEmpty())
 		{
 			y += 50;
-			canvas.drawText(String.valueOf("death by : " + gameStatsManager.getDeathStat()), x, y,
-							paint);
+			canvas.drawText(String.valueOf("Killed By : " + gameStatsManager.getDeathStat())
+					, x,
+							y, paint);
+		}
+
+		Iterator<Entry<String, Integer>> iterator =  gameStatsManager.getHurtStats().entrySet()
+				.iterator();
+		while (iterator.hasNext())
+		{
+			y += 50;
+			Entry<String, Integer> entry = iterator.next();
+			canvas.drawText(entry.getKey() + "'s Hurt Count: " + entry.getValue(), x, y, paint);
 		}
 
 		y += 50;
-		canvas.drawText(String.valueOf("game play count : " + gameStatsManager.getGamePlayCount()),
+		canvas.drawText(String.valueOf("GamePlay Count : " + gameStatsManager.getGamePlayCount()),
 						x, y, paint);
 
 		y += 50;
 		int i = 1;
 		for (Long previousScore : gameStatsManager.getScoreHistory())
 		{
-			canvas.drawText("previous score " + i + " : " + String.valueOf(previousScore), x, y,
+			String qualifier = "st";
+			if (i == 2)
+			{
+				qualifier = "nd";
+			}
+			else if (i == 3)
+			{
+				qualifier = "rd";
+			}
+			canvas.drawText(i + qualifier + " Last Score" + " : " + String.valueOf(previousScore),
+							x, y,
 
 							paint);
 			y += 50;
 			i++;
-
 		}
 	}
 
