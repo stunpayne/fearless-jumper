@@ -10,6 +10,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -26,6 +27,7 @@ import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
 import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
@@ -54,6 +56,8 @@ public class RenderSystem implements UpdateSystem
 {
 	private final ComponentManager componentManager;
 	private final GameStatsManager gameStatsManager;
+
+	private static int frameNum = 0;
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
@@ -97,19 +101,52 @@ public class RenderSystem implements UpdateSystem
 		}
 
 		//  Update all cameras
+
+
+		long startTime = java.lang.System.nanoTime();
 		Cameras.update();
+		long endTime = java.lang.System.nanoTime();
+		Log.d("RenderSystem".concat(".Time"),
+			  "camera" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
+
+		startTime = java.lang.System.nanoTime();
 		renderBackground();
-		renderEntities();
-		renderHUD();
+		endTime = java.lang.System.nanoTime();
+		Log.d("RenderSystem".concat(".Time"),
+			  "background" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
+		startTime = java.lang.System.nanoTime();
+		renderEntities();
+		endTime = java.lang.System.nanoTime();
+
+		Log.d("RenderSystem".concat(".Time"),
+			  "entities" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
+
+		startTime = java.lang.System.nanoTime();
+		renderHUD();
+		endTime = java.lang.System.nanoTime();
+		Log.d("RenderSystem".concat(".Time"),
+			  "hud" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
+
+		startTime = java.lang.System.nanoTime();
 		renderParticleEmission();
+		endTime = java.lang.System.nanoTime();
+		Log.d("RenderSystem".concat(".Time"),
+			  "particles" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 		//testing
 		if (Settings.DEBUG_MODE)
 		{
-			renderGameStats();
+			//renderGameStats();
 		}
+
+		frameNum++;
 	}
 
 	private void renderGameStats()
