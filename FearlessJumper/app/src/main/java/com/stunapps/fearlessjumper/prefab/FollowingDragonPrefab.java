@@ -87,12 +87,9 @@ public class FollowingDragonPrefab extends ComponentPrefab
 		addComponent(new Dragon(EnemyType.DRAXUS));
 		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 									  dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		/*addComponent(new PeriodicTranslation()
-							 .withAbsoluteXMovement(0, Device.SCREEN_WIDTH -
-									 dragonSprite1.getWidth(), 5f)); */
 		addComponent(new FollowTranslation(PlayerComponent.class));
 		addComponent(new ContactDamageComponent(1, false));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(1.0f, 1.0f), false));
+		addComponent(new PhysicsComponent(0, new Velocity(60.0f, 60.0f), false));
 	}
 
 }

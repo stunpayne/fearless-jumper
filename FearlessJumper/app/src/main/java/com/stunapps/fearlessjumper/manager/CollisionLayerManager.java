@@ -48,7 +48,7 @@ public class CollisionLayerManager
 		 */
 
 		setCollisionLayerMask(CollisionLayer.ENEMY,
-							  new CollisionLayer[]{CollisionLayer.PLAYER});
+							  new CollisionLayer[]{CollisionLayer.SOLID});
 
 
 		setCollisionLayerMask(CollisionLayer.PLAYER,

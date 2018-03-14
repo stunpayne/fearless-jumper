@@ -3,10 +3,12 @@ package com.stunapps.fearlessjumper.system.update;
 import android.util.Log;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -91,6 +93,20 @@ public class EntityFollowSystem implements UpdateSystem
 						followerEntity.getComponent(PhysicsComponent.class).getVelocity();
 				velocity.x = updateDirection(velocity.x, xDirection);
 				velocity.y = updateDirection(velocity.y, yDirection);
+
+				if (followerEntity.hasComponent(Animator.class))
+				{
+					Animator animator = followerEntity.getComponent(Animator.class);
+					if (velocity.x < 0)
+					{
+						animator.triggerTransition(AnimationTransition.TURN_LEFT);
+					}
+					else
+					{
+						animator.triggerTransition(AnimationTransition.TURN_RIGHT);
+					}
+				}
+
 				Log.d(TAG,
 					  "process: x velocity after update = " + physicsComponent.getVelocity().x);
 				Log.d(TAG,
