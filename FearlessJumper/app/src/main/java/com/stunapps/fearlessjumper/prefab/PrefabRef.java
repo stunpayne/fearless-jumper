@@ -17,6 +17,7 @@ public enum PrefabRef
     LAND(new LandPrefab()),
 
     FLYING_DRAGON(new FlyingDragonPrefab()),
+    FOLLOWING_DRAGON(new FollowingDragonPrefab()),
     GROUNDED_DRAGON(new GroundedDragonPrefab()),
     BULLET(new BulletPrefab()),
     SHOOTER_DRAGON(new ShooterDragonPrefab()),
