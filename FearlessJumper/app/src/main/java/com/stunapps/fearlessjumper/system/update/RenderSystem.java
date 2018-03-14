@@ -9,7 +9,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.util.Log;
 
 import com.google.inject.Inject;
@@ -18,9 +17,7 @@ import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
-import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
-import com.stunapps.fearlessjumper.component.emitter.RotationalEmitter;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -33,7 +30,6 @@ import com.stunapps.fearlessjumper.core.ParallaxBackground;
 import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
@@ -64,8 +60,8 @@ public class RenderSystem implements UpdateSystem
 
 	private ParallaxBackground background;
 	private Paint bgPaint = new Paint();
-	private Paint particlePaint = new Paint();
 	private Paint colliderPaint = new Paint();
+	private Paint particlePaint;
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager)
@@ -84,6 +80,8 @@ public class RenderSystem implements UpdateSystem
 		colliderPaint.setStyle(Style.STROKE);
 
 		this.gameStatsManager = gameStatsManager;
+
+		this.particlePaint = initParticlePaint();
 	}
 
 	@Override
@@ -310,10 +308,7 @@ public class RenderSystem implements UpdateSystem
 	private void renderParticles(Set<Particle> particles)
 	{
 		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
-		particlePaint.setColor(Color.WHITE);
-		particlePaint.setTextAlign(Align.CENTER);
-		particlePaint.setTypeface(Typeface.SANS_SERIF);
-		particlePaint.setTextSize(50);
+
 
 		for (Particle particle : particles)
 		{
@@ -325,6 +320,16 @@ public class RenderSystem implements UpdateSystem
 						particle.position.y - camPosition.y, 5, particlePaint);
 			}
 		}
+	}
+
+	private Paint initParticlePaint()
+	{
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		paint.setTextAlign(Align.CENTER);
+		paint.setTypeface(Typeface.SANS_SERIF);
+		paint.setTextSize(50);
+		return paint;
 	}
 
 	/**
