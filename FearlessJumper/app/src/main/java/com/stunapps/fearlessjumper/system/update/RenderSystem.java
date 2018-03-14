@@ -64,14 +64,11 @@ public class RenderSystem implements UpdateSystem
 
 	private ParallaxBackground background;
 	private Paint bgPaint = new Paint();
+	private Paint particlePaint = new Paint();
 	private Paint colliderPaint = new Paint();
 
-	private Handler handler = new Handler();
-
 	@Inject
-	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem,
-			CircularEmitter circularEmitter, RotationalEmitter rotationalEmitter,
-			GameStatsManager gameStatsManager)
+	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager)
 	{
 		this.componentManager = componentManager;
 
@@ -82,7 +79,6 @@ public class RenderSystem implements UpdateSystem
 				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
 						false);
 		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
-
 
 		colliderPaint.setColor(Color.WHITE);
 		colliderPaint.setStyle(Style.STROKE);
@@ -101,7 +97,6 @@ public class RenderSystem implements UpdateSystem
 		}
 
 		//  Update all cameras
-
 
 		long startTime = java.lang.System.nanoTime();
 		Cameras.update();
@@ -231,7 +226,6 @@ public class RenderSystem implements UpdateSystem
 		lastProcessTime = System.nanoTime();
 		canvas = null;
 		bgPaint = new Paint();
-		handler = new Handler();
 	}
 
 	public static Rect getRenderRect(Entity entity)
@@ -316,22 +310,19 @@ public class RenderSystem implements UpdateSystem
 	private void renderParticles(Set<Particle> particles)
 	{
 		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
-
-		Paint fuelTextPaint = new Paint();
-		fuelTextPaint.setColor(Color.WHITE);
-		fuelTextPaint.setTextAlign(Align.CENTER);
-		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
-		fuelTextPaint.setTextSize(50);
-		//fuelTextPaint.setAlpha(255);
+		particlePaint.setColor(Color.WHITE);
+		particlePaint.setTextAlign(Align.CENTER);
+		particlePaint.setTypeface(Typeface.SANS_SERIF);
+		particlePaint.setTextSize(50);
 
 		for (Particle particle : particles)
 		{
-			fuelTextPaint.setAlpha((int) (255 * particle.alpha));
+			particlePaint.setAlpha((int) (255 * particle.alpha));
 			if (particle.isActive)
 			{
 				Position camPosition = Cameras.getMainCamera().position;
 				canvas.drawCircle(particle.position.x - camPosition.x,
-						particle.position.y - camPosition.y, 5, fuelTextPaint);
+						particle.position.y - camPosition.y, 5, particlePaint);
 			}
 		}
 	}
