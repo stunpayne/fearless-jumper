@@ -10,7 +10,7 @@ from threading import Timer
 server_thread = None
 server_running = False
 system_times_neg_pattern = "^.*: "
-csv_file_location = "graph_sample_csv.csv"
+csv_file_location = "graph_rendering.csv"
 
 
 def servertest(host, port):
@@ -56,7 +56,7 @@ def start_server(host, port):
 
 def show_graph():
     if server_running:
-        call(["open", "-aGoogle Chrome", "graph.html"])
+        call(["open", "-aGoogle Chrome", "rendering.html"])
     else:
         print "Server is not running, not displaying graph"
 
