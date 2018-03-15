@@ -40,10 +40,10 @@ abstract public class BaseEmitter extends Emitter
 	private long emissionInterval;
 	private long clusterSize;
 
-	public BaseEmitter(Class<? extends Component> componentType, int particlesCount,
+	public BaseEmitter(int particlesCount,
 			long particleLife, long emissionInterval)
 	{
-		super(componentType);
+		super();
 		id = random.nextInt(50);
 		this.particlePool = DI.di().getInstance(ParticlePool.class);
 		this.particlesCount = particlesCount;

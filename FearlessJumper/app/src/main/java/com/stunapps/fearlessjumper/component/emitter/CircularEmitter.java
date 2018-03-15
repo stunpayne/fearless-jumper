@@ -16,7 +16,7 @@ public class CircularEmitter extends BaseEmitter
 {
 	public CircularEmitter()
 	{
-		super(Emitter.class, 20, 1000l, 0);
+		super(20, 1000l, 0);
 	}
 
 	@Override

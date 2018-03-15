@@ -41,6 +41,8 @@ import com.stunapps.fearlessjumper.particle.Particle;
 import java.util.List;
 import java.util.Set;
 
+import lombok.Setter;
+
 import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
@@ -60,12 +62,11 @@ public class RenderSystem implements UpdateSystem
 	private Paint bgPaint = new Paint();
 	private Paint colliderPaint = new Paint();
 
-	private Handler handler = new Handler();
+	@Setter
+	private boolean shouldRenderBackground = true;
 
 	@Inject
-	public RenderSystem(ComponentManager componentManager, EventSystem eventSystem,
-			CircularEmitter circularEmitter, RotationalEmitter rotationalEmitter,
-			GameStatsManager gameStatsManager)
+	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager)
 	{
 		this.componentManager = componentManager;
 
@@ -122,7 +123,7 @@ public class RenderSystem implements UpdateSystem
 		float y = Device.SCREEN_HEIGHT / 2 - 300;
 
 		canvas.drawText(String.valueOf("current score : " + gameStatsManager.getCurrentScore()), x,
-						y, paint);
+				y, paint);
 		y += 50;
 		canvas.drawText(
 				String.valueOf("session high score : " + gameStatsManager.getSessionHighScore())
@@ -135,18 +136,18 @@ public class RenderSystem implements UpdateSystem
 
 		y += 50;
 		canvas.drawText(String.valueOf("average score : " + gameStatsManager.getAverageScore()), x,
-						y, paint);
+				y, paint);
 
 		if (!gameStatsManager.getDeathStat().isEmpty())
 		{
 			y += 50;
 			canvas.drawText(String.valueOf("death by : " + gameStatsManager.getDeathStat()), x, y,
-							paint);
+					paint);
 		}
 
 		y += 50;
 		canvas.drawText(String.valueOf("game play count : " + gameStatsManager.getGamePlayCount()),
-						x, y, paint);
+				x, y, paint);
 
 		y += 50;
 		int i = 1;
@@ -154,7 +155,7 @@ public class RenderSystem implements UpdateSystem
 		{
 			canvas.drawText("previous score " + i + " : " + String.valueOf(previousScore), x, y,
 
-							paint);
+					paint);
 			y += 50;
 			i++;
 
@@ -173,7 +174,6 @@ public class RenderSystem implements UpdateSystem
 		lastProcessTime = System.nanoTime();
 		canvas = null;
 		bgPaint = new Paint();
-		handler = new Handler();
 	}
 
 	public static Rect getRenderRect(Entity entity)
@@ -194,6 +194,9 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderBackground()
 	{
+		if(!shouldRenderBackground)
+			return;
+
 		canvas.drawColor(Color.BLACK);
 
 		List<ParallaxDrawableArea> drawableAreas =
@@ -284,6 +287,9 @@ public class RenderSystem implements UpdateSystem
 	private void renderHUD()
 	{
 		Entity player = componentManager.getEntity(PlayerComponent.class);
+		if (player == null)
+			return;
+
 		int timeRectTop = 80;
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);

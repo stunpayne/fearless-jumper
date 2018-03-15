@@ -47,14 +47,12 @@ public class GameplayScene extends AbstractScene
 	private Handler mainHandler;
 
 	private final GameStatsManager gameStatsManager;
-	private final AdManager mAdManager;
 
 	@Inject
 	public GameplayScene(final GameView gameView, EventSystem eventSystem,
 			GameStatsManager gameStatsManager, final AdManager mAdManager)
 	{
 		super(R.layout.game_play_container, eventSystem);
-		this.mAdManager = mAdManager;
 		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 		this.gameView = gameView;
 		this.gameStatsManager = gameStatsManager;

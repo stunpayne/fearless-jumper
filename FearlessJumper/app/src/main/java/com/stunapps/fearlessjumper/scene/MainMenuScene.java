@@ -1,14 +1,16 @@
 package com.stunapps.fearlessjumper.scene;
 
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.R;
-import com.stunapps.fearlessjumper.audio.SoundSystem;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.game.ParticleTestEvent;
 import com.stunapps.fearlessjumper.event.game.StartGameEvent;
 
 /**
@@ -18,6 +20,8 @@ import com.stunapps.fearlessjumper.event.game.StartGameEvent;
 @Singleton
 public class MainMenuScene extends AbstractScene
 {
+	private static final String TAG = MainMenuScene.class.getSimpleName();
+
 	@Inject
 	public MainMenuScene(EventSystem eventSystem)
 	{
@@ -34,7 +38,20 @@ public class MainMenuScene extends AbstractScene
 			@Override
 			public void onClick(View v)
 			{
+				Log.d(TAG, "Start button pressed");
 				eventSystem.raiseEvent(new StartGameEvent());
+			}
+		});
+
+		//	Add listener for particleTestButton
+		Button particleTestButton = view.findViewById(R.id.particleTestButton);
+		particleTestButton.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Log.d(TAG, "Particle test button pressed");
+				eventSystem.raiseEvent(new ParticleTestEvent());
 			}
 		});
 
@@ -46,6 +63,7 @@ public class MainMenuScene extends AbstractScene
 			@Override
 			public void onClick(View v)
 			{
+				Log.d(TAG, "Quit button pressed");
 				android.os.Process.killProcess(android.os.Process.myPid());
 				System.exit(1);
 			}

@@ -16,6 +16,14 @@
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="150dp"
+            android:background="@null"
+            android:src="@drawable/title"/>
 
         <ImageButton
             android:id="@+id/startButton"
@@ -24,31 +32,37 @@
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:adjustViewBounds="false"
+            android:background="@null"
             android:contentDescription="Start Button for Main menu"
             android:cropToPadding="false"
-            android:background="@null"
             android:src="@drawable/startbutton"/>
+
+
+        <Button
+            android:id="@+id/particleTestButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="65dp"
+            android:adjustViewBounds="false"
+            android:background="#669988"
+            android:cropToPadding="false"
+            android:padding="10dp"
+            android:text="Particles Test"
+            tools:text="Particles Test"/>
 
         <ImageButton
             android:id="@+id/quitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="150dp"
             android:adjustViewBounds="false"
             android:background="@null"
             android:contentDescription="Quit Button for Main menu"
             android:cropToPadding="false"
             android:src="@drawable/quitbutton"/>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/title"
-            android:layout_gravity="center"
-            android:layout_marginBottom="150dp"
-            android:background="@null"/>
 
     </FrameLayout>
 </LinearLayout>

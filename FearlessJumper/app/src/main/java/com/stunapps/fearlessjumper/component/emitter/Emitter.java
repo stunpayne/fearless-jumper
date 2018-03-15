@@ -11,9 +11,9 @@ import java.util.Set;
 
 abstract public class Emitter extends Component
 {
-	public Emitter(Class<? extends Component> componentType)
+	public Emitter()
 	{
-		super(componentType);
+		super(Emitter.class);
 	}
 
 	abstract public boolean isInitialised();

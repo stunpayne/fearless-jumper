@@ -14,7 +14,7 @@ public class RotationalEmitter extends BaseEmitter
 {
 	public RotationalEmitter()
 	{
-		super(Emitter.class, 8, 6000l, 0);
+		super(8, 6000l, 0);
 	}
 
 	@Override

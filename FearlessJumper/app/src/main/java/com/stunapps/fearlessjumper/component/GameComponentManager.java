@@ -50,6 +50,7 @@ public class GameComponentManager implements ComponentManager
             entityToComponentMap.put(entity, new LinkedList<Component>());
         }
         entityToComponentMap.get(entity).add(component);
+        component.setEntity(entity);
     }
 
     @Override

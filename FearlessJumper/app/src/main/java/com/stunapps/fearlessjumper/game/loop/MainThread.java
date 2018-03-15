@@ -17,10 +17,10 @@ import static com.stunapps.fearlessjumper.game.Time.ONE_MILLION;
 public class MainThread extends Thread
 {
 	private static final String TAG = MainThread.class.getSimpleName();
-	public static final int MAX_FPS = 60;
+	public int maxFps = 60;
 	private double averageFPS;
 	private final SurfaceHolder surfaceHolder;
-	private GameView gameView;
+	private BaseView baseView;
 	public static Canvas canvas;
 
 	private boolean running;
@@ -28,10 +28,11 @@ public class MainThread extends Thread
 	private final Object pauseLock = new Object();
 
 	@Inject
-	public MainThread(SurfaceHolder surfaceHolder, GameView gameView)
+	public MainThread(SurfaceHolder surfaceHolder, BaseView baseView, int maxFps)
 	{
 		this.surfaceHolder = surfaceHolder;
-		this.gameView = gameView;
+		this.baseView = baseView;
+		this.maxFps = maxFps;
 	}
 
 	public void setRunning(boolean running)
@@ -44,11 +45,11 @@ public class MainThread extends Thread
 	{
 		long startTime = System.nanoTime();
 		long lastStartTime = startTime;
-		long timeMillis = 1000 / MAX_FPS;
+		long timeMillis = 1000 / maxFps;
 		long waitTime;
 		int frameCount = 0;
 		long totalTime = 0;
-		long targetTime = 1000 / MAX_FPS;
+		long targetTime = 1000 / maxFps;
 
 		long pauseStartTime = startTime;
 		long pauseEndTime = startTime;
@@ -108,7 +109,7 @@ public class MainThread extends Thread
 							(startTime - lastStartTime) + "" + " Delta Time: " +
 							(float) ((float) (startTime - lastStartTime) /
 									Time.ONE_SECOND_NANOS));
-					this.gameView.update(startTime - lastStartTime);
+					this.baseView.update(startTime - lastStartTime);
 				}
 			}
 			catch (Exception e)
@@ -146,7 +147,7 @@ public class MainThread extends Thread
 			totalTime += System.nanoTime() - startTime;
 			frameCount++;
 
-			if (frameCount == MAX_FPS)
+			if (frameCount == maxFps)
 			{
 				averageFPS = 1000 / ((totalTime / frameCount) / ONE_MILLION);
 				frameCount = 0;

@@ -8,6 +8,7 @@ import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventSystem;
+import com.stunapps.fearlessjumper.event.game.ParticleTestEvent;
 import com.stunapps.fearlessjumper.event.game.GameEvent;
 import com.stunapps.fearlessjumper.event.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.game.MainMenuEvent;
@@ -47,8 +48,18 @@ public class SceneManagerImpl implements SceneManager
 		}
 	};
 
+	private BaseEventListener<ParticleTestEvent> particleTestEventListener = new BaseEventListener<ParticleTestEvent>()
+	{
+		@Override
+		public void handleEvent(ParticleTestEvent event) throws EventException
+		{
+			transitScene(event);
+		}
+	};
+
 	@Inject
-	public SceneManagerImpl(MainMenuScene mainMenuScene, GameplayScene gameplayScene, EventSystem eventSystem, SoundSystem soundSystem)
+	public SceneManagerImpl(MainMenuScene mainMenuScene, GameplayScene gameplayScene, EventSystem
+			eventSystem, ParticleTestScene particleTestScene,SoundSystem soundSystem)
 	{
 		this.soundSystem = soundSystem;
 		Log.i("SCENE_MANAGER",
@@ -57,9 +68,11 @@ public class SceneManagerImpl implements SceneManager
 		sceneMap = new HashMap<>();
 		sceneMap.put(mainMenuScene.getClass(), mainMenuScene);
 		sceneMap.put(gameplayScene.getClass(), gameplayScene);
+		sceneMap.put(particleTestScene.getClass(), particleTestScene);
 
 		eventSystem.registerEventListener(StartGameEvent.class, startGameListener);
 		eventSystem.registerEventListener(MainMenuEvent.class, mainMenuListener);
+		eventSystem.registerEventListener(ParticleTestEvent.class, particleTestEventListener);
 	}
 
 	@Override
@@ -68,6 +81,7 @@ public class SceneManagerImpl implements SceneManager
 		sceneStateMachine =
 				StateMachine.builder().startState(MainMenuScene.class)
 						.from(MainMenuScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
+						.from(MainMenuScene.class).onEvent(ParticleTestEvent.class).toState(ParticleTestScene.class)
 						.from(GameplayScene.class).onEvent(GameOverEvent.class).toState(GameplayScene.class)
 						.from(GameplayScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
 						.from(GameplayScene.class).onEvent(MainMenuEvent.class).toState(MainMenuScene.class)

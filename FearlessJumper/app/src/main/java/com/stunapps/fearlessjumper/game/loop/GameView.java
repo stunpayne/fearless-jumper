@@ -16,7 +16,7 @@ import com.stunapps.fearlessjumper.system.Systems;
  * Created by sunny.s on 10/01/18.
  */
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback
+public class GameView extends BaseView implements SurfaceHolder.Callback
 {
 	private final static String TAG = GameView.class.getSimpleName();
 	private GameInitializer gameInitializer;
@@ -87,6 +87,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		waitingForExplicitResume = false;
 	}
 
+	@Override
 	public void start()
 	{
 		try
@@ -96,7 +97,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				previousThread.join();
 			}
 
-			thread = new MainThread(getHolder(), this);
+			thread = new MainThread(getHolder(), this, 60);
 			thread.setRunning(true);
 			thread.pauseThread();
 			thread.start();
@@ -107,6 +108,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 	}
 
+	@Override
 	public void pause()
 	{
 		try
@@ -119,6 +121,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 	}
 
+	@Override
 	public void resume()
 	{
 		if (surfaceCreated)
@@ -128,6 +131,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 	}
 
+	@Override
 	public void stop()
 	{
 		thread.stopThread();
@@ -136,6 +140,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		waitingForExplicitResume = true;
 	}
 
+	@Override
 	public void terminate()
 	{
 		try
@@ -161,6 +166,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	}
 
 
+	@Override
 	public void update(long deltaTime)
 	{
 		if (surfaceCreated)
