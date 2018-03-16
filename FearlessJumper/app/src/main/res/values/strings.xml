@@ -5,4 +5,11 @@
     <string name="pauseButtonDesc">Pause Button for Game</string>
     <string name="startButtonDesc">Start Button for Main menu</string>
     <string name="resumeButtonDesc">Resume Button for Pause menu</string>
+    <string name="life">Life</string>
+    <string name="count">Max</string>
+    <string name="rate">Rate</string>
+    <string name="speed">Speed</string>
+    <string name="direction">Direction</string>
+    <string name="directionVar">Dir Var</string>
+    <string name="render">Render</string>
 </resources>

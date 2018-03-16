@@ -7,6 +7,7 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import java.util.List;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 /**
  * Created by sunny.s on 02/01/18.
@@ -16,6 +17,7 @@ import lombok.EqualsAndHashCode;
 public class Entity
 {
     private final int id;
+    @Getter
     public Transform transform;
 
     private ComponentManager componentManager;

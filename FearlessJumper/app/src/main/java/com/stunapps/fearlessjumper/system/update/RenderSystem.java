@@ -10,6 +10,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -52,6 +53,8 @@ import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 public class RenderSystem implements UpdateSystem
 {
+	private static final String TAG = RenderSystem.class.getSimpleName();
+
 	private final ComponentManager componentManager;
 	private final GameStatsManager gameStatsManager;
 
@@ -194,10 +197,10 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderBackground()
 	{
+		canvas.drawColor(Color.BLACK);
+
 		if(!shouldRenderBackground)
 			return;
-
-		canvas.drawColor(Color.BLACK);
 
 		List<ParallaxDrawableArea> drawableAreas =
 				background.getDrawables(Cameras.getMainCamera().position.getY());
@@ -253,6 +256,7 @@ public class RenderSystem implements UpdateSystem
 			if (emitter.isInitialised())
 			{
 				Set<Particle> particles = emitter.getParticles();
+				Log.d(TAG, "Particles size: " + particles.size());
 				renderParticles(particles);
 			}
 		}

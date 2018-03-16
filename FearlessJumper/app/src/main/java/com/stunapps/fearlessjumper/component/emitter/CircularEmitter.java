@@ -12,7 +12,7 @@ import java.util.List;
  * Created by anand.verma on 02/03/18.
  */
 
-public class CircularEmitter extends BaseEmitter
+public class CircularEmitter extends BaseClusteredEmitter
 {
 	public CircularEmitter()
 	{
@@ -33,7 +33,6 @@ public class CircularEmitter extends BaseEmitter
 		float angleDelta = 360.0f / size;
 		for (Particle particle : particles)
 		{
-			particle.isActive = true;
 			particle.setPosition(entity.transform.position.x, entity.transform.position.y);
 			particle.setVelocity(angle, 20f);
 			particle.setAlpha(new AlphaCalculator()

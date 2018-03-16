@@ -5,12 +5,13 @@ import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by anand.verma on 04/03/18.
  */
 
-public class RotationalEmitter extends BaseEmitter
+public class RotationalEmitter extends BaseClusteredEmitter
 {
 	public RotationalEmitter()
 	{
@@ -23,11 +24,14 @@ public class RotationalEmitter extends BaseEmitter
 		int size = particles.size();
 		float angle = 0;
 		float angleDelta = 360.0f / size;
+		Random random = new Random();
 		for (Particle particle : particles)
 		{
-			particle.setPosition(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
-			particle.setVelocity(angle, 1f);
-			particle.setAcceleration(90, 2f);
+			particle.setPosition(Device.SCREEN_WIDTH / 2 + (40 - (random.nextInt() % 81)), Device
+					.SCREEN_HEIGHT
+					/ 2);
+			particle.setVelocity(angle, 0f);
+			particle.setAcceleration(90, 1f);
 			angle += angleDelta;
 			angle = angle % 360;
 		}

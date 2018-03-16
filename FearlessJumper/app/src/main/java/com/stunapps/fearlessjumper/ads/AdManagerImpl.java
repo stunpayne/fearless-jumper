@@ -31,7 +31,7 @@ public class AdManagerImpl implements AdManager
 		// Use an activity context to get the rewarded video instance.
 		MobileAds.initialize(context, ADS_APP_ID);
 		mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
-		mRewardedVideoAd.setRewardedVideoAdListener(this);
+//		mRewardedVideoAd.setRewardedVideoAdListener(this);
 	}
 
 	@Override

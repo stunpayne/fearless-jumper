@@ -13,6 +13,7 @@ import lombok.Setter;
 public class Velocity implements Cloneable
 {
 	public static final Velocity ZERO = new Velocity(0, 0);
+
 	public float x;
 	public float y;
 
@@ -32,5 +33,11 @@ public class Velocity implements Cloneable
 	{
 		super.clone();
 		return new Velocity(x, y);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Velocity{" + "x=" + x + ", y=" + y + '}';
 	}
 }

@@ -1,9 +1,6 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
-import android.util.Log;
-
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.particle.Particle;
 import com.stunapps.fearlessjumper.particle.ParticlePool;
@@ -23,9 +20,9 @@ import lombok.EqualsAndHashCode;
  */
 
 @EqualsAndHashCode(of = "id")
-abstract public class BaseEmitter extends Emitter
+abstract public class BaseClusteredEmitter extends Emitter
 {
-	private static final String TAG = BaseEmitter.class.getSimpleName();
+	private static final String TAG = BaseClusteredEmitter.class.getSimpleName();
 
 	private Random random = new Random();
 	protected int id;
@@ -35,13 +32,12 @@ abstract public class BaseEmitter extends Emitter
 	@Inject
 	private ParticlePool particlePool;
 
-	private long particlesCount;
-	private long particleLife;
-	private long emissionInterval;
-	private long clusterSize;
+	protected int particlesCount;
+	protected long particleLife;
+	protected long emissionInterval;
+	protected long clusterSize;
 
-	public BaseEmitter(int particlesCount,
-			long particleLife, long emissionInterval)
+	public BaseClusteredEmitter(int particlesCount, long particleLife, long emissionInterval)
 	{
 		super();
 		id = random.nextInt(50);

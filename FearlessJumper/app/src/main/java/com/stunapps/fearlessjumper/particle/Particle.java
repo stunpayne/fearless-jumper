@@ -17,6 +17,7 @@ public class Particle
 
 	public long id;
 	public boolean isActive;
+
 	public Position position;
 	public Velocity velocity;
 	public VelocityScaler velocityScaler;
@@ -31,17 +32,7 @@ public class Particle
 	public Particle(long id)
 	{
 		this.id = id;
-		this.isActive = false;
-		position = new Position(0, 0);
-		this.velocity = new Velocity(0, 0);
-		this.velocityScaler = null;
-		this.accelerationAngle = 0;
-		this.accelerationRate = 0;
-		this.life = 0;
-		this.lifeTimer = 0;
-		this.waitTime = Long.MAX_VALUE;
-		this.alpha = 0;
-		this.alphaCalculator = null;
+		reset();
 	}
 
 	public void setPosition(float x, float y)
@@ -105,17 +96,23 @@ public class Particle
 
 			//Update velocity.
 			float velocityAngle = Utils.getAngle(velocity.x, velocity.y);
-			double relativeAccelarationAngle = Math.toRadians((velocityAngle + accelerationAngle) % 360);
-			float xAccelerationRate = (float)Math.cos(relativeAccelarationAngle) * accelerationRate;
-			float yAccelerationRate = -(float)Math.sin(relativeAccelarationAngle) * accelerationRate;
+			double relativeAccelerationAngle = Math.toRadians((velocityAngle + accelerationAngle) % 360);
+			float xAccelerationRate = (float)Math.cos(relativeAccelerationAngle) * accelerationRate;
+			float yAccelerationRate = -(float)Math.sin(relativeAccelerationAngle) * accelerationRate;
 			velocity.x += xAccelerationRate;
 			velocity.y += yAccelerationRate;
 
 			//Scale velocity
-			velocity = velocityScaler.scale(velocity, life, lifeTimer);
+			if (null != velocityScaler)
+			{
+				velocity = velocityScaler.scale(velocity, life, lifeTimer);
+			}
 
 			//Update alpha
-			alpha = alphaCalculator.calculate(life, lifeTimer);
+			if (null != alphaCalculator)
+			{
+				alpha = alphaCalculator.calculate(life, lifeTimer);
+			}
 
 			isActive = true;
 			return true;
@@ -130,16 +127,15 @@ public class Particle
 	public void reset()
 	{
 		this.isActive = false;
-		position.x = 0;
-		position.y = 0;
-		this.velocity.x = 0;
-		this.velocity.y = 0;
+		position = new Position(0,0);
+		velocity = new Velocity(0,0);
+		this.velocityScaler = null;
 		this.accelerationAngle = 0;
 		this.accelerationRate = 0;
 		this.life = 0;
 		this.lifeTimer = 0;
-		this.waitTime = Long.MAX_VALUE;
-		this.alpha = 0;
+		this.waitTime = 0;
+		this.alpha = 1;
 		this.alphaCalculator = null;
 	}
 
@@ -158,5 +154,12 @@ public class Particle
 	public int hashCode()
 	{
 		return (int) (id ^ (id >>> 32));
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Particle{" + "id=" + id + ", isActive=" + isActive + ", position=" + position +
+				", velocity=" + velocity + ", life=" + life + '}';
 	}
 }

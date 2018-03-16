@@ -5,8 +5,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
@@ -15,6 +15,8 @@ import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.system.update.ParticleSystem;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
+
+import lombok.Getter;
 
 /**
  * Created by sunny.s on 15/03/18.
@@ -30,12 +32,14 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 
 	private MainThread thread;
 	private MainThread previousThread;
+	private EmitterConfig emitterConfig = null;
 
 	private boolean surfaceCreated = false;
 	private boolean emitterCreated = false;
 
 	@Inject
-	public TestView(Context context, ParticleSystem mParticleSystem, RenderSystem renderSystem, EntityManager entityManager)
+	public TestView(Context context, ParticleSystem mParticleSystem, RenderSystem renderSystem,
+			EntityManager entityManager)
 	{
 		super(context);
 		this.mParticleSystem = mParticleSystem;
@@ -43,7 +47,6 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 		this.mEntityManager = entityManager;
 
 		getHolder().addCallback(this);
-		setFocusable(true);
 
 		mRenderSystem.setShouldRenderBackground(false);
 	}
@@ -76,7 +79,7 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 			if (!emitterCreated)
 			{
 				Cameras.setMainCamera(Cameras.createFixedCamera(new Position(0, 0), true, true));
-				createParticleEmitter();
+				createParticleEmitter(emitterConfig);
 			}
 			mParticleSystem.process(deltaTime);
 			mRenderSystem.process(deltaTime);
@@ -149,14 +152,28 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 		}
 	}
 
-	private void createParticleEmitter()
+	public void restartParticles(EmitterConfig emitterConfig)
+	{
+		mEntityManager.deleteEntities();
+		this.emitterConfig = emitterConfig;
+
+		emitterCreated = false;
+	}
+
+	private void createParticleEmitter(EmitterConfig emitterConfig)
 	{
 		Log.d(TAG, "Creating particle emitter");
 		try
 		{
 			Entity entity = mEntityManager.createEntity(new Transform(
 					new Position(Device.SCREEN_WIDTH / 2, 3 * Device.SCREEN_HEIGHT / 8)));
-			entity.addComponent(new CircularEmitter());
+			entity.addComponent(
+					EternalEmitter.builder().maxParticles(emitterConfig.getMaxParticles())
+							.particleLife(emitterConfig.getParticleLife())
+							.emissionRate(emitterConfig.getEmissionRate())
+							.maxSpeed(emitterConfig.getMaxSpeed())
+							.direction(emitterConfig.getDirection())
+							.directionVar(emitterConfig.getDirectionVar()).build());
 			entity.getComponent(Emitter.class).init();
 			emitterCreated = true;
 		}
@@ -164,6 +181,85 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 		{
 			Log.d(TAG, "Error occurred while creating particle emitter");
 			e.printStackTrace();
+		}
+	}
+
+	@Getter
+	public static class EmitterConfig
+	{
+		private int maxParticles;
+		private int particleLife;
+		private int emissionRate;
+		private float maxSpeed;
+		private float direction;
+		private float directionVar;
+
+		public EmitterConfig(int maxParticles, int particleLife, int emissionRate, float maxSpeed,
+				float direction, float directionVar)
+		{
+			this.maxParticles = maxParticles;
+			this.particleLife = particleLife;
+			this.emissionRate = emissionRate;
+			this.maxSpeed = maxSpeed;
+			this.direction = direction;
+			this.directionVar = directionVar;
+		}
+
+		public static Builder builder()
+		{
+			return new Builder();
+		}
+
+		public static class Builder
+		{
+			int maxParticles;
+			int particleLife;
+			int emissionRate;
+			float maxSpeed;
+			float direction;
+			float directionVar;
+
+			public Builder maxParticles(int maxParticles)
+			{
+				this.maxParticles = maxParticles;
+				return this;
+			}
+
+			public Builder particleLife(int particleLife)
+			{
+				this.particleLife = particleLife;
+				return this;
+			}
+
+			public Builder emissionRate(int emissionRate)
+			{
+				this.emissionRate = emissionRate;
+				return this;
+			}
+
+			public Builder maxSpeed(float maxSpeed)
+			{
+				this.maxSpeed = maxSpeed;
+				return this;
+			}
+
+			public Builder direction(float direction)
+			{
+				this.direction = direction;
+				return this;
+			}
+
+			public Builder directionVar(float directionVar)
+			{
+				this.directionVar = directionVar;
+				return this;
+			}
+
+			public EmitterConfig build()
+			{
+				return new EmitterConfig(maxParticles, particleLife, emissionRate, maxSpeed,
+						direction, directionVar);
+			}
 		}
 	}
 }
