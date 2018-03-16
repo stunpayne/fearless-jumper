@@ -133,12 +133,12 @@ public class CollisionSystem implements UpdateSystem
                     if (mass2 > 0)
                     {
                         collisionResponse =
-                                resolveCollision(mobileEntity1, mobileEntity2, mass1 / mass2);
+                                resolveCollision(mobileEntity2, mobileEntity1, mass1 / mass2);
                     }
                     else
                     {
                         collisionResponse =
-                                resolveCollision(mobileEntity2, mobileEntity1, mass2 / mass1);
+                                resolveCollision(mobileEntity1, mobileEntity2, mass2 / mass1);
                     }
                     eventSystem.raiseEvent(new CollisionEvent(mobileEntity1, mobileEntity2,
                                                               collisionResponse.collisionFace,
