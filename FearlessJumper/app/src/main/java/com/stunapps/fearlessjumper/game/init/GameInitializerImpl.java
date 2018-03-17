@@ -76,7 +76,6 @@ public class GameInitializerImpl implements GameInitializer
 	private void initPlatforms() throws CloneNotSupportedException
 	{
 		Prefab platformPrefab = PrefabRef.PLATFORM.get();
-		Prefab bulletPrefab = PrefabRef.BULLET.get();
 
 		int x = Device.SCREEN_WIDTH / 4;
 		int y = Device.SCREEN_HEIGHT / 2 + 200;
@@ -84,7 +83,6 @@ public class GameInitializerImpl implements GameInitializer
 		Transform transform3 = new Transform(new Position(x - 100, y));
 
 		entityManager.instantiate(platformPrefab, transform1);
-		entityManager.instantiate(bulletPrefab, transform3);
 	}
 
 	private void initBoundaries(Entity target) throws CloneNotSupportedException
@@ -95,17 +93,6 @@ public class GameInitializerImpl implements GameInitializer
 
 	private void initEnemies()
 	{
-		//  Initialise enemies
-		//entityManager.instantiate(PrefabRef.FLYING_DRAGON.get());
-
-		//		PrefabSet prefabSet = new GroundedDragonPrefabSet();
-		//		Transform transform2 = new Transform(
-		//				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 200));
-		//		entityManager.instantiate(prefabSet, transform2);
-
-		/*entityManager.instantiate(PrefabRef.SHOOTER_DRAGON.get(), new Transform(new Position
-				(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150))); */
-
 		entityManager.instantiate(PrefabRef.FOLLOWING_DRAGON.get(), new Transform(
 				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
 	}
