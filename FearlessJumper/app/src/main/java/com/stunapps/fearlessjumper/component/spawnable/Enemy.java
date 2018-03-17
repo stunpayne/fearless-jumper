@@ -32,10 +32,10 @@ public class Enemy extends Component
 		//	Grounded Fire
 		PYRADON,
 
-		//	Following
+		// Assault
 		DRAXUS,
 
-		// Assault
+		// Following
 		ZELDROY;
 
 	}
