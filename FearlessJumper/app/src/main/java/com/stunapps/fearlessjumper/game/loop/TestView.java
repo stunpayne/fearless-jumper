@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
@@ -168,9 +169,11 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 			Entity entity = mEntityManager.createEntity(new Transform(
 					new Position(Device.SCREEN_WIDTH / 2, 3 * Device.SCREEN_HEIGHT / 8)));
 			entity.addComponent(
-					EternalEmitter.builder().maxParticles(emitterConfig.getMaxParticles())
+					EternalEmitter.builder().emitterShape(emitterConfig.getEmitterShape())
+							.maxParticles(emitterConfig.getMaxParticles())
 							.particleLife(emitterConfig.getParticleLife())
 							.emissionRate(emitterConfig.getEmissionRate())
+							.positionVar(emitterConfig.getPositionVar())
 							.maxSpeed(emitterConfig.getMaxSpeed())
 							.direction(emitterConfig.getDirection())
 							.directionVar(emitterConfig.getDirectionVar()).build());
@@ -187,79 +190,27 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 	@Getter
 	public static class EmitterConfig
 	{
+		private EmitterShape emitterShape;
 		private int maxParticles;
 		private int particleLife;
 		private int emissionRate;
+		private float positionVar;
 		private float maxSpeed;
 		private float direction;
 		private float directionVar;
 
-		public EmitterConfig(int maxParticles, int particleLife, int emissionRate, float maxSpeed,
-				float direction, float directionVar)
+		public EmitterConfig(EmitterShape emitterShape, int maxParticles, int particleLife,
+				int emissionRate, float positionVar, float maxSpeed, float direction,
+				float directionVar)
 		{
+			this.emitterShape = emitterShape;
 			this.maxParticles = maxParticles;
 			this.particleLife = particleLife;
 			this.emissionRate = emissionRate;
+			this.positionVar = positionVar;
 			this.maxSpeed = maxSpeed;
 			this.direction = direction;
 			this.directionVar = directionVar;
-		}
-
-		public static Builder builder()
-		{
-			return new Builder();
-		}
-
-		public static class Builder
-		{
-			int maxParticles;
-			int particleLife;
-			int emissionRate;
-			float maxSpeed;
-			float direction;
-			float directionVar;
-
-			public Builder maxParticles(int maxParticles)
-			{
-				this.maxParticles = maxParticles;
-				return this;
-			}
-
-			public Builder particleLife(int particleLife)
-			{
-				this.particleLife = particleLife;
-				return this;
-			}
-
-			public Builder emissionRate(int emissionRate)
-			{
-				this.emissionRate = emissionRate;
-				return this;
-			}
-
-			public Builder maxSpeed(float maxSpeed)
-			{
-				this.maxSpeed = maxSpeed;
-				return this;
-			}
-
-			public Builder direction(float direction)
-			{
-				this.direction = direction;
-				return this;
-			}
-
-			public Builder directionVar(float directionVar)
-			{
-				this.directionVar = directionVar;
-				return this;
-			}
-
-			public EmitterConfig build()
-			{
-				return new EmitterConfig(maxParticles, particleLife, emissionRate, maxSpeed,
-						direction, directionVar);
-			}
 		}
 	}
 }

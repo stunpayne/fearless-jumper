@@ -256,7 +256,7 @@ public class RenderSystem implements UpdateSystem
 			if (emitter.isInitialised())
 			{
 				Set<Particle> particles = emitter.getParticles();
-				Log.d(TAG, "Particles size: " + particles.size());
+//				Log.d(TAG, "Particles size: " + particles.size());
 				renderParticles(particles);
 			}
 		}

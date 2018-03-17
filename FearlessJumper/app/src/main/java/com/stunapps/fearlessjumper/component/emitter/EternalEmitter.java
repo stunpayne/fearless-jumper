@@ -3,10 +3,8 @@ package com.stunapps.fearlessjumper.component.emitter;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
-import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.particle.AlphaCalculator;
 import com.stunapps.fearlessjumper.particle.Particle;
 import com.stunapps.fearlessjumper.particle.ParticlePool;
@@ -34,10 +32,14 @@ public class EternalEmitter extends Emitter
 	protected int emissionRate;
 	//	Max speed of every particle
 	protected float maxSpeed;
+	//	Max variation in particle generation position, on either side, from the entity position
+	protected float positionVar;
 	//	Direction, in degrees, in which the particles should move
 	protected float direction;
 	//	Max variation in angle, on either side, from the direction property
 	protected float directionVar;
+	//	Shape in which particles have to be emitted
+	protected EmitterShape emitterShape;
 
 	private Set<Particle> particles;
 	private ParticlePool particlePool;
@@ -50,16 +52,30 @@ public class EternalEmitter extends Emitter
 
 	private Random random = new Random();
 
-	EternalEmitter(int maxParticles, long particleLife, int emissionRate, float maxSpeed,
-			float direction, float directionVar)
+	public enum EmitterShape
 	{
-		this(maxParticles, particleLife, emissionRate);
+		CONE_DIVERGE, CONE_CONVERGE;
+	}
+
+	EternalEmitter(EmitterShape emitterShape, int maxParticles, long particleLife, int
+			emissionRate,
+			float positionVar, float maxSpeed, float direction, float directionVar)
+	{
+		this(emitterShape, positionVar, maxParticles, particleLife, emissionRate);
 		this.maxSpeed = maxSpeed;
 		this.direction = direction;
 		this.directionVar = directionVar;
 	}
 
-	EternalEmitter(int maxParticles, long particleLife, int emissionRate)
+	EternalEmitter(EmitterShape emitterShape, float positionVar, int maxParticles,
+			long particleLife, int emissionRate)
+	{
+		this(emitterShape, maxParticles, particleLife, emissionRate);
+		this.positionVar = positionVar;
+	}
+
+	EternalEmitter(EmitterShape emitterShape, int maxParticles, long particleLife, int
+			emissionRate)
 	{
 		super();
 		id = new Random().nextInt(50);
@@ -72,6 +88,7 @@ public class EternalEmitter extends Emitter
 		this.maxSpeed = 0;
 		this.direction = 90f;
 		this.directionVar = 5f;
+		this.emitterShape = emitterShape;
 
 		emissionInterval = ((float) Time.ONE_SECOND_NANOS / emissionRate);
 	}
@@ -79,8 +96,8 @@ public class EternalEmitter extends Emitter
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{
-		return new EternalEmitter(maxParticles, particleLife, emissionRate, maxSpeed, direction,
-				directionVar);
+		return new EternalEmitter(emitterShape, maxParticles, particleLife, emissionRate,
+				positionVar, maxSpeed, direction, directionVar);
 	}
 
 	@Override
@@ -148,7 +165,7 @@ public class EternalEmitter extends Emitter
 	@Override
 	void destroyParticle(Particle particleToDestroy)
 	{
-		Log.d(TAG, "Destroying particle: " + particleToDestroy);
+		//		Log.d(TAG, "Destroying particle: " + particleToDestroy);
 		particleToDestroy.reset();
 		particlePool.returnObject(particleToDestroy);
 	}
@@ -174,34 +191,46 @@ public class EternalEmitter extends Emitter
 			}
 		});
 
-		Log.d(TAG, "New particle: " + particle);
+		//		Log.d(TAG, "New particle: " + particle);
 
 		return particle;
 	}
 
+
 	private Position newParticlePosition()
 	{
 		Position entityPosition = entity.getTransform().getPosition();
-		Position particlePosition =
-				new Position(entityPosition.getX() + (15 - random.nextInt() % 30),
-						entityPosition.getY());
-		return particlePosition;
+		return new Position(entityPosition.getX() + positionVar * twoWayRandom(),
+				entityPosition.getY());
 	}
 
+	/**
+	 * nextFloat returns a value between 0 and 1.
+	 * We modify this value to get a value between -1 and 1, and then multiply that
+	 * by the direction variation property. The result is added to the direction property
+	 * to get the direction in which the particle has to be projected.
+	 *
+	 * @return
+	 */
 	private float newParticleDirection()
 	{
-		return 2 * directionVar * (0.5f - random.nextFloat()) + direction;
+		return directionVar * twoWayRandom() + direction;
 	}
 
-	//	TODO:	Include var
+	//	TODO:	Introduce and use speedVarBias
 	private float newParticleSpeed()
 	{
-		return maxSpeed;
+		return maxSpeed * random.nextFloat();
 	}
 
 	int getLiveParticles()
 	{
 		return particles.size();
+	}
+
+	private float twoWayRandom()
+	{
+		return 2 * (0.5f - random.nextFloat());
 	}
 
 	public static Builder builder()
@@ -211,12 +240,20 @@ public class EternalEmitter extends Emitter
 
 	public static class Builder
 	{
+		EmitterShape emitterShape;
 		int maxParticles;
 		int particleLife;
 		int emissionRate;
+		float positionVar;
 		float maxSpeed;
 		float direction;
 		float directionVar;
+
+		public Builder emitterShape(EmitterShape emitterShape)
+		{
+			this.emitterShape = emitterShape;
+			return this;
+		}
 
 		public Builder maxParticles(int maxParticles)
 		{
@@ -233,6 +270,12 @@ public class EternalEmitter extends Emitter
 		public Builder emissionRate(int emissionRate)
 		{
 			this.emissionRate = emissionRate;
+			return this;
+		}
+
+		public Builder positionVar(float positionVar)
+		{
+			this.positionVar = positionVar;
 			return this;
 		}
 
@@ -256,9 +299,8 @@ public class EternalEmitter extends Emitter
 
 		public EternalEmitter build()
 		{
-			return new EternalEmitter(maxParticles, particleLife, emissionRate, maxSpeed,
-					direction,
-					directionVar);
+			return new EternalEmitter(emitterShape, maxParticles, particleLife, emissionRate,
+					positionVar, maxSpeed, direction, directionVar);
 		}
 	}
 }

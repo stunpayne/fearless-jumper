@@ -6,12 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.loop.TestView;
 import com.stunapps.fearlessjumper.game.loop.TestView.EmitterConfig;
@@ -93,15 +96,17 @@ public class ParticleTestScene extends AbstractScene
 
 	private void restartView()
 	{
+
 		int max = textViewIntValue(R.id.maxParticlesValue);
 		int life = textViewIntValue(R.id.lifeValue);
 		int rate = textViewIntValue(R.id.rateValue);
+		float positionVar = textViewFloatValue(R.id.posVarValue);
 		float speed = textViewFloatValue(R.id.speedValue);
 		float direction = textViewFloatValue(R.id.dirValue);
 		float directionVar = textViewFloatValue(R.id.dirVarValue);
 		mTestView.restartParticles(
-				EmitterConfig.builder().maxParticles(max).particleLife(life).emissionRate(rate)
-						.maxSpeed(speed).direction(direction).directionVar(directionVar).build());
+				new EmitterConfig(emitterShape(), max, life, rate, positionVar, speed, direction,
+						directionVar));
 	}
 
 	private int textViewIntValue(@IdRes int id)
@@ -112,6 +117,16 @@ public class ParticleTestScene extends AbstractScene
 	private float textViewFloatValue(@IdRes int id)
 	{
 		return Float.parseFloat(((TextView) mParticlesMenu.findViewById(id)).getText().toString());
+	}
+
+	private EmitterShape emitterShape()
+	{
+		Object dropDownSelected =
+				((Spinner) mParticlesMenu.findViewById(R.id.emitterType)).getSelectedItem();
+		String emitterTypeString =
+				dropDownSelected == null ? EmitterShape.CONE_DIVERGE.name() : dropDownSelected
+						.toString();
+		return EmitterShape.valueOf(emitterTypeString);
 	}
 
 	private class ViewSetup
@@ -127,6 +142,13 @@ public class ParticleTestScene extends AbstractScene
 					restartView();
 				}
 			});
+
+			Spinner emitterTypeDropDown = particlesMenu.findViewById(R.id.emitterType);
+			ArrayAdapter<EmitterShape> adapter =
+					new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item,
+							EmitterShape.values());
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			emitterTypeDropDown.setAdapter(adapter);
 		}
 	}
 }
