@@ -11,13 +11,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.loop.TestView;
-import com.stunapps.fearlessjumper.game.loop.TestView.EmitterConfig;
 
 /**
  * Created by sunny.s on 15/03/18.
@@ -96,17 +97,25 @@ public class ParticleTestScene extends AbstractScene
 
 	private void restartView()
 	{
-
-		int max = textViewIntValue(R.id.maxParticlesValue);
-		int life = textViewIntValue(R.id.lifeValue);
-		int rate = textViewIntValue(R.id.rateValue);
-		float positionVar = textViewFloatValue(R.id.posVarValue);
-		float speed = textViewFloatValue(R.id.speedValue);
-		float direction = textViewFloatValue(R.id.dirValue);
-		float directionVar = textViewFloatValue(R.id.dirVarValue);
-		mTestView.restartParticles(
-				new EmitterConfig(emitterShape(), max, life, rate, positionVar, speed, direction,
-						directionVar));
+		try
+		{
+			int max = textViewIntValue(R.id.maxParticlesValue);
+			int life = textViewIntValue(R.id.lifeValue);
+			int rate = textViewIntValue(R.id.rateValue);
+			float positionVar = textViewFloatValue(R.id.posVarValue);
+			float speed = textViewFloatValue(R.id.speedValue);
+			float direction = textViewFloatValue(R.id.dirValue);
+			float directionVar = textViewFloatValue(R.id.dirVarValue);
+			mTestView.restartParticles(
+					new EmitterConfig(emitterShape(), max, life, rate, positionVar, speed,
+							direction, directionVar));
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, "Error occurred while rendering particles: " + e.getMessage(), e);
+			Toast.makeText(mContext, "Error occurred: " + e.getMessage(), Toast.LENGTH_LONG)
+					.show();
+		}
 	}
 
 	private int textViewIntValue(@IdRes int id)

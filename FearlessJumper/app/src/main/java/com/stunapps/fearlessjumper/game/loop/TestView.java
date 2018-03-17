@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.display.Cameras;
@@ -168,15 +169,16 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 		{
 			Entity entity = mEntityManager.createEntity(new Transform(
 					new Position(Device.SCREEN_WIDTH / 2, 3 * Device.SCREEN_HEIGHT / 8)));
-			entity.addComponent(
-					EternalEmitter.builder().emitterShape(emitterConfig.getEmitterShape())
-							.maxParticles(emitterConfig.getMaxParticles())
-							.particleLife(emitterConfig.getParticleLife())
-							.emissionRate(emitterConfig.getEmissionRate())
-							.positionVar(emitterConfig.getPositionVar())
-							.maxSpeed(emitterConfig.getMaxSpeed())
-							.direction(emitterConfig.getDirection())
-							.directionVar(emitterConfig.getDirectionVar()).build());
+//			entity.addComponent(
+//					EternalEmitter.builder().emitterShape(emitterConfig.getEmitterShape())
+//							.maxParticles(emitterConfig.getMaxParticles())
+//							.particleLife(emitterConfig.getParticleLife())
+//							.emissionRate(emitterConfig.getEmissionRate())
+//							.positionVar(emitterConfig.getPositionVar())
+//							.maxSpeed(emitterConfig.getMaxSpeed())
+//							.direction(emitterConfig.getDirection())
+//							.directionVar(emitterConfig.getDirectionVar()).build());
+			entity.addComponent(new EternalEmitter(emitterConfig));
 			entity.getComponent(Emitter.class).init();
 			emitterCreated = true;
 		}
@@ -184,33 +186,6 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 		{
 			Log.d(TAG, "Error occurred while creating particle emitter");
 			e.printStackTrace();
-		}
-	}
-
-	@Getter
-	public static class EmitterConfig
-	{
-		private EmitterShape emitterShape;
-		private int maxParticles;
-		private int particleLife;
-		private int emissionRate;
-		private float positionVar;
-		private float maxSpeed;
-		private float direction;
-		private float directionVar;
-
-		public EmitterConfig(EmitterShape emitterShape, int maxParticles, int particleLife,
-				int emissionRate, float positionVar, float maxSpeed, float direction,
-				float directionVar)
-		{
-			this.emitterShape = emitterShape;
-			this.maxParticles = maxParticles;
-			this.particleLife = particleLife;
-			this.emissionRate = emissionRate;
-			this.positionVar = positionVar;
-			this.maxSpeed = maxSpeed;
-			this.direction = direction;
-			this.directionVar = directionVar;
 		}
 	}
 }

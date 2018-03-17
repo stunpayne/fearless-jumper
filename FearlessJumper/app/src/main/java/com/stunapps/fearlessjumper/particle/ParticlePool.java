@@ -14,7 +14,12 @@ public class ParticlePool extends ObjectPool<Particle>
 {
 	public ParticlePool()
 	{
-		super(100, 1000);
+		this(100, 1000);
+	}
+
+	public ParticlePool(int startPoolSize, int maxPoolSize)
+	{
+		super(startPoolSize, maxPoolSize);
 	}
 
 	@Override

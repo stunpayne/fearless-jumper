@@ -30,7 +30,8 @@
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/lifeText"
         app:layout_constraintStart_toEndOf="@id/maxParticlesText"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="number"/>
 
 
     <!--Life-->
@@ -53,7 +54,8 @@
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/rateText"
         app:layout_constraintStart_toEndOf="@id/lifeText"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="number"/>
 
 
     <!--Rate-->
@@ -76,7 +78,8 @@
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/posVarText"
         app:layout_constraintStart_toEndOf="@id/rateText"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="number"/>
 
     <!--Position var-->
     <TextView
@@ -98,7 +101,8 @@
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/posVarText"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="number"/>
 
     <!-- ___________________________FIRST LINE ENDS______________________________ -->
 
@@ -126,7 +130,8 @@
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/dirText"
         app:layout_constraintStart_toEndOf="@id/speedText"
-        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"/>
+        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"
+        android:inputType="number"/>
 
     <!--Direction-->
     <TextView
@@ -148,7 +153,8 @@
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/dirVarText"
         app:layout_constraintStart_toEndOf="@id/dirText"
-        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"/>
+        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"
+        android:inputType="number"/>
 
     <!--Direction Var-->
     <TextView
@@ -170,7 +176,8 @@
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/dirVarText"
-        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"/>
+        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"
+        android:inputType="number"/>
 
     <!-- ___________________________SECOND LINE ENDS______________________________ -->
 

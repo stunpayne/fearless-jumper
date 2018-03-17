@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.component.emitter;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
@@ -33,9 +34,9 @@ public class EternalEmitterTest
 	@Test
 	public void testEmissionCount()
 	{
-		EternalEmitter eternalEmitter =
-				EternalEmitter.builder().maxParticles(100).particleLife(1000).emissionRate(10)
-						.maxSpeed(6f).build();
+		EternalEmitter eternalEmitter = new EternalEmitter(
+				EmitterConfig.builder().maxParticles(100).particleLife(1000).emissionRate(10)
+						.maxSpeed(6f).build());
 		eternalEmitter.setEntity(
 				new Entity(componentManager, entityManager, Transform.ORIGIN, 1241412124));
 		eternalEmitter.init();

@@ -1,11 +1,8 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
-import android.util.Log;
-
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Time;
-import com.stunapps.fearlessjumper.model.Position;
-import com.stunapps.fearlessjumper.particle.AlphaCalculator;
 import com.stunapps.fearlessjumper.particle.Particle;
 import com.stunapps.fearlessjumper.particle.ParticlePool;
 
@@ -14,16 +11,135 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
+import lombok.Getter;
+
 /**
  * Created by sunny.s on 15/03/18.
  */
 
 public class EternalEmitter extends Emitter
 {
+	@Getter
+	public static class EmitterConfig
+	{
+		//	Shape in which particles have to be emitted
+		protected EmitterShape emitterShape;
+		//	Max number of particles that can be alive at once
+		protected int maxParticles;
+		//	Duration for which each particle is alive
+		protected long particleLife;
+		//	Particles per second
+		protected int emissionRate;
+		//	Max speed of every particle
+		protected float maxSpeed;
+		//	Max variation in particle generation position, on either side, from the entity position
+		protected float positionVar;
+		//	Direction, in degrees, in which the particles should move
+		protected float direction;
+		//	Max variation in angle, on either side, from the direction property
+		protected float directionVar;
+
+		public EmitterConfig(EmitterShape emitterShape, int maxParticles, int particleLife,
+				int emissionRate, float positionVar, float maxSpeed, float direction,
+				float directionVar)
+		{
+			this.emitterShape = emitterShape;
+			this.maxParticles = maxParticles;
+			this.particleLife = particleLife;
+			this.emissionRate = emissionRate;
+			this.positionVar = positionVar;
+			this.maxSpeed = maxSpeed;
+			this.direction = direction;
+			this.directionVar = directionVar;
+		}
+
+		public static Builder builder()
+		{
+			return new Builder();
+		}
+
+		public static class Builder
+		{
+			EmitterShape emitterShape;
+			int maxParticles;
+			int particleLife;
+			int emissionRate;
+			float positionVar;
+			float maxSpeed;
+			float direction;
+			float directionVar;
+
+			public Builder emitterShape(EmitterShape emitterShape)
+			{
+				this.emitterShape = emitterShape;
+				return this;
+			}
+
+			public Builder maxParticles(int maxParticles)
+			{
+				this.maxParticles = maxParticles;
+				return this;
+			}
+
+			public Builder particleLife(int particleLife)
+			{
+				this.particleLife = particleLife;
+				return this;
+			}
+
+			public Builder emissionRate(int emissionRate)
+			{
+				this.emissionRate = emissionRate;
+				return this;
+			}
+
+			public Builder positionVar(float positionVar)
+			{
+				this.positionVar = positionVar;
+				return this;
+			}
+
+			public Builder maxSpeed(float maxSpeed)
+			{
+				this.maxSpeed = maxSpeed;
+				return this;
+			}
+
+			public Builder direction(float direction)
+			{
+				this.direction = direction;
+				return this;
+			}
+
+			public Builder directionVar(float directionVar)
+			{
+				this.directionVar = directionVar;
+				return this;
+			}
+
+			public EmitterConfig build()
+			{
+				return new EmitterConfig(emitterShape, maxParticles, particleLife, emissionRate,
+						positionVar, maxSpeed, direction, directionVar);
+			}
+		}
+	}
+
+	public enum EmitterShape
+	{
+		CONE_DIVERGE;
+	}
+
+	public interface ParticleInitializer
+	{
+		void init(Entity entity, Particle particle, EmitterConfig config);
+	}
+
 	private static final String TAG = EternalEmitter.class.getSimpleName();
+	private static final int MIN_POOL_SIZE = 100;
+	private static final int MAX_POOL_SIZE = 1000;
 
-	protected int id;
-
+	protected EmitterConfig config;
 	//	Max number of particles that can be alive at once
 	protected int maxParticles;
 	//	Duration for which each particle is alive
@@ -41,20 +157,28 @@ public class EternalEmitter extends Emitter
 	//	Shape in which particles have to be emitted
 	protected EmitterShape emitterShape;
 
+	protected int id;
 	private Set<Particle> particles;
 	private ParticlePool particlePool;
-
 	private boolean initialised;
+	private ParticleCreatorFactory factory;
+
 	//	Time between emission of two particles
 	private float emissionInterval;
 	//	Leftover emission time from previous interval
 	private float balanceEmissionTime = 0f;
 
-	private Random random = new Random();
-
-	public enum EmitterShape
+	public EternalEmitter(EmitterConfig config)
 	{
-		CONE_DIVERGE, CONE_CONVERGE;
+		super();
+		this.config = config;
+		//		this();
+		id = new Random().nextInt(50);
+		particlePool = new ParticlePool(MIN_POOL_SIZE, MAX_POOL_SIZE);
+		particles = new HashSet<>();
+		factory = new ParticleCreatorFactory();
+
+		emissionInterval = ((float) Time.ONE_SECOND_NANOS / config.getEmissionRate());
 	}
 
 	EternalEmitter(EmitterShape emitterShape, int maxParticles, long particleLife, int
@@ -79,16 +203,18 @@ public class EternalEmitter extends Emitter
 	{
 		super();
 		id = new Random().nextInt(50);
-		particlePool = new ParticlePool();
+		particlePool = new ParticlePool(MIN_POOL_SIZE, MAX_POOL_SIZE);
 		particles = new HashSet<>();
+		factory = new ParticleCreatorFactory();
 
+		this.emitterShape = emitterShape;
 		this.maxParticles = maxParticles;
 		this.particleLife = particleLife;
 		this.emissionRate = emissionRate;
-		this.maxSpeed = 0;
-		this.direction = 90f;
+		this.positionVar = 0;
+		this.maxSpeed = 0f;
+		this.direction = 0f;
 		this.directionVar = 5f;
-		this.emitterShape = emitterShape;
 
 		emissionInterval = ((float) Time.ONE_SECOND_NANOS / emissionRate);
 	}
@@ -96,8 +222,7 @@ public class EternalEmitter extends Emitter
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{
-		return new EternalEmitter(emitterShape, maxParticles, particleLife, emissionRate,
-				positionVar, maxSpeed, direction, directionVar);
+		return new EternalEmitter(config);
 	}
 
 	@Override
@@ -115,10 +240,6 @@ public class EternalEmitter extends Emitter
 	@Override
 	public void update(long dt)
 	{
-		//	Use balance emission time from previous frame
-		dt += balanceEmissionTime;
-		balanceEmissionTime = 0;
-
 		Iterator<Particle> iterator = particles.iterator();
 		while (iterator.hasNext())
 		{
@@ -131,10 +252,15 @@ public class EternalEmitter extends Emitter
 			}
 		}
 
+		//	Use balance emission time from previous frame for creation of new particle
+		dt += balanceEmissionTime;
+		balanceEmissionTime = 0;
+
 		while (canEmitParticle() && dt > emissionInterval)
 		{
-			Log.d(TAG, "Adding particle");
-			Particle particle = createNewParticle();
+			//			Log.d(TAG, "Adding particle");
+			Particle particle = particlePool.getObject();
+			factory.getInitializer(config).init(entity, particle, config);
 			particles.add(particle);
 			dt -= emissionInterval;
 		}
@@ -159,7 +285,7 @@ public class EternalEmitter extends Emitter
 	@Override
 	public boolean isExhausted()
 	{
-		return particles.size() == maxParticles;
+		return particles.size() == config.getMaxParticles();
 	}
 
 	@Override
@@ -172,135 +298,11 @@ public class EternalEmitter extends Emitter
 
 	private boolean canEmitParticle()
 	{
-		return particles.size() < maxParticles;
-	}
-
-	private Particle createNewParticle()
-	{
-		Particle particle = particlePool.getObject();
-		particle.setLife(particleLife);
-		Position position = newParticlePosition();
-		particle.setPosition(position);
-		particle.setVelocity(newParticleDirection(), newParticleSpeed());
-		particle.setAlpha(new AlphaCalculator()
-		{
-			@Override
-			public float calculate(float life, float lifeTimer)
-			{
-				return lifeTimer / life;
-			}
-		});
-
-		//		Log.d(TAG, "New particle: " + particle);
-
-		return particle;
-	}
-
-
-	private Position newParticlePosition()
-	{
-		Position entityPosition = entity.getTransform().getPosition();
-		return new Position(entityPosition.getX() + positionVar * twoWayRandom(),
-				entityPosition.getY());
-	}
-
-	/**
-	 * nextFloat returns a value between 0 and 1.
-	 * We modify this value to get a value between -1 and 1, and then multiply that
-	 * by the direction variation property. The result is added to the direction property
-	 * to get the direction in which the particle has to be projected.
-	 *
-	 * @return
-	 */
-	private float newParticleDirection()
-	{
-		return directionVar * twoWayRandom() + direction;
-	}
-
-	//	TODO:	Introduce and use speedVarBias
-	private float newParticleSpeed()
-	{
-		return maxSpeed * random.nextFloat();
+		return particles.size() < config.getMaxParticles() && particles.size() < MAX_POOL_SIZE;
 	}
 
 	int getLiveParticles()
 	{
 		return particles.size();
-	}
-
-	private float twoWayRandom()
-	{
-		return 2 * (0.5f - random.nextFloat());
-	}
-
-	public static Builder builder()
-	{
-		return new Builder();
-	}
-
-	public static class Builder
-	{
-		EmitterShape emitterShape;
-		int maxParticles;
-		int particleLife;
-		int emissionRate;
-		float positionVar;
-		float maxSpeed;
-		float direction;
-		float directionVar;
-
-		public Builder emitterShape(EmitterShape emitterShape)
-		{
-			this.emitterShape = emitterShape;
-			return this;
-		}
-
-		public Builder maxParticles(int maxParticles)
-		{
-			this.maxParticles = maxParticles;
-			return this;
-		}
-
-		public Builder particleLife(int particleLife)
-		{
-			this.particleLife = particleLife;
-			return this;
-		}
-
-		public Builder emissionRate(int emissionRate)
-		{
-			this.emissionRate = emissionRate;
-			return this;
-		}
-
-		public Builder positionVar(float positionVar)
-		{
-			this.positionVar = positionVar;
-			return this;
-		}
-
-		public Builder maxSpeed(float maxSpeed)
-		{
-			this.maxSpeed = maxSpeed;
-			return this;
-		}
-
-		public Builder direction(float direction)
-		{
-			this.direction = direction;
-			return this;
-		}
-
-		public Builder directionVar(float directionVar)
-		{
-			this.directionVar = directionVar;
-			return this;
-		}
-
-		public EternalEmitter build()
-		{
-			return new EternalEmitter(emitterShape, maxParticles, particleLife, emissionRate,
-					positionVar, maxSpeed, direction, directionVar);
-		}
 	}
 }
