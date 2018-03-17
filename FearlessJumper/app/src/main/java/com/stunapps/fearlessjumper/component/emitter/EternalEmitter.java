@@ -1,5 +1,8 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
+import android.graphics.Color;
+import android.util.Log;
+
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Vector2D;
 import com.stunapps.fearlessjumper.entity.Entity;
@@ -41,10 +44,12 @@ public class EternalEmitter extends Emitter
 		protected float directionVar;
 		//	Offset from entity position
 		private Vector2D offset;
+		//	Color of particles
+		private int color;
 
 		public EmitterConfig(EmitterShape emitterShape, int maxParticles, int particleLife,
 				int emissionRate, Vector2D positionVar, float maxSpeed, float direction,
-				float directionVar, Vector2D offset)
+				float directionVar, Vector2D offset, int color)
 		{
 			this.emitterShape = emitterShape;
 			this.maxParticles = maxParticles;
@@ -55,15 +60,19 @@ public class EternalEmitter extends Emitter
 			this.direction = direction;
 			this.directionVar = directionVar;
 			this.offset = offset;
+			this.color = color;
+
+			Log.d(TAG, "Creating config: " + this);
 		}
 
 		@Override
 		protected EmitterConfig clone() throws CloneNotSupportedException
 		{
-			super.clone();
+			Log.d(TAG, "Cloning");
 			return builder().emitterShape(emitterShape).maxParticles(maxParticles)
 					.particleLife(particleLife).emissionRate(emissionRate).positionVar(positionVar)
-					.maxSpeed(maxSpeed).direction(direction).directionVar(directionVar).build();
+					.maxSpeed(maxSpeed).direction(direction).directionVar(directionVar)
+					.offset(offset).color(color).build();
 		}
 
 		public static Builder builder()
@@ -82,6 +91,7 @@ public class EternalEmitter extends Emitter
 			float direction;
 			float directionVar;
 			Vector2D offset = new Vector2D();
+			int color = Color.WHITE;
 
 			public Builder emitterShape(EmitterShape emitterShape)
 			{
@@ -137,11 +147,33 @@ public class EternalEmitter extends Emitter
 				return this;
 			}
 
+			public Builder color(int color)
+			{
+				this.color = color;
+				return this;
+			}
+
+			public Builder color(int a, int r, int g, int b)
+			{
+				this.color = Color.argb(a, r, g, b);
+				return this;
+			}
+
 			public EmitterConfig build()
 			{
 				return new EmitterConfig(emitterShape, maxParticles, particleLife, emissionRate,
-						positionVar, maxSpeed, direction, directionVar, offset);
+						positionVar, maxSpeed, direction, directionVar, offset, color);
 			}
+		}
+
+		@Override
+		public String toString()
+		{
+			return "EmitterConfig{" + "emitterShape=" + emitterShape + ", maxParticles=" +
+					maxParticles + ", particleLife=" + particleLife + ", emissionRate=" +
+					emissionRate + ", maxSpeed=" + maxSpeed + ", positionVar=" + positionVar +
+					", direction=" + direction + ", directionVar=" + directionVar + ", offset=" +
+					offset + ", hashCode=" + hashCode() + '}';
 		}
 	}
 
@@ -164,8 +196,9 @@ public class EternalEmitter extends Emitter
 	protected int id;
 	private Set<Particle> particles;
 	private ParticlePool particlePool;
-	private boolean initialised;
 	private ParticleCreatorFactory factory;
+	private boolean initialised;
+	private boolean active = false;
 
 	//	Time between emission of two particles
 	private float emissionInterval;
@@ -182,6 +215,7 @@ public class EternalEmitter extends Emitter
 		factory = new ParticleCreatorFactory();
 
 		emissionInterval = ((float) Time.ONE_SECOND_NANOS / config.getEmissionRate());
+		init();
 	}
 
 	@Override
@@ -224,9 +258,12 @@ public class EternalEmitter extends Emitter
 		while (canEmitParticle() && dt > emissionInterval)
 		{
 			//			Log.d(TAG, "Adding particle");
-			Particle particle = particlePool.getObject();
-			factory.getInitializer(config).init(entity, particle, config);
-			particles.add(particle);
+			if (active)
+			{
+				Particle particle = particlePool.getObject();
+				factory.getInitializer(config).init(entity, particle, config);
+				particles.add(particle);
+			}
 			dt -= emissionInterval;
 		}
 
@@ -250,7 +287,7 @@ public class EternalEmitter extends Emitter
 	@Override
 	public boolean isExhausted()
 	{
-		return particles.size() == config.getMaxParticles();
+		return false;
 	}
 
 	@Override
@@ -259,6 +296,18 @@ public class EternalEmitter extends Emitter
 		//		Log.d(TAG, "Destroying particle: " + particleToDestroy);
 		particleToDestroy.reset();
 		particlePool.returnObject(particleToDestroy);
+	}
+
+	@Override
+	public void activate()
+	{
+		active = true;
+	}
+
+	@Override
+	public void deactivate()
+	{
+		active = false;
 	}
 
 	private boolean canEmitParticle()

@@ -19,17 +19,21 @@ abstract public class Emitter extends Component
 		super(Emitter.class);
 	}
 
-	abstract public boolean isInitialised();
-
 	abstract public long getId();
+
+	public abstract void init();
+
+	abstract public boolean isInitialised();
 
 	abstract public void update(long delta);
 
 	abstract public Set<Particle> getParticles();
 
-	public abstract void init();
+	abstract void destroyParticle(Particle particleToDestroy);
 
 	public abstract boolean isExhausted();
 
-	abstract void destroyParticle(Particle particleToDestroy);
+	abstract public void activate();
+
+	abstract public void deactivate();
 }

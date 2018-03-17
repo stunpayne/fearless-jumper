@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.game.Time;
@@ -59,9 +60,14 @@ public class PlayerInputProcessor implements InputProcessor
 			if (fuel.getFuel() > 0)
 			{
 				applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
-								   player.getComponent(PhysicsComponent.class), motionEvent);
+						player.getComponent(PhysicsComponent.class), motionEvent);
 				dischargeFuel(fuel, deltaTime);
+				player.getComponent(Emitter.class).activate();
 			}
+		}
+		else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
+		{
+			player.getComponent(Emitter.class).deactivate();
 		}
 	}
 

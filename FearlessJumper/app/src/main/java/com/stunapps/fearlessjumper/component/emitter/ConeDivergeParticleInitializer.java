@@ -36,6 +36,7 @@ public class ConeDivergeParticleInitializer implements ParticleInitializer
 				return lifeTimer / life;
 			}
 		});
+		particle.setColor(config.getColor());
 	}
 
 	private Position newParticlePosition(Entity entity, EmitterConfig config)

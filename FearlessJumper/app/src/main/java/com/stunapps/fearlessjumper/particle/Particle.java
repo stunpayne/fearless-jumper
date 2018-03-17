@@ -1,10 +1,14 @@
 package com.stunapps.fearlessjumper.particle;
 
+import android.graphics.Color;
+
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by anand.verma on 02/03/18.
@@ -28,6 +32,9 @@ public class Particle
 	public long waitTime;
 	public float alpha;
 	public AlphaCalculator alphaCalculator;
+	@Getter
+	@Setter
+	private int color;
 
 	public Particle(long id)
 	{
@@ -50,8 +57,8 @@ public class Particle
 	public void setVelocity(float velocityAngle, float speed)
 	{
 		double angleInRadians = Math.toRadians(velocityAngle);
-		this.velocity.x  = (float) Math.cos(angleInRadians) * speed;
-		this.velocity.y  = -(float) Math.sin(angleInRadians) * speed;
+		this.velocity.x = (float) Math.cos(angleInRadians) * speed;
+		this.velocity.y = -(float) Math.sin(angleInRadians) * speed;
 	}
 
 	public void setVelocityScaler(VelocityScaler velocityScaler)
@@ -102,9 +109,12 @@ public class Particle
 
 			//Update velocity.
 			float velocityAngle = Utils.getAngleInDegree(velocity.x, velocity.y);
-			double relativeAccelerationAngle = Math.toRadians((velocityAngle + accelerationAngle) % 360);
-			float xAccelerationRate = (float)Math.cos(relativeAccelerationAngle) * accelerationRate;
-			float yAccelerationRate = -(float)Math.sin(relativeAccelerationAngle) * accelerationRate;
+			double relativeAccelerationAngle =
+					Math.toRadians((velocityAngle + accelerationAngle) % 360);
+			float xAccelerationRate =
+					(float) Math.cos(relativeAccelerationAngle) * accelerationRate;
+			float yAccelerationRate =
+					-(float) Math.sin(relativeAccelerationAngle) * accelerationRate;
 
 			velocity.x += xAccelerationRate;
 			velocity.y += yAccelerationRate;
@@ -134,16 +144,21 @@ public class Particle
 	public void reset()
 	{
 		this.isActive = false;
-		position = new Position(0,0);
-		velocity = new Velocity(0,0);
+		position = new Position(0, 0);
+
+		velocity = new Velocity(0, 0);
 		this.velocityScaler = null;
 		this.accelerationAngle = 0;
 		this.accelerationRate = 0;
+
 		this.life = 0;
 		this.lifeTimer = 0;
 		this.waitTime = 0;
+
 		this.alpha = 1;
 		this.alphaCalculator = null;
+
+		color = Color.WHITE;
 	}
 
 	@Override
