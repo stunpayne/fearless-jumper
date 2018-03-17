@@ -6,6 +6,7 @@ import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
+import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.particle.AlphaCalculator;
 import com.stunapps.fearlessjumper.particle.Particle;
 import com.stunapps.fearlessjumper.particle.ParticlePool;
@@ -42,8 +43,6 @@ public class EternalEmitter extends Emitter
 	private ParticlePool particlePool;
 
 	private boolean initialised;
-	//	Number of currently live particles
-	private int liveParticles = 0;
 	//	Time between emission of two particles
 	private float emissionInterval;
 	//	Leftover emission time from previous interval
@@ -136,13 +135,14 @@ public class EternalEmitter extends Emitter
 	@Override
 	public void init()
 	{
+		particles.clear();
 		initialised = true;
 	}
 
 	@Override
 	public boolean isExhausted()
 	{
-		return maxParticles == liveParticles;
+		return particles.size() == maxParticles;
 	}
 
 	@Override
@@ -151,21 +151,20 @@ public class EternalEmitter extends Emitter
 		Log.d(TAG, "Destroying particle: " + particleToDestroy);
 		particleToDestroy.reset();
 		particlePool.returnObject(particleToDestroy);
-		--liveParticles;
 	}
 
 	private boolean canEmitParticle()
 	{
-		return liveParticles < maxParticles;
+		return particles.size() < maxParticles;
 	}
 
 	private Particle createNewParticle()
 	{
 		Particle particle = particlePool.getObject();
-		Position position = newParticlePosition();
 		particle.setLife(particleLife);
-		particle.setPosition(position.getX() + (15 - random.nextInt() % 30), position.getY());
-		particle.setVelocity(2 * directionVar * (0.5f - random.nextFloat()) + direction, 6f);
+		Position position = newParticlePosition();
+		particle.setPosition(position);
+		particle.setVelocity(newParticleDirection(), newParticleSpeed());
 		particle.setAlpha(new AlphaCalculator()
 		{
 			@Override
@@ -176,20 +175,33 @@ public class EternalEmitter extends Emitter
 		});
 
 		Log.d(TAG, "New particle: " + particle);
-		++liveParticles;
 
 		return particle;
 	}
 
 	private Position newParticlePosition()
 	{
-		Transform transform = entity.getTransform();
-		return transform.getPosition();
+		Position entityPosition = entity.getTransform().getPosition();
+		Position particlePosition =
+				new Position(entityPosition.getX() + (15 - random.nextInt() % 30),
+						entityPosition.getY());
+		return particlePosition;
+	}
+
+	private float newParticleDirection()
+	{
+		return 2 * directionVar * (0.5f - random.nextFloat()) + direction;
+	}
+
+	//	TODO:	Include var
+	private float newParticleSpeed()
+	{
+		return maxSpeed;
 	}
 
 	int getLiveParticles()
 	{
-		return liveParticles;
+		return particles.size();
 	}
 
 	public static Builder builder()

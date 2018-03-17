@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.system.eventonly.DamageSystem;
 import com.stunapps.fearlessjumper.system.eventonly.PickupSystem;
@@ -76,9 +77,13 @@ public class Systems
 			startTime = java.lang.System.nanoTime();
 			system.process(deltaTime);
 			endTime = java.lang.System.nanoTime();
-			Log.d(TAG.concat(PROCESS_SUFFIX),
-					system.getClass().getSimpleName() + "," + frameNum + "," +
-							((endTime - startTime) / Time.ONE_SECOND_MILLIS));
+
+			if (Settings.LOG_GRAPH)
+			{
+				Log.d(TAG.concat(PROCESS_SUFFIX),
+						system.getClass().getSimpleName() + "," + frameNum + "," +
+								((endTime - startTime) / Time.ONE_SECOND_MILLIS));
+			}
 		}
 		frameNum++;
 	}

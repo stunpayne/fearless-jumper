@@ -35,6 +35,12 @@ public class Particle
 		reset();
 	}
 
+	public void setPosition(Position other)
+	{
+		this.position.x = other.x;
+		this.position.y = other.y;
+	}
+
 	public void setPosition(float x, float y)
 	{
 		this.position.x = x;

@@ -30,7 +30,8 @@ public class Environment
 
 	public class Settings
 	{
-		public static final boolean DEBUG_MODE = true;
+		public static final boolean DEBUG_MODE = false;
+		public static final boolean LOG_GRAPH = false;
 	}
 
 	public static float scaleY()

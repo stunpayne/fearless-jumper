@@ -218,7 +218,7 @@ public class RenderSystem implements UpdateSystem
 		for (Entity entity : entities)
 		{
 			Renderable component = entity.getComponent(Renderable.class);
-			Bitmap bitmap = (Bitmap) component.getRenderable();
+			Bitmap bitmap = component.getRenderable();
 			Rect destRect = getRenderRect(entity);
 
 			canvas.drawBitmap(bitmap, null, destRect, null);
