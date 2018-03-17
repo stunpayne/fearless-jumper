@@ -8,6 +8,7 @@ import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
+import com.stunapps.fearlessjumper.component.movement.AssaultTranslation;
 import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Dragon;
@@ -36,9 +37,9 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIG
  * Created by anand.verma on 10/03/18.
  */
 
-public class FollowingDragonPrefab extends ComponentPrefab
+public class AssaultDragonPrefab extends ComponentPrefab
 {
-	public FollowingDragonPrefab()
+	public AssaultDragonPrefab()
 	{
 		transform = new Transform(
 				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + 100));
@@ -79,14 +80,14 @@ public class FollowingDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-
+		//        animator.triggerTransition(TURN_RIGHT);
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 									dragonSprite1.getHeight()));
 		addComponent(animator);
-		addComponent(new Dragon(EnemyType.DRAXUS));
+		addComponent(new Dragon(EnemyType.ZELDROY));
 		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
-									  dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		addComponent(new FollowTranslation(PlayerComponent.class, 30));
+									  dragonSprite1.getHeight(), CollisionLayer.SUPER_ENEMY));
+		addComponent(new AssaultTranslation(PlayerComponent.class, 60, 5000));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(false));
 	}

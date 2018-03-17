@@ -33,7 +33,10 @@ public class Enemy extends Component
 		PYRADON,
 
 		//	Following
-		DRAXUS;
+		DRAXUS,
+
+		// Assault
+		ZELDROY;
 
 	}
 

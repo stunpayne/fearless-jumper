@@ -47,9 +47,9 @@ public class TransformUpdateSystem implements UpdateSystem
 
 			if (movable.hasComponent(FollowTranslation.class))
 			{
-				Log.d("EntityFollowSystem",
+				Log.d("ConsciousEnemySystem",
 					  "transform.position.x: " + movable.transform.position.x);
-				Log.d("EntityFollowSystem",
+				Log.d("ConsciousEnemySystem",
 					  "transform.position.y: " + movable.transform.position.y);
 			}
 		}

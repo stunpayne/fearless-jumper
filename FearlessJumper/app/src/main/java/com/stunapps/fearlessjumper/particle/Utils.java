@@ -6,8 +6,13 @@ package com.stunapps.fearlessjumper.particle;
 
 public class Utils
 {
-	public static float getAngle(float x, float y)
+	public static float getAngleInDegree(float x, float y)
 	{
 		return (float) Math.toDegrees(Math.atan2(-y, x));
+	}
+
+	public static float getAngleInRadian(float x, float y)
+	{
+		return (float) Math.atan2(-y, x);
 	}
 }

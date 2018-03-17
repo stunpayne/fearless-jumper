@@ -10,7 +10,7 @@ import com.stunapps.fearlessjumper.system.eventonly.DamageSystem;
 import com.stunapps.fearlessjumper.system.eventonly.PickupSystem;
 import com.stunapps.fearlessjumper.system.update.AnimationSystem;
 import com.stunapps.fearlessjumper.system.update.ClockCountdownSystem;
-import com.stunapps.fearlessjumper.system.update.EntityFollowSystem;
+import com.stunapps.fearlessjumper.system.update.ConsciousEnemySystem;
 import com.stunapps.fearlessjumper.system.update.FuelSystem;
 import com.stunapps.fearlessjumper.system.update.LowerBoundarySystem;
 import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
@@ -51,7 +51,7 @@ public class Systems
 						  CollisionSystem.class, LowerBoundarySystem.class,
 						  TransformUpdateSystem.class, ScoreUpdateSystem.class,
 						  ClockCountdownSystem.class, FuelSystem.class, PeriodicGunSystem.class,
-						  AnimationSystem.class, ParticleSystem.class, EntityFollowSystem.class,
+						  AnimationSystem.class, ParticleSystem.class, ConsciousEnemySystem.class,
 						  RenderSystem.class);
 
 	//  Next lines is hacky. The variable should be list but we can't create a list of

@@ -17,6 +17,7 @@ public class Renderable extends Component
     public Delta delta;
     public float width;
     public float height;
+    public boolean isVisible;
 
     public Renderable(Bitmap sprite, Delta delta, float width, float height)
     {
@@ -25,6 +26,7 @@ public class Renderable extends Component
         this.delta = delta;
         this.width = width;
         this.height = height;
+        this.isVisible = false;
     }
 
     public Bitmap getRenderable()
@@ -40,6 +42,11 @@ public class Renderable extends Component
     public void setSprite(Bitmap sprite)
     {
         this.sprite = sprite;
+    }
+
+    public void setVisible(boolean visible)
+    {
+        isVisible = visible;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.stunapps.fearlessjumper.system.update;
 
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy;
+import com.stunapps.fearlessjumper.component.spawnable.Obstacle;
 import com.stunapps.fearlessjumper.model.Position;
 
 import com.google.inject.Inject;
@@ -31,8 +33,8 @@ public class CollisionSystem implements UpdateSystem
 {
     private static final String TAG = CollisionSystem.class.getSimpleName();
 
-    public static final float TENTATIVE_X_POSITION_FACTOR = 0.1f;
-    public static final float TENTATIVE_Y_POSITION_FACTOR = 0.5f;
+    public static final float TENTATIVE_X_POSITION_FACTOR = 0.01f;
+    public static final float TENTATIVE_Y_POSITION_FACTOR = 0.01f;
 
     private final ComponentManager componentManager;
     private final EventSystem eventSystem;
@@ -106,8 +108,9 @@ public class CollisionSystem implements UpdateSystem
         /**
          * Collision among mobile entities.
          */
+
         List<Entity> mobileEntityList = new LinkedList<>(mobileEntities);
-        for (int i = 1; i < mobileEntityList.size(); i++)
+        for (int i = 0; i < mobileEntityList.size(); i++)
         {
             for (int j = i + 1; j < mobileEntityList.size(); j++)
             {
@@ -238,6 +241,15 @@ public class CollisionSystem implements UpdateSystem
         Position position1 = getTentativePosition(entity1);
         Position position2 = getTentativePosition(entity2);
 
+        if (entity1.hasComponent(Enemy.class) && entity2.hasComponent(Obstacle.class))
+        {
+            Log.d(TAG, "tentativeX1 original = " + entity1.transform.position.x + ", tentative = " +
+                    position1.x);
+            Log.d(TAG, "tentativeX2 original = " + entity2.transform.position.x + ", tentative =" +
+                    " " +
+                    position2.x);
+        }
+
         Collider collider1 = entity1.getComponent(Collider.class);
         Collider collider2 = entity2.getComponent(Collider.class);
 
@@ -251,6 +263,15 @@ public class CollisionSystem implements UpdateSystem
     {
         Position position1 = getTentativePosition(entity1);
         Position position2 = getTentativePosition(entity2);
+
+        if (entity1.hasComponent(Enemy.class) && entity2.hasComponent(Obstacle.class))
+        {
+            Log.d(TAG, "tentativeY1 original = " + entity1.transform.position.y + ", tentative = " +
+                    position1.y);
+            Log.d(TAG, "tentativeY2 original = " + entity2.transform.position.y + ", tentative =" +
+                    " " +
+                    position2.y);
+        }
 
         Collider collider1 = entity1.getComponent(Collider.class);
         Collider collider2 = entity2.getComponent(Collider.class);

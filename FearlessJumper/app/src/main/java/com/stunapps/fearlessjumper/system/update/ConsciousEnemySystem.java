@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
-import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
@@ -18,21 +17,26 @@ import java.util.Set;
  * Created by anand.verma on 11/03/18.
  */
 
-public class EntityFollowSystem implements UpdateSystem
+public class ConsciousEnemySystem implements UpdateSystem
 {
-	private static final String TAG = EntityFollowSystem.class.getSimpleName();
+	private static final String TAG = ConsciousEnemySystem.class.getSimpleName();
 	private static long lastProcessTime = System.nanoTime();
 
 	private ComponentManager componentManager;
 
 	@Inject
-	public EntityFollowSystem(ComponentManager componentManager)
+	public ConsciousEnemySystem(ComponentManager componentManager)
 	{
 		this.componentManager = componentManager;
 	}
 
 	@Override
 	public void process(long deltaTime)
+	{
+		followTranslationUpdate(deltaTime);
+	}
+
+	private void followTranslationUpdate(long deltaTime)
 	{
 		Set<Entity> followerEntities = componentManager.getEntities(FollowTranslation.class);
 		for (Entity followerEntity : followerEntities)
@@ -42,7 +46,7 @@ public class EntityFollowSystem implements UpdateSystem
 				FollowTranslation followTranslation =
 						followerEntity.getComponent(FollowTranslation.class);
 				Set<Entity> followeeEntities =
-						componentManager.getEntities(followTranslation.followee);
+						componentManager.getEntities(followTranslation.targetComponent);
 				float minXDiff = Float.MAX_VALUE;
 				float minYDiff = Float.MAX_VALUE;
 				float xDirection = 1;

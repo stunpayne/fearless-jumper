@@ -20,6 +20,7 @@ import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.emitter.RotationalEmitter;
 import com.stunapps.fearlessjumper.component.health.Health;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
@@ -208,6 +209,7 @@ public class RenderSystem implements UpdateSystem
 		for (Entity entity : entities)
 		{
 			Renderable component = entity.getComponent(Renderable.class);
+			component.setVisible(true);
 			Bitmap bitmap = component.getRenderable();
 			Rect destRect = getRenderRect(entity);
 
@@ -234,6 +236,12 @@ public class RenderSystem implements UpdateSystem
 		int bottom = (int) (entity.transform.position.y + collider.delta.y + collider.height -
 				camPosition.y);
 		canvas.drawRect(left, top, right, bottom, colliderPaint);
+		if (entity.hasComponent(Enemy.class))
+		{
+			Enemy enemy = entity.getComponent(Enemy.class);
+			canvas.drawText(enemy.getEnemyType().name(), left, top,
+							colliderPaint);
+		}
 	}
 
 

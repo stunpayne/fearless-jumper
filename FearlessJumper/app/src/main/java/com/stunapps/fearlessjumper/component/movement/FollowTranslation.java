@@ -1,24 +1,25 @@
 package com.stunapps.fearlessjumper.component.movement;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.model.Velocity;
+
+import java.util.Random;
 
 /**
  * Created by anand.verma on 11/03/18.
  */
 
-public class FollowTranslation extends Component
+public class FollowTranslation extends ConsciousTranslation
 {
-	public Class<? extends Component> followee;
-
-	public FollowTranslation(Class<? extends Component> followee)
+	public FollowTranslation(Class<? extends Component> targetComponent, float speed)
 	{
-		super(FollowTranslation.class);
-		this.followee = followee;
+		super(targetComponent, speed);
 	}
 
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{
-		return this;
+		return new FollowTranslation(this.targetComponent,
+									 (new Random().nextFloat() % 10) + this.speed);
 	}
 }
