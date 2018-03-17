@@ -1,11 +1,14 @@
 package com.stunapps.fearlessjumper.game.loop;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
 
 import static com.stunapps.fearlessjumper.game.Time.ONE_MILLION;
@@ -18,11 +21,16 @@ public class MainThread extends Thread
 {
 	private static final String TAG = MainThread.class.getSimpleName();
 	public int maxFps = 60;
-	private double averageFPS;
 	private final SurfaceHolder surfaceHolder;
 	private BaseView baseView;
-	public static Canvas canvas;
 
+	public static Canvas canvas;
+	private double averageFPS;
+	private Paint fpsPaint;
+
+	/**
+	 * State management variables
+	 */
 	private boolean running;
 	private boolean paused = false;
 	private final Object pauseLock = new Object();
@@ -33,6 +41,10 @@ public class MainThread extends Thread
 		this.surfaceHolder = surfaceHolder;
 		this.baseView = baseView;
 		this.maxFps = maxFps;
+
+		fpsPaint = new Paint();
+		fpsPaint.setColor(Color.MAGENTA);
+		fpsPaint.setTextSize(40);
 	}
 
 	public void setRunning(boolean running)
@@ -102,14 +114,13 @@ public class MainThread extends Thread
 				Environment.CANVAS = canvas;
 				synchronized (surfaceHolder)
 				{
-					Time.DELTA_TIME = (float) ((float) (startTime - lastStartTime) /
-							Time.ONE_SECOND_NANOS);
+					Time.DELTA_TIME =
+							(float) ((float) (startTime - lastStartTime) / Time.ONE_SECOND_NANOS);
 					Log.v(TAG, "Start: " + startTime + " Last start: " + lastStartTime + " Long:" +
-							" " +
-							(startTime - lastStartTime) + "" + " Delta Time: " +
-							(float) ((float) (startTime - lastStartTime) /
-									Time.ONE_SECOND_NANOS));
+							" " + (startTime - lastStartTime) + "" + " Delta Time: " +
+							(float) ((float) (startTime - lastStartTime) / Time.ONE_SECOND_NANOS));
 					this.baseView.update(startTime - lastStartTime);
+					printFPS(canvas);
 				}
 			}
 			catch (Exception e)
@@ -176,5 +187,14 @@ public class MainThread extends Thread
 	{
 		running = false;
 		resumeThread();
+	}
+
+	private void printFPS(Canvas canvas)
+	{
+		if (Settings.PRINT_FPS)
+		{
+			canvas.drawText(String.valueOf(averageFPS), 11 * canvas.getWidth() / 12,
+					59 * canvas.getHeight() / 60, fpsPaint);
+		}
 	}
 }
