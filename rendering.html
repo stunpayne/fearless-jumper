@@ -28,12 +28,27 @@
 
 			function reOrderSystems(firstSystemInData)
 			{
-				var orderedSystems = ["PhysicsSystem", "GenerationSystem", "MovementUpdateSystem", "CollisionSystem", "LowerBoundarySystem", "TransformUpdateSystem", "ScoreUpdateSystem", "ClockCountdownSystem", "FuelSystem", "PeriodicGunSystem", "AnimationSystem", "ParticleSystem", "RenderSystem"];
+				var orderedSystems = ["camera", "background", "entities", "hud", "particles"];
 			    var secondHalf = orderedSystems.splice(orderedSystems.indexOf(firstSystemInData), orderedSystems.length);
 			    orderedSystems = secondHalf.concat(orderedSystems);
 			    console.log("First system in data: " + firstSystemInData);
 
 			    return orderedSystems;
+			}
+
+			function getHeaders(allTextLines)
+			{
+				var systems = [];
+				for (var line in allTextLines)
+				{
+					var systemName = allTextLines[line].split(',')[0];
+					// console.log("Line: " + allTextLines[line]);
+					if (systems.indexOf(systemName) == -1)
+					{
+						systems.push(systemName);
+					}
+				}
+				return systems;
 			}
 
 			function processData(allText, chart) {
@@ -43,9 +58,10 @@
 
 			    //	The first system in the data could be any system. 
 			    //	We need to reorder all of them to read data correctly
-			    var systems = reOrderSystems(allTextLines[0].split(',')[0]);
+			    var systems = getHeaders(allTextLines);
 			    console.log("Systems reordered: " + systems);
 			    var systemIndices = initSystemIndices(systems);
+			    console.log("System indices: " + JSON.stringify(systemIndices));
 
 
 			    //	Split every line by comma and fill into an array
@@ -58,15 +74,9 @@
 			    	var frameNum = entries[1];
 			    	var systemProcessTime = entries[2];
 
-			    	// console.log("Line: " + l);
-			    	// console.log(allTextLines[l]);	
-			    	// console.log(entries);
-			    	// console.log(systemLineIndex + " " + frameNum + " " + systemProcessTime);
-
 			    	for (var j=0; j<record_num; j++) {
 			    		tarr.push(entries[j]);
 			    	}
-			    	// chart.options.data[systemLineIndex].dataPoints.push({ x: frameNum , y: systemProcessTime});
 			    	lines.push(tarr);
 			    }
 			    var minFrame = parseInt(lines[0][1] - 50);
@@ -82,14 +92,23 @@
 					var key = i;
     				var val = systemIndices[i];
 
-    				chart.data[val].set("name", key);
+    				chart.options.data.push({
+						type: "line",
+						axisYType: "primary",
+						name: key,
+						showInLegend: true,
+						markerSize: 0,
+						dataPoints: [
+
+						]
+					});
 				}
 				
 
 				//	Finally load all the data into the chart
 				for (i=0; i< lines.length; i++)
 				{
-					chart.options.data[ i % 13].dataPoints.push({ x: lines[i][1] , y: lines[i][2] / 100});
+					chart.options.data[ i % systems.length].dataPoints.push({ x: lines[i][1] , y: lines[i][2] / 100});
 				}
 				chart.render();
 
@@ -97,11 +116,11 @@
 			}
 
 
-			$.get("http://localhost:5500/graph_sample_csv.csv", function(data) {
+			$.get("http://localhost:5500/graph_rendering.csv", function(data) {
 
 				var chart = new CanvasJS.Chart("chartContainer", {
 					title: {
-						text: "System times"
+						text: "Render times"
 					},
 					axisX:{
 						minimum: 1850,
@@ -121,136 +140,7 @@
 						verticalAlign: "top",
 						itemclick: toogleDataSeries
 					},
-					data: [{
-						type:"line",
-						axisYType: "primary",
-						name: "0",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [		
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "1",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "2",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "3",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type:"line",
-						axisYType: "primary",
-						name: "4",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [		
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "5",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "6",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "7",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type:"line",
-						axisYType: "primary",
-						name: "8",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [		
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "9",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "10",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "11",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					},
-					{
-						type: "line",
-						axisYType: "primary",
-						name: "12",
-						showInLegend: true,
-						markerSize: 0,
-						dataPoints: [
-
-						]
-					}]
+					data: []
 				});
 				chart.render();
 

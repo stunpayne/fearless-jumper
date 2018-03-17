@@ -101,10 +101,11 @@ public class Particle
 			position.y += velocity.y;
 
 			//Update velocity.
-			float velocityAngle = Utils.getAngle(velocity.x, velocity.y);
+			float velocityAngle = Utils.getAngleInDegree(velocity.x, velocity.y);
 			double relativeAccelerationAngle = Math.toRadians((velocityAngle + accelerationAngle) % 360);
 			float xAccelerationRate = (float)Math.cos(relativeAccelerationAngle) * accelerationRate;
 			float yAccelerationRate = -(float)Math.sin(relativeAccelerationAngle) * accelerationRate;
+
 			velocity.x += xAccelerationRate;
 			velocity.y += yAccelerationRate;
 

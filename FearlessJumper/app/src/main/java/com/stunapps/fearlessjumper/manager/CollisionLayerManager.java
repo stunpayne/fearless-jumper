@@ -48,12 +48,13 @@ public class CollisionLayerManager
 		 */
 
 		setCollisionLayerMask(CollisionLayer.ENEMY,
-							  new CollisionLayer[]{CollisionLayer.PLAYER});
+							  new CollisionLayer[]{CollisionLayer.SOLID});
 
 
 		setCollisionLayerMask(CollisionLayer.PLAYER,
 							  new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.ENEMY,
-									  CollisionLayer.BONUS, CollisionLayer.BULLET});
+									  CollisionLayer.SUPER_ENEMY, CollisionLayer.BONUS,
+									  CollisionLayer.BULLET, CollisionLayer.LAND});
 	}
 
 	public void setCollisionLayerMask(CollisionLayer collisionLayer,

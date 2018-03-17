@@ -48,10 +48,10 @@ public class Systems
 
 	private static final List<Class<? extends UpdateSystem>> systemOrder =
 			Arrays.asList(PhysicsSystem.class, GenerationSystem.class, MovementUpdateSystem.class,
-					CollisionSystem.class, LowerBoundarySystem.class, TransformUpdateSystem.class,
-					ScoreUpdateSystem.class, ClockCountdownSystem.class, FuelSystem.class,
-					PeriodicGunSystem.class, AnimationSystem.class, ParticleSystem.class,
-					RenderSystem.class);
+						  CollisionSystem.class, LowerBoundarySystem.class,
+						  TransformUpdateSystem.class, ScoreUpdateSystem.class,
+						  ClockCountdownSystem.class, FuelSystem.class, PeriodicGunSystem.class,
+						  AnimationSystem.class, ParticleSystem.class, RenderSystem.class);
 
 	//  Next lines is hacky. The variable should be list but we can't create a list of
 	//  subclasses with only one element

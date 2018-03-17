@@ -16,7 +16,7 @@ public class LandPrefab extends ComponentPrefab
 {
     public LandPrefab()
     {
-        addComponent(new RectCollider(Delta.ZERO, Device.SCREEN_WIDTH, 10, CollisionLayer.SOLID));
+        addComponent(new RectCollider(Delta.ZERO, Device.SCREEN_WIDTH, 10, CollisionLayer.LAND));
         addComponent(new LowerBoundaryComponent());
         addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false,
 											new PhysicsComponent.Friction(50.0f, 7.5f, 7.5f,

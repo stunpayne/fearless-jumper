@@ -9,7 +9,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.util.Log;
 
 import com.google.inject.Inject;
@@ -18,34 +17,36 @@ import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
-import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
-import com.stunapps.fearlessjumper.component.emitter.RotationalEmitter;
 import com.stunapps.fearlessjumper.component.health.Health;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
-import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
 import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
+import com.stunapps.fearlessjumper.game.Time;
+import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import lombok.Setter;
 
 import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 import static com.stunapps.fearlessjumper.game.Environment.scaleY;
+
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -58,6 +59,8 @@ public class RenderSystem implements UpdateSystem
 	private final ComponentManager componentManager;
 	private final GameStatsManager gameStatsManager;
 
+	private static int frameNum = 0;
+
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
 
@@ -67,6 +70,7 @@ public class RenderSystem implements UpdateSystem
 
 	@Setter
 	private boolean shouldRenderBackground = true;
+	private Paint particlePaint;
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager)
@@ -81,11 +85,12 @@ public class RenderSystem implements UpdateSystem
 						false);
 		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
 
-
 		colliderPaint.setColor(Color.WHITE);
 		colliderPaint.setStyle(Style.STROKE);
 
 		this.gameStatsManager = gameStatsManager;
+
+		this.particlePaint = initParticlePaint();
 	}
 
 	@Override
@@ -99,19 +104,51 @@ public class RenderSystem implements UpdateSystem
 		}
 
 		//  Update all cameras
+
+		long startTime = java.lang.System.nanoTime();
 		Cameras.update();
+		long endTime = java.lang.System.nanoTime();
+		Log.d("RenderSystem".concat(".Time"),
+			  "camera" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
+
+		startTime = java.lang.System.nanoTime();
 		renderBackground();
-		renderEntities();
-		renderHUD();
+		endTime = java.lang.System.nanoTime();
+		Log.d("RenderSystem".concat(".Time"),
+			  "background" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
+		startTime = java.lang.System.nanoTime();
+		renderEntities();
+		endTime = java.lang.System.nanoTime();
+
+		Log.d("RenderSystem".concat(".Time"),
+			  "entities" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
+
+		startTime = java.lang.System.nanoTime();
+		renderHUD();
+		endTime = java.lang.System.nanoTime();
+		Log.d("RenderSystem".concat(".Time"),
+			  "hud" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
+
+		startTime = java.lang.System.nanoTime();
 		renderParticleEmission();
+		endTime = java.lang.System.nanoTime();
+		Log.d("RenderSystem".concat(".Time"),
+			  "particles" + "," + frameNum + "," +
+					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 		//testing
 		if (Settings.DEBUG_MODE)
 		{
 			//renderGameStats();
 		}
+
+		frameNum++;
 	}
 
 	private void renderGameStats()
@@ -125,43 +162,63 @@ public class RenderSystem implements UpdateSystem
 		float x = Device.SCREEN_WIDTH / 2;
 		float y = Device.SCREEN_HEIGHT / 2 - 300;
 
-		canvas.drawText(String.valueOf("current score : " + gameStatsManager.getCurrentScore()), x,
-				y, paint);
+		canvas.drawText(String.valueOf("Score : " + gameStatsManager.getCurrentScore()), x,
+						y, paint);
 		y += 50;
 		canvas.drawText(
-				String.valueOf("session high score : " + gameStatsManager.getSessionHighScore())
+				String.valueOf("High Score : " + gameStatsManager.getSessionHighScore())
 				, x,
 				y, paint);
 		y += 50;
 		canvas.drawText(
-				String.valueOf("global high score : " + gameStatsManager.getGlobalHighScore()), x,
+				String.valueOf("All Time High Score : " + gameStatsManager.getGlobalHighScore()), x,
 				y, paint);
 
 		y += 50;
-		canvas.drawText(String.valueOf("average score : " + gameStatsManager.getAverageScore()), x,
-				y, paint);
+
+		canvas.drawText(String.valueOf("Avg Score : " + gameStatsManager.getAverageScore()), x,
+						y, paint);
 
 		if (!gameStatsManager.getDeathStat().isEmpty())
 		{
 			y += 50;
-			canvas.drawText(String.valueOf("death by : " + gameStatsManager.getDeathStat()), x, y,
-					paint);
+			canvas.drawText(String.valueOf("Killed By : " + gameStatsManager.getDeathStat())
+					, x,
+							y, paint);
+		}
+
+		Iterator<Entry<String, Integer>> iterator =  gameStatsManager.getHurtStats().entrySet()
+				.iterator();
+		while (iterator.hasNext())
+		{
+			y += 50;
+			Entry<String, Integer> entry = iterator.next();
+			canvas.drawText(entry.getKey() + "'s Hurt Count: " + entry.getValue(), x, y, paint);
 		}
 
 		y += 50;
-		canvas.drawText(String.valueOf("game play count : " + gameStatsManager.getGamePlayCount()),
-				x, y, paint);
+		canvas.drawText(String.valueOf("GamePlay Count : " + gameStatsManager.getGamePlayCount()),
+						x, y, paint);
 
 		y += 50;
 		int i = 1;
 		for (Long previousScore : gameStatsManager.getScoreHistory())
 		{
-			canvas.drawText("previous score " + i + " : " + String.valueOf(previousScore), x, y,
+			String qualifier = "st";
+			if (i == 2)
+			{
+				qualifier = "nd";
+			}
+			else if (i == 3)
+			{
+				qualifier = "rd";
+			}
+			canvas.drawText(i + qualifier + " Last Score" + " : " + String.valueOf(previousScore),
+							x, y,
 
 					paint);
 			y += 50;
 			i++;
-
 		}
 	}
 
@@ -244,6 +301,12 @@ public class RenderSystem implements UpdateSystem
 		int bottom = (int) (entity.transform.position.y + collider.delta.y + collider.height -
 				camPosition.y);
 		canvas.drawRect(left, top, right, bottom, colliderPaint);
+		if (entity.hasComponent(Enemy.class))
+		{
+			Enemy enemy = entity.getComponent(Enemy.class);
+			canvas.drawText(enemy.getEnemyType().name(), left, top,
+							colliderPaint);
+		}
 	}
 
 
@@ -265,24 +328,26 @@ public class RenderSystem implements UpdateSystem
 	private void renderParticles(Set<Particle> particles)
 	{
 		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
-
-		Paint fuelTextPaint = new Paint();
-		fuelTextPaint.setColor(Color.WHITE);
-		fuelTextPaint.setTextAlign(Align.CENTER);
-		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
-		fuelTextPaint.setTextSize(50);
-		//fuelTextPaint.setAlpha(255);
-
 		for (Particle particle : particles)
 		{
-			fuelTextPaint.setAlpha((int) (255 * particle.alpha));
+			particlePaint.setAlpha((int) (255 * particle.alpha));
 			if (particle.isActive)
 			{
 				Position camPosition = Cameras.getMainCamera().position;
 				canvas.drawCircle(particle.position.x - camPosition.x,
-						particle.position.y - camPosition.y, 5, fuelTextPaint);
+						particle.position.y - camPosition.y, 5, particlePaint);
 			}
 		}
+	}
+
+	private Paint initParticlePaint()
+	{
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		paint.setTextAlign(Align.CENTER);
+		paint.setTypeface(Typeface.SANS_SERIF);
+		paint.setTextSize(50);
+		return paint;
 	}
 
 	/**

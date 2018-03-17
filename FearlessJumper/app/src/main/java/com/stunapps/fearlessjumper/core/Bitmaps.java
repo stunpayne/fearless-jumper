@@ -31,6 +31,10 @@ public class Bitmaps
 	public static Bitmap DRAGON_FLY2;
 	public static Bitmap DRAGON_FLY3;
 	public static Bitmap DRAGON_FLY4;
+	public static Bitmap DRAGON_ASSAULT1;
+	public static Bitmap DRAGON_ASSAULT2;
+	public static Bitmap DRAGON_ASSAULT3;
+	public static Bitmap DRAGON_ASSAULT4;
 
 	//	bullet
 	public static Bitmap BULLET;
@@ -50,6 +54,11 @@ public class Bitmaps
 		DRAGON_FLY2 = initBitmap(R.drawable.dragon_fly2, Dimensions.dragonX, Dimensions.dragonY);
 		DRAGON_FLY3 = initBitmap(R.drawable.dragon_fly3, Dimensions.dragonX, Dimensions.dragonY);
 		DRAGON_FLY4 = initBitmap(R.drawable.dragon_fly4, Dimensions.dragonX, Dimensions.dragonY);
+
+		DRAGON_ASSAULT1 = initBitmap(R.drawable.dragon_assault1, Dimensions.dragonX, Dimensions.dragonY);
+		DRAGON_ASSAULT2 = initBitmap(R.drawable.dragon_assault2, Dimensions.dragonX, Dimensions.dragonY);
+		DRAGON_ASSAULT3 = initBitmap(R.drawable.dragon_assault3, Dimensions.dragonX, Dimensions.dragonY);
+		DRAGON_ASSAULT4 = initBitmap(R.drawable.dragon_assault4, Dimensions.dragonX, Dimensions.dragonY);
 
 		BULLET = initBitmap(R.drawable.bullet, Dimensions.bulletX, Dimensions.bulletY);
 

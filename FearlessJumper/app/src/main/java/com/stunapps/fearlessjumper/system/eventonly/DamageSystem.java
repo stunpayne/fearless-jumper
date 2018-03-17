@@ -84,6 +84,11 @@ public class DamageSystem implements System
 																  collidesWith.collisionLayer,
 																  1000l);
 				animator.triggerTransition(AnimationTransition.HURT);
+				if (damaging.hasComponent(Enemy.class))
+				{
+					gameStatsManager.updateHurtStat(
+							damaging.getComponent(Enemy.class).getEnemyType().name());
+				}
 			}
 		}
 

@@ -103,8 +103,11 @@ public class GameInitializerImpl implements GameInitializer
 		//				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 200));
 		//		entityManager.instantiate(prefabSet, transform2);
 
-		entityManager.instantiate(PrefabRef.SHOOTER_DRAGON.get(), new Transform(new Position
-				(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
+		/*entityManager.instantiate(PrefabRef.SHOOTER_DRAGON.get(), new Transform(new Position
+				(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150))); */
+
+		entityManager.instantiate(PrefabRef.FOLLOWING_DRAGON.get(), new Transform(
+				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
 	}
 
 	@Override

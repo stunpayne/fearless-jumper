@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.game.Environment;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,6 +20,7 @@ import java.util.Set;
 public class GameStatsManager
 {
 	private static final String TAG = GameStatsManager.class.getSimpleName();
+	public static final String ENEMIES_ENCOUNTERED = "enemies-encountered";
 
 	private static SharedPreferences dataReader;
 	private static SharedPreferences.Editor dataWriter;
@@ -30,13 +33,13 @@ public class GameStatsManager
 	private static final String PREVIOUS_SCORE_3 = "previous_score3";
 	private static final String SESSION_HIGH_SCORE = "session_high_score";
 	private static final String GLOBAL_HIGH_SCORE = "global_high_score";
-	private static final String ENEMY_ENCOUNTERED = "enemy_encountered";
-	private static final String DEATH_STAT = "death_stat";
+	private static final String TERMINATED_BY = "terminated_by";
 
 	public GameStatsManager()
 	{
 		dataReader = Environment.SHARED_PREFERENCES;
 		dataWriter = dataReader.edit();
+		dataWriter.apply();
 	}
 
 	public void handleGameStart()
@@ -59,10 +62,26 @@ public class GameStatsManager
 		updateGameScoreStats();
 	}
 
-	public void updateDeathStat(String deathStat)
+	public void updateDeathStat(String enemyName)
 	{
-		dataWriter.putString(DEATH_STAT, deathStat);
-		dataWriter.commit();
+		updateHurtStat(enemyName);
+		dataWriter.putString(TERMINATED_BY, enemyName);
+		dataWriter.apply();
+	}
+
+	public void updateHurtStat(String enemyName)
+	{
+		Set<String> enemiesEncountered =
+				dataReader.getStringSet(ENEMIES_ENCOUNTERED, new HashSet<String>());
+
+		if (!enemiesEncountered.contains(enemyName))
+		{
+			enemiesEncountered.add(enemyName);
+			dataWriter.putStringSet(ENEMIES_ENCOUNTERED, enemiesEncountered);
+		}
+		int hurtCount = dataReader.getInt(enemyName, 0);
+		dataWriter.putInt(enemyName, hurtCount + 1);
+		dataWriter.apply();
 	}
 
 	public long getGlobalHighScore()
@@ -94,7 +113,20 @@ public class GameStatsManager
 
 	public String getDeathStat()
 	{
-		return dataReader.getString(DEATH_STAT, "");
+		return dataReader.getString(TERMINATED_BY, "");
+	}
+
+	public Map<String, Integer> getHurtStats()
+	{
+		Set<String> enemiesEncontered =
+				dataReader.getStringSet(ENEMIES_ENCOUNTERED, new HashSet<String>());
+		Map<String, Integer> hurtStats = new HashMap<>();
+		for (String enemeyEncountered : enemiesEncontered)
+		{
+			int hurtCount = dataReader.getInt(enemeyEncountered, 0);
+			hurtStats.put(enemeyEncountered, hurtCount);
+		}
+		return hurtStats;
 	}
 
 	public int getGamePlayCount()
@@ -131,7 +163,7 @@ public class GameStatsManager
 		long currentScore = dataReader.getLong(CURRENT_SCORE, 0L);
 		dataWriter.putLong(PREVIOUS_SCORE_1, currentScore);
 
-		dataWriter.commit();
+		dataWriter.apply();
 	}
 
 	private void updateGameScoreStats()
@@ -149,43 +181,43 @@ public class GameStatsManager
 				dataWriter.putLong(GLOBAL_HIGH_SCORE, currentScore);
 			}
 		}
-		dataWriter.commit();
+		dataWriter.apply();
 	}
 
 	private void increaseGamePlayCount()
 	{
 		int gamePlayCount = dataReader.getInt(GAME_PLAY_COUNT, 0);
 		dataWriter.putInt(GAME_PLAY_COUNT, (gamePlayCount + 1));
-		dataWriter.commit();
+		dataWriter.apply();
 	}
 
 	private void resetSessionHighScore()
 	{
 		dataWriter.putLong(SESSION_HIGH_SCORE, 0L);
-		dataWriter.commit();
+		dataWriter.apply();
 	}
 
 	private void resetCurrentScore()
 	{
 		dataWriter.putLong(CURRENT_SCORE, 0L);
-		dataWriter.commit();
+		dataWriter.apply();
 	}
 
 	private void resetDeathStat()
 	{
-		dataWriter.putString(DEATH_STAT, "");
-		dataWriter.commit();
+		dataWriter.putString(TERMINATED_BY, "");
+		dataWriter.apply();
 	}
 
 	private void updateScore(long currentScore)
 	{
 		dataWriter.putLong(CURRENT_SCORE, currentScore);
-		dataWriter.commit();
+		dataWriter.apply();
 	}
 
 	private void resetAllGameStats()
 	{
 		dataWriter.clear();
-		dataWriter.commit();
+		dataWriter.apply();
 	}
 }
