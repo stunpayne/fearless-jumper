@@ -133,7 +133,8 @@ public class AssaultDragonPrefab extends ComponentPrefab
 		addComponent(new Dragon(EnemyType.ZELDROY));
 		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 									  dragonSprite1.getHeight(), CollisionLayer.SUPER_ENEMY));
-		addComponent(new AssaultTranslation(PlayerComponent.class, 60, 2000, 5.0f));
+		addComponent(new AssaultTranslation(PlayerComponent.class, 60, 1000, 5.0f,
+											Device.SCREEN_HEIGHT / 4));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(false));
 	}

@@ -292,7 +292,8 @@ public class MovementUpdateSystem implements UpdateSystem
 				Entity closestTargetEntity = targetEntities.get(closestTargetIndex);
 
 				if (Math.abs((followerEntity.transform.position.y -
-						closestTargetEntity.transform.position.y)) < (Device.SCREEN_HEIGHT / 2))
+						closestTargetEntity.transform.position.y)) <
+						assaultTranslation.assaultActivationDistance)
 				{
 					if (!assaultTranslation.waitStarted)
 					{
