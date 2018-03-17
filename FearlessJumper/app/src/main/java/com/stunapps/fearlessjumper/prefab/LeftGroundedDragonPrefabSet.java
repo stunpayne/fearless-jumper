@@ -9,9 +9,9 @@ import com.stunapps.fearlessjumper.model.Position;
  * Created by sunny.s on 09/03/18.
  */
 
-public class GroundedDragonPrefabSet extends PrefabSet
+public class LeftGroundedDragonPrefabSet extends PrefabSet
 {
-	public GroundedDragonPrefabSet()
+	public LeftGroundedDragonPrefabSet()
 	{
 		super();
 		EntityTransformCalculator calculator = new EntityTransformCalculatorImpl();

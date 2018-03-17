@@ -32,9 +32,9 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIG
  * Created by sunny.s on 09/03/18.
  */
 
-public class GroundedDragonPrefab extends ComponentPrefab
+public class LeftGroundedDragonPrefab extends ComponentPrefab
 {
-	public GroundedDragonPrefab()
+	public LeftGroundedDragonPrefab()
 	{
 		StateMachine animationStateMachine =
 				StateMachine.builder().startState(FLY_RIGHT).from(IDLE).onEvent(TURN_LEFT)

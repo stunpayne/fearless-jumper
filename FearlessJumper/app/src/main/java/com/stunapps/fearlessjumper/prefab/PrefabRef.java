@@ -19,7 +19,7 @@ public enum PrefabRef
     FLYING_DRAGON(new FlyingDragonPrefab()),
     FOLLOWING_DRAGON(new FollowingDragonPrefab()),
     ASSAULT_DRAGON(new AssaultDragonPrefab()),
-    GROUNDED_DRAGON(new GroundedDragonPrefab()),
+    GROUNDED_DRAGON(new LeftGroundedDragonPrefab()),
     BULLET(new BulletPrefab()),
     SHOOTER_DRAGON(new ShooterDragonPrefab()),
 
@@ -29,7 +29,7 @@ public enum PrefabRef
     /**
      * Set prefabs
      */
-    GROUNDED_DRAGON_SET(new GroundedDragonPrefabSet())
+    LEFT_GROUNDED_DRAGON_SET(new LeftGroundedDragonPrefabSet())
     ;
 
     private Prefab prefab;
