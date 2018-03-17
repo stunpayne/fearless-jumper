@@ -8,6 +8,10 @@ public enum AnimationTransition
 {
     TURN_RIGHT,
     TURN_LEFT,
+    INVOKE_ASSUALT_RIGHT,
+    INVOKE_ASSUALT_LEFT,
+    ASSAULT_RIGHT,
+    ASSAULT_LEFT,
     TURN_UP,
     TURN_DOWN,
 

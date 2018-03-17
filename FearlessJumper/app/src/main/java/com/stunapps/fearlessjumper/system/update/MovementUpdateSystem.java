@@ -299,33 +299,46 @@ public class MovementUpdateSystem implements UpdateSystem
 						assaultTranslation.activationTime = java.lang.System.currentTimeMillis();
 						assaultTranslation.waitStarted = true;
 					}
+				}
 
-					updateAssaultVelocity(followerPhysics.getVelocity(),
-										  followerEntity.transform.position,
-										  closestTargetEntity.transform.position,
-										  assaultTranslation);
-				}
-				else
-				{
-					float xDistance = closestTargetEntity.transform.position.x -
-							followerEntity.transform.position.x;
-					float yDistance = closestTargetEntity.transform.position.y -
-							followerEntity.transform.position.y;
-					float angleInRadian = Utils.getAngleInRadian(xDistance, yDistance);
-					followerPhysics.getVelocity().x =
-							assaultTranslation.speed * (float) Math.cos(angleInRadian);
-				}
+				updateAssaultVelocity(followerPhysics.getVelocity(),
+									  followerEntity.transform.position,
+									  closestTargetEntity.transform.position, assaultTranslation);
 
 				if (followerEntity.hasComponent(Animator.class))
 				{
 					Animator animator = followerEntity.getComponent(Animator.class);
 					if (followerPhysics.getVelocity().x < 0)
 					{
-						animator.triggerTransition(AnimationTransition.TURN_LEFT);
+						if (assaultTranslation.waitStarted &&
+								assaultTranslation.isWaitToAssaultOver())
+						{
+							animator.triggerTransition(AnimationTransition.ASSAULT_LEFT);
+						}
+						else if (assaultTranslation.waitStarted)
+						{
+							animator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_LEFT);
+						}
+						else
+						{
+							animator.triggerTransition(AnimationTransition.TURN_LEFT);
+						}
 					}
 					else
 					{
-						animator.triggerTransition(AnimationTransition.TURN_RIGHT);
+						if (assaultTranslation.waitStarted &&
+								assaultTranslation.isWaitToAssaultOver())
+						{
+							animator.triggerTransition(AnimationTransition.ASSAULT_RIGHT);
+						}
+						else if (assaultTranslation.waitStarted)
+						{
+							animator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_RIGHT);
+						}
+						else
+						{
+							animator.triggerTransition(AnimationTransition.TURN_RIGHT);
+						}
 					}
 				}
 
@@ -354,24 +367,28 @@ public class MovementUpdateSystem implements UpdateSystem
 			float yDistance = targetPosition.y - followerPosition.y;
 			float angleInRadian = Utils.getAngleInRadian(xDistance, yDistance);
 
-			//if (assaultTranslation.isWaitToAssaultOver())
 			if (assaultTranslation.isWaitToAssaultOver())
 			{
-				if (assaultTranslation.assaultAngle == null)
+				if (followerVelocity.y == 0)
 				{
-					assaultTranslation.assaultAngle = angleInRadian;
-				}
-				followerVelocity.y = -assaultTranslation.speed *
-						(float) Math.sin(assaultTranslation.assaultAngle);
-				if (followerVelocity.x == 0)
-				{
-					followerVelocity.x = assaultTranslation.speed *
-							(float) Math.cos(assaultTranslation.assaultAngle);
+					if (assaultTranslation.assaultAngle == null)
+					{
+						assaultTranslation.assaultAngle = angleInRadian;
+					}
+
+					followerVelocity.y =
+							-assaultTranslation.assaultFactor * assaultTranslation.speed *
+									(float) Math.sin(assaultTranslation.assaultAngle);
+
+					followerVelocity.x =
+							assaultTranslation.assaultFactor * assaultTranslation.speed *
+									(float) Math.cos(assaultTranslation.assaultAngle);
 				}
 			}
 			else
 			{
-				followerVelocity.x = assaultTranslation.speed * (float) Math.cos(angleInRadian);
+				followerVelocity.x =
+						assaultTranslation.speed * (float) Math.cos(angleInRadian);
 			}
 		}
 
