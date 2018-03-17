@@ -9,8 +9,10 @@ public enum CollisionLayer
 	SOLID(0),
 	PLAYER(1),
 	ENEMY(2),
-	BULLET(3),
-	BONUS(4);
+	SUPER_ENEMY(3),
+	BULLET(4),
+	BONUS(5),
+	LAND(6);
 
 	private int index;
 

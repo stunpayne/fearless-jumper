@@ -19,13 +19,12 @@ import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.health.Health;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
-import com.stunapps.fearlessjumper.game.Time;
-import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
 import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
 import com.stunapps.fearlessjumper.display.Cameras;
@@ -33,6 +32,8 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
+import com.stunapps.fearlessjumper.game.Time;
+import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
 
@@ -43,6 +44,7 @@ import java.util.Set;
 
 import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 import static com.stunapps.fearlessjumper.game.Environment.scaleY;
+
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -262,7 +264,8 @@ public class RenderSystem implements UpdateSystem
 		for (Entity entity : entities)
 		{
 			Renderable component = entity.getComponent(Renderable.class);
-			Bitmap bitmap = (Bitmap) component.getRenderable();
+			component.setVisible(true);
+			Bitmap bitmap = component.getRenderable();
 			Rect destRect = getRenderRect(entity);
 
 			canvas.drawBitmap(bitmap, null, destRect, null);
@@ -288,6 +291,12 @@ public class RenderSystem implements UpdateSystem
 		int bottom = (int) (entity.transform.position.y + collider.delta.y + collider.height -
 				camPosition.y);
 		canvas.drawRect(left, top, right, bottom, colliderPaint);
+		if (entity.hasComponent(Enemy.class))
+		{
+			Enemy enemy = entity.getComponent(Enemy.class);
+			canvas.drawText(enemy.getEnemyType().name(), left, top,
+							colliderPaint);
+		}
 	}
 
 
@@ -308,8 +317,6 @@ public class RenderSystem implements UpdateSystem
 	private void renderParticles(Set<Particle> particles)
 	{
 		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
-
-
 		for (Particle particle : particles)
 		{
 			particlePaint.setAlpha((int) (255 * particle.alpha));

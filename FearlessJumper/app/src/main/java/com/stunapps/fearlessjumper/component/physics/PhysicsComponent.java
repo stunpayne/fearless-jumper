@@ -24,6 +24,11 @@ public class PhysicsComponent extends Component
         this(0);
     }
 
+    public PhysicsComponent(boolean applyGravity)
+    {
+        this(0, Velocity.ZERO, applyGravity);
+    }
+
     public PhysicsComponent(float mass)
     {
         this(mass, Velocity.ZERO);
@@ -33,6 +38,7 @@ public class PhysicsComponent extends Component
     {
         this(mass, velocity, true);
     }
+
 
     public PhysicsComponent(float mass, Velocity velocity, boolean applyGravity)
     {
