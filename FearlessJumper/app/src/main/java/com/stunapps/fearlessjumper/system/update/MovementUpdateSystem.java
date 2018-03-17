@@ -11,9 +11,7 @@ import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.visual.Animator;
-import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
@@ -248,8 +246,10 @@ public class MovementUpdateSystem implements UpdateSystem
 			float yDistance = targetPosition.y - followerPosition.y;
 
 			float angleInRadian = Utils.getAngleInRadian(xDistance, yDistance);
-			followerVelocity.x = assaultTranslation.speed * (float) Math.cos(angleInRadian);
-			followerVelocity.y = -assaultTranslation.speed * (float) Math.sin(angleInRadian);
+			followerVelocity.x =
+					assaultTranslation.speed * (float) Math.cos(angleInRadian) * scaleX();
+			followerVelocity.y =
+					-assaultTranslation.speed * (float) Math.sin(angleInRadian) * scaleY();
 		}
 
 		static void updateAssaultMotion(Entity followerEntity,
@@ -350,16 +350,6 @@ public class MovementUpdateSystem implements UpdateSystem
 			}
 		}
 
-		private static int getSign(float number)
-		{
-			if (number == 0)
-			{
-				return 1;
-			}
-
-			return (int) (number / number);
-		}
-
 		private static void updateAssaultVelocity(Velocity followerVelocity,
 				Position followerPosition, Position targetPosition,
 				AssaultTranslation assaultTranslation)
@@ -379,53 +369,17 @@ public class MovementUpdateSystem implements UpdateSystem
 
 					followerVelocity.y =
 							-assaultTranslation.assaultFactor * assaultTranslation.speed *
-									(float) Math.sin(assaultTranslation.assaultAngle);
+									(float) Math.sin(assaultTranslation.assaultAngle) * scaleY();
 
 					followerVelocity.x =
 							assaultTranslation.assaultFactor * assaultTranslation.speed *
-									(float) Math.cos(assaultTranslation.assaultAngle);
+									(float) Math.cos(assaultTranslation.assaultAngle) * scaleX();
 				}
 			}
 			else
 			{
 				followerVelocity.x =
-						assaultTranslation.speed * (float) Math.cos(angleInRadian);
-			}
-		}
-
-		private static int getDirection(float axisVelocity)
-		{
-			if (axisVelocity == 0)
-			{
-				return 0;
-			}
-			float direction = axisVelocity / axisVelocity;
-			return direction > 0 ? 1 : -1;
-		}
-
-		private static float updateDirection(float axisVelocity, float direction)
-		{
-			if (axisVelocity > 0)
-			{
-				if (direction > 0)
-				{
-					return axisVelocity;
-				}
-				else
-				{
-					return (-1) * axisVelocity;
-				}
-			}
-			else
-			{
-				if (direction > 0)
-				{
-					return (-1) * axisVelocity;
-				}
-				else
-				{
-					return axisVelocity;
-				}
+						assaultTranslation.speed * (float) Math.cos(angleInRadian) * scaleX();
 			}
 		}
 

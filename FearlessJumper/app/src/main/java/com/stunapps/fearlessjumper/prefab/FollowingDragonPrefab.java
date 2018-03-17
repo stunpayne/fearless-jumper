@@ -31,6 +31,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
+import static com.stunapps.fearlessjumper.game.Environment.*;
 
 /**
  * Created by anand.verma on 10/03/18.
@@ -41,7 +42,7 @@ public class FollowingDragonPrefab extends ComponentPrefab
 	public FollowingDragonPrefab()
 	{
 		transform = new Transform(
-				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + 100));
+				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + scaleY(100)));
 
 		StateMachine animationStateMachine =
 				StateMachine.builder().startState(FLY_RIGHT).from(IDLE).onEvent(TURN_LEFT)
@@ -86,7 +87,7 @@ public class FollowingDragonPrefab extends ComponentPrefab
 		addComponent(new Dragon(EnemyType.ZELDROY));
 		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 									  dragonSprite1.getHeight(), CollisionLayer.ENEMY));
-		addComponent(new FollowTranslation(PlayerComponent.class, 60 ));
+		addComponent(new FollowTranslation(PlayerComponent.class, 150));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(false));
 	}
