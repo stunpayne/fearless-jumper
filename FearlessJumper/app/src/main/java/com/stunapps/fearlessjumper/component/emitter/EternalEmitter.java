@@ -34,7 +34,7 @@ public class EternalEmitter extends Emitter
 		//	Max speed of every particle
 		protected float maxSpeed;
 		//	Max variation in particle generation position, on either side, from the entity position
-		protected float positionVar;
+		protected Vector2D positionVar;
 		//	Direction, in degrees, in which the particles should move
 		protected float direction;
 		//	Max variation in angle, on either side, from the direction property
@@ -43,7 +43,7 @@ public class EternalEmitter extends Emitter
 		private Vector2D offset;
 
 		public EmitterConfig(EmitterShape emitterShape, int maxParticles, int particleLife,
-				int emissionRate, float positionVar, float maxSpeed, float direction,
+				int emissionRate, Vector2D positionVar, float maxSpeed, float direction,
 				float directionVar, Vector2D offset)
 		{
 			this.emitterShape = emitterShape;
@@ -77,11 +77,11 @@ public class EternalEmitter extends Emitter
 			int maxParticles;
 			int particleLife;
 			int emissionRate;
-			float positionVar;
+			Vector2D positionVar;
 			float maxSpeed;
 			float direction;
 			float directionVar;
-			Vector2D offset;
+			Vector2D offset = new Vector2D();
 
 			public Builder emitterShape(EmitterShape emitterShape)
 			{
@@ -107,7 +107,7 @@ public class EternalEmitter extends Emitter
 				return this;
 			}
 
-			public Builder positionVar(float positionVar)
+			public Builder positionVar(Vector2D positionVar)
 			{
 				this.positionVar = positionVar;
 				return this;

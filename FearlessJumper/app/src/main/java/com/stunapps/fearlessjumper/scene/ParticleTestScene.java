@@ -103,13 +103,16 @@ public class ParticleTestScene extends AbstractScene
 			int max = textViewIntValue(R.id.maxParticlesValue);
 			int life = textViewIntValue(R.id.lifeValue);
 			int rate = textViewIntValue(R.id.rateValue);
-			float positionVar = textViewFloatValue(R.id.posVarValue);
+			float xPosVar = textViewFloatValue(R.id.xPosVarValue);
+			float yPosVar = textViewFloatValue(R.id.yPosVarValue);
 			float speed = textViewFloatValue(R.id.speedValue);
 			float direction = textViewFloatValue(R.id.dirValue);
 			float directionVar = textViewFloatValue(R.id.dirVarValue);
 			mTestView.restartParticles(
-					new EmitterConfig(emitterShape(), max, life, rate, positionVar, speed,
-							direction, directionVar, new Vector2D()));
+					EmitterConfig.builder().emitterShape(emitterShape()).maxParticles(max)
+							.particleLife(life).emissionRate(rate)
+							.positionVar(new Vector2D(xPosVar, yPosVar)).maxSpeed(speed)
+							.direction(direction).directionVar(directionVar).build());
 		}
 		catch (Exception e)
 		{

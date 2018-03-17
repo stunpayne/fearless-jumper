@@ -76,31 +76,53 @@
         android:text="100"
         android:textAlignment="center"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@id/posVarText"
+        app:layout_constraintEnd_toStartOf="@id/xPosVarText"
         app:layout_constraintStart_toEndOf="@id/rateText"
         app:layout_constraintTop_toTopOf="parent"
         android:inputType="number"/>
 
-    <!--Position var-->
+    <!--Position vars-->
     <TextView
-        android:id="@+id/posVarText"
+        android:id="@+id/xPosVarText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/positionVar"
-        app:layout_constraintBottom_toBottomOf="@id/posVarValue"
-        app:layout_constraintEnd_toStartOf="@id/posVarValue"
+        android:text="@string/xPosVar"
+        app:layout_constraintBottom_toBottomOf="@id/xPosVarValue"
+        app:layout_constraintEnd_toStartOf="@id/xPosVarValue"
         app:layout_constraintStart_toEndOf="@id/rateValue"
-        app:layout_constraintTop_toTopOf="@id/posVarValue"/>
+        app:layout_constraintTop_toTopOf="@id/xPosVarValue"/>
 
     <EditText
-        android:id="@+id/posVarValue"
+        android:id="@+id/xPosVarValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="15"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@id/yPosVarText"
+        app:layout_constraintStart_toEndOf="@id/xPosVarText"
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/yPosVarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/yPosVar"
+        app:layout_constraintBottom_toBottomOf="@id/yPosVarValue"
+        app:layout_constraintEnd_toStartOf="@id/yPosVarValue"
+        app:layout_constraintStart_toEndOf="@id/xPosVarValue"
+        app:layout_constraintTop_toTopOf="@id/yPosVarValue"/>
+
+    <EditText
+        android:id="@+id/yPosVarValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="15"
         android:textAlignment="center"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/posVarText"
+        app:layout_constraintStart_toEndOf="@id/yPosVarText"
         app:layout_constraintTop_toTopOf="parent"
         android:inputType="number"/>
 
