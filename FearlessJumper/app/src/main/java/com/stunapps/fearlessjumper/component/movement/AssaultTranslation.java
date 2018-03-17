@@ -15,14 +15,16 @@ public class AssaultTranslation extends ConsciousTranslation
 	public Long activationTime;
 	public Float assaultAngle;
 	public Float assaultFactor;
+	public Float assaultActivationDistance;
 
 	public AssaultTranslation(Class<? extends Component> targetComponent, float speed,
-			long waitToAssault, float assaultFactor)
+			long waitToAssault, float assaultFactor, float assaultActivationDistance)
 	{
 		super(targetComponent, speed);
 		this.waitStarted = false;
 		this.waitToAssault = waitToAssault;
 		this.assaultFactor = assaultFactor;
+		this.assaultActivationDistance = assaultActivationDistance;
 	}
 
 	@Override
@@ -30,7 +32,8 @@ public class AssaultTranslation extends ConsciousTranslation
 	{
 		return new AssaultTranslation(this.targetComponent,
 									  (new Random().nextFloat() % 10) + this.speed,
-									  new Long(this.waitToAssault), new Float(this.assaultFactor));
+									  new Long(this.waitToAssault), new Float(this.assaultFactor),
+									  new Float(this.assaultActivationDistance));
 	}
 
 	public void setActivationTime(Long activationTime)
