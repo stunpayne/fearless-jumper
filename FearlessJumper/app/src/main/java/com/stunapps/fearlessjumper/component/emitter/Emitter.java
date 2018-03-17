@@ -1,6 +1,9 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
+import android.util.Pair;
+
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.component.Vector2D;
 import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.Set;

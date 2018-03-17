@@ -20,7 +20,7 @@ public abstract class ComponentPrefab extends Prefab
 	public Transform transform;
 
 	@Getter
-	protected List<Component> components;
+	private List<Component> components;
 	private List<Instantiable> instantiables;
 
 	public ComponentPrefab()

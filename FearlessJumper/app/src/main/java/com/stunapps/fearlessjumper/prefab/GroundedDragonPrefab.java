@@ -72,7 +72,7 @@ public class GroundedDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-		//        animator.triggerTransition(TURN_RIGHT);
+
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 		addComponent(animator);
@@ -80,7 +80,6 @@ public class GroundedDragonPrefab extends ComponentPrefab
 		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new ContactDamageComponent(1, false));
-		components
-				.add(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 	}
 }

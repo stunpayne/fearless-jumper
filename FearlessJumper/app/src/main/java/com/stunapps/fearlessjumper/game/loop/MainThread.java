@@ -193,8 +193,11 @@ public class MainThread extends Thread
 	{
 		if (Settings.PRINT_FPS)
 		{
-			canvas.drawText(String.valueOf(averageFPS), 11 * canvas.getWidth() / 12,
-					59 * canvas.getHeight() / 60, fpsPaint);
+			if (canvas != null)
+			{
+				canvas.drawText(String.valueOf(averageFPS), 11 * canvas.getWidth() / 12,
+						59 * canvas.getHeight() / 60, fpsPaint);
+			}
 		}
 	}
 }

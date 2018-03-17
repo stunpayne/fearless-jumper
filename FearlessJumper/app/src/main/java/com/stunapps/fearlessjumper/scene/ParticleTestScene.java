@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.component.Vector2D;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.event.EventSystem;
@@ -108,7 +109,7 @@ public class ParticleTestScene extends AbstractScene
 			float directionVar = textViewFloatValue(R.id.dirVarValue);
 			mTestView.restartParticles(
 					new EmitterConfig(emitterShape(), max, life, rate, positionVar, speed,
-							direction, directionVar));
+							direction, directionVar, new Vector2D()));
 		}
 		catch (Exception e)
 		{

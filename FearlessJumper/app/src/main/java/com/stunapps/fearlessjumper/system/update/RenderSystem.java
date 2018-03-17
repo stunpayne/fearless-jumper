@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -335,7 +337,7 @@ public class RenderSystem implements UpdateSystem
 			{
 				Position camPosition = Cameras.getMainCamera().position;
 				canvas.drawCircle(particle.position.x - camPosition.x,
-						particle.position.y - camPosition.y, 5, particlePaint);
+						particle.position.y - camPosition.y, 20, particlePaint);
 			}
 		}
 	}
@@ -343,10 +345,8 @@ public class RenderSystem implements UpdateSystem
 	private Paint initParticlePaint()
 	{
 		Paint paint = new Paint();
-		paint.setColor(Color.WHITE);
-		paint.setTextAlign(Align.CENTER);
-		paint.setTypeface(Typeface.SANS_SERIF);
-		paint.setTextSize(50);
+		paint.setColor(Color.RED);
+		paint.setXfermode(new PorterDuffXfermode(Mode.ADD));
 		return paint;
 	}
 
