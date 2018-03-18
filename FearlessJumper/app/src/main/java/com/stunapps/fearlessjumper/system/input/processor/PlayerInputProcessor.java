@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.system.input.processor;
 
 import android.graphics.Rect;
+import android.hardware.SensorEvent;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -9,10 +10,12 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.Systems;
+import com.stunapps.fearlessjumper.system.update.InputProcessSystem.State;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
@@ -34,6 +37,8 @@ import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 @Singleton
 public class PlayerInputProcessor implements InputProcessor
 {
+	private static final String TAG = PlayerInputProcessor.class.getSimpleName();
+
 	private static float JUMP_IMPULSE = 1 / 80f;
 	private static float FUEL_DISCHARGE = 5f;
 	private static long lastProcessTime = System.nanoTime();
@@ -46,13 +51,15 @@ public class PlayerInputProcessor implements InputProcessor
 	}
 
 	@Override
-	public void process(Entity player, MotionEvent motionEvent)
+	public void handleTouchEvent(final Entity player, final MotionEvent motionEvent)
 	{
 		long currentTime = System.currentTimeMillis();
 		long deltaTime = currentTime - lastProcessTime;
 		lastProcessTime = System.currentTimeMillis();
+
 		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
 		{
+			Log.d(TAG, "ACTION DOWN");
 			//  To test is input is occurring between collision and transform update
 			//			logSystemTimes();
 			Rect entityCanvasRect = RenderSystem.getRenderRect(player);
@@ -60,24 +67,59 @@ public class PlayerInputProcessor implements InputProcessor
 			if (fuel.getFuel() > 0)
 			{
 				applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
-						player.getComponent(PhysicsComponent.class), motionEvent);
+						player.getComponent(PhysicsComponent.class));
 				dischargeFuel(fuel, deltaTime);
 				player.getComponent(Emitter.class).activate();
 			}
 		}
 		else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
 		{
+			Log.d(TAG, "ACTION UP");
+			player.getComponent(Emitter.class).deactivate();
+		}
+
+	}
+
+	public void update(long deltaTime, Entity player, State screenTouchState)
+	{
+		long currentTime = System.currentTimeMillis();
+		//long deltaTime = currentTime - lastProcessTime;
+		lastProcessTime = System.currentTimeMillis();
+
+		if (screenTouchState == State.SCREEN_PRESSED)
+		{
+			Log.d(TAG, "ACTION DOWN");
+			//  To test is input is occurring between collision and transform update
+			//			logSystemTimes();
+			Rect entityCanvasRect = RenderSystem.getRenderRect(player);
+			Fuel fuel = player.getComponent(Fuel.class);
+			if (fuel.getFuel() > 0)
+			{
+				applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
+						player.getComponent(PhysicsComponent.class));
+				dischargeFuel(fuel, deltaTime);
+				player.getComponent(Emitter.class).activate();
+			}
+		}
+		else if (screenTouchState == State.SCREEN_RELEASED)
+		{
+			Log.d(TAG, "ACTION UP");
 			player.getComponent(Emitter.class).deactivate();
 		}
 	}
 
-	private void applyForceToPlayer(Position position, PhysicsComponent physicsComponent,
-			MotionEvent motionEvent)
+	@Override
+	public void handleSensorEvent(Entity entity, SensorEvent sensorEvent)
 	{
-		float forceX = motionEvent.getX() - position.x;
-		float forceY = motionEvent.getY() - position.y;
 
-		physicsComponent.getVelocity().x += (forceX * JUMP_IMPULSE);
+	}
+
+	private void applyForceToPlayer(Position position, PhysicsComponent physicsComponent)
+	{
+		//float forceX = motionEvent.getX() - position.x;
+		float forceY = -Math.max((Device.SCREEN_HEIGHT - position.y), 40);
+
+		//physicsComponent.getVelocity().x += (forceX * JUMP_IMPULSE);
 		physicsComponent.getVelocity().y += (forceY * JUMP_IMPULSE);
 	}
 

@@ -31,7 +31,7 @@ abstract public class Emitter extends Component
 
 	abstract void destroyParticle(Particle particleToDestroy);
 
-	public abstract boolean isExhausted();
+	abstract public boolean isExhausted();
 
 	abstract public void activate();
 

@@ -1,16 +1,11 @@
 package com.stunapps.fearlessjumper.system.input;
 
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import com.google.inject.Inject;
-import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.input.Input;
-import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
-import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
-
-import java.util.Set;
+import com.stunapps.fearlessjumper.system.Systems;
 
 /**
  * Created by sunny.s on 18/03/18.
@@ -18,30 +13,22 @@ import java.util.Set;
 
 public class GestureListener extends GestureDetector.SimpleOnGestureListener
 {
-	private final ComponentManager componentManager;
-	private final InputProcessorFactory inputProcessorFactory;
+	private static final String TAG = GestureListener.class.getSimpleName();
 
 	@Inject
-	public GestureListener(ComponentManager componentManager,
-			InputProcessorFactory inputProcessorFactory)
+	public GestureListener()
 	{
-		this.componentManager = componentManager;
-		this.inputProcessorFactory = inputProcessorFactory;
+		super();
 	}
 
 	@Override
-	public void onShowPress(MotionEvent e)
+	public boolean onDown(MotionEvent e)
 	{
-		super.onShowPress(e);
-		Set<Entity> entitySet = componentManager.getEntities(Input.class);
-		if (!entitySet.isEmpty())
-		{
-			Entity entity = entitySet.iterator().next();
-
-			if (entity.hasComponent(PlayerComponent.class))
-			{
-				inputProcessorFactory.get(PlayerComponent.class).process(entity, e);
-			}
-		}
+		super.onDown(e);
+		Log.d(TAG, "On Show Press");
+		Systems.processInput(e);
+		return true;
 	}
+
+
 }

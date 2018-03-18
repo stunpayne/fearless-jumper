@@ -20,6 +20,7 @@ public class OrientationInput extends Input
     @Inject
     public OrientationInput(OrientationData orientationData)
     {
+        super(false, true);
         this.orientationData = orientationData;
         frameTime = System.currentTimeMillis();
     }
