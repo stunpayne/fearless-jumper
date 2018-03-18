@@ -15,7 +15,7 @@ import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.Systems;
-import com.stunapps.fearlessjumper.system.update.InputProcessSystem.State;
+import com.stunapps.fearlessjumper.system.update.InputUpdateSystem.State;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
@@ -88,7 +88,6 @@ public class PlayerInputProcessor implements InputProcessor
 
 		if (screenTouchState == State.SCREEN_PRESSED)
 		{
-			Log.d(TAG, "ACTION DOWN");
 			//  To test is input is occurring between collision and transform update
 			//			logSystemTimes();
 			Rect entityCanvasRect = RenderSystem.getRenderRect(player);
@@ -103,7 +102,7 @@ public class PlayerInputProcessor implements InputProcessor
 		}
 		else if (screenTouchState == State.SCREEN_RELEASED)
 		{
-			Log.d(TAG, "ACTION UP");
+			Log.d(TAG, "Screen released");
 			player.getComponent(Emitter.class).deactivate();
 		}
 	}

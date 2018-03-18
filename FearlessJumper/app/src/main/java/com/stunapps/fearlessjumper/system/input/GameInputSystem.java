@@ -9,12 +9,11 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.input.Input;
 import com.stunapps.fearlessjumper.component.input.OrientationInput;
-import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
-import com.stunapps.fearlessjumper.system.update.InputProcessSystem;
+import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 
 import java.util.Set;
 
@@ -26,16 +25,15 @@ import java.util.Set;
 public class GameInputSystem implements InputSystem
 {
 	private final ComponentManager componentManager;
-	private final InputProcessSystem inputProcessSystem;
+	private final InputUpdateSystem inputUpdateSystem;
 	private final InputProcessorFactory inputProcessorFactory;
 
 	@Inject
-	public GameInputSystem(ComponentManager componentManager, InputProcessSystem
-			inputProcessSystem,
+	public GameInputSystem(ComponentManager componentManager, InputUpdateSystem inputUpdateSystem,
 			InputProcessorFactory inputProcessorFactory)
 	{
 		this.componentManager = componentManager;
-		this.inputProcessSystem = inputProcessSystem;
+		this.inputUpdateSystem = inputUpdateSystem;
 		this.inputProcessorFactory = inputProcessorFactory;
 	}
 
@@ -47,7 +45,7 @@ public class GameInputSystem implements InputSystem
 		{
 			if (entity.getComponent(Input.class).respondsToSensor())
 			{
-				InputProcessor inputProcessor = getInputProcessor(entity);
+				InputProcessor inputProcessor = inputProcessorFactory.getProcessor(entity);
 				if (inputProcessor != null)
 				{
 					inputProcessor.handleSensorEvent(entity, sensorEvent);
@@ -59,33 +57,12 @@ public class GameInputSystem implements InputSystem
 	@Override
 	public void processTouchInput(MotionEvent motionEvent)
 	{
-		Set<Entity> entitySet = getAllEntities();
-		for (Entity entity : entitySet)
-		{
-			if (entity.getComponent(Input.class).respondsToTouch())
-			{
-//				InputProcessor inputProcessor = getInputProcessor(entity);
-//				if (inputProcessor != null)
-//				{
-//					inputProcessor.handleTouchEvent(entity, motionEvent);
-//				}
-				inputProcessSystem.updateState(motionEvent);
-			}
-		}
+		inputUpdateSystem.updateState(motionEvent);
 	}
 
 	private Set<Entity> getAllEntities()
 	{
 		return componentManager.getEntities(Input.class);
-	}
-
-	private InputProcessor getInputProcessor(Entity entity)
-	{
-		if (entity.hasComponent(PlayerComponent.class))
-		{
-			return inputProcessorFactory.get(PlayerComponent.class);
-		}
-		return null;
 	}
 
 	private void processOrientationInput(Entity entity)

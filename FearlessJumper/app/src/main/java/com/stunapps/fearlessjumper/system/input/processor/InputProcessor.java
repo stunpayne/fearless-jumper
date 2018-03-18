@@ -4,7 +4,7 @@ import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.system.update.InputProcessSystem.State;
+import com.stunapps.fearlessjumper.system.update.InputUpdateSystem.State;
 
 /**
  * Created by sunny.s on 20/01/18.

@@ -13,7 +13,7 @@ import com.stunapps.fearlessjumper.system.eventonly.PickupSystem;
 import com.stunapps.fearlessjumper.system.update.AnimationSystem;
 import com.stunapps.fearlessjumper.system.update.ClockCountdownSystem;
 import com.stunapps.fearlessjumper.system.update.FuelSystem;
-import com.stunapps.fearlessjumper.system.update.InputProcessSystem;
+import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.LowerBoundarySystem;
 import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.GenerationSystem;
@@ -49,7 +49,7 @@ public class Systems
 	private static long endTime = 0;
 
 	private static final List<Class<? extends UpdateSystem>> systemOrder =
-			Arrays.asList(InputProcessSystem.class, PhysicsSystem.class, GenerationSystem.class,
+			Arrays.asList(InputUpdateSystem.class, PhysicsSystem.class, GenerationSystem.class,
 					MovementUpdateSystem.class, CollisionSystem.class, LowerBoundarySystem.class,
 					TransformUpdateSystem.class, ScoreUpdateSystem.class,
 					ClockCountdownSystem.class, FuelSystem.class, PeriodicGunSystem.class,
