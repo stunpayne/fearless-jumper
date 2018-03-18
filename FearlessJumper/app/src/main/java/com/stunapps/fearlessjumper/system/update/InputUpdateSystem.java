@@ -49,13 +49,15 @@ public class InputUpdateSystem implements UpdateSystem
 	@Override
 	public void process(long deltaTime)
 	{
-		//	TODO: Replace with all entities
-		Entity player = componentManager.getEntity(PlayerComponent.class);
 		State screenTouchState = inputStateMachine.getCurrentState();
-		InputProcessor inputProcessor = getInputProcessor(player);
-		if (null != inputProcessor)
+		Set<Entity> allEntities = getAllEntities();
+		for (Entity entity : allEntities)
 		{
-			inputProcessor.update(deltaTime, player, screenTouchState);
+			InputProcessor inputProcessor = getInputProcessor(entity);
+			if (null != inputProcessor)
+			{
+				inputProcessor.update(deltaTime, entity, screenTouchState);
+			}
 		}
 	}
 

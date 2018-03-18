@@ -3,7 +3,6 @@ package com.stunapps.fearlessjumper.game.loop;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -11,7 +10,6 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.system.Systems;
-import com.stunapps.fearlessjumper.system.input.GestureListener;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -35,15 +33,11 @@ public class GameView extends BaseView implements SurfaceHolder.Callback
 
 	private boolean surfaceCreated = false;
 
-	private GestureDetector mGestureDetector;
-
 	@Inject
 	public GameView(Context context, GameInitializer gameInitializer)
 	{
 		super(context);
 		this.gameInitializer = gameInitializer;
-
-		mGestureDetector = new GestureDetector(context, new GestureListener());
 
 		getHolder().addCallback(this);
 		setFocusable(true);
@@ -165,12 +159,7 @@ public class GameView extends BaseView implements SurfaceHolder.Callback
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		//  Call Input System
-		if (!mGestureDetector.onTouchEvent(event))
-		{
-			Log.d(TAG, "Event " + event.getAction() + " not picked up by Gesture listener");
-			Systems.processInput(event);
-		}
+		Systems.processInput(event);
 		return true;
 	}
 
