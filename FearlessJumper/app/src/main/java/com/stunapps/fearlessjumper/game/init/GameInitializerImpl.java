@@ -56,17 +56,9 @@ public class GameInitializerImpl implements GameInitializer
 
 		try
 		{
-			//initPlatforms();
+			initPlatforms();
 			initBoundaries(player);
-			//initEnemies();
-			Prefab unfriendlyPlatform = PrefabRef.UNFRIENDLY_PLATFORM.get();
-
-			x = Device.SCREEN_WIDTH / 4;
-			y = Device.SCREEN_HEIGHT / 4 + 200;
-			Transform transform1 = new Transform(new Position(x, y));
-			Transform transform3 = new Transform(new Position(x - 100, y));
-
-			entityManager.instantiate(unfriendlyPlatform, transform1);
+			initEnemies();
 		}
 
 		catch (CloneNotSupportedException e)

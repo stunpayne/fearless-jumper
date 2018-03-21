@@ -63,9 +63,6 @@ public class GenerationSystem implements UpdateSystem
 	@Override
 	public void process(long deltaTime)
 	{
-		if(1==1){
-			return; //TODO: test statment. remove after testing.
-		}
 		if (lastProcessTime == 0)
 		{
 			lastProcessTime = System.currentTimeMillis();
@@ -157,6 +154,7 @@ public class GenerationSystem implements UpdateSystem
 							.returnItem(PrefabRef.GROUNDED_DRAGON_SET.get()).withWeight(1f)
 							.returnItem(PrefabRef.FOLLOWING_DRAGON.get()).withWeight(1f)
 							.returnItem(PrefabRef.ASSAULT_DRAGON.get()).withWeight(2f)
+							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM.get()).withWeight(5f)
 							.build();
 		}
 	}
