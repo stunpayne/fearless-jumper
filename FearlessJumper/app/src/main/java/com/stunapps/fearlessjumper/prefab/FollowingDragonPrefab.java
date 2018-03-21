@@ -21,7 +21,6 @@ import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Position;
-import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.HashMap;
 import java.util.Map;

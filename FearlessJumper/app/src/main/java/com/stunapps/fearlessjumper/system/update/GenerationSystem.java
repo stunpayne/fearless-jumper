@@ -63,6 +63,9 @@ public class GenerationSystem implements UpdateSystem
 	@Override
 	public void process(long deltaTime)
 	{
+		if(1==1){
+			return; //TODO: test statment. remove after testing.
+		}
 		if (lastProcessTime == 0)
 		{
 			lastProcessTime = System.currentTimeMillis();

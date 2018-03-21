@@ -14,6 +14,7 @@ public enum PrefabRef
     PLAYER(new PlayerPrefab()),
 
     PLATFORM(new PlatformPrefab()),
+    UNFRIENDLY_PLATFORM(new UnFriendlyPlatformPrefab()),
     LAND(new LandPrefab()),
 
     FLYING_DRAGON(new FlyingDragonPrefab()),

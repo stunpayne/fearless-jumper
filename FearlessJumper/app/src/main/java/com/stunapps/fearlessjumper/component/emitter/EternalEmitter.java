@@ -179,6 +179,7 @@ public class EternalEmitter extends Emitter
 		factory = new ParticleCreatorFactory();
 
 		emissionInterval = ((float) Time.ONE_SECOND_NANOS / config.getEmissionRate());
+		this.initialised = true; //TODO: this is testing statement. Remove later.
 	}
 
 	EternalEmitter(EmitterShape emitterShape, int maxParticles, long particleLife, int

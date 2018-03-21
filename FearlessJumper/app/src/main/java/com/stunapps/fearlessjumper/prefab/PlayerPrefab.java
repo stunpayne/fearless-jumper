@@ -72,7 +72,7 @@ public class PlayerPrefab extends ComponentPrefab
 		addComponent(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight(),
 										CollisionLayer.PLAYER));
 
-		addComponent(new Health(10));
+		addComponent(new Health(1000));
 		addComponent(new PhysicsComponent(50, Velocity.ZERO));
 		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
 		addComponent(orientationInput);

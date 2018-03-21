@@ -33,7 +33,7 @@ import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 @Singleton
 public class PlayerInputProcessor implements InputProcessor
 {
-	private static float JUMP_IMPULSE = 1 / 80f;
+	private static float JUMP_IMPULSE = 1 / 200f;
 	private static float FUEL_DISCHARGE = 5f;
 	private static long lastProcessTime = System.nanoTime();
 

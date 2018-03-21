@@ -1,8 +1,11 @@
 package com.stunapps.fearlessjumper.system.eventonly;
 
+import android.util.Log;
+
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.collider.Collider;
+import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
@@ -16,6 +19,7 @@ import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.system.System;
+import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 /**
  * Created by anand.verma on 03/02/18.
@@ -47,47 +51,31 @@ public class DamageSystem implements System
 
 			if (entity1.hasComponent(Health.class) && entity2.hasComponent(DamageComponent.class))
 			{
-				handleDamage(entity1, entity2);
+				handleDamage(entity1, entity2, collisionEvent);
 				handleSelfDestruct(entity2);
 			}
 
 			if (entity2.hasComponent(Health.class) && entity1.hasComponent(DamageComponent.class))
 			{
-				handleDamage(entity2, entity1);
+				handleDamage(entity2, entity1, collisionEvent);
 				handleSelfDestruct(entity1);
 			}
 		}
 
-		private void handleDamage(Entity damaged, Entity damaging)
+		private void handleDamage(Entity damaged, Entity damaging, CollisionEvent collisionEvent)
 		{
-			Animator animator = damaged.getComponent(Animator.class);
-			Health health = damaged.getComponent(Health.class);
-
 			DamageComponent damageComponent = damaging.getComponent(DamageComponent.class);
-
-			health.takeDamage(damageComponent.damage());
-			if (health.isOver())
+			ContactDamageComponent contactDamageComponent = (ContactDamageComponent) damageComponent;
+			Log.d("DamageSystem",
+				  "handleDamage: collisionEvent.collisionFace = " + collisionEvent.collisionFace +
+						  ", getDamageRespondingFaces = " +
+						  contactDamageComponent.getDamageRespondingFaces());
+			if (damageComponent instanceof ContactDamageComponent)
 			{
-				animator.triggerTransition(AnimationTransition.TERMINATE);
-				eventSystem.raiseEvent(new GameOverEvent());
-				if (damaging.hasComponent(Enemy.class))
+				if (contactDamageComponent.getDamageRespondingFaces()
+						.contains(collisionEvent.collisionFace))
 				{
-					gameStatsManager.updateDeathStat(
-							damaging.getComponent(Enemy.class).getEnemyType().name());
-				}
-			}
-			else
-			{
-				Collider collider = damaged.getComponent(Collider.class);
-				Collider collidesWith = damaging.getComponent(Collider.class);
-				collisionLayerManager.timedFlipCollisionLayerMask(collider.collisionLayer,
-																  collidesWith.collisionLayer,
-																  1000l);
-				animator.triggerTransition(AnimationTransition.HURT);
-				if (damaging.hasComponent(Enemy.class))
-				{
-					gameStatsManager.updateHurtStat(
-							damaging.getComponent(Enemy.class).getEnemyType().name());
+					handleContactDamage(damaged, damaging, damageComponent);
 				}
 			}
 		}
@@ -100,6 +88,38 @@ public class DamageSystem implements System
 			}
 		}
 	};
+
+	private void handleContactDamage(Entity damaged, Entity damaging,
+			DamageComponent damageComponent)
+	{
+		Animator animator = damaged.getComponent(Animator.class);
+		Health health = damaged.getComponent(Health.class);
+		health.takeDamage(damageComponent.damage());
+		if (health.isOver())
+		{
+			animator.triggerTransition(AnimationTransition.TERMINATE);
+			eventSystem.raiseEvent(new GameOverEvent());
+			if (damaging.hasComponent(Enemy.class))
+			{
+				gameStatsManager.updateDeathStat(
+						damaging.getComponent(Enemy.class).getEnemyType().name());
+			}
+		}
+		else
+		{
+			Collider collider = damaged.getComponent(Collider.class);
+			Collider collidesWith = damaging.getComponent(Collider.class);
+			collisionLayerManager.timedFlipCollisionLayerMask(collider.collisionLayer,
+															  collidesWith.collisionLayer,
+															  1000l);
+			animator.triggerTransition(AnimationTransition.HURT);
+			if (damaging.hasComponent(Enemy.class))
+			{
+				gameStatsManager.updateHurtStat(
+						damaging.getComponent(Enemy.class).getEnemyType().name());
+			}
+		}
+	}
 
 
 }
