@@ -6,10 +6,7 @@ import android.view.MotionEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.input.Input;
-import com.stunapps.fearlessjumper.component.input.OrientationInput;
-import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
@@ -63,14 +60,5 @@ public class GameInputSystem implements InputSystem
 	private Set<Entity> getAllEntities()
 	{
 		return componentManager.getEntities(Input.class);
-	}
-
-	private void processOrientationInput(Entity entity)
-	{
-		OrientationInput input = (OrientationInput) entity.getComponent(Input.class);
-		Delta delta = input.getDeltaMovement();
-		Transform transform = entity.transform;
-		transform.position.x += delta.x;
-		transform.position.y += delta.y;
 	}
 }

@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.input.Input;
-import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
+import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
@@ -32,6 +32,7 @@ public class InputUpdateSystem implements UpdateSystem
 
 	private StateMachine<State, Integer> inputStateMachine;
 
+	private SensorData sensorData;
 	private static long lastProcessTime = 0;
 
 	@Inject
@@ -76,6 +77,11 @@ public class InputUpdateSystem implements UpdateSystem
 	public void updateState(MotionEvent motionEvent)
 	{
 		inputStateMachine.transitStateOnEvent(motionEvent.getAction());
+	}
+
+	public void updateRotationState(SensorData sensorData)
+	{
+		this.sensorData = sensorData;
 	}
 
 	public enum State

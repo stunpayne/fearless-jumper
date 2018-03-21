@@ -50,40 +50,9 @@ public class PlayerInputProcessor implements InputProcessor
 	{
 	}
 
-	@Override
-	public void handleTouchEvent(final Entity player, final MotionEvent motionEvent)
-	{
-		long currentTime = System.currentTimeMillis();
-		long deltaTime = currentTime - lastProcessTime;
-		lastProcessTime = System.currentTimeMillis();
-
-		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
-		{
-			Log.d(TAG, "ACTION DOWN");
-			//  To test is input is occurring between collision and transform update
-			//			logSystemTimes();
-			Rect entityCanvasRect = RenderSystem.getRenderRect(player);
-			Fuel fuel = player.getComponent(Fuel.class);
-			if (fuel.getFuel() > 0)
-			{
-				applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
-						player.getComponent(PhysicsComponent.class));
-				dischargeFuel(fuel, deltaTime);
-				player.getComponent(Emitter.class).activate();
-			}
-		}
-		else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
-		{
-			Log.d(TAG, "ACTION UP");
-			player.getComponent(Emitter.class).deactivate();
-		}
-
-	}
-
 	public void update(long deltaTime, Entity player, State screenTouchState)
 	{
 		long currentTime = System.currentTimeMillis();
-		//long deltaTime = currentTime - lastProcessTime;
 		lastProcessTime = System.currentTimeMillis();
 
 		if (screenTouchState == State.SCREEN_PRESSED)
@@ -115,10 +84,7 @@ public class PlayerInputProcessor implements InputProcessor
 
 	private void applyForceToPlayer(Position position, PhysicsComponent physicsComponent)
 	{
-		//float forceX = motionEvent.getX() - position.x;
 		float forceY = -Math.max((Device.SCREEN_HEIGHT - position.y), 40);
-
-		//physicsComponent.getVelocity().x += (forceX * JUMP_IMPULSE);
 		physicsComponent.getVelocity().y += (forceY * JUMP_IMPULSE);
 	}
 
@@ -126,7 +92,7 @@ public class PlayerInputProcessor implements InputProcessor
 	{
 		Log.v("FUEL", "Current: " + fuel.getFuel() + " discharge amount: " +
 				FUEL_DISCHARGE * deltaTime / Time.ONE_SECOND_NANOS);
-		fuel.dischargeFuel(FUEL_DISCHARGE);
+		fuel.dischargeFuel(FUEL_DISCHARGE * deltaTime / Time.ONE_SECOND_NANOS);
 	}
 
 

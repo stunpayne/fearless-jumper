@@ -12,8 +12,6 @@ import com.stunapps.fearlessjumper.system.update.InputUpdateSystem.State;
 
 public interface InputProcessor
 {
-	void handleTouchEvent(final Entity entity, final MotionEvent motionEvent);
-
 	void handleSensorEvent(final Entity entity, final SensorEvent sensorEvent);
 
 	void update(long deltaTime, Entity player, State screenTouchState);

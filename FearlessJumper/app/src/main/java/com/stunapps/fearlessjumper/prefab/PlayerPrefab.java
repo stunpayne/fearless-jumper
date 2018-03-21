@@ -15,7 +15,6 @@ import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfi
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.Input;
-import com.stunapps.fearlessjumper.component.input.OrientationInput;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -25,7 +24,6 @@ import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
-import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -77,7 +75,7 @@ public class PlayerPrefab extends ComponentPrefab
 
 		addComponent(new Health(10));
 		addComponent(new PhysicsComponent(50, Velocity.ZERO));
-//		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
+//		SensorDataAdapter orientationInput = DI.di().getInstance(SensorDataAdapter.class);
 //		addComponent(orientationInput);
 		addComponent(new Input(true, false));
 		addComponent(new PlayerComponent());
