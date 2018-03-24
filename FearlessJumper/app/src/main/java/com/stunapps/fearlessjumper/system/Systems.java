@@ -90,14 +90,6 @@ public class Systems
 		frameNum++;
 	}
 
-	public static void processInput(SensorEvent sensorEvent)
-	{
-		for (InputSystem system : inputSystemsInOrder)
-		{
-			system.processSensorInput(sensorEvent);
-		}
-	}
-
 	public static void processInput(MotionEvent motionEvent)
 	{
 		for (InputSystem system : inputSystemsInOrder)

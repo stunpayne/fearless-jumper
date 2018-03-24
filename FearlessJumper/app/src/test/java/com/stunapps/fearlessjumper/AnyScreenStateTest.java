@@ -17,7 +17,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.TERMINAT
  * Created by sunny.s on 25/02/18.
  */
 
-public class AnyStateTest
+public class AnyScreenStateTest
 {
 	@Test
 	public void testAnyState()

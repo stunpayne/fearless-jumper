@@ -9,7 +9,5 @@ import android.view.MotionEvent;
 
 public interface InputSystem
 {
-	void processSensorInput(SensorEvent sensorEvent);
-
 	void processTouchInput(MotionEvent motionEvent);
 }

@@ -20,6 +20,8 @@ import com.stunapps.fearlessjumper.scene.SceneManager;
 import com.stunapps.fearlessjumper.scene.SceneManagerImpl;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.PlayerInputProcessor;
+import com.stunapps.fearlessjumper.system.update.InputUpdateManager;
+import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 
 /**
  * Created by sunny.s on 10/01/18.
@@ -50,5 +52,6 @@ public class GameModule extends AbstractModule
 
 		bind(EntityTransformCalculator.class).to(EntityTransformCalculatorImpl.class)
 				.asEagerSingleton();
+		bind(InputUpdateManager.class).to(InputUpdateSystem.class).asEagerSingleton();
 	}
 }

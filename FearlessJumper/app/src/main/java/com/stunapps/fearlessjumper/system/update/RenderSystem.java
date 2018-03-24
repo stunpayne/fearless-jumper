@@ -11,7 +11,6 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -21,6 +20,8 @@ import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.health.Health;
+import com.stunapps.fearlessjumper.component.input.SensorDataAdapter;
+import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -34,7 +35,6 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
-import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
@@ -60,6 +60,7 @@ public class RenderSystem implements UpdateSystem
 
 	private final ComponentManager componentManager;
 	private final GameStatsManager gameStatsManager;
+	private final SensorDataAdapter sensorDataAdapter;
 
 	private static int frameNum = 0;
 
@@ -75,9 +76,11 @@ public class RenderSystem implements UpdateSystem
 	private Paint particlePaint;
 
 	@Inject
-	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager)
+	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager,
+			SensorDataAdapter sensorDataAdapter)
 	{
 		this.componentManager = componentManager;
+		this.sensorDataAdapter = sensorDataAdapter;
 
 		//	Initialise background bitmap
 		Bitmap originalBg =
@@ -110,40 +113,33 @@ public class RenderSystem implements UpdateSystem
 		long startTime = java.lang.System.nanoTime();
 		Cameras.update();
 		long endTime = java.lang.System.nanoTime();
-		Log.d("RenderSystem".concat(".Time"),
-				"camera" + "," + frameNum + "," + ((endTime - startTime) / Time
-						.ONE_SECOND_MILLIS));
 
 
 		startTime = java.lang.System.nanoTime();
 		renderBackground();
 		endTime = java.lang.System.nanoTime();
-		Log.d("RenderSystem".concat(".Time"), "background" + "," + frameNum + "," +
-				((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 		startTime = java.lang.System.nanoTime();
 		renderEntities();
 		endTime = java.lang.System.nanoTime();
 
-		Log.d("RenderSystem".concat(".Time"), "entities" + "," + frameNum + "," +
-				((endTime - startTime) / Time.ONE_SECOND_MILLIS));
-
 		startTime = java.lang.System.nanoTime();
 		renderHUD();
 		endTime = java.lang.System.nanoTime();
-		Log.d("RenderSystem".concat(".Time"),
-				"hud" + "," + frameNum + "," + ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 		startTime = java.lang.System.nanoTime();
 		renderParticleEmission();
 		endTime = java.lang.System.nanoTime();
-		Log.d("RenderSystem".concat(".Time"), "particles" + "," + frameNum + "," +
-				((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 		//testing
 		if (Settings.DEBUG_MODE)
 		{
 			//renderGameStats();
+		}
+
+		if (Settings.PRINT_SENSOR_DATA)
+		{
+			renderSensorData();
 		}
 
 		frameNum++;
@@ -400,5 +396,21 @@ public class RenderSystem implements UpdateSystem
 		Health health = player.getComponent(Health.class);
 		String healthText = " Health: " + health.getHealth();
 		MainActivity.getInstance().updateHealth(healthText);
+	}
+
+
+	private void renderSensorData()
+	{
+		SensorData sensorData = sensorDataAdapter.update();
+		if (canvas != null)
+		{
+			Paint fpsPaint = new Paint();
+			fpsPaint.setColor(Color.MAGENTA);
+			fpsPaint.setTextSize(40);
+			canvas.drawText(String.valueOf(sensorData.getPitch()), 5 * canvas.getWidth() / 12,
+					5 * canvas.getHeight() / 60, fpsPaint);
+			canvas.drawText(String.valueOf(sensorData.getRoll()), 5 * canvas.getWidth() / 12,
+					7 * canvas.getHeight() / 60, fpsPaint);
+		}
 	}
 }

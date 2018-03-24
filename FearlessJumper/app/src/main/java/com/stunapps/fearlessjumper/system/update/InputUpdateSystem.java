@@ -6,41 +6,47 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.input.Input;
+import com.stunapps.fearlessjumper.component.input.SensorDataAdapter;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
+import com.stunapps.fearlessjumper.system.model.InputWrapper;
 
 import java.util.Set;
 
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
-import static com.stunapps.fearlessjumper.system.update.InputUpdateSystem.State.SCREEN_PRESSED;
-import static com.stunapps.fearlessjumper.system.update.InputUpdateSystem.State.SCREEN_RELEASED;
+import static com.stunapps.fearlessjumper.system.update.InputUpdateSystem.ScreenState
+		.SCREEN_PRESSED;
+import static com.stunapps.fearlessjumper.system.update.InputUpdateSystem.ScreenState
+		.SCREEN_RELEASED;
 
 /**
  * Created by sunny.s on 18/03/18.
  */
 
 @Singleton
-public class InputUpdateSystem implements UpdateSystem
+public class InputUpdateSystem implements UpdateSystem, InputUpdateManager
 {
 	private static final String TAG = InputUpdateSystem.class.getSimpleName();
 	private final ComponentManager componentManager;
 	private final InputProcessorFactory inputProcessorFactory;
+	private final SensorDataAdapter sensorDataAdapter;
 
-	private StateMachine<State, Integer> inputStateMachine;
+	private StateMachine<ScreenState, Integer> inputStateMachine;
 
 	private SensorData sensorData;
 	private static long lastProcessTime = 0;
 
 	@Inject
 	public InputUpdateSystem(ComponentManager componentManager,
-			InputProcessorFactory inputProcessorFactory)
+			InputProcessorFactory inputProcessorFactory, SensorDataAdapter sensorDataAdapter)
 	{
 		this.componentManager = componentManager;
 		this.inputProcessorFactory = inputProcessorFactory;
+		this.sensorDataAdapter = sensorDataAdapter;
 		inputStateMachine = StateMachine.builder().startState(SCREEN_RELEASED).from
 				(SCREEN_RELEASED)
 				.onEvent(ACTION_DOWN).toState(SCREEN_PRESSED).from(SCREEN_PRESSED)
@@ -50,14 +56,16 @@ public class InputUpdateSystem implements UpdateSystem
 	@Override
 	public void process(long deltaTime)
 	{
-		State screenTouchState = inputStateMachine.getCurrentState();
+		ScreenState screenTouchState = inputStateMachine.getCurrentState();
+		updateRotationState(sensorDataAdapter.update());
 		Set<Entity> allEntities = getAllEntities();
 		for (Entity entity : allEntities)
 		{
 			InputProcessor inputProcessor = getInputProcessor(entity);
 			if (null != inputProcessor)
 			{
-				inputProcessor.update(deltaTime, entity, screenTouchState);
+				inputProcessor.update(deltaTime, entity,
+						new InputWrapper(screenTouchState, this.sensorData));
 			}
 		}
 	}
@@ -74,17 +82,19 @@ public class InputUpdateSystem implements UpdateSystem
 		lastProcessTime = 0;
 	}
 
+	@Override
 	public void updateState(MotionEvent motionEvent)
 	{
 		inputStateMachine.transitStateOnEvent(motionEvent.getAction());
 	}
 
+	@Override
 	public void updateRotationState(SensorData sensorData)
 	{
 		this.sensorData = sensorData;
 	}
 
-	public enum State
+	public enum ScreenState
 	{
 		SCREEN_PRESSED, SCREEN_RELEASED;
 	}

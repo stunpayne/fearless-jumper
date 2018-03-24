@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.game.Environment;
 
@@ -41,6 +42,7 @@ public class SensorDataProvider implements SensorEventListener
 		startOrientation = null;
 	}
 
+	@Inject
 	public SensorDataProvider(Context context) throws InstantiationException
 	{
 		manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);

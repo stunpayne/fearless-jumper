@@ -10,6 +10,7 @@ import com.stunapps.fearlessjumper.component.input.Input;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
+import com.stunapps.fearlessjumper.system.update.InputUpdateManager;
 import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 
 import java.util.Set;
@@ -22,39 +23,23 @@ import java.util.Set;
 public class GameInputSystem implements InputSystem
 {
 	private final ComponentManager componentManager;
-	private final InputUpdateSystem inputUpdateSystem;
+	private final InputUpdateManager inputUpdateManager;
 	private final InputProcessorFactory inputProcessorFactory;
 
 	@Inject
-	public GameInputSystem(ComponentManager componentManager, InputUpdateSystem inputUpdateSystem,
+	public GameInputSystem(ComponentManager componentManager, InputUpdateSystem inputUpdateManager,
 			InputProcessorFactory inputProcessorFactory)
 	{
 		this.componentManager = componentManager;
-		this.inputUpdateSystem = inputUpdateSystem;
+		this.inputUpdateManager = inputUpdateManager;
 		this.inputProcessorFactory = inputProcessorFactory;
 	}
 
-	@Override
-	public void processSensorInput(SensorEvent sensorEvent)
-	{
-		Set<Entity> entitySet = getAllEntities();
-		for (Entity entity : entitySet)
-		{
-			if (entity.getComponent(Input.class).respondsToSensor())
-			{
-				InputProcessor inputProcessor = inputProcessorFactory.getProcessor(entity);
-				if (inputProcessor != null)
-				{
-					inputProcessor.handleSensorEvent(entity, sensorEvent);
-				}
-			}
-		}
-	}
 
 	@Override
 	public void processTouchInput(MotionEvent motionEvent)
 	{
-		inputUpdateSystem.updateState(motionEvent);
+		inputUpdateManager.updateState(motionEvent);
 	}
 
 	private Set<Entity> getAllEntities()
