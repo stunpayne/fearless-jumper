@@ -40,7 +40,7 @@ public class PlayerInputProcessor implements InputProcessor
 {
 	private static final String TAG = PlayerInputProcessor.class.getSimpleName();
 
-	private static float FUEL_DISCHARGE = 5f;
+	private static float FUEL_DISCHARGE = 80f;
 
 	private static float JUMP_IMPULSE = -40f;
 
@@ -71,13 +71,16 @@ public class PlayerInputProcessor implements InputProcessor
 		{
 			//  To test is input is occurring between collision and transform update
 			//			logSystemTimes();
-			Rect entityCanvasRect = RenderSystem.getRenderRect(player);
 			Fuel fuel = player.getComponent(Fuel.class);
 			if (fuel.getFuel() > 0)
 			{
 				applyForceToPlayer(player.getComponent(PhysicsComponent.class));
 				dischargeFuel(fuel, deltaTime);
 				player.getComponent(Emitter.class).activate();
+			}
+			else
+			{
+				player.getComponent(Emitter.class).deactivate();
 			}
 		}
 		else if (screenTouchState == ScreenState.SCREEN_RELEASED)

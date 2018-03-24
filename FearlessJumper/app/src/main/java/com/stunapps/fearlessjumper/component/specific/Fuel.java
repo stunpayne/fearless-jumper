@@ -16,9 +16,11 @@ public class Fuel extends Component
 	private Long waitStartTime = null;
 	private Long refuelWaitMillis;
 
+	private Long elapsedWaitingTime;
+
 	public Fuel(float fuel)
 	{
-		this(fuel, 400);
+		this(fuel, 900);
 	}
 
 	public Fuel(float fuel, long refuelWaitMillis)
@@ -26,6 +28,7 @@ public class Fuel extends Component
 		super(Fuel.class);
 		this.fuel = fuel;
 		this.refuelWaitMillis = refuelWaitMillis;
+		this.elapsedWaitingTime = 0L;
 	}
 
 	@Override
@@ -62,6 +65,7 @@ public class Fuel extends Component
 	public void exitWaiting()
 	{
 		waitStartTime = null;
+		elapsedWaitingTime = 0L;
 	}
 
 	public boolean isWaitingToRefuel()
@@ -69,8 +73,9 @@ public class Fuel extends Component
 		return waitStartTime != null;
 	}
 
-	public boolean canExitWaiting()
+	public boolean canExitWaiting(long deltaTime)
 	{
-		return System.currentTimeMillis() > waitStartTime + refuelWaitMillis;
+		elapsedWaitingTime += deltaTime;
+		return elapsedWaitingTime > refuelWaitMillis;
 	}
 }

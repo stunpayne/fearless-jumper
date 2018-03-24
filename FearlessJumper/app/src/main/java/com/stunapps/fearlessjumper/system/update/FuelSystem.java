@@ -17,7 +17,7 @@ public class FuelSystem implements UpdateSystem
 {
 	private static final String TAG = "Fuel";
 	private static long lastProcessTime = 0;
-	private static float ONE_SECOND_REFUEL_AMOUNT = 8f;
+	private static float ONE_SECOND_REFUEL_AMOUNT = 40f;
 	private static float MAX_FUEL = 100f;
 	private static float MIN_FUEL = 0f;
 
@@ -42,7 +42,7 @@ public class FuelSystem implements UpdateSystem
 			{
 				if (fuel.isWaitingToRefuel())
 				{
-					if (fuel.canExitWaiting())
+					if (fuel.canExitWaiting(deltaTime))
 					{
 						fuel.exitWaiting();
 						refuel(fuel, deltaTime);
