@@ -38,6 +38,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_A
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_ASSUALT_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
+import static com.stunapps.fearlessjumper.game.Environment.*;
 
 /**
  * Created by anand.verma on 10/03/18.
@@ -48,7 +49,7 @@ public class AssaultDragonPrefab extends ComponentPrefab
 	public AssaultDragonPrefab()
 	{
 		transform = new Transform(
-				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + 100));
+				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + scaleY(100)));
 
 		StateMachine animationStateMachine =
 				StateMachine.builder()
@@ -133,7 +134,7 @@ public class AssaultDragonPrefab extends ComponentPrefab
 		addComponent(new Dragon(EnemyType.DRAXUS));
 		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
 									  dragonSprite1.getHeight(), CollisionLayer.SUPER_ENEMY));
-		addComponent(new AssaultTranslation(PlayerComponent.class, 60, 1000, 5.0f,
+		addComponent(new AssaultTranslation(PlayerComponent.class, 150, 1500, 5.0f,
 											Device.SCREEN_HEIGHT / 4));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(false));
