@@ -115,13 +115,9 @@ public class RenderSystem implements UpdateSystem
 
 		Cameras.update();
 
-
 		renderBackground();
-
 		renderEntities();
-
 		renderHUD();
-
 		renderParticleEmission();
 
 		//testing
