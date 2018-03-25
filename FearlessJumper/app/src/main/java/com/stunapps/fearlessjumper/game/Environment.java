@@ -34,7 +34,7 @@ public class Environment
 		public static final boolean DEBUG_MODE = false;
 		public static final boolean LOG_GRAPH = false;
 		public static final boolean PRINT_FPS = true;
-		public static final boolean PRINT_SENSOR_DATA = true;
+		public static final boolean PRINT_SENSOR_DATA = false;
 	}
 
 	public static float scaleY()

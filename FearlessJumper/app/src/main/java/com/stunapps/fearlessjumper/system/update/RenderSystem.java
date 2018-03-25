@@ -72,10 +72,11 @@ public class RenderSystem implements UpdateSystem
 	private ParallaxBackground background;
 	private Paint bgPaint = new Paint();
 	private Paint colliderPaint = new Paint();
+	private Paint particlePaint;
+	private Paint fuelPaint;
 
 	@Setter
 	private boolean shouldRenderBackground = true;
-	private Paint particlePaint;
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager,
@@ -83,6 +84,7 @@ public class RenderSystem implements UpdateSystem
 	{
 		this.componentManager = componentManager;
 		this.sensorDataAdapter = sensorDataAdapter;
+		this.gameStatsManager = gameStatsManager;
 
 		//	Initialise background bitmap
 		Bitmap originalBg =
@@ -95,9 +97,8 @@ public class RenderSystem implements UpdateSystem
 		colliderPaint.setColor(Color.WHITE);
 		colliderPaint.setStyle(Style.STROKE);
 
-		this.gameStatsManager = gameStatsManager;
-
-		this.particlePaint = initParticlePaint();
+		particlePaint = initParticlePaint();
+		fuelPaint = initFuelPaint();
 	}
 
 	@Override
@@ -112,26 +113,16 @@ public class RenderSystem implements UpdateSystem
 
 		//  Update all cameras
 
-		long startTime = java.lang.System.nanoTime();
 		Cameras.update();
-		long endTime = java.lang.System.nanoTime();
 
 
-		startTime = java.lang.System.nanoTime();
 		renderBackground();
-		endTime = java.lang.System.nanoTime();
 
-		startTime = java.lang.System.nanoTime();
 		renderEntities();
-		endTime = java.lang.System.nanoTime();
 
-		startTime = java.lang.System.nanoTime();
 		renderHUD();
-		endTime = java.lang.System.nanoTime();
 
-		startTime = java.lang.System.nanoTime();
 		renderParticleEmission();
-		endTime = java.lang.System.nanoTime();
 
 		//testing
 		if (Settings.DEBUG_MODE)
@@ -325,25 +316,24 @@ public class RenderSystem implements UpdateSystem
 
 		for (Particle particle : particles)
 		{
-			particlePaint.setColor(particle.getColor());
-			particlePaint.setAlpha((int) (255 * particle.alpha));
 			if (particle.isActive)
 			{
+				particlePaint.setColor(particle.getColor());
+				particlePaint.setAlpha((int) (255 * particle.alpha));
+
 				Position camPosition = Cameras.getMainCamera().position;
 
 				float x = particle.position.x - camPosition.x;
 				float y = particle.position.y - camPosition.y;
+
 				switch (renderMode)
 				{
 					case SHAPE:
 						canvas.drawCircle(x, y, 20, particlePaint);
 						break;
 					case TEXTURE:
-						Log.d(TAG, "Texture mode particles left: " +
-								String.valueOf(x - texture.getWidth() / 2) + " top: " +
-								String.valueOf(y - texture.getHeight() / 2));
 						canvas.drawBitmap(texture, x - texture.getWidth() / 2,
-								y + texture.getHeight() / 2, particlePaint);
+								y - texture.getHeight() / 2, particlePaint);
 						break;
 				}
 			}
@@ -358,6 +348,14 @@ public class RenderSystem implements UpdateSystem
 		return paint;
 	}
 
+	private Paint initFuelPaint()
+	{
+		Paint fuelPaint = new Paint();
+		fuelPaint.setColor(Color.CYAN);
+		fuelPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+		return fuelPaint;
+	}
+
 	/**
 	 * Temporary method mainly for testing pickups and score
 	 */
@@ -365,23 +363,6 @@ public class RenderSystem implements UpdateSystem
 	{
 		Entity player = componentManager.getEntity(PlayerComponent.class);
 		if (player == null) return;
-
-		int timeRectTop = 80;
-		Paint paint = new Paint();
-		paint.setColor(Color.WHITE);
-		paint.setTextAlign(Align.CENTER);
-		paint.setTypeface(Typeface.SANS_SERIF);
-		paint.setTextSize(40);
-
-		Paint fuelPaint = new Paint();
-		fuelPaint.setColor(Color.CYAN);
-		fuelPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-
-		Paint fuelTextPaint = new Paint();
-		fuelTextPaint.setColor(Color.WHITE);
-		fuelTextPaint.setTextAlign(Align.CENTER);
-		fuelTextPaint.setTypeface(Typeface.SANS_SERIF);
-		fuelTextPaint.setTextSize(50);
 
 		//	Time text
 		Float remainingSeconds = player.getComponent(RemainingTime.class).getRemainingSeconds();

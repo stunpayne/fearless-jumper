@@ -39,6 +39,7 @@ public class UnFriendlyPlatformPrefab extends ComponentPrefab
 				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
 
 		Bitmap sprite = Bitmaps.PLATFORM;
+		Bitmap fireTexture = Bitmaps.FIRE_TEXTURE;
 		Log.d("UnFriendly_PLATFORM",
 				"Width: " + sprite.getWidth() + " Height: " + sprite.getHeight());
 
@@ -52,11 +53,11 @@ public class UnFriendlyPlatformPrefab extends ComponentPrefab
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false,
 				new PhysicsComponent.Friction(50.0f, 7.5f, 7.5f, 7.5f)));
 		addComponent(new EternalEmitter(
-				EmitterConfig.builder().emitterShape(EmitterShape.CONE_DIVERGE).maxParticles(250)
-						.particleLife(800).emissionRate(300)
+				EmitterConfig.builder().emitterShape(EmitterShape.CONE_DIVERGE).maxParticles(100)
+						.particleLife(800).emissionRate(100)
 						.positionVar(new Vector2D(sprite.getWidth() / 2, 0)).maxSpeed(2)
 						.direction(90).directionVar(10)
 						.offset(new Vector2D(sprite.getWidth() / 2, 0))
-						.texture(Bitmaps.FIRE_TEXTURE).startAsActive().build()));
+						.texture(fireTexture).startAsActive().build()));
 	}
 }
