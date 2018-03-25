@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.scene;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,10 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.Vector2D;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig.Builder;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
+import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.loop.TestView;
 
@@ -108,11 +112,25 @@ public class ParticleTestScene extends AbstractScene
 			float speed = textViewFloatValue(R.id.speedValue);
 			float direction = textViewFloatValue(R.id.dirValue);
 			float directionVar = textViewFloatValue(R.id.dirVarValue);
-			mTestView.restartParticles(
-					EmitterConfig.builder().emitterShape(emitterShape()).maxParticles(max)
+			EmitterShape emitterShape = emitterShape();
+			Builder configBuilder =
+					EmitterConfig.builder().emitterShape(emitterShape).maxParticles(max)
 							.particleLife(life).emissionRate(rate)
 							.positionVar(new Vector2D(xPosVar, yPosVar)).maxSpeed(speed)
-							.direction(direction).directionVar(directionVar).build());
+							.direction(direction).directionVar(directionVar);
+
+			RenderMode renderMode = renderMode();
+			switch (renderMode)
+			{
+				case TEXTURE:
+					configBuilder.texture(Bitmaps.FIRE_TEXTURE);
+					break;
+				case SHAPE:
+				default:
+					configBuilder.color(Color.CYAN);
+					break;
+			}
+			mTestView.restartParticles(configBuilder.build());
 		}
 		catch (Exception e)
 		{
@@ -142,6 +160,15 @@ public class ParticleTestScene extends AbstractScene
 		return EmitterShape.valueOf(emitterTypeString);
 	}
 
+	private RenderMode renderMode()
+	{
+		Object dropDownSelected =
+				((Spinner) mParticlesMenu.findViewById(R.id.renderMode)).getSelectedItem();
+		String emitterTypeString =
+				dropDownSelected == null ? RenderMode.SHAPE.name() : dropDownSelected.toString();
+		return RenderMode.valueOf(emitterTypeString);
+	}
+
 	private class ViewSetup
 	{
 		void setupParticlesMenu(View particlesMenu)
@@ -156,12 +183,24 @@ public class ParticleTestScene extends AbstractScene
 				}
 			});
 
+			//	Setup emitter type drop down
 			Spinner emitterTypeDropDown = particlesMenu.findViewById(R.id.emitterType);
-			ArrayAdapter<EmitterShape> adapter =
+			ArrayAdapter<EmitterShape> emitterShapeArrayAdapter =
 					new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item,
 							EmitterShape.values());
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			emitterTypeDropDown.setAdapter(adapter);
+			emitterShapeArrayAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			emitterTypeDropDown.setAdapter(emitterShapeArrayAdapter);
+
+
+			//	Setup render mode drop down
+			Spinner renderModeDropDown = particlesMenu.findViewById(R.id.renderMode);
+			ArrayAdapter<RenderMode> renderModeArrayAdapter =
+					new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item,
+							RenderMode.values());
+			renderModeArrayAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			renderModeDropDown.setAdapter(renderModeArrayAdapter);
 		}
 	}
 }

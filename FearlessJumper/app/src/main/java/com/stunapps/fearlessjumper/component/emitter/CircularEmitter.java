@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
+import android.graphics.Bitmap;
+
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.particle.AlphaCalculator;
@@ -23,6 +25,12 @@ public class CircularEmitter extends BaseClusteredEmitter
 	public void init()
 	{
 		super.init();
+	}
+
+	@Override
+	public Bitmap getTexture()
+	{
+		return null;
 	}
 
 	@Override

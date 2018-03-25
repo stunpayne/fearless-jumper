@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
+import android.graphics.Bitmap;
+
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.particle.Particle;
@@ -16,6 +18,12 @@ public class RotationalEmitter extends BaseClusteredEmitter
 	public RotationalEmitter()
 	{
 		super(8, 6000l, 0);
+	}
+
+	@Override
+	public Bitmap getTexture()
+	{
+		return null;
 	}
 
 	@Override

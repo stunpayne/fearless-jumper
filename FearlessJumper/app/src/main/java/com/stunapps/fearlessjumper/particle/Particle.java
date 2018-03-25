@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.particle;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;

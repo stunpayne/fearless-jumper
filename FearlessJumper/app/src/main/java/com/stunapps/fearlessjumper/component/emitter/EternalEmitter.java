@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
 
@@ -28,24 +29,34 @@ public class EternalEmitter extends Emitter
 	{
 		//	Shape in which particles have to be emitted
 		protected EmitterShape emitterShape;
+
 		//	Max number of particles that can be alive at once
 		protected int maxParticles;
 		//	Duration for which each particle is alive
 		protected int particleLife;
 		//	Particles per second
 		protected int emissionRate;
+
 		//	Max speed of every particle
 		protected float maxSpeed;
 		//	Max variation in particle generation position, on either side, from the entity position
 		protected Vector2D positionVar;
+
 		//	Direction, in degrees, in which the particles should move
 		protected float direction;
 		//	Max variation in angle, on either side, from the direction property
 		protected float directionVar;
+
 		//	Offset from entity position
 		private Vector2D offset;
+
 		//	Color of particles
 		private int color;
+		//	Texture of particle
+		private Bitmap texture;
+
+		//	Mode in which the particles will be rendered
+		private RenderMode renderMode;
 
 		public EmitterConfig(EmitterShape emitterShape, int maxParticles, int particleLife,
 				int emissionRate, Vector2D positionVar, float maxSpeed, float direction,
@@ -61,6 +72,26 @@ public class EternalEmitter extends Emitter
 			this.directionVar = directionVar;
 			this.offset = offset;
 			this.color = color;
+			this.renderMode = RenderMode.SHAPE;
+
+			Log.d(TAG, "Creating config: " + this);
+		}
+
+		public EmitterConfig(EmitterShape emitterShape, int maxParticles, int particleLife,
+				int emissionRate, Vector2D positionVar, float maxSpeed, float direction,
+				float directionVar, Vector2D offset, Bitmap texture)
+		{
+			this.emitterShape = emitterShape;
+			this.maxParticles = maxParticles;
+			this.particleLife = particleLife;
+			this.emissionRate = emissionRate;
+			this.positionVar = positionVar;
+			this.maxSpeed = maxSpeed;
+			this.direction = direction;
+			this.directionVar = directionVar;
+			this.offset = offset;
+			this.texture = texture;
+			this.renderMode = RenderMode.TEXTURE;
 
 			Log.d(TAG, "Creating config: " + this);
 		}
@@ -69,10 +100,20 @@ public class EternalEmitter extends Emitter
 		protected EmitterConfig clone() throws CloneNotSupportedException
 		{
 			Log.d(TAG, "Cloning");
-			return builder().emitterShape(emitterShape).maxParticles(maxParticles)
-					.particleLife(particleLife).emissionRate(emissionRate).positionVar(positionVar)
-					.maxSpeed(maxSpeed).direction(direction).directionVar(directionVar)
-					.offset(offset).color(color).build();
+			switch (renderMode)
+			{
+				case TEXTURE:
+					return builder().emitterShape(emitterShape).maxParticles(maxParticles)
+							.particleLife(particleLife).emissionRate(emissionRate)
+							.positionVar(positionVar).maxSpeed(maxSpeed).direction(direction)
+							.directionVar(directionVar).offset(offset).texture(texture).build();
+				case SHAPE:
+				default:
+					return builder().emitterShape(emitterShape).maxParticles(maxParticles)
+							.particleLife(particleLife).emissionRate(emissionRate)
+							.positionVar(positionVar).maxSpeed(maxSpeed).direction(direction)
+							.directionVar(directionVar).offset(offset).color(color).build();
+			}
 		}
 
 		public static Builder builder()
@@ -92,6 +133,8 @@ public class EternalEmitter extends Emitter
 			float directionVar;
 			Vector2D offset = new Vector2D();
 			int color = Color.WHITE;
+			Bitmap texture = null;
+			RenderMode renderMode;
 
 			public Builder emitterShape(EmitterShape emitterShape)
 			{
@@ -150,19 +193,39 @@ public class EternalEmitter extends Emitter
 			public Builder color(int color)
 			{
 				this.color = color;
+				this.renderMode = RenderMode.SHAPE;
 				return this;
 			}
 
 			public Builder color(int a, int r, int g, int b)
 			{
 				this.color = Color.argb(a, r, g, b);
+				this.renderMode = RenderMode.SHAPE;
+				return this;
+			}
+
+			public Builder texture(Bitmap texture)
+			{
+				this.texture = texture;
+				this.renderMode = RenderMode.TEXTURE;
 				return this;
 			}
 
 			public EmitterConfig build()
 			{
-				return new EmitterConfig(emitterShape, maxParticles, particleLife, emissionRate,
-						positionVar, maxSpeed, direction, directionVar, offset, color);
+				if (renderMode == RenderMode.SHAPE)
+				{
+					return new EmitterConfig(emitterShape, maxParticles, particleLife,
+							emissionRate,
+							positionVar, maxSpeed, direction, directionVar, offset, color);
+				}
+				else if (renderMode == RenderMode.TEXTURE)
+				{
+					return new EmitterConfig(emitterShape, maxParticles, particleLife,
+							emissionRate,
+							positionVar, maxSpeed, direction, directionVar, offset, texture);
+				}
+				return null;
 			}
 		}
 
@@ -318,5 +381,17 @@ public class EternalEmitter extends Emitter
 	int getLiveParticles()
 	{
 		return particles.size();
+	}
+
+	@Override
+	public Bitmap getTexture()
+	{
+		return this.config.getTexture();
+	}
+
+	@Override
+	public RenderMode getRenderMode()
+	{
+		return this.config.getRenderMode();
 	}
 }

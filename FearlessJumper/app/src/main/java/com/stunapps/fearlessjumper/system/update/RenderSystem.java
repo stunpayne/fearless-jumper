@@ -19,6 +19,7 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
@@ -311,23 +312,36 @@ public class RenderSystem implements UpdateSystem
 			{
 				Set<Particle> particles = emitter.getParticles();
 				//				Log.d(TAG, "Particles size: " + particles.size());
-				renderParticles(particles);
+				renderEmitterParticles(emitter);
 			}
 		}
 	}
 
-	private void renderParticles(Set<Particle> particles)
+	private void renderEmitterParticles(Emitter emitter)
 	{
 		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
+		Set<Particle> particles = emitter.getParticles();
+		RenderMode renderMode = emitter.getRenderMode();
+		Bitmap texture = emitter.getTexture();
 		for (Particle particle : particles)
 		{
-			particlePaint.setAlpha((int) (255 * particle.alpha));
 			particlePaint.setColor(particle.getColor());
+			particlePaint.setAlpha((int) (255 * particle.alpha));
 			if (particle.isActive)
 			{
 				Position camPosition = Cameras.getMainCamera().position;
-				canvas.drawCircle(particle.position.x - camPosition.x,
-						particle.position.y - camPosition.y, 5, particlePaint);
+
+				float x = particle.position.x - camPosition.x;
+				float y = particle.position.y - camPosition.y;
+				switch (renderMode)
+				{
+					case SHAPE:
+						canvas.drawCircle(x, y, 5, particlePaint);
+						break;
+					case TEXTURE:
+						canvas.drawBitmap(texture, x - texture.getWidth() / 2,
+								y + texture.getHeight() / 2, particlePaint);
+				}
 			}
 		}
 	}
