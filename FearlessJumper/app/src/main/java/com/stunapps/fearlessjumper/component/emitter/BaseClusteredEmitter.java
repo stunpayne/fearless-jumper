@@ -129,4 +129,16 @@ abstract public class BaseClusteredEmitter extends Emitter
 		particle.reset();
 		particlePool.returnObject(particle);
 	}
+
+	@Override
+	public void activate()
+	{
+		isInitialised = true;
+	}
+
+	@Override
+	public void deactivate()
+	{
+		isInitialised = false;
+	}
 }

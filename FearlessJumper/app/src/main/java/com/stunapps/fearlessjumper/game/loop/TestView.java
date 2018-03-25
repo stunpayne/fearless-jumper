@@ -180,6 +180,7 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 //							.directionVar(emitterConfig.getDirectionVar()).build());
 			entity.addComponent(new EternalEmitter(emitterConfig));
 			entity.getComponent(Emitter.class).init();
+			entity.getComponent(Emitter.class).activate();
 			emitterCreated = true;
 		}
 		catch (CloneNotSupportedException e)

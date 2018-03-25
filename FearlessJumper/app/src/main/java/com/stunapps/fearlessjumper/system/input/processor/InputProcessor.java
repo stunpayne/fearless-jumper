@@ -1,8 +1,7 @@
 package com.stunapps.fearlessjumper.system.input.processor;
 
-import android.view.MotionEvent;
-
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.system.model.InputWrapper;
 
 /**
  * Created by sunny.s on 20/01/18.
@@ -10,5 +9,5 @@ import com.stunapps.fearlessjumper.entity.Entity;
 
 public interface InputProcessor
 {
-    public void process(Entity entity, MotionEvent motionEvent);
+	void update(long deltaTime, Entity player, InputWrapper inputWrapper);
 }

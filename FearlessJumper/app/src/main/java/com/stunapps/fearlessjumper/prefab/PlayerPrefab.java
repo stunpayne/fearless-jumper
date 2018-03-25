@@ -2,14 +2,19 @@ package com.stunapps.fearlessjumper.prefab;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.component.Vector2D;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
+import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.health.Health;
-import com.stunapps.fearlessjumper.component.input.OrientationInput;
+import com.stunapps.fearlessjumper.component.input.Input;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -19,7 +24,6 @@ import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
-import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -45,40 +49,44 @@ public class PlayerPrefab extends ComponentPrefab
 		Bitmap blankImage = Bitmaps.BLANK_IMAGE;
 		Bitmap alienDied = Bitmaps.PLAYER_DIED;
 
-        Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);
-        Animation alienHurtAnim = new Animation(new Bitmap[]{blankImage, alienHurt, blankImage}, 0.01f);
-        Animation alienDiedAnim = new Animation(new Bitmap[]{alienDied}, 0.5f);
+		Animation alienAnim = new Animation(new Bitmap[]{alien}, 0.5f);
+		Animation alienHurtAnim =
+				new Animation(new Bitmap[]{blankImage, alienHurt, blankImage}, 0.01f);
+		Animation alienDiedAnim = new Animation(new Bitmap[]{alienDied}, 0.5f);
 
-        Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
-        stateAnimationMap.put(IDLE, alienAnim);
-        stateAnimationMap.put(HURT, alienHurtAnim);
-        stateAnimationMap.put(TERMINATED, alienDiedAnim);
+		Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
+		stateAnimationMap.put(IDLE, alienAnim);
+		stateAnimationMap.put(HURT, alienHurtAnim);
+		stateAnimationMap.put(TERMINATED, alienDiedAnim);
 
 		StateMachine animationStateMachine =
-				StateMachine.builder()
-						.startState(IDLE)
-						.from(IDLE).onEvent(AnimationTransition.HURT).toState(HURT)
-						.from(HURT).onEvent(AnimationTransition.HURT).toState(HURT)
-						.from(HURT).onCountDown(1000l).toState(IDLE)
-						.fromAnyStateOnEvent(TERMINATE).toState(TERMINATED)
-						.fromAnyStateOnEvent(NORMALIZE).toState(IDLE)
-						.terminalState(TERMINATED)
-						.build();
+				StateMachine.builder().startState(IDLE).from(IDLE).onEvent(AnimationTransition
+						.HURT)
+						.toState(HURT).from(HURT).onEvent(AnimationTransition.HURT).toState(HURT)
+						.from(HURT).onCountDown(1000l).toState(IDLE).fromAnyStateOnEvent(TERMINATE)
+						.toState(TERMINATED).fromAnyStateOnEvent(NORMALIZE).toState(IDLE)
+						.terminalState(TERMINATED).build();
 
-		addComponent(new Renderable(alien, Delta.ZERO, alien.getWidth(),
-				alien.getHeight()));
+		addComponent(new Renderable(alien, Delta.ZERO, alien.getWidth(), alien.getHeight()));
 		addComponent(new Animator(stateAnimationMap, animationStateMachine));
 
 		addComponent(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight(),
-										CollisionLayer.PLAYER));
+				CollisionLayer.PLAYER));
 
 		addComponent(new Health(10));
 		addComponent(new PhysicsComponent(50, Velocity.ZERO));
-		OrientationInput orientationInput = DI.di().getInstance(OrientationInput.class);
-		addComponent(orientationInput);
+//		SensorDataAdapter orientationInput = DI.di().getInstance(SensorDataAdapter.class);
+//		addComponent(orientationInput);
+		addComponent(new Input(true, false));
 		addComponent(new PlayerComponent());
 		addComponent(new RemainingTime(60000));
 		addComponent(new Score());
 		addComponent(new Fuel(100f));
+		addComponent(new EternalEmitter(
+				EmitterConfig.builder().emitterShape(EmitterShape.CONE_DIVERGE).maxParticles(200)
+						.particleLife(300).emissionRate(200).positionVar(new Vector2D(13, 0))
+						.maxSpeed(3).direction(-90).directionVar(40)
+						.offset(new Vector2D(alien.getWidth() / 2, alien.getHeight()))
+						.color(Color.RED).build()));
 	}
 }

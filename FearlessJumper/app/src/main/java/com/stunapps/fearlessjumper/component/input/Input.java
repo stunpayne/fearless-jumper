@@ -7,10 +7,31 @@ import com.stunapps.fearlessjumper.component.Component;
  * Created by anand.verma on 12/01/18.
  */
 
-abstract public class Input extends Component
+public class Input extends Component
 {
-    public Input()
-    {
-        super(Input.class);
-    }
+	private boolean respondsToTouch;
+	private boolean respondsToSensor;
+
+	public Input(boolean respondsToTouch, boolean respondsToSensor)
+	{
+		super(Input.class);
+		this.respondsToTouch = respondsToTouch;
+		this.respondsToSensor = respondsToSensor;
+	}
+
+	public boolean respondsToTouch()
+	{
+		return respondsToTouch;
+	}
+
+	public boolean respondsToSensor()
+	{
+		return respondsToSensor;
+	}
+
+	@Override
+	public Component clone() throws CloneNotSupportedException
+	{
+		return new Input(respondsToTouch, respondsToSensor);
+	}
 }

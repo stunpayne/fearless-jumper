@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.system.input;
 
+import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 
 /**
@@ -8,5 +9,5 @@ import android.view.MotionEvent;
 
 public interface InputSystem
 {
-    public void processInput(MotionEvent motionEvent);
+	void processTouchInput(MotionEvent motionEvent);
 }

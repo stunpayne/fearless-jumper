@@ -9,7 +9,8 @@
     <string name="count">Max</string>
     <string name="rate">Rate</string>
     <string name="speed">Speed</string>
-    <string name="positionVar">Pos Var</string>
+    <string name="xPosVar">X Var</string>
+    <string name="yPosVar">Y Var</string>
     <string name="direction">Direction</string>
     <string name="directionVar">Dir Var</string>
     <string name="render">Render</string>

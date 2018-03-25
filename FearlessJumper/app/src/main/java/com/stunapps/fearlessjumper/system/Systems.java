@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.system;
 
+import android.hardware.SensorEvent;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -12,6 +13,7 @@ import com.stunapps.fearlessjumper.system.eventonly.PickupSystem;
 import com.stunapps.fearlessjumper.system.update.AnimationSystem;
 import com.stunapps.fearlessjumper.system.update.ClockCountdownSystem;
 import com.stunapps.fearlessjumper.system.update.FuelSystem;
+import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.LowerBoundarySystem;
 import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.GenerationSystem;
@@ -47,11 +49,11 @@ public class Systems
 	private static long endTime = 0;
 
 	private static final List<Class<? extends UpdateSystem>> systemOrder =
-			Arrays.asList(PhysicsSystem.class, GenerationSystem.class, MovementUpdateSystem.class,
-						  CollisionSystem.class, LowerBoundarySystem.class,
-						  TransformUpdateSystem.class, ScoreUpdateSystem.class,
-						  ClockCountdownSystem.class, FuelSystem.class, PeriodicGunSystem.class,
-						  AnimationSystem.class, ParticleSystem.class, RenderSystem.class);
+			Arrays.asList(InputUpdateSystem.class, PhysicsSystem.class, GenerationSystem.class,
+					MovementUpdateSystem.class, CollisionSystem.class, LowerBoundarySystem.class,
+					TransformUpdateSystem.class, ScoreUpdateSystem.class,
+					ClockCountdownSystem.class, FuelSystem.class, PeriodicGunSystem.class,
+					AnimationSystem.class, ParticleSystem.class, RenderSystem.class);
 
 	//  Next lines is hacky. The variable should be list but we can't create a list of
 	//  subclasses with only one element
@@ -92,7 +94,7 @@ public class Systems
 	{
 		for (InputSystem system : inputSystemsInOrder)
 		{
-			system.processInput(motionEvent);
+			system.processTouchInput(motionEvent);
 		}
 	}
 

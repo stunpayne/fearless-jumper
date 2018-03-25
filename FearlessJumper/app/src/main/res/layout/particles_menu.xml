@@ -25,13 +25,13 @@
         android:id="@+id/maxParticlesValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="300"
+        android:inputType="number"
+        android:text="1"
         android:textAlignment="center"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/lifeText"
         app:layout_constraintStart_toEndOf="@id/maxParticlesText"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="number"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <!--Life-->
@@ -49,13 +49,13 @@
         android:id="@+id/lifeValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:text="800"
         android:textAlignment="center"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/rateText"
         app:layout_constraintStart_toEndOf="@id/lifeText"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="number"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <!--Rate-->
@@ -73,36 +73,58 @@
         android:id="@+id/rateValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:text="100"
         android:textAlignment="center"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@id/posVarText"
+        app:layout_constraintEnd_toStartOf="@id/xPosVarText"
         app:layout_constraintStart_toEndOf="@id/rateText"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="number"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <!--Position var-->
+    <!--Position vars-->
     <TextView
-        android:id="@+id/posVarText"
+        android:id="@+id/xPosVarText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/positionVar"
-        app:layout_constraintBottom_toBottomOf="@id/posVarValue"
-        app:layout_constraintEnd_toStartOf="@id/posVarValue"
+        android:text="@string/xPosVar"
+        app:layout_constraintBottom_toBottomOf="@id/xPosVarValue"
+        app:layout_constraintEnd_toStartOf="@id/xPosVarValue"
         app:layout_constraintStart_toEndOf="@id/rateValue"
-        app:layout_constraintTop_toTopOf="@id/posVarValue"/>
+        app:layout_constraintTop_toTopOf="@id/xPosVarValue"/>
 
     <EditText
-        android:id="@+id/posVarValue"
+        android:id="@+id/xPosVarValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="15"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@id/yPosVarText"
+        app:layout_constraintStart_toEndOf="@id/xPosVarText"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/yPosVarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/yPosVar"
+        app:layout_constraintBottom_toBottomOf="@id/yPosVarValue"
+        app:layout_constraintEnd_toStartOf="@id/yPosVarValue"
+        app:layout_constraintStart_toEndOf="@id/xPosVarValue"
+        app:layout_constraintTop_toTopOf="@id/yPosVarValue"/>
+
+    <EditText
+        android:id="@+id/yPosVarValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
         android:text="15"
         android:textAlignment="center"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/posVarText"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="number"/>
+        app:layout_constraintStart_toEndOf="@id/yPosVarText"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- ___________________________FIRST LINE ENDS______________________________ -->
 
@@ -125,13 +147,13 @@
         android:id="@+id/speedValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:text="6"
         android:textAlignment="center"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/dirText"
         app:layout_constraintStart_toEndOf="@id/speedText"
-        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"
-        android:inputType="number"/>
+        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"/>
 
     <!--Direction-->
     <TextView
@@ -148,13 +170,13 @@
         android:id="@+id/dirValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="-90"
+        android:inputType="number"
+        android:text="90"
         android:textAlignment="center"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/dirVarText"
         app:layout_constraintStart_toEndOf="@id/dirText"
-        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"
-        android:inputType="number"/>
+        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"/>
 
     <!--Direction Var-->
     <TextView
@@ -171,13 +193,13 @@
         android:id="@+id/dirVarValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:text="3"
         android:textAlignment="center"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/dirVarText"
-        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"
-        android:inputType="number"/>
+        app:layout_constraintTop_toBottomOf="@id/maxParticlesText"/>
 
     <!-- ___________________________SECOND LINE ENDS______________________________ -->
 
@@ -185,9 +207,20 @@
     <!--Drop down menu for emitter type-->
     <Spinner
         android:id="@+id/emitterType"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
+        app:layout_constraintEnd_toStartOf="@id/renderMode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/speedText"/>
+
+    <Spinner
+        android:id="@+id/renderMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/emitterType"
         app:layout_constraintTop_toBottomOf="@id/speedText"/>
 
     <!--Render button-->

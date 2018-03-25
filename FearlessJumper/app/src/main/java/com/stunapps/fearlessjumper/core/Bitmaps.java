@@ -36,10 +36,13 @@ public class Bitmaps
 	public static Bitmap DRAGON_ASSAULT3;
 	public static Bitmap DRAGON_ASSAULT4;
 
-	//	bullet
+	//	Bullet
 	public static Bitmap BULLET;
 
 	public static Bitmap BLANK_IMAGE;
+
+	//	Textures
+	public static Bitmap FIRE_TEXTURE;
 
 	public static void initialise()
 	{
@@ -63,6 +66,8 @@ public class Bitmaps
 		BULLET = initBitmap(R.drawable.bullet, Dimensions.bulletX, Dimensions.bulletY);
 
 		BLANK_IMAGE = initBitmap(R.drawable.blank_image, 90, 125);
+
+		FIRE_TEXTURE = initBitmap(R.drawable.fire_particle_16, 16, 16);
 	}
 
 	private static Bitmap initBitmap(int drawableResId, int width, int height)

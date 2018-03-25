@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.Time;
@@ -160,7 +159,6 @@ public class GameView extends BaseView implements SurfaceHolder.Callback
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		//  Call Input System
 		Systems.processInput(event);
 		return true;
 	}

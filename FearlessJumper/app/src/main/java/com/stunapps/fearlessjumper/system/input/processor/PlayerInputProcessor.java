@@ -2,16 +2,21 @@ package com.stunapps.fearlessjumper.system.input.processor;
 
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.MotionEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.stunapps.fearlessjumper.component.emitter.Emitter;
+import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.system.Systems;
+import com.stunapps.fearlessjumper.system.model.InputWrapper;
+import com.stunapps.fearlessjumper.system.update.InputUpdateSystem.ScreenState;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
@@ -33,10 +38,17 @@ import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 @Singleton
 public class PlayerInputProcessor implements InputProcessor
 {
-	private static float JUMP_IMPULSE = 1 / 80f;
-	private static float FUEL_DISCHARGE = 5f;
-	private static long lastProcessTime = System.nanoTime();
+	private static final String TAG = PlayerInputProcessor.class.getSimpleName();
 
+	private static float FUEL_DISCHARGE = 80f;
+
+	private static float JUMP_IMPULSE = -40f;
+
+	private static float X_MULTIPLIER = 30f;
+	private static float MAX_X_SPEED = 7f;
+	private static float MIN_X_SPEED = -7f;
+
+	private static long lastProcessTime = System.nanoTime();
 	private static Map<Class, Long> debugSystemRunTimes = new HashMap<>();
 
 	@Inject
@@ -44,42 +56,69 @@ public class PlayerInputProcessor implements InputProcessor
 	{
 	}
 
-	@Override
-	public void process(Entity player, MotionEvent motionEvent)
+	public void update(long deltaTime, Entity player, InputWrapper inputWrapper)
 	{
-		long currentTime = System.currentTimeMillis();
-		long deltaTime = currentTime - lastProcessTime;
 		lastProcessTime = System.currentTimeMillis();
-		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+
+		handleTouch(inputWrapper.getScreenState(), player, deltaTime);
+		handleSensorData(inputWrapper.getSensorData(), player);
+	}
+
+
+	private void handleTouch(ScreenState screenTouchState, Entity player, long deltaTime)
+	{
+		if (screenTouchState == ScreenState.SCREEN_PRESSED)
 		{
 			//  To test is input is occurring between collision and transform update
 			//			logSystemTimes();
-			Rect entityCanvasRect = RenderSystem.getRenderRect(player);
 			Fuel fuel = player.getComponent(Fuel.class);
 			if (fuel.getFuel() > 0)
 			{
-				applyForceToPlayer(new Position(entityCanvasRect.left, entityCanvasRect.top),
-								   player.getComponent(PhysicsComponent.class), motionEvent);
+				applyForceToPlayer(player.getComponent(PhysicsComponent.class));
 				dischargeFuel(fuel, deltaTime);
+				player.getComponent(Emitter.class).activate();
 			}
+			else
+			{
+				player.getComponent(Emitter.class).deactivate();
+			}
+		}
+		else if (screenTouchState == ScreenState.SCREEN_RELEASED)
+		{
+			player.getComponent(Emitter.class).deactivate();
 		}
 	}
 
-	private void applyForceToPlayer(Position position, PhysicsComponent physicsComponent,
-			MotionEvent motionEvent)
+	private void handleSensorData(SensorData sensorData, Entity player)
 	{
-		float forceX = motionEvent.getX() - position.x;
-		float forceY = motionEvent.getY() - position.y;
+		if (sensorData == null) return;
 
-		physicsComponent.getVelocity().x += (forceX * JUMP_IMPULSE);
-		physicsComponent.getVelocity().y += (forceY * JUMP_IMPULSE);
+		float roll = sensorData.getRoll();
+
+		float xSpeed = scaleX(X_MULTIPLIER * roll * Time.DELTA_TIME);
+
+		Velocity velocity = player.getComponent(PhysicsComponent.class).getVelocity();
+		float newXVel = velocity.getX() + xSpeed;
+
+		/*
+		 * Clamp x speed
+		 */
+		newXVel = Math.max(scaleX(MIN_X_SPEED), newXVel);
+		newXVel = Math.min(scaleX(MAX_X_SPEED), newXVel);
+
+		velocity.setX(newXVel);
+	}
+
+	private void applyForceToPlayer(PhysicsComponent physicsComponent)
+	{
+		physicsComponent.getVelocity().y += (scaleY(JUMP_IMPULSE) * Time.DELTA_TIME);
 	}
 
 	private void dischargeFuel(Fuel fuel, long deltaTime)
 	{
 		Log.v("FUEL", "Current: " + fuel.getFuel() + " discharge amount: " +
 				FUEL_DISCHARGE * deltaTime / Time.ONE_SECOND_NANOS);
-		fuel.dischargeFuel(FUEL_DISCHARGE);
+		fuel.dischargeFuel(FUEL_DISCHARGE * deltaTime / Time.ONE_SECOND_NANOS);
 	}
 
 

@@ -7,9 +7,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -18,7 +19,10 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.component.health.Health;
+import com.stunapps.fearlessjumper.component.input.SensorDataAdapter;
+import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -32,7 +36,6 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
-import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
@@ -58,6 +61,7 @@ public class RenderSystem implements UpdateSystem
 
 	private final ComponentManager componentManager;
 	private final GameStatsManager gameStatsManager;
+	private final SensorDataAdapter sensorDataAdapter;
 
 	private static int frameNum = 0;
 
@@ -73,9 +77,11 @@ public class RenderSystem implements UpdateSystem
 	private Paint particlePaint;
 
 	@Inject
-	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager)
+	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager,
+			SensorDataAdapter sensorDataAdapter)
 	{
 		this.componentManager = componentManager;
+		this.sensorDataAdapter = sensorDataAdapter;
 
 		//	Initialise background bitmap
 		Bitmap originalBg =
@@ -108,44 +114,33 @@ public class RenderSystem implements UpdateSystem
 		long startTime = java.lang.System.nanoTime();
 		Cameras.update();
 		long endTime = java.lang.System.nanoTime();
-		Log.d("RenderSystem".concat(".Time"),
-			  "camera" + "," + frameNum + "," +
-					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 
 		startTime = java.lang.System.nanoTime();
 		renderBackground();
 		endTime = java.lang.System.nanoTime();
-		Log.d("RenderSystem".concat(".Time"),
-			  "background" + "," + frameNum + "," +
-					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 		startTime = java.lang.System.nanoTime();
 		renderEntities();
 		endTime = java.lang.System.nanoTime();
 
-		Log.d("RenderSystem".concat(".Time"),
-			  "entities" + "," + frameNum + "," +
-					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
-
 		startTime = java.lang.System.nanoTime();
 		renderHUD();
 		endTime = java.lang.System.nanoTime();
-		Log.d("RenderSystem".concat(".Time"),
-			  "hud" + "," + frameNum + "," +
-					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 		startTime = java.lang.System.nanoTime();
 		renderParticleEmission();
 		endTime = java.lang.System.nanoTime();
-		Log.d("RenderSystem".concat(".Time"),
-			  "particles" + "," + frameNum + "," +
-					  ((endTime - startTime) / Time.ONE_SECOND_MILLIS));
 
 		//testing
 		if (Settings.DEBUG_MODE)
 		{
 			//renderGameStats();
+		}
+
+		if (Settings.PRINT_SENSOR_DATA)
+		{
+			renderSensorData();
 		}
 
 		frameNum++;
@@ -162,33 +157,32 @@ public class RenderSystem implements UpdateSystem
 		float x = Device.SCREEN_WIDTH / 2;
 		float y = Device.SCREEN_HEIGHT / 2 - 300;
 
-		canvas.drawText(String.valueOf("Score : " + gameStatsManager.getCurrentScore()), x,
-						y, paint);
+		canvas.drawText(String.valueOf("Score : " + gameStatsManager.getCurrentScore()), x, y,
+				paint);
 		y += 50;
-		canvas.drawText(
-				String.valueOf("High Score : " + gameStatsManager.getSessionHighScore())
+		canvas.drawText(String.valueOf("High Score : " + gameStatsManager.getSessionHighScore())
 				, x,
 				y, paint);
 		y += 50;
 		canvas.drawText(
-				String.valueOf("All Time High Score : " + gameStatsManager.getGlobalHighScore()), x,
+				String.valueOf("All Time High Score : " + gameStatsManager.getGlobalHighScore())
+				, x,
 				y, paint);
 
 		y += 50;
 
-		canvas.drawText(String.valueOf("Avg Score : " + gameStatsManager.getAverageScore()), x,
-						y, paint);
+		canvas.drawText(String.valueOf("Avg Score : " + gameStatsManager.getAverageScore()), x, y,
+				paint);
 
 		if (!gameStatsManager.getDeathStat().isEmpty())
 		{
 			y += 50;
-			canvas.drawText(String.valueOf("Killed By : " + gameStatsManager.getDeathStat())
-					, x,
-							y, paint);
+			canvas.drawText(String.valueOf("Killed By : " + gameStatsManager.getDeathStat()), x, y,
+					paint);
 		}
 
-		Iterator<Entry<String, Integer>> iterator =  gameStatsManager.getHurtStats().entrySet()
-				.iterator();
+		Iterator<Entry<String, Integer>> iterator =
+				gameStatsManager.getHurtStats().entrySet().iterator();
 		while (iterator.hasNext())
 		{
 			y += 50;
@@ -198,7 +192,7 @@ public class RenderSystem implements UpdateSystem
 
 		y += 50;
 		canvas.drawText(String.valueOf("GamePlay Count : " + gameStatsManager.getGamePlayCount()),
-						x, y, paint);
+				x, y, paint);
 
 		y += 50;
 		int i = 1;
@@ -214,7 +208,7 @@ public class RenderSystem implements UpdateSystem
 				qualifier = "rd";
 			}
 			canvas.drawText(i + qualifier + " Last Score" + " : " + String.valueOf(previousScore),
-							x, y,
+					x, y,
 
 					paint);
 			y += 50;
@@ -256,8 +250,7 @@ public class RenderSystem implements UpdateSystem
 	{
 		canvas.drawColor(Color.BLACK);
 
-		if(!shouldRenderBackground)
-			return;
+		if (!shouldRenderBackground) return;
 
 		List<ParallaxDrawableArea> drawableAreas =
 				background.getDrawables(Cameras.getMainCamera().position.getY());
@@ -304,8 +297,7 @@ public class RenderSystem implements UpdateSystem
 		if (entity.hasComponent(Enemy.class))
 		{
 			Enemy enemy = entity.getComponent(Enemy.class);
-			canvas.drawText(enemy.getEnemyType().name(), left, top,
-							colliderPaint);
+			canvas.drawText(enemy.getEnemyType().name(), left, top, colliderPaint);
 		}
 	}
 
@@ -319,23 +311,37 @@ public class RenderSystem implements UpdateSystem
 			if (emitter.isInitialised())
 			{
 				Set<Particle> particles = emitter.getParticles();
-//				Log.d(TAG, "Particles size: " + particles.size());
-				renderParticles(particles);
+				//				Log.d(TAG, "Particles size: " + particles.size());
+				renderEmitterParticles(emitter);
 			}
 		}
 	}
 
-	private void renderParticles(Set<Particle> particles)
+	private void renderEmitterParticles(Emitter emitter)
 	{
 		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
+		Set<Particle> particles = emitter.getParticles();
+		RenderMode renderMode = emitter.getRenderMode();
+		Bitmap texture = emitter.getTexture();
 		for (Particle particle : particles)
 		{
+			particlePaint.setColor(particle.getColor());
 			particlePaint.setAlpha((int) (255 * particle.alpha));
 			if (particle.isActive)
 			{
 				Position camPosition = Cameras.getMainCamera().position;
-				canvas.drawCircle(particle.position.x - camPosition.x,
-						particle.position.y - camPosition.y, 5, particlePaint);
+
+				float x = particle.position.x - camPosition.x;
+				float y = particle.position.y - camPosition.y;
+				switch (renderMode)
+				{
+					case SHAPE:
+						canvas.drawCircle(x, y, 5, particlePaint);
+						break;
+					case TEXTURE:
+						canvas.drawBitmap(texture, x - texture.getWidth() / 2,
+								y + texture.getHeight() / 2, particlePaint);
+				}
 			}
 		}
 	}
@@ -343,10 +349,8 @@ public class RenderSystem implements UpdateSystem
 	private Paint initParticlePaint()
 	{
 		Paint paint = new Paint();
-		paint.setColor(Color.WHITE);
-		paint.setTextAlign(Align.CENTER);
-		paint.setTypeface(Typeface.SANS_SERIF);
-		paint.setTextSize(50);
+		paint.setColor(Color.RED);
+		paint.setXfermode(new PorterDuffXfermode(Mode.ADD));
 		return paint;
 	}
 
@@ -356,8 +360,7 @@ public class RenderSystem implements UpdateSystem
 	private void renderHUD()
 	{
 		Entity player = componentManager.getEntity(PlayerComponent.class);
-		if (player == null)
-			return;
+		if (player == null) return;
 
 		int timeRectTop = 80;
 		Paint paint = new Paint();
@@ -407,5 +410,21 @@ public class RenderSystem implements UpdateSystem
 		Health health = player.getComponent(Health.class);
 		String healthText = " Health: " + health.getHealth();
 		MainActivity.getInstance().updateHealth(healthText);
+	}
+
+
+	private void renderSensorData()
+	{
+		SensorData sensorData = sensorDataAdapter.update();
+		if (canvas != null)
+		{
+			Paint fpsPaint = new Paint();
+			fpsPaint.setColor(Color.MAGENTA);
+			fpsPaint.setTextSize(40);
+			canvas.drawText(String.valueOf(sensorData.getPitch()), 5 * canvas.getWidth() / 12,
+					5 * canvas.getHeight() / 60, fpsPaint);
+			canvas.drawText(String.valueOf(sensorData.getRoll()), 5 * canvas.getWidth() / 12,
+					7 * canvas.getHeight() / 60, fpsPaint);
+		}
 	}
 }
