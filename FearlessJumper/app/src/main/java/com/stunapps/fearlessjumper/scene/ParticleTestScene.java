@@ -2,28 +2,34 @@ package com.stunapps.fearlessjumper.scene;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 import android.support.annotation.IdRes;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.Vector2D;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig.Builder;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig.Builder;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.event.EventSystem;
 import com.stunapps.fearlessjumper.game.loop.TestView;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by sunny.s on 15/03/18.
@@ -112,14 +118,23 @@ public class ParticleTestScene extends AbstractScene
 			float speed = textViewFloatValue(R.id.speedValue);
 			float direction = textViewFloatValue(R.id.dirValue);
 			float directionVar = textViewFloatValue(R.id.dirVarValue);
-			EmitterShape emitterShape = emitterShape();
+			EmitterShape emitterShape = getSpinnerEnumValue(R.id.emitterType, EmitterShape.class,
+					EmitterShape.CONE_DIVERGE);
+			Mode blendMode = getSpinnerEnumValue(R.id.blendMode, Mode.class, Mode.DST_OVER);
+			int[] startC = parseColor(R.id.startColorValue);
+			int[] endC = parseColor(R.id.endColorValue);
+			int size = textViewIntValue(R.id.sizeValue);
+
+
 			Builder configBuilder =
 					EmitterConfig.builder().emitterShape(emitterShape).maxParticles(max)
 							.particleLife(life).emissionRate(rate)
 							.positionVar(new Vector2D(xPosVar, yPosVar)).maxSpeed(speed)
-							.direction(direction).directionVar(directionVar);
+							.direction(direction).directionVar(directionVar)
+							.blendingMode(blendMode);
 
-			RenderMode renderMode = renderMode();
+			RenderMode renderMode =
+					getSpinnerEnumValue(R.id.renderMode, RenderMode.class, RenderMode.SHAPE);
 			switch (renderMode)
 			{
 				case TEXTURE:
@@ -127,10 +142,9 @@ public class ParticleTestScene extends AbstractScene
 					break;
 				case SHAPE:
 				default:
-					//					configBuilder.color(Color.CYAN);
 					configBuilder
-							.colorLimits(Color.parseColor("#ffe0a307"),
-									Color.parseColor("#fff04f0b"));
+							.colorLimits(Color.argb(startC[0], startC[1], startC[2], startC[3]),
+									Color.argb(endC[0], endC[1], endC[2], endC[3])).size(size);
 					break;
 			}
 			mTestView.restartParticles(configBuilder.build());
@@ -145,37 +159,69 @@ public class ParticleTestScene extends AbstractScene
 
 	private int textViewIntValue(@IdRes int id)
 	{
-		return Integer.parseInt(((TextView) mParticlesMenu.findViewById(id)).getText().toString());
+		return Integer.parseInt(((EditText) mParticlesMenu.findViewById(id)).getText().toString());
 	}
 
 	private float textViewFloatValue(@IdRes int id)
 	{
-		return Float.parseFloat(((TextView) mParticlesMenu.findViewById(id)).getText().toString());
+		return Float.parseFloat(((EditText) mParticlesMenu.findViewById(id)).getText().toString());
 	}
 
-	private EmitterShape emitterShape()
+	private int[] parseColor(@IdRes int id)
 	{
-		Object dropDownSelected =
-				((Spinner) mParticlesMenu.findViewById(R.id.emitterType)).getSelectedItem();
-		String emitterTypeString =
-				dropDownSelected == null ? EmitterShape.CONE_DIVERGE.name() : dropDownSelected
-						.toString();
-		return EmitterShape.valueOf(emitterTypeString);
+		String colorString = ((EditText) mParticlesMenu.findViewById(id)).getText().toString();
+
+		if (null == colorString || colorString.isEmpty())
+			throw new IllegalArgumentException("Incorrect value of color String");
+
+		int[] argb = new int[4];
+		String[] splits = colorString.split(",");
+		if (splits.length < 4)
+			throw new IllegalArgumentException("Incorrect number of values in color");
+
+		argb[0] = Integer.parseInt(splits[0]);
+		argb[1] = Integer.parseInt(splits[1]);
+		argb[2] = Integer.parseInt(splits[2]);
+		argb[3] = Integer.parseInt(splits[3]);
+
+		return argb;
 	}
 
-	private RenderMode renderMode()
+	private <C extends Enum<C>> C getSpinnerEnumValue(@IdRes int id, Class<C> enumClass,
+			C defaultValue)
 	{
-		Object dropDownSelected =
-				((Spinner) mParticlesMenu.findViewById(R.id.renderMode)).getSelectedItem();
-		String emitterTypeString =
-				dropDownSelected == null ? RenderMode.SHAPE.name() : dropDownSelected.toString();
-		return RenderMode.valueOf(emitterTypeString);
+		Object selectedItem = ((Spinner) mParticlesMenu.findViewById(id)).getSelectedItem();
+		String string = selectedItem == null ? defaultValue.name() : selectedItem.toString();
+		try
+		{
+			return Enum.valueOf(enumClass, string);
+		}
+		catch (IllegalArgumentException e)
+		{
+			Log.d(TAG, "Exception Type =  " + enumClass.getName() + " and value = " + string, e);
+		}
+		catch (NullPointerException e)
+		{
+			Log.d(TAG, "Exception Type =  " + enumClass + " and value = " + string, e);
+		}
+		return defaultValue;
 	}
 
 	private class ViewSetup
 	{
 		void setupParticlesMenu(View particlesMenu)
 		{
+			List<Integer> numberInputIds =
+					Arrays.asList(R.id.maxParticlesValue, R.id.lifeValue, R.id.rateValue,
+							R.id.xPosVarValue, R.id.yPosVarValue, R.id.speedValue, R.id.dirValue,
+							R.id.dirVarValue);
+			for (Integer id : numberInputIds)
+			{
+				((EditText) particlesMenu.findViewById(id)).setRawInputType(
+						InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED |
+								InputType.TYPE_NUMBER_FLAG_DECIMAL);
+			}
+
 			Button renderButton = particlesMenu.findViewById(R.id.render);
 			renderButton.setOnClickListener(new OnClickListener()
 			{
@@ -186,24 +232,20 @@ public class ParticleTestScene extends AbstractScene
 				}
 			});
 
-			//	Setup emitter type drop down
-			Spinner emitterTypeDropDown = particlesMenu.findViewById(R.id.emitterType);
-			ArrayAdapter<EmitterShape> emitterShapeArrayAdapter =
-					new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item,
-							EmitterShape.values());
-			emitterShapeArrayAdapter
-					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			emitterTypeDropDown.setAdapter(emitterShapeArrayAdapter);
+			fillSpinnerEnumValues(particlesMenu, R.id.emitterType, EmitterShape.class);
+			fillSpinnerEnumValues(particlesMenu, R.id.renderMode, RenderMode.class);
+			fillSpinnerEnumValues(particlesMenu, R.id.blendMode, PorterDuff.Mode.class);
+		}
 
-
-			//	Setup render mode drop down
-			Spinner renderModeDropDown = particlesMenu.findViewById(R.id.renderMode);
-			ArrayAdapter<RenderMode> renderModeArrayAdapter =
+		private <C extends Enum<C>> void fillSpinnerEnumValues(View view, @IdRes int id,
+				Class<C> enumClass)
+		{
+			Spinner spinner = view.findViewById(id);
+			ArrayAdapter<C> arrayAdapter =
 					new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item,
-							RenderMode.values());
-			renderModeArrayAdapter
-					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			renderModeDropDown.setAdapter(renderModeArrayAdapter);
+							enumClass.getEnumConstants());
+			arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinner.setAdapter(arrayAdapter);
 		}
 	}
 }

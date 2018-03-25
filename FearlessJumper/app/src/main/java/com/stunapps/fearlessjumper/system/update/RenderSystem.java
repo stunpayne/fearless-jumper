@@ -309,6 +309,8 @@ public class RenderSystem implements UpdateSystem
 		Set<Particle> particles = emitter.getParticles();
 		RenderMode renderMode = emitter.getRenderMode();
 		Bitmap texture = emitter.getTexture();
+		particlePaint.setXfermode(emitter.getBlendMode());
+		int radius = emitter.getConfig().getSize();
 
 		for (Particle particle : particles)
 		{
@@ -325,7 +327,7 @@ public class RenderSystem implements UpdateSystem
 				switch (renderMode)
 				{
 					case SHAPE:
-						canvas.drawCircle(x, y, 20, particlePaint);
+						canvas.drawCircle(x, y, radius, particlePaint);
 						break;
 					case TEXTURE:
 						canvas.drawBitmap(texture, x - texture.getWidth() / 2,

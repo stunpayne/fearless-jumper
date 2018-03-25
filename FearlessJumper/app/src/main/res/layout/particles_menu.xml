@@ -25,7 +25,6 @@
         android:id="@+id/maxParticlesValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="1"
         android:textAlignment="center"
         android:textSize="13sp"
@@ -49,7 +48,6 @@
         android:id="@+id/lifeValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="800"
         android:textAlignment="center"
         android:textSize="13sp"
@@ -73,7 +71,6 @@
         android:id="@+id/rateValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="100"
         android:textAlignment="center"
         android:textSize="13sp"
@@ -96,7 +93,6 @@
         android:id="@+id/xPosVarValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="15"
         android:textAlignment="center"
         android:textSize="13sp"
@@ -118,7 +114,6 @@
         android:id="@+id/yPosVarValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="15"
         android:textAlignment="center"
         android:textSize="13sp"
@@ -147,7 +142,6 @@
         android:id="@+id/speedValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="6"
         android:textAlignment="center"
         android:textSize="13sp"
@@ -170,7 +164,6 @@
         android:id="@+id/dirValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="90"
         android:textAlignment="center"
         android:textSize="13sp"
@@ -193,7 +186,6 @@
         android:id="@+id/dirVarValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="3"
         android:textAlignment="center"
         android:textSize="13sp"
@@ -219,9 +211,83 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/blendMode"
         app:layout_constraintStart_toEndOf="@id/emitterType"
         app:layout_constraintTop_toBottomOf="@id/speedText"/>
+
+    <Spinner
+        android:id="@+id/blendMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/renderMode"
+        app:layout_constraintTop_toBottomOf="@id/speedText"/>
+
+
+    <!-- Color values -->
+    <TextView
+        android:id="@+id/startColorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="StartARGB"
+        app:layout_constraintBottom_toBottomOf="@id/startColorValue"
+        app:layout_constraintEnd_toStartOf="@id/startColorValue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/startColorValue"/>
+
+    <EditText
+        android:id="@+id/startColorValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="1,255,0,0"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@id/endColorText"
+        app:layout_constraintStart_toEndOf="@id/startColorText"
+        app:layout_constraintTop_toBottomOf="@id/emitterType"/>
+
+    <TextView
+        android:id="@+id/endColorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EndARGB"
+        app:layout_constraintBottom_toBottomOf="@id/endColorValue"
+        app:layout_constraintEnd_toStartOf="@id/endColorValue"
+        app:layout_constraintStart_toEndOf="@id/startColorValue"
+        app:layout_constraintTop_toTopOf="@id/endColorValue"/>
+
+    <EditText
+        android:id="@+id/endColorValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="1,255,0,255"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@id/sizeText"
+        app:layout_constraintStart_toEndOf="@id/endColorText"
+        app:layout_constraintTop_toBottomOf="@id/emitterType"/>
+
+    <TextView
+        android:id="@+id/sizeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Size"
+        app:layout_constraintBottom_toBottomOf="@id/sizeValue"
+        app:layout_constraintEnd_toStartOf="@id/sizeValue"
+        app:layout_constraintStart_toEndOf="@id/endColorValue"
+        app:layout_constraintTop_toTopOf="@id/sizeValue"/>
+
+    <EditText
+        android:id="@+id/sizeValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/sizeText"
+        app:layout_constraintTop_toBottomOf="@id/emitterType"/>
 
     <!--Render button-->
     <Button
@@ -232,7 +298,7 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emitterType"/>
+        app:layout_constraintTop_toBottomOf="@id/startColorText"/>
 
 
 </android.support.constraint.ConstraintLayout>

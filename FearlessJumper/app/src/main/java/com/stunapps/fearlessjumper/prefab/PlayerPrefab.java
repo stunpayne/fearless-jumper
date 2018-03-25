@@ -10,9 +10,9 @@ import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.component.Vector2D;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.Input;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
@@ -87,6 +87,6 @@ public class PlayerPrefab extends ComponentPrefab
 						.particleLife(300).emissionRate(200).positionVar(new Vector2D(13, 0))
 						.maxSpeed(3).direction(-90).directionVar(40)
 						.offset(new Vector2D(alien.getWidth() / 2, alien.getHeight()))
-						.color(Color.RED).build()));
+						.colorLimits(Color.RED, Color.RED | Color.BLUE).build()));
 	}
 }

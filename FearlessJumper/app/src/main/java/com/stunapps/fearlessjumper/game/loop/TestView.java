@@ -6,9 +6,8 @@ import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;

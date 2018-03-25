@@ -1,7 +1,8 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterShape;
+
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.ParticleInitializer;
 
 /**
