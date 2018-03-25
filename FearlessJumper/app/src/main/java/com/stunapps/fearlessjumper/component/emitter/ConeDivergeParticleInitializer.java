@@ -8,6 +8,7 @@ import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.ParticleInit
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.AlphaCalculator;
+import com.stunapps.fearlessjumper.particle.ColorTransitioner;
 import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.Random;
@@ -37,9 +38,19 @@ public class ConeDivergeParticleInitializer implements ParticleInitializer
 				return lifeTimer / life;
 			}
 		});
+		particle.setColorTransitioner(new ColorTransitioner()
+		{
+			@Override
+			public int transition(int startColor, int endColor, int currentColor, float life,
+					float lifeTimer)
+			{
+				return (int) (startColor + ((1 - (lifeTimer / life)) * (endColor - startColor)));
+			}
+		});
 		if (config.getRenderMode() == RenderMode.SHAPE)
 		{
-			particle.setColor(config.getColor());
+			particle.setStartColor(config.getStartColor());
+			particle.setEndColor(config.getEndColor());
 		}
 	}
 

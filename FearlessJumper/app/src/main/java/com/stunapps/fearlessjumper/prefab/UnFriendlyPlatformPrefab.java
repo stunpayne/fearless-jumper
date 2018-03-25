@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.component.Vector2D;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
@@ -38,21 +39,24 @@ public class UnFriendlyPlatformPrefab extends ComponentPrefab
 				new Transform(new Position(x, y), new Transform.Rotation(), new Transform.Scale());
 
 		Bitmap sprite = Bitmaps.PLATFORM;
-		Log.d("UnFriendly_PLATFORM", "Width: " + sprite.getWidth() + " Height: " + sprite
-				.getHeight());
+		Log.d("UnFriendly_PLATFORM",
+				"Width: " + sprite.getWidth() + " Height: " + sprite.getHeight());
+
+
 		addComponent(new Obstacle());
-		addComponent(new ContactDamageComponent(2, false, new LinkedList<CollisionFace>(
-				Arrays.asList(CollisionFace.HORIZONTAL))));
-		addComponent(new Renderable(sprite, Delta.ZERO, sprite.getWidth(),
-								  sprite.getHeight()));
+		addComponent(new ContactDamageComponent(2, false,
+				new LinkedList<CollisionFace>(Arrays.asList(CollisionFace.HORIZONTAL))));
+		addComponent(new Renderable(sprite, Delta.ZERO, sprite.getWidth(), sprite.getHeight()));
 		addComponent(new RectCollider(Delta.ZERO, sprite.getWidth(), sprite.getHeight(),
-										CollisionLayer.SOLID));
+				CollisionLayer.SOLID));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false,
-											new PhysicsComponent.Friction(50.0f, 7.5f, 7.5f,
-																		  7.5f)));
+				new PhysicsComponent.Friction(50.0f, 7.5f, 7.5f, 7.5f)));
 		addComponent(new EternalEmitter(
-				EmitterConfig.builder().emitterShape(EmitterShape.CONE_DIVERGE).maxParticles(200)
-						.particleLife(300).emissionRate(200).positionVar(20).maxSpeed(3)
-						.direction(90).directionVar(40).build()));
+				EmitterConfig.builder().emitterShape(EmitterShape.CONE_DIVERGE).maxParticles(250)
+						.particleLife(800).emissionRate(300)
+						.positionVar(new Vector2D(sprite.getWidth() / 2, 0)).maxSpeed(2)
+						.direction(90).directionVar(10)
+						.offset(new Vector2D(sprite.getWidth() / 2, 0))
+						.texture(Bitmaps.FIRE_TEXTURE).startAsActive().build()));
 	}
 }

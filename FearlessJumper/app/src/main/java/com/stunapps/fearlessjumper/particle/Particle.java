@@ -28,13 +28,22 @@ public class Particle
 	public VelocityScaler velocityScaler;
 	public float accelerationAngle;
 	public float accelerationRate;
+
 	public long life;
 	public float lifeTimer;
 	public long waitTime;
+
 	public float alpha;
 	public AlphaCalculator alphaCalculator;
-	@Getter
+
 	@Setter
+	private int startColor;
+	@Setter
+	private int endColor;
+	private ColorTransitioner colorTransitioner;
+
+
+	@Getter
 	private int color;
 
 	public Particle(long id)
@@ -84,6 +93,11 @@ public class Particle
 		this.alphaCalculator = alphaCalculatorFunction;
 	}
 
+	public void setColorTransitioner(ColorTransitioner colorTransitioner)
+	{
+		this.colorTransitioner = colorTransitioner;
+	}
+
 	/**
 	 * Function to update particle
 	 *
@@ -120,16 +134,27 @@ public class Particle
 			velocity.x += xAccelerationRate;
 			velocity.y += yAccelerationRate;
 
-			//Scale velocity
+			//	Scale velocity
 			if (null != velocityScaler)
 			{
 				velocity = velocityScaler.scale(velocity, life, lifeTimer);
 			}
 
-			//Update alpha
+			//	Update alpha
 			if (null != alphaCalculator)
 			{
 				alpha = alphaCalculator.calculate(life, lifeTimer);
+			}
+
+			//	Update color
+			if (null != colorTransitioner)
+			{
+				Log.d(TAG, String.valueOf((1 - (lifeTimer / life)) * (endColor - startColor)));
+				color = colorTransitioner.transition(startColor, endColor, color, life, lifeTimer);
+			}
+			else
+			{
+				color = startColor;
 			}
 
 			isActive = true;
@@ -159,7 +184,7 @@ public class Particle
 		this.alpha = 1;
 		this.alphaCalculator = null;
 
-		color = Color.WHITE;
+		startColor = Color.WHITE;
 	}
 
 	@Override

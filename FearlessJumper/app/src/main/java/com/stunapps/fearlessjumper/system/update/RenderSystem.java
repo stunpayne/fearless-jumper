@@ -11,6 +11,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -273,7 +274,7 @@ public class RenderSystem implements UpdateSystem
 
 			canvas.drawBitmap(bitmap, null, destRect, null);
 
-			if (Settings.DEBUG_MODE)
+			if (Settings.DRAW_COLLIDERS)
 			{
 				renderCollider(entity);
 			}
@@ -310,8 +311,6 @@ public class RenderSystem implements UpdateSystem
 			Emitter emitter = emitterEntity.getComponent(Emitter.class);
 			if (emitter.isInitialised())
 			{
-				Set<Particle> particles = emitter.getParticles();
-				//				Log.d(TAG, "Particles size: " + particles.size());
 				renderEmitterParticles(emitter);
 			}
 		}
@@ -323,6 +322,7 @@ public class RenderSystem implements UpdateSystem
 		Set<Particle> particles = emitter.getParticles();
 		RenderMode renderMode = emitter.getRenderMode();
 		Bitmap texture = emitter.getTexture();
+
 		for (Particle particle : particles)
 		{
 			particlePaint.setColor(particle.getColor());
@@ -336,11 +336,15 @@ public class RenderSystem implements UpdateSystem
 				switch (renderMode)
 				{
 					case SHAPE:
-						canvas.drawCircle(x, y, 5, particlePaint);
+						canvas.drawCircle(x, y, 20, particlePaint);
 						break;
 					case TEXTURE:
+						Log.d(TAG, "Texture mode particles left: " +
+								String.valueOf(x - texture.getWidth() / 2) + " top: " +
+								String.valueOf(y - texture.getHeight() / 2));
 						canvas.drawBitmap(texture, x - texture.getWidth() / 2,
 								y + texture.getHeight() / 2, particlePaint);
+						break;
 				}
 			}
 		}

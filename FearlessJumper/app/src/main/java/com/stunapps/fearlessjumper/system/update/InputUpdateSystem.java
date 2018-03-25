@@ -47,10 +47,11 @@ public class InputUpdateSystem implements UpdateSystem, InputUpdateManager
 		this.componentManager = componentManager;
 		this.inputProcessorFactory = inputProcessorFactory;
 		this.sensorDataAdapter = sensorDataAdapter;
-		inputStateMachine = StateMachine.builder().startState(SCREEN_RELEASED).from
-				(SCREEN_RELEASED)
-				.onEvent(ACTION_DOWN).toState(SCREEN_PRESSED).from(SCREEN_PRESSED)
-				.onEvent(ACTION_UP).toState(SCREEN_RELEASED).build();
+		inputStateMachine = StateMachine.builder()
+				.startState(SCREEN_RELEASED)
+				.from(SCREEN_RELEASED).onEvent(ACTION_DOWN).toState(SCREEN_PRESSED)
+				.from(SCREEN_PRESSED).onEvent(ACTION_UP).toState(SCREEN_RELEASED)
+				.build();
 	}
 
 	@Override

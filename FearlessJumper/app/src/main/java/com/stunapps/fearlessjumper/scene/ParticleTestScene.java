@@ -127,7 +127,10 @@ public class ParticleTestScene extends AbstractScene
 					break;
 				case SHAPE:
 				default:
-					configBuilder.color(Color.CYAN);
+					//					configBuilder.color(Color.CYAN);
+					configBuilder
+							.colorLimits(Color.parseColor("#ffe0a307"),
+									Color.parseColor("#fff04f0b"));
 					break;
 			}
 			mTestView.restartParticles(configBuilder.build());

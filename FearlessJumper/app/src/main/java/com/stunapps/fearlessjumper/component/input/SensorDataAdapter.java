@@ -32,10 +32,10 @@ public class SensorDataAdapter
 		if (frameTime < Time.INIT_TIME) frameTime = Time.INIT_TIME;
 		frameTime = System.currentTimeMillis();
 
-		Log.d("sensorDataAdapter", "sensorDataProvider.getOrientation() = " +
-				String.valueOf(sensorDataProvider.getOrientation()) +
-				", and sensorDataProvider.getStartOrientation() = " +
-				String.valueOf(sensorDataProvider.getStartOrientation()));
+//		Log.d("sensorDataAdapter", "sensorDataProvider.getOrientation() = " +
+//				String.valueOf(sensorDataProvider.getOrientation()) +
+//				", and sensorDataProvider.getStartOrientation() = " +
+//				String.valueOf(sensorDataProvider.getStartOrientation()));
 		if (sensorDataProvider.getOrientation() != null &&
 				sensorDataProvider.getStartOrientation() != null)
 		{
