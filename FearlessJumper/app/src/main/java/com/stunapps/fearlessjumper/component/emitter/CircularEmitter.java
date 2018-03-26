@@ -1,6 +1,9 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Xfermode;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.model.Velocity;
@@ -31,6 +34,12 @@ public class CircularEmitter extends BaseClusteredEmitter
 	public Bitmap getTexture()
 	{
 		return null;
+	}
+
+	@Override
+	public Xfermode getBlendMode()
+	{
+		return new PorterDuffXfermode(Mode.SRC_OVER);
 	}
 
 	@Override

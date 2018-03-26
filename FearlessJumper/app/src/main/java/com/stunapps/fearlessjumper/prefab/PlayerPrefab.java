@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
@@ -75,8 +76,8 @@ public class PlayerPrefab extends ComponentPrefab
 
 		addComponent(new Health(10));
 		addComponent(new PhysicsComponent(50, Velocity.ZERO));
-//		SensorDataAdapter orientationInput = DI.di().getInstance(SensorDataAdapter.class);
-//		addComponent(orientationInput);
+		//		SensorDataAdapter orientationInput = DI.di().getInstance(SensorDataAdapter.class);
+		//		addComponent(orientationInput);
 		addComponent(new Input(true, false));
 		addComponent(new PlayerComponent());
 		addComponent(new RemainingTime(60000));
@@ -87,6 +88,7 @@ public class PlayerPrefab extends ComponentPrefab
 						.particleLife(300).emissionRate(200).positionVar(new Vector2D(13, 0))
 						.maxSpeed(3).direction(-90).directionVar(40)
 						.offset(new Vector2D(alien.getWidth() / 2, alien.getHeight()))
-						.colorLimits(Color.RED, Color.RED | Color.BLUE).build()));
+						.colorLimits(Color.RED, Color.RED | Color.BLUE).blendingMode(Mode.ADD)
+						.build()));
 	}
 }
