@@ -19,6 +19,7 @@ import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.helper.RenderLayers;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Position;
 
@@ -81,7 +82,7 @@ public class FollowingDragonPrefab extends ComponentPrefab
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
-									dragonSprite1.getHeight()));
+									dragonSprite1.getHeight(), RenderLayers.ENEMY));
 		addComponent(animator);
 		addComponent(new Dragon(EnemyType.ZELDROY));
 		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),

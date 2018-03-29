@@ -10,6 +10,7 @@ import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
+import com.stunapps.fearlessjumper.helper.RenderLayers;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -25,9 +26,9 @@ public class BulletPrefab extends ComponentPrefab
 	{
 		Bitmap bullet = Bitmaps.BULLET;
 
-		addComponent(new Renderable(bullet, Delta.ZERO, bullet.getWidth(), bullet.getHeight()));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(scaleX(250f), 0),
-				false));
+		addComponent(new Renderable(bullet, Delta.ZERO, bullet.getWidth(), bullet.getHeight(),
+				RenderLayers.ENEMY));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(scaleX(250f), 0), false));
 		addComponent(new RectCollider(Delta.ZERO, bullet.getWidth(), bullet.getHeight(), true,
 				CollisionLayer.BULLET));
 		addComponent(new Enemy(EnemyType.GRORUM));

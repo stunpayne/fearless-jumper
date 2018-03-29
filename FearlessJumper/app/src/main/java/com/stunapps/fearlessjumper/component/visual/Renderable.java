@@ -6,6 +6,8 @@ import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.Delta;
 import com.stunapps.fearlessjumper.model.Position;
 
+import lombok.Getter;
+
 /**
  * Created by sunny.s on 11/01/18.
  */
@@ -19,7 +21,10 @@ public class Renderable extends Component
     public float height;
     public boolean isVisible;
 
-    public Renderable(Bitmap sprite, Delta delta, float width, float height)
+    @Getter
+    private int renderLayer;
+
+    public Renderable(Bitmap sprite, Delta delta, float width, float height, int renderLayer)
     {
         super(Renderable.class);
         this.sprite = sprite;
@@ -27,6 +32,7 @@ public class Renderable extends Component
         this.width = width;
         this.height = height;
         this.isVisible = false;
+        this.renderLayer = renderLayer;
     }
 
     public Bitmap getRenderable()
@@ -52,6 +58,6 @@ public class Renderable extends Component
     @Override
     public Renderable clone() throws CloneNotSupportedException
     {
-        return new Renderable(sprite, delta, width, height);
+        return new Renderable(sprite, delta, width, height, renderLayer);
     }
 }

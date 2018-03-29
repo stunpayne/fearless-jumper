@@ -13,6 +13,7 @@ import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Dragon;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
+import com.stunapps.fearlessjumper.helper.RenderLayers;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
@@ -82,7 +83,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerTransition(TURN_RIGHT);
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
-				dragonSprite1.getHeight()));
+				dragonSprite1.getHeight(), RenderLayers.ENEMY));
 		addComponent(animator);
 		addComponent(new Dragon(EnemyType.MINIGON));
 		addComponent(

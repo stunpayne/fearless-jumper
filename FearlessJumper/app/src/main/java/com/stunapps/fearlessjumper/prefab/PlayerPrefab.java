@@ -25,6 +25,7 @@ import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
+import com.stunapps.fearlessjumper.helper.RenderLayers;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Velocity;
 
@@ -68,7 +69,8 @@ public class PlayerPrefab extends ComponentPrefab
 						.toState(TERMINATED).fromAnyStateOnEvent(NORMALIZE).toState(IDLE)
 						.terminalState(TERMINATED).build();
 
-		addComponent(new Renderable(alien, Delta.ZERO, alien.getWidth(), alien.getHeight()));
+		addComponent(new Renderable(alien, Delta.ZERO, alien.getWidth(), alien.getHeight(),
+				RenderLayers.PLAYER));
 		addComponent(new Animator(stateAnimationMap, animationStateMachine));
 
 		addComponent(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight(),

@@ -16,6 +16,7 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.helper.RenderLayers;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Velocity;
@@ -47,7 +48,8 @@ public class UnFriendlyPlatformPrefab extends ComponentPrefab
 		addComponent(new Obstacle());
 		addComponent(new ContactDamageComponent(2, false,
 				new LinkedList<CollisionFace>(Arrays.asList(CollisionFace.HORIZONTAL))));
-		addComponent(new Renderable(sprite, Delta.ZERO, sprite.getWidth(), sprite.getHeight()));
+		addComponent(new Renderable(sprite, Delta.ZERO, sprite.getWidth(), sprite.getHeight(),
+				RenderLayers.PLATFORM));
 		addComponent(new RectCollider(Delta.ZERO, sprite.getWidth(), sprite.getHeight(),
 				CollisionLayer.SOLID));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false,
@@ -57,7 +59,7 @@ public class UnFriendlyPlatformPrefab extends ComponentPrefab
 						.particleLife(800).emissionRate(100)
 						.positionVar(new Vector2D(sprite.getWidth() / 2, 0)).maxSpeed(2)
 						.direction(90).directionVar(10)
-						.offset(new Vector2D(sprite.getWidth() / 2, 0))
-						.texture(fireTexture).startAsActive().build()));
+						.offset(new Vector2D(sprite.getWidth() / 2, 0)).texture(fireTexture)
+						.startAsActive().build()));
 	}
 }

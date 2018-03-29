@@ -37,11 +37,15 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
+import com.stunapps.fearlessjumper.helper.RenderLayers;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -252,8 +256,11 @@ public class RenderSystem implements UpdateSystem
 	private void renderEntities()
 	{
 		Set<Entity> entities = componentManager.getEntities(Renderable.class);
+		Log.d(TAG.concat(".sortByRenderLayer"), "Start time: " + System.nanoTime());
+		List<Entity> entitiesSortedByRenderLayer = sortEntitiesByRenderLayer(entities);
+		Log.d(TAG.concat(".sortByRenderLayer"), "End time: " + System.nanoTime());
 		//  Render all objects at their current positions
-		for (Entity entity : entities)
+		for (Entity entity : entitiesSortedByRenderLayer)
 		{
 			Renderable component = entity.getComponent(Renderable.class);
 			Bitmap bitmap = component.getRenderable();
@@ -409,5 +416,20 @@ public class RenderSystem implements UpdateSystem
 			canvas.drawText(String.valueOf(sensorData.getRoll()), 5 * canvas.getWidth() / 12,
 					7 * canvas.getHeight() / 60, fpsPaint);
 		}
+	}
+
+	private List<Entity> sortEntitiesByRenderLayer(Set<Entity> entitySet)
+	{
+		LinkedList<Entity> entityLinkedList = new LinkedList<>(entitySet);
+		Collections.sort(entityLinkedList, new Comparator<Entity>()
+		{
+			@Override
+			public int compare(Entity e1, Entity e2)
+			{
+				return e2.getComponent(Renderable.class).getRenderLayer() -
+						e1.getComponent(Renderable.class).getRenderLayer();
+			}
+		});
+		return entityLinkedList;
 	}
 }
