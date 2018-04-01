@@ -127,6 +127,12 @@ public class SceneManagerImpl implements SceneManager
 	}
 
 	@Override
+	public void back()
+	{
+
+	}
+
+	@Override
 	public void stop()
 	{
 		Log.i(TAG, "Scene manager stop at scene: " + sceneStateMachine.getCurrentState());

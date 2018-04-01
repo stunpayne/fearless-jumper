@@ -28,12 +28,21 @@ public class LazySceneManager implements SceneManager
 	private static final String TAG = LazySceneManager.class.getSimpleName();
 
 	private final SoundSystem soundSystem;
-	private final EventSystem eventSystem;
 	private final SceneFactory sceneFactory;
 
 	private StateMachine<Class<? extends Scene>, Class<? extends BaseEvent>> sceneStateMachine;
 	private Map<Class<? extends Scene>, Scene> sceneMap;
+	private Scene currentScene;
 
+
+	private BaseEventListener<StartGameEvent> startGameListener = new BaseEventListener<StartGameEvent>()
+	{
+		@Override
+		public void handleEvent(StartGameEvent event) throws EventException
+		{
+			transitScene(event);
+		}
+	};
 
 	private BaseEventListener<ParticleTestEvent> particleTestEventListener =
 			new BaseEventListener<ParticleTestEvent>()
@@ -50,12 +59,13 @@ public class LazySceneManager implements SceneManager
 			SceneFactory sceneFactory)
 	{
 		this.soundSystem = soundSystem;
-		this.eventSystem = eventSystem;
 		this.sceneFactory = sceneFactory;
 
 		sceneMap = new HashMap<>();
-		sceneMap.put(MainMenuScene.class, new MainMenuScene(eventSystem));
+		sceneMap.put(MainMenuScene.class, sceneFactory.get(MainMenuScene.class));
+		currentScene = sceneMap.get(MainMenuScene.class);
 		eventSystem.registerEventListener(ParticleTestEvent.class, particleTestEventListener);
+		eventSystem.registerEventListener(StartGameEvent.class, startGameListener);
 	}
 
 
@@ -65,13 +75,14 @@ public class LazySceneManager implements SceneManager
 		soundSystem.initialise();
 
 		sceneStateMachine =
-				StateMachine.builder().startState(MainMenuScene.class)
-						.from(MainMenuScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
-						.from(MainMenuScene.class).onEvent(ParticleTestEvent.class).toState(ParticleTestScene.class)
-						.from(GameplayScene.class).onEvent(GameOverEvent.class).toState(GameplayScene.class)
-						.from(GameplayScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
-						.from(GameplayScene.class).onEvent(MainMenuEvent.class).toState(MainMenuScene.class)
-						.build();
+				StateMachine.builder().startState(MainMenuScene.class).from(MainMenuScene.class)
+						.onEvent(StartGameEvent.class).toState(GameplayScene.class)
+						.from(MainMenuScene.class).onEvent(ParticleTestEvent.class)
+						.toState(ParticleTestScene.class).from(GameplayScene.class)
+						.onEvent(GameOverEvent.class).toState(GameplayScene.class)
+						.from(GameplayScene.class).onEvent(StartGameEvent.class)
+						.toState(GameplayScene.class).fromAnyStateOnEvent(MainMenuEvent.class)
+						.toState(MainMenuScene.class).build();
 
 		sceneMap.get(sceneStateMachine.getCurrentState()).resume();
 		Scene scene = sceneMap.get(sceneStateMachine.getStartState());
@@ -116,31 +127,30 @@ public class LazySceneManager implements SceneManager
 		sceneMap.get(sceneStateMachine.getCurrentState()).resume();
 	}
 
+	@Override
+	public void back()
+	{
+		if (!currentScene.getClass().equals(MainMenuScene.class))
+		{
+			transitScene(new MainMenuEvent());
+		}
+	}
+
 	private void transitScene(GameEvent event)
 	{
-		Scene currentScene = sceneMap.get(sceneStateMachine.getCurrentState());
-
-		//	If the current scene is not a main menu scene, then stop and terminate it
-//		if (!sceneStateMachine.getCurrentState().equals(MainMenuScene.class))
-//		{
-//		}
-
 		currentScene.stop();
 		currentScene.terminate();
 
 		//	Get the type of the next scene
-		Class<? extends Scene> nextSceneType = sceneStateMachine.transitStateOnEvent(event
-				.eventType);
-		Scene nextScene = null;
-
-		//	Create a scene of the new type
-		if (sceneStateMachine.getCurrentState().equals(ParticleTestScene.class))
-		{
-			nextScene = sceneFactory.get(ParticleTestScene.class);
-		}
+		Class<? extends Scene> nextSceneType =
+				sceneStateMachine.transitStateOnEvent(event.eventType);
+		Scene nextScene = sceneFactory.get(sceneStateMachine.getCurrentState());
+		Log.d(TAG, "Next scene: " + nextScene.getClass().getSimpleName());
 
 		nextScene.setup();
 		nextScene.play();
 		nextScene.resume();
+
+		currentScene = nextScene;
 	}
 }

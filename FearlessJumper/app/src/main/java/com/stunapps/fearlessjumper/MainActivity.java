@@ -128,7 +128,7 @@ public class MainActivity extends Activity
 		Log.i(TAG, "Activity resume");
 		super.onResume();
 		mSceneManager.resume();
-//		mAdManager.resume();
+		//		mAdManager.resume();
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class MainActivity extends Activity
 		{
 			mSceneManager.pause();
 		}
-//		mAdManager.pause();
+		//		mAdManager.pause();
 	}
 
 	@Override
@@ -158,7 +158,16 @@ public class MainActivity extends Activity
 		super.onDestroy();
 		di().getInstance(SceneManager.class).destroy();
 		Systems.reset();
-//		mAdManager.destroy();
+		//		mAdManager.destroy();
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		//		super.onBackPressed();
+		Log.i(TAG, "Back button pressed");
+
+		mSceneManager.back();
 	}
 
 	private void initialiseGame()
@@ -174,8 +183,8 @@ public class MainActivity extends Activity
 		mGameStatsManager = di().getInstance(GameStatsManager.class);
 		mGameStatsManager.resetGameStats();
 
-//		mAdManager = di().getInstance(AdManager.class);
-//		mAdManager.loadAd();
+		//		mAdManager = di().getInstance(AdManager.class);
+		//		mAdManager.loadAd();
 	}
 
 	private void loadView(final View view)
@@ -232,7 +241,11 @@ public class MainActivity extends Activity
 			@Override
 			public void run()
 			{
-				((TextView) findViewById(R.id.score)).setText(score);
+				View scoreTextView = findViewById(R.id.score);
+				if (null != scoreTextView)
+				{
+					((TextView) scoreTextView).setText(score);
+				}
 			}
 		});
 	}
@@ -244,7 +257,11 @@ public class MainActivity extends Activity
 			@Override
 			public void run()
 			{
-				((TextView) findViewById(R.id.timeout)).setText(time);
+				View timeoutTextView = findViewById(R.id.timeout);
+				if (null != timeoutTextView)
+				{
+					((TextView) timeoutTextView).setText(time);
+				}
 			}
 		});
 	}
@@ -256,7 +273,11 @@ public class MainActivity extends Activity
 			@Override
 			public void run()
 			{
-				((TextView) findViewById(R.id.fuel)).setText(fuel);
+				View fuelTextView = findViewById(R.id.timeout);
+				if (null != fuelTextView)
+				{
+					((TextView) fuelTextView).setText(fuel);
+				}
 			}
 		});
 	}
@@ -268,7 +289,11 @@ public class MainActivity extends Activity
 			@Override
 			public void run()
 			{
-				((TextView) findViewById(R.id.health)).setText(health);
+				View healthTextView = findViewById(R.id.health);
+				if (null != healthTextView)
+				{
+					((TextView) healthTextView).setText(health);
+				}
 			}
 		});
 	}

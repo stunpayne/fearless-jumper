@@ -25,4 +25,6 @@ public interface SceneManager
 	void pause();
 
 	void resume();
+
+	void back();
 }
