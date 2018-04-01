@@ -16,6 +16,7 @@ import com.stunapps.fearlessjumper.game.init.GameInitializer;
 import com.stunapps.fearlessjumper.game.init.GameInitializerImpl;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculatorImpl;
+import com.stunapps.fearlessjumper.scene.LazySceneManager;
 import com.stunapps.fearlessjumper.scene.SceneManager;
 import com.stunapps.fearlessjumper.scene.SceneManagerImpl;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
@@ -43,7 +44,7 @@ public class GameModule extends AbstractModule
 		bind(InputProcessor.class).to(PlayerInputProcessor.class);
 		bind(ComponentManager.class).to(GameComponentManager.class);
 		bind(Context.class).toInstance(context);
-		bind(SceneManager.class).to(SceneManagerImpl.class).asEagerSingleton();
+		bind(SceneManager.class).to(LazySceneManager.class).asEagerSingleton();
 		bind(GameInitializer.class).to(GameInitializerImpl.class);
 		bind(AdManager.class).to(AdManagerImpl.class);
 

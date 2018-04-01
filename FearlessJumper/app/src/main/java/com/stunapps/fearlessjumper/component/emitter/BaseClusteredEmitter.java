@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
+import android.graphics.Color;
+
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.di.DI;
 import com.stunapps.fearlessjumper.particle.Particle;
@@ -54,6 +56,10 @@ abstract public class BaseClusteredEmitter extends Emitter
 			this.clusterSize = particlesCount;
 		}
 		this.particles = new HashSet<>();
+
+		this.config = EmitterConfig.builder()
+				.colorLimits(Color.argb(200, 0, 200, 255), Color.argb(200, 255, 255, 255))
+				.particleLife((int) particleLife).size(5).build();
 	}
 
 	private List<Particle> generateParticleCluster()

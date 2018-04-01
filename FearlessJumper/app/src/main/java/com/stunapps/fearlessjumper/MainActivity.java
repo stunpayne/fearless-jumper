@@ -128,7 +128,7 @@ public class MainActivity extends Activity
 		Log.i(TAG, "Activity resume");
 		super.onResume();
 		mSceneManager.resume();
-		mAdManager.resume();
+//		mAdManager.resume();
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class MainActivity extends Activity
 		{
 			mSceneManager.pause();
 		}
-		mAdManager.pause();
+//		mAdManager.pause();
 	}
 
 	@Override
@@ -158,7 +158,7 @@ public class MainActivity extends Activity
 		super.onDestroy();
 		di().getInstance(SceneManager.class).destroy();
 		Systems.reset();
-		mAdManager.destroy();
+//		mAdManager.destroy();
 	}
 
 	private void initialiseGame()
@@ -174,8 +174,8 @@ public class MainActivity extends Activity
 		mGameStatsManager = di().getInstance(GameStatsManager.class);
 		mGameStatsManager.resetGameStats();
 
-		mAdManager = di().getInstance(AdManager.class);
-		mAdManager.loadAd();
+//		mAdManager = di().getInstance(AdManager.class);
+//		mAdManager.loadAd();
 	}
 
 	private void loadView(final View view)

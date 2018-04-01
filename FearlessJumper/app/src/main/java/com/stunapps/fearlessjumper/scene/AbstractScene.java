@@ -34,9 +34,6 @@ public abstract class AbstractScene implements Scene
     protected Integer sceneId;
     protected final EventSystem eventSystem;
 
-    @Inject
-    protected MainActivity mainActivity;
-
     public AbstractScene(View view, EventSystem eventSystem)
     {
         this.view = view;
@@ -97,7 +94,7 @@ public abstract class AbstractScene implements Scene
 
     protected void modifyScene(final SceneModificationCallback callback)
     {
-        mainActivity.runOnUiThread(new Runnable()
+        MainActivity.getInstance().runOnUiThread(new Runnable()
         {
             @Override
             public void run()

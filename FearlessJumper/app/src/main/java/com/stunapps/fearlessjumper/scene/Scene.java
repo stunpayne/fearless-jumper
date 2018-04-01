@@ -4,6 +4,7 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.stunapps.fearlessjumper.MainActivity;
+import com.stunapps.fearlessjumper.game.Environment;
 
 /**
  * Created by sunny.s on 21/01/18.
