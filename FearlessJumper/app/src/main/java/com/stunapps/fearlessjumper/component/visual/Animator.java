@@ -30,13 +30,6 @@ public class Animator extends Component
 		this.animationStateMachine = animationStateMachine;
 	}
 
-	//  TODO: We need to add
-	//  1) Animation States
-	//  2) Parameters, Triggers based on Parameters
-	//  3) Transitions between states based on Triggers
-	//  For now, we will just keep a map of animations and call out which one to play from
-	//  the game object
-
 	public void triggerTransition(AnimationTransition event)
 	{
 		//Log.d(TAG, "triggerTransition: currentAnimationState before state transition = " +
@@ -54,9 +47,6 @@ public class Animator extends Component
 	private Bitmap playAnimation()
 	{
 		Animation animation = animations.get(animationStateMachine.getCurrentState());
-		//Log.d(TAG, "playAnimation: Animation = "+ animations.keySet());
-		//Log.d(TAG, "playAnimation: Current animation = "+animationStateMachine.getCurrentState
-        // ());
 		return animation.play();
 	}
 
