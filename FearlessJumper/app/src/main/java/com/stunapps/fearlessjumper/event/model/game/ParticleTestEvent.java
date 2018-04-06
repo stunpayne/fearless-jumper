@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.event.game;
+package com.stunapps.fearlessjumper.event.model.game;
 
 /**
  * Created by sunny.s on 15/03/18.

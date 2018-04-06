@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.game.init;
+package com.stunapps.fearlessjumper.init;
 
 /**
  * Created by sunny.s on 12/01/18.

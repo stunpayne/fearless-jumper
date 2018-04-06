@@ -18,12 +18,12 @@ import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.ads.AdManager;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.game.GameOverEvent;
-import com.stunapps.fearlessjumper.event.game.MainMenuEvent;
-import com.stunapps.fearlessjumper.event.game.StartGameEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.event.model.game.GameOverEvent;
+import com.stunapps.fearlessjumper.event.model.game.MainMenuEvent;
+import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
 import com.stunapps.fearlessjumper.event.EventException;
-import com.stunapps.fearlessjumper.game.loop.GameView;
+import com.stunapps.fearlessjumper.view.GameView;
 import com.stunapps.fearlessjumper.game.Environment;
 
 import javax.inject.Inject;

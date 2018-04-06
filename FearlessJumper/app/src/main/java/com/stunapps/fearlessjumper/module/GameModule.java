@@ -10,17 +10,17 @@ import com.stunapps.fearlessjumper.audio.SoundEffectPlayer;
 import com.stunapps.fearlessjumper.audio.SoundEffectPlayerImpl;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.impl.GameEventSystem;
-import com.stunapps.fearlessjumper.game.init.GameInitializer;
-import com.stunapps.fearlessjumper.game.init.GameInitializerImpl;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.event.system.impl.GameEventSystem;
+import com.stunapps.fearlessjumper.init.GameInitializer;
+import com.stunapps.fearlessjumper.init.GameInitializerImpl;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculatorImpl;
 import com.stunapps.fearlessjumper.scene.SceneManager;
 import com.stunapps.fearlessjumper.scene.SceneManagerImpl;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.PlayerInputProcessor;
-import com.stunapps.fearlessjumper.system.update.InputUpdateManager;
+import com.stunapps.fearlessjumper.manager.InputUpdateManager;
 import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 
 /**

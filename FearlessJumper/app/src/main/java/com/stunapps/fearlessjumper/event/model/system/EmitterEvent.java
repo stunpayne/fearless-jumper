@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.event.system;
+package com.stunapps.fearlessjumper.event.model.system;
 
 import com.stunapps.fearlessjumper.entity.Entity;
 

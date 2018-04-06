@@ -25,8 +25,8 @@ import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig.Build
 import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.core.Bitmaps;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.game.loop.TestView;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.view.TestView;
 
 import java.util.Arrays;
 import java.util.List;

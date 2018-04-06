@@ -1,4 +1,7 @@
-package com.stunapps.fearlessjumper.event;
+package com.stunapps.fearlessjumper.event.system;
+
+import com.stunapps.fearlessjumper.event.BaseEventListener;
+import com.stunapps.fearlessjumper.event.model.BaseEvent;
 
 import java.util.List;
 

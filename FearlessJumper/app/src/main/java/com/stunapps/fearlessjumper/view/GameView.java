@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.game.loop;
+package com.stunapps.fearlessjumper.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,7 +8,8 @@ import android.view.SurfaceHolder;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.Time;
-import com.stunapps.fearlessjumper.game.init.GameInitializer;
+import com.stunapps.fearlessjumper.game.loop.MainThread;
+import com.stunapps.fearlessjumper.init.GameInitializer;
 import com.stunapps.fearlessjumper.system.Systems;
 
 /**

@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.system.update;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.spawnable.Obstacle;
+import com.stunapps.fearlessjumper.event.model.system.CollisionEvent;
 import com.stunapps.fearlessjumper.model.Position;
 
 import com.google.inject.Inject;
@@ -13,8 +14,7 @@ import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.system.CollisionEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;

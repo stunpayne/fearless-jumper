@@ -1,6 +1,6 @@
-package com.stunapps.fearlessjumper.event.system;
+package com.stunapps.fearlessjumper.event.model.system;
 
-import com.stunapps.fearlessjumper.event.BaseEvent;
+import com.stunapps.fearlessjumper.event.model.BaseEvent;
 
 /**
  * Created by anand.verma on 17/02/18.

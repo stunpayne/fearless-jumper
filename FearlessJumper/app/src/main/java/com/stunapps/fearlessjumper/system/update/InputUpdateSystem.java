@@ -10,6 +10,7 @@ import com.stunapps.fearlessjumper.component.input.SensorDataAdapter;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.manager.InputUpdateManager;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
 import com.stunapps.fearlessjumper.system.model.InputWrapper;

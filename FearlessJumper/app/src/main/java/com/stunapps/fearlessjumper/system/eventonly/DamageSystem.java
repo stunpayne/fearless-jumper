@@ -12,14 +12,13 @@ import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.game.GameOverEvent;
-import com.stunapps.fearlessjumper.event.system.CollisionEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.event.model.game.GameOverEvent;
+import com.stunapps.fearlessjumper.event.model.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.manager.CollisionLayerManager;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.system.System;
-import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 /**
  * Created by anand.verma on 03/02/18.

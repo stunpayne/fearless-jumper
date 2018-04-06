@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.system.update;
+package com.stunapps.fearlessjumper.manager;
 
 import android.view.MotionEvent;
 

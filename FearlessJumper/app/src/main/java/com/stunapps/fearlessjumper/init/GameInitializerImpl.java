@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.game.init;
+package com.stunapps.fearlessjumper.init;
 
 import android.util.Log;
 

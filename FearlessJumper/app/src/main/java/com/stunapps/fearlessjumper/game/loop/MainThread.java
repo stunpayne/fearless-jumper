@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
+import com.stunapps.fearlessjumper.view.BaseView;
 
 import static com.stunapps.fearlessjumper.game.Time.ONE_MILLION;
 

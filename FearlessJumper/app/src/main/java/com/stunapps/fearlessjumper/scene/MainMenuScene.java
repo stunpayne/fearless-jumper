@@ -9,9 +9,9 @@ import android.widget.ImageButton;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.R;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.game.ParticleTestEvent;
-import com.stunapps.fearlessjumper.event.game.StartGameEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.event.model.game.ParticleTestEvent;
+import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
 
 /**
  * Created by sunny.s on 11/02/18.

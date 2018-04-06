@@ -1,11 +1,11 @@
 package com.stunapps.fearlessjumper;
 
-import com.stunapps.fearlessjumper.event.BaseEvent;
+import com.stunapps.fearlessjumper.event.model.BaseEvent;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.game.StartGameEvent;
-import com.stunapps.fearlessjumper.event.impl.GameEventSystem;
-import com.stunapps.fearlessjumper.event.system.CollisionEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
+import com.stunapps.fearlessjumper.event.system.impl.GameEventSystem;
+import com.stunapps.fearlessjumper.event.model.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventException;
 
 import org.junit.Assert;

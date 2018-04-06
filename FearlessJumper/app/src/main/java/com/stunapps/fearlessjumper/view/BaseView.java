@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.game.loop;
+package com.stunapps.fearlessjumper.view;
 
 import android.content.Context;
 import android.view.SurfaceView;

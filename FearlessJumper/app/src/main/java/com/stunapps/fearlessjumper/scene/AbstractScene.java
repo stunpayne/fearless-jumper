@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
-import com.stunapps.fearlessjumper.event.EventSystem;
-import com.stunapps.fearlessjumper.event.scene.SceneStopEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.event.model.scene.SceneStopEvent;
 import com.stunapps.fearlessjumper.game.Environment;
 
 import java.lang.reflect.Field;

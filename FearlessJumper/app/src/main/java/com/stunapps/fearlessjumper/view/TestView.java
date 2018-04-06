@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.game.loop;
+package com.stunapps.fearlessjumper.view;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,11 +13,10 @@ import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.game.loop.MainThread;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.system.update.ParticleSystem;
 import com.stunapps.fearlessjumper.system.update.RenderSystem;
-
-import lombok.Getter;
 
 /**
  * Created by sunny.s on 15/03/18.

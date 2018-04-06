@@ -1,6 +1,5 @@
 package com.stunapps.fearlessjumper.system.input;
 
-import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 
 import com.google.inject.Inject;
@@ -8,9 +7,8 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.input.Input;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
-import com.stunapps.fearlessjumper.system.update.InputUpdateManager;
+import com.stunapps.fearlessjumper.manager.InputUpdateManager;
 import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 
 import java.util.Set;
@@ -24,15 +22,12 @@ public class GameInputSystem implements InputSystem
 {
 	private final ComponentManager componentManager;
 	private final InputUpdateManager inputUpdateManager;
-	private final InputProcessorFactory inputProcessorFactory;
 
 	@Inject
-	public GameInputSystem(ComponentManager componentManager, InputUpdateSystem inputUpdateManager,
-			InputProcessorFactory inputProcessorFactory)
+	public GameInputSystem(ComponentManager componentManager, InputUpdateSystem inputUpdateManager)
 	{
 		this.componentManager = componentManager;
 		this.inputUpdateManager = inputUpdateManager;
-		this.inputProcessorFactory = inputProcessorFactory;
 	}
 
 

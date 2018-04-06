@@ -1,7 +1,6 @@
-package com.stunapps.fearlessjumper.event.system;
+package com.stunapps.fearlessjumper.event.model.system;
 
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.event.BaseEvent;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 import java.util.Arrays;
