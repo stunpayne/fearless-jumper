@@ -3,7 +3,7 @@ package com.stunapps.fearlessjumper.component.visual;
 import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.model.Position;
 
 /**

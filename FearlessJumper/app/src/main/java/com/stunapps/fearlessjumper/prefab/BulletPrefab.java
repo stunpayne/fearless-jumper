@@ -2,7 +2,7 @@ package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Bitmap;
 
-import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;

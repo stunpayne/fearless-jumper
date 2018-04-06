@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.component;
+package com.stunapps.fearlessjumper.model;
 
 /**
  * Created by sunny.s on 17/03/18.

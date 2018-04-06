@@ -1,6 +1,6 @@
 package com.stunapps.fearlessjumper.component.collider;
 
-import com.stunapps.fearlessjumper.component.Delta;
+import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 
 /**
