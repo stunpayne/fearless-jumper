@@ -65,6 +65,7 @@ public class RenderSystem implements UpdateSystem
 	private final SensorDataAdapter sensorDataAdapter;
 
 	private static int frameNum = 0;
+	private static int angle = 0;
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
@@ -115,10 +116,11 @@ public class RenderSystem implements UpdateSystem
 
 		Cameras.update();
 
-		renderBackground();
-		renderEntities();
-		renderHUD();
-		renderParticleEmission();
+//		renderBackground();
+//		renderEntities();
+//		renderHUD();
+//		renderParticleEmission();
+		renderShapes();
 
 		//testing
 		if (Settings.DEBUG_MODE)
@@ -301,6 +303,17 @@ public class RenderSystem implements UpdateSystem
 				renderEmitterParticles(emitter);
 			}
 		}
+	}
+
+	private void renderShapes()
+	{
+		canvas.drawColor(Color.BLACK);
+		canvas.save();
+		canvas.rotate(angle, 400, 600);
+		canvas.drawRect(300, 500, 500, 700, colliderPaint);
+		canvas.restore();
+		angle++;
+		angle %= 360;
 	}
 
 	private void renderEmitterParticles(Emitter emitter)
