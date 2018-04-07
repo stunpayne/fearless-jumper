@@ -48,7 +48,7 @@
             <TextView
                 android:id="@+id/highScoreValue"
                 android:padding="5dp"
-                android:text="300"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>
@@ -67,7 +67,7 @@
             <TextView
                 android:id="@+id/averageScoreValue"
                 android:padding="5dp"
-                android:text="200"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>
@@ -86,7 +86,7 @@
             <TextView
                 android:id="@+id/sessionHighScoreValue"
                 android:padding="5dp"
-                android:text="200"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>
@@ -105,7 +105,7 @@
             <TextView
                 android:id="@+id/gamesPlayedValue"
                 android:padding="5dp"
-                android:text="200"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>
@@ -139,7 +139,7 @@
             <TextView
                 android:id="@+id/minigonValue"
                 android:padding="5dp"
-                android:text="200"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>
@@ -158,7 +158,7 @@
             <TextView
                 android:id="@+id/grorumValue"
                 android:padding="5dp"
-                android:text="200"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>
@@ -177,7 +177,7 @@
             <TextView
                 android:id="@+id/pyradonValue"
                 android:padding="5dp"
-                android:text="200"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>
@@ -196,7 +196,7 @@
             <TextView
                 android:id="@+id/zeldroyValue"
                 android:padding="5dp"
-                android:text="200"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>
@@ -215,7 +215,7 @@
             <TextView
                 android:id="@+id/draxusValue"
                 android:padding="5dp"
-                android:text="200"
+                android:text="0"
                 android:textAlignment="center"/>
 
         </TableRow>

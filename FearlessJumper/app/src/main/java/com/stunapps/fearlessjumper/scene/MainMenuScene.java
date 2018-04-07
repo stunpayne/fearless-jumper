@@ -23,6 +23,7 @@ import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by sunny.s on 11/02/18.
@@ -248,11 +249,31 @@ public class MainMenuScene extends AbstractScene
 				setStat(menu, R.id.sessionHighScoreValue, sessionHighScore);
 				setStat(menu, R.id.highScoreValue, globalHighScore);
 				setStat(menu, R.id.averageScoreValue, averageScore);
-				setStat(menu, R.id.minigonValue, hurtStats.get(EnemyType.MINIGON.name()));
-				setStat(menu, R.id.grorumValue, hurtStats.get(EnemyType.GRORUM.name()));
-				setStat(menu, R.id.pyradonValue, hurtStats.get(EnemyType.PYRADON.name()));
-				setStat(menu, R.id.zeldroyValue, hurtStats.get(EnemyType.ZELDROY.name()));
-				setStat(menu, R.id.draxusValue, hurtStats.get(EnemyType.DRAXUS.name()));
+
+				if (hurtStats.get(EnemyType.MINIGON.name()) != null)
+				{
+					setStat(menu, R.id.minigonValue, hurtStats.get(EnemyType.MINIGON.name()));
+				}
+
+				if(hurtStats.get(EnemyType.GRORUM.name()) != null)
+				{
+					setStat(menu, R.id.grorumValue, hurtStats.get(EnemyType.GRORUM.name()));
+				}
+
+				if (hurtStats.get(EnemyType.PYRADON.name()) != null)
+				{
+					setStat(menu, R.id.pyradonValue, hurtStats.get(EnemyType.PYRADON.name()));
+				}
+
+				if (hurtStats.get(EnemyType.ZELDROY.name()) != null)
+				{
+					setStat(menu, R.id.zeldroyValue, hurtStats.get(EnemyType.ZELDROY.name()));
+				}
+
+				if (hurtStats.get(EnemyType.DRAXUS.name()) != null)
+				{
+					setStat(menu, R.id.draxusValue, hurtStats.get(EnemyType.DRAXUS.name()));
+				}
 			}
 
 			return menu;
