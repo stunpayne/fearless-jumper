@@ -163,7 +163,7 @@ public class MainActivity extends Activity
 
 	private void initialiseGame()
 	{
-		DI.install(new GameModule(this));
+		DI.install(new GameModule(this, this));
 
 		Bitmaps.initialise();
 		di().getInstance(Systems.class).initialise();

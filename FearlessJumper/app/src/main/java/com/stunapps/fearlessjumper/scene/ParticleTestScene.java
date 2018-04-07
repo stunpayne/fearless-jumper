@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.inject.Inject;
+import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
@@ -46,9 +47,10 @@ public class ParticleTestScene extends AbstractScene
 	private ViewSetup mViewSetup = new ViewSetup();
 
 	@Inject
-	public ParticleTestScene(EventSystem eventSystem, Context context, final TestView mTestView)
+	public ParticleTestScene(EventSystem eventSystem, Context context, final TestView mTestView,
+			MainActivity mainActivity)
 	{
-		super(new LinearLayout(context), eventSystem);
+		super(new LinearLayout(context), eventSystem, mainActivity);
 		this.mTestView = mTestView;
 		this.mContext = context;
 	}

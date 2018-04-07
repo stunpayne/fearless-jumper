@@ -32,14 +32,16 @@ public class GameModule extends AbstractModule
 	private Context context;
 	private MainActivity mainActivity;
 
-	public GameModule(Context context)
+	public GameModule(Context context, MainActivity mainActivity)
 	{
 		this.context = context;
+		this.mainActivity = mainActivity;
 	}
 
 	@Override
 	protected void configure()
 	{
+		bind(MainActivity.class).toInstance(mainActivity);
 		bind(InputProcessor.class).to(PlayerInputProcessor.class);
 		bind(ComponentManager.class).to(GameComponentManager.class);
 		bind(Context.class).toInstance(context);

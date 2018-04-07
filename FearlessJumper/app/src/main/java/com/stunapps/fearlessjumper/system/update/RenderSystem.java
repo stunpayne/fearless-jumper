@@ -123,7 +123,7 @@ public class RenderSystem implements UpdateSystem
 		//testing
 		if (Settings.DEBUG_MODE)
 		{
-			//renderGameStats();
+			renderGameStats();
 		}
 
 		if (Settings.PRINT_SENSOR_DATA)

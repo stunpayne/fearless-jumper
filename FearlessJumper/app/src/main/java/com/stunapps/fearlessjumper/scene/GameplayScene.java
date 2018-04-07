@@ -1,8 +1,5 @@
 package com.stunapps.fearlessjumper.scene;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,8 +11,10 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageButton;
 
+import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.ads.AdManager;
+import com.stunapps.fearlessjumper.helper.UIBridge;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
@@ -44,46 +43,21 @@ public class GameplayScene extends AbstractScene
 	private View gameOverMenu;
 
 	private ViewSetup viewSetup = new ViewSetup();
-	private Handler mainHandler;
 
 	private final GameStatsManager gameStatsManager;
+	private final UIBridge uiBridge;
 
 	@Inject
 	public GameplayScene(final GameView gameView, EventSystem eventSystem,
-			GameStatsManager gameStatsManager, final AdManager mAdManager)
+			GameStatsManager gameStatsManager, final AdManager mAdManager, UIBridge uiBridge,
+			MainActivity mainActivity)
 	{
-		super(R.layout.game_play_container, eventSystem);
-		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
+		super(R.layout.game_play_container, eventSystem, mainActivity);
+		this.uiBridge = uiBridge;
 		this.gameView = gameView;
 		this.gameStatsManager = gameStatsManager;
 
-		mainHandler = new Handler(Looper.getMainLooper())
-		{
-			@Override
-			public void handleMessage(Message msg)
-			{
-				Log.d(TAG, "New message received: " + msg);
-				super.handleMessage(msg);
-
-				View view = (View) msg.obj;
-
-				switch (msg.what)
-				{
-					case Action.SHOW:
-						view.setVisibility(View.VISIBLE);
-						break;
-					case Action.HIDE:
-						view.setVisibility(View.GONE);
-						break;
-					case Action.KILL:
-						gameView.stop();
-						gameView.terminate();
-						break;
-					case Action.SHOW_AD:
-						mAdManager.showAd();
-				}
-			}
-		};
+		eventSystem.registerEventListener(GameOverEvent.class, gameOverListener);
 	}
 
 	private final BaseEventListener<GameOverEvent> gameOverListener =
@@ -92,10 +66,10 @@ public class GameplayScene extends AbstractScene
 				@Override
 				public void handleEvent(GameOverEvent event) throws EventException
 				{
-					mainHandler.sendMessage(mainHandler.obtainMessage(Action.SHOW, gameOverMenu));
-					mainHandler.sendMessage(mainHandler.obtainMessage(Action.HIDE, pauseButton));
-					mainHandler.sendMessage(mainHandler.obtainMessage(Action.KILL));
-					mainHandler.sendMessage(mainHandler.obtainMessage(Action.SHOW_AD));
+					uiBridge.showView(gameOverMenu);
+					uiBridge.hideView(pauseButton);
+					uiBridge.killScene(gameView);
+					uiBridge.showAd();
 				}
 			};
 

@@ -246,11 +246,10 @@ public class CollisionSystem implements UpdateSystem
 
         if (entity1.hasComponent(Enemy.class) && entity2.hasComponent(Obstacle.class))
         {
-            Log.d(TAG, "tentativeX1 original = " + entity1.transform.position.x + ", tentative = " +
-                    position1.x);
-            Log.d(TAG, "tentativeX2 original = " + entity2.transform.position.x + ", tentative =" +
-                    " " +
-                    position2.x);
+            Log.v(TAG, "tentativeX1 original = " + entity1.transform.position.x + ", tentative " +
+                    "= " + position1.x);
+            Log.v(TAG, "tentativeX2 original = " + entity2.transform.position.x + ", tentative " +
+                    "=" + " " + position2.x);
         }
 
         Collider collider1 = entity1.getComponent(Collider.class);
@@ -269,11 +268,10 @@ public class CollisionSystem implements UpdateSystem
 
         if (entity1.hasComponent(Enemy.class) && entity2.hasComponent(Obstacle.class))
         {
-            Log.d(TAG, "tentativeY1 original = " + entity1.transform.position.y + ", tentative = " +
-                    position1.y);
-            Log.d(TAG, "tentativeY2 original = " + entity2.transform.position.y + ", tentative =" +
-                    " " +
-                    position2.y);
+            Log.v(TAG, "tentativeY1 original = " + entity1.transform.position.y + ", tentative =" +
+                    " " + position1.y);
+            Log.v(TAG, "tentativeY2 original = " + entity2.transform.position.y + ", tentative =" +
+                    " " + position2.y);
         }
 
         Collider collider1 = entity1.getComponent(Collider.class);

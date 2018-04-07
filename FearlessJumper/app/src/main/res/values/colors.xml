@@ -2,9 +2,11 @@
 <resources>
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
     <color name="titleBackground">#36e6e206</color>
     <color name="hudText">#FFFFFF</color>
     <color name="hudBg">#7020ecd8</color>
     <color name="gray">#55AAAAAA</color>
+    <color name="menuBg">#8cede10a</color>
+    <color name="buttonBg">#c3e0c427</color>
 </resources>
