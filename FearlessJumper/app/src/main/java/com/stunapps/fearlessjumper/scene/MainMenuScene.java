@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.scene;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,15 +10,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
+import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.event.model.game.ParticleTestEvent;
 import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
-import com.stunapps.fearlessjumper.helper.UIBridge;
+import com.stunapps.fearlessjumper.manager.GameStatsManager;
+
+import java.util.Map;
 
 /**
  * Created by sunny.s on 11/02/18.
@@ -29,27 +34,28 @@ public class MainMenuScene extends AbstractScene
 	private static final String TAG = MainMenuScene.class.getSimpleName();
 
 	@LayoutRes
-	private final int mainMenuLayout;
+	private final int mMainMenuLayout;
 	@LayoutRes
-	private final int optionsMenuLayout;
+	private final int mOptionsMenuLayout;
 	@LayoutRes
-	private final int statsMenuLayout;
-	private View currentActiveView;
+	private final int mStatsMenuLayout;
+	private View mCurrentActiveView;
 
-	private final UIBridge uiBridge;
 	private final Context mContext;
-	private final MenuSetup menuSetup = new MenuSetup();
+	private final MenuSetup mMenuSetup = new MenuSetup();
+	private final GameStatsManager mGameStatsManager;
 
 	@Inject
-	public MainMenuScene(EventSystem eventSystem, UIBridge uiBridge, final Context mContext,
-			MainActivity mainActivity)
+	public MainMenuScene(EventSystem eventSystem, final Context mContext, MainActivity
+			mainActivity,
+			GameStatsManager gameStatsManager)
 	{
 		super(R.layout.menu_container, eventSystem, mainActivity);
-		this.uiBridge = uiBridge;
 		this.mContext = mContext;
-		this.mainMenuLayout = R.layout.main_menu;
-		this.optionsMenuLayout = R.layout.options_menu;
-		this.statsMenuLayout = R.layout.stats_menu;
+		this.mGameStatsManager = gameStatsManager;
+		this.mMainMenuLayout = R.layout.main_menu;
+		this.mOptionsMenuLayout = R.layout.options_menu;
+		this.mStatsMenuLayout = R.layout.stats_menu;
 	}
 
 	@Override
@@ -60,7 +66,7 @@ public class MainMenuScene extends AbstractScene
 			@Override
 			public Object call() throws Exception
 			{
-				switchToMenu(mainMenuLayout);
+				switchToMenu(mMainMenuLayout);
 				return null;
 			}
 		});
@@ -98,17 +104,17 @@ public class MainMenuScene extends AbstractScene
 
 	private void showStatsMenu()
 	{
-		switchToMenu(statsMenuLayout);
+		switchToMenu(mStatsMenuLayout);
 	}
 
 	private void showOptionsMenu()
 	{
-		switchToMenu(optionsMenuLayout);
+		switchToMenu(mOptionsMenuLayout);
 	}
 
 	private void showMainMenu()
 	{
-		switchToMenu(mainMenuLayout);
+		switchToMenu(mMainMenuLayout);
 	}
 
 	private void switchToMenu(@LayoutRes final int newMenuId)
@@ -118,14 +124,13 @@ public class MainMenuScene extends AbstractScene
 			@Override
 			public Object call() throws Exception
 			{
-				if (null != currentActiveView)
-
+				if (null != mCurrentActiveView)
 				{
-					((FrameLayout) view).removeView(currentActiveView);
+					((FrameLayout) view).removeView(mCurrentActiveView);
 				}
 
-				currentActiveView = menuSetup.setupMenu(newMenuId);
-				((FrameLayout) view).addView(currentActiveView);
+				mCurrentActiveView = mMenuSetup.setupMenu(newMenuId);
+				((FrameLayout) view).addView(mCurrentActiveView);
 				return null;
 			}
 		});
@@ -138,7 +143,7 @@ public class MainMenuScene extends AbstractScene
 		{
 			View menu = LayoutInflater.from(mContext).inflate(menuLayoutId, null);
 
-			if (menuLayoutId == optionsMenuLayout)
+			if (menuLayoutId == mOptionsMenuLayout)
 			{
 				/*
 					Options menu buttons
@@ -165,7 +170,7 @@ public class MainMenuScene extends AbstractScene
 					}
 				});
 			}
-			else if (menuLayoutId == mainMenuLayout)
+			else if (menuLayoutId == mMainMenuLayout)
 			{
 				/*
 					Main menu buttons
@@ -219,7 +224,7 @@ public class MainMenuScene extends AbstractScene
 					}
 				});
 			}
-			else if (menuLayoutId == statsMenuLayout)
+			else if (menuLayoutId == mStatsMenuLayout)
 			{
 				//	Add listener for particleTestButton
 				Button optionsMenuButton = menu.findViewById(R.id.statsBackButton);
@@ -228,13 +233,35 @@ public class MainMenuScene extends AbstractScene
 					@Override
 					public void onClick(View v)
 					{
-						Log.d(TAG, "Options menu button pressed");
+						Log.d(TAG, "Stats menu back button pressed");
 						showOptionsMenu();
 					}
 				});
+
+				long globalHighScore = mGameStatsManager.getGlobalHighScore();
+				long sessionHighScore = mGameStatsManager.getSessionHighScore();
+				long gameplayCount = mGameStatsManager.getGamePlayCount();
+				long averageScore = mGameStatsManager.getAverageScore();
+				Map<String, Integer> hurtStats = mGameStatsManager.getHurtStats();
+
+				setStat(menu, R.id.gamesPlayedValue, gameplayCount);
+				setStat(menu, R.id.sessionHighScoreValue, sessionHighScore);
+				setStat(menu, R.id.highScoreValue, globalHighScore);
+				setStat(menu, R.id.averageScoreValue, averageScore);
+				setStat(menu, R.id.minigonValue, hurtStats.get(EnemyType.MINIGON.name()));
+				setStat(menu, R.id.grorumValue, hurtStats.get(EnemyType.GRORUM.name()));
+				setStat(menu, R.id.pyradonValue, hurtStats.get(EnemyType.PYRADON.name()));
+				setStat(menu, R.id.zeldroyValue, hurtStats.get(EnemyType.ZELDROY.name()));
+				setStat(menu, R.id.draxusValue, hurtStats.get(EnemyType.DRAXUS.name()));
 			}
 
 			return menu;
+		}
+
+		private void setStat(View parentView, @IdRes final int viewId, long value)
+		{
+			TextView gamesPlayed = parentView.findViewById(viewId);
+			gamesPlayed.setText(String.valueOf(value));
 		}
 	}
 
