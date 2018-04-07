@@ -32,6 +32,8 @@ public class MainMenuScene extends AbstractScene
 	private final int mainMenuLayout;
 	@LayoutRes
 	private final int optionsMenuLayout;
+	@LayoutRes
+	private final int statsMenuLayout;
 	private View currentActiveView;
 
 	private final UIBridge uiBridge;
@@ -47,6 +49,7 @@ public class MainMenuScene extends AbstractScene
 		this.mContext = mContext;
 		this.mainMenuLayout = R.layout.main_menu;
 		this.optionsMenuLayout = R.layout.options_menu;
+		this.statsMenuLayout = R.layout.stats_menu;
 	}
 
 	@Override
@@ -93,41 +96,39 @@ public class MainMenuScene extends AbstractScene
 
 	}
 
+	private void showStatsMenu()
+	{
+		switchToMenu(statsMenuLayout);
+	}
+
 	private void showOptionsMenu()
 	{
-		modifyScene(new SceneModificationCallback()
-		{
-			@Override
-			public Object call() throws Exception
-			{
-				switchToMenu(optionsMenuLayout);
-				return null;
-			}
-		});
+		switchToMenu(optionsMenuLayout);
 	}
 
-	private void goBackToMainMenu()
+	private void showMainMenu()
+	{
+		switchToMenu(mainMenuLayout);
+	}
+
+	private void switchToMenu(@LayoutRes final int newMenuId)
 	{
 		modifyScene(new SceneModificationCallback()
 		{
 			@Override
 			public Object call() throws Exception
 			{
-				switchToMenu(mainMenuLayout);
+				if (null != currentActiveView)
+
+				{
+					((FrameLayout) view).removeView(currentActiveView);
+				}
+
+				currentActiveView = menuSetup.setupMenu(newMenuId);
+				((FrameLayout) view).addView(currentActiveView);
 				return null;
 			}
 		});
-	}
-
-	private void switchToMenu(@LayoutRes int newMenuId)
-	{
-		if (null != currentActiveView)
-		{
-			((FrameLayout) view).removeView(currentActiveView);
-		}
-
-		currentActiveView = menuSetup.setupMenu(newMenuId);
-		((FrameLayout) this.view).addView(currentActiveView);
 	}
 
 
@@ -149,7 +150,18 @@ public class MainMenuScene extends AbstractScene
 					public void onClick(View v)
 					{
 						Log.d(TAG, "Options back button pressed");
-						goBackToMainMenu();
+						showMainMenu();
+					}
+				});
+
+				Button statsButton = menu.findViewById(R.id.statsButton);
+				statsButton.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						Log.d(TAG, "Options back button pressed");
+						showStatsMenu();
 					}
 				});
 			}
@@ -204,6 +216,20 @@ public class MainMenuScene extends AbstractScene
 						Log.d(TAG, "Quit button pressed");
 						android.os.Process.killProcess(android.os.Process.myPid());
 						System.exit(1);
+					}
+				});
+			}
+			else if (menuLayoutId == statsMenuLayout)
+			{
+				//	Add listener for particleTestButton
+				Button optionsMenuButton = menu.findViewById(R.id.statsBackButton);
+				optionsMenuButton.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						Log.d(TAG, "Options menu button pressed");
+						showOptionsMenu();
 					}
 				});
 			}

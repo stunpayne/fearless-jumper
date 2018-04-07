@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/menuBg">
+
+    <TextView
+        android:id="@+id/statsHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/squared"
+        android:text="STATS"
+        android:textSize="44sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"/>
+
+    <TableLayout
+        android:id="@+id/statsTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statsHeading"
+        app:layout_constraintVertical_bias="0.1">
+
+        <TableRow
+            android:id="@+id/highScore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/highScoreText"
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="High Score"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/highScoreValue"
+                android:padding="5dp"
+                android:text="300"
+                android:textAlignment="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/sessionHighScoreText"
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="Session High Score"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/sessionHighScoreValue"
+                android:padding="5dp"
+                android:text="200"
+                android:textAlignment="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/deathStats"
+                android:layout_column="1"
+                android:layout_span="2"
+                android:padding="5dp"
+                android:text="Death Stats"
+                android:textAlignment="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/minigonText"
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="Killed by Minigon"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/minigonValue"
+                android:padding="5dp"
+                android:text="200"
+                android:textAlignment="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/grorumText"
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="Killed by Grorum"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/grorumValue"
+                android:padding="5dp"
+                android:text="200"
+                android:textAlignment="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/pyradonText"
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="Killed by Pyradon"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/pyradonValue"
+                android:padding="5dp"
+                android:text="200"
+                android:textAlignment="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/zeldroyText"
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="Killed by Zeldroy"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/zeldroyValue"
+                android:padding="5dp"
+                android:text="200"
+                android:textAlignment="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/draxusText"
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="Killed by Draxus"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/draxusValue"
+                android:padding="5dp"
+                android:text="200"
+                android:textAlignment="center"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/statsBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/buttonBg"
+        android:fontFamily="@font/squared"
+        android:text="Back"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statsTable"
+        app:layout_constraintVertical_bias="0.25"/>
+</android.support.constraint.ConstraintLayout>
