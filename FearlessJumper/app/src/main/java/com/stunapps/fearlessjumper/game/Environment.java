@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.game;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.media.AudioManager;
 
 
 /**
@@ -16,6 +17,7 @@ public class Environment
 		public static int SCREEN_WIDTH;
 		public static int SCREEN_HEIGHT;
 		public static float DISPLAY_DENSITY;
+		public static AudioManager audioManager;
 	}
 
 	public static Context CONTEXT;

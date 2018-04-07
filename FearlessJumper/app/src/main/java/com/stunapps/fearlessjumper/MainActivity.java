@@ -223,6 +223,8 @@ public class MainActivity extends Activity
 		Environment.CONTEXT = this;
 
 		SHARED_PREFERENCES = PreferenceManager.getDefaultSharedPreferences(Environment.CONTEXT);
+
+		Device.audioManager = (AudioManager) getSystemService(this.AUDIO_SERVICE);
 	}
 
 	public void updateScore(final String score)

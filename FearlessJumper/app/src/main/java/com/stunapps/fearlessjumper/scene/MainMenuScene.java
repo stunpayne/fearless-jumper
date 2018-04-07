@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.scene;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.inject.Inject;
@@ -20,6 +22,8 @@ import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.event.model.game.ParticleTestEvent;
 import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
+import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 
 import java.util.Map;
@@ -168,6 +172,27 @@ public class MainMenuScene extends AbstractScene
 					{
 						Log.d(TAG, "Options back button pressed");
 						showStatsMenu();
+					}
+				});
+
+				final AudioManager audioManager = Device.audioManager;
+				int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+				int curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+				SeekBar volControl = (SeekBar)menu.findViewById(R.id.seekBar);
+				volControl.setMax(maxVolume);
+				volControl.setProgress(curVolume);
+				volControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+					@Override
+					public void onStopTrackingTouch(SeekBar arg0) {
+					}
+
+					@Override
+					public void onStartTrackingTouch(SeekBar arg0) {
+					}
+
+					@Override
+					public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
+						audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, arg1, 0);
 					}
 				});
 			}
