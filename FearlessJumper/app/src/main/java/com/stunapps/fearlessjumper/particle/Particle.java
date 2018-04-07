@@ -149,7 +149,6 @@ public class Particle
 			//	Update color
 			if (null != colorTransitioner)
 			{
-				Log.d(TAG, String.valueOf((1 - (lifeTimer / life)) * (endColor - startColor)));
 				color = colorTransitioner.transition(startColor, endColor, color, life, lifeTimer);
 			}
 			else

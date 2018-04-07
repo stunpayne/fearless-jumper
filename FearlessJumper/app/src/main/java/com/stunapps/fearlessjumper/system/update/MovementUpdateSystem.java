@@ -187,9 +187,9 @@ public class MovementUpdateSystem implements UpdateSystem
 
 				PhysicsComponent followerPhysics =
 						followerEntity.getComponent(PhysicsComponent.class);
-				Log.d(TAG, "process: x velocity = " + followerPhysics.getVelocity().x);
-				Log.d(TAG, "process: y velocity = " + followerPhysics.getVelocity().y);
-				Log.d(TAG, "process: targetEntities.size() = " + targetEntities.size());
+				Log.v(TAG, "process: x velocity = " + followerPhysics.getVelocity().x);
+				Log.v(TAG, "process: y velocity = " + followerPhysics.getVelocity().y);
+				Log.v(TAG, "process: targetEntities.size() = " + targetEntities.size());
 
 				float[] targetLiveDistances = new float[targetEntities.size()];
 				for (int i = 0; i < targetLiveDistances.length; i++)
@@ -231,9 +231,9 @@ public class MovementUpdateSystem implements UpdateSystem
 					}
 				}
 
-				Log.d(TAG, "process: x velocity after update = " + followerPhysics.getVelocity()
+				Log.v(TAG, "process: x velocity after update = " + followerPhysics.getVelocity()
 						.x);
-				Log.d(TAG, "process: y velocity after update = " + followerPhysics.getVelocity()
+				Log.v(TAG, "process: y velocity after update = " + followerPhysics.getVelocity()
 						.y);
 			}
 		}
@@ -263,9 +263,9 @@ public class MovementUpdateSystem implements UpdateSystem
 
 				PhysicsComponent followerPhysics =
 						followerEntity.getComponent(PhysicsComponent.class);
-				Log.d(TAG, "process: x velocity = " + followerPhysics.getVelocity().x);
-				Log.d(TAG, "process: y velocity = " + followerPhysics.getVelocity().y);
-				Log.d(TAG, "process: targetEntities.size() = " + targetEntities.size());
+				Log.v(TAG, "process: x velocity = " + followerPhysics.getVelocity().x);
+				Log.v(TAG, "process: y velocity = " + followerPhysics.getVelocity().y);
+				Log.v(TAG, "process: targetEntities.size() = " + targetEntities.size());
 
 				float[] targetLiveDistances = new float[targetEntities.size()];
 				for (int i = 0; i < targetLiveDistances.length; i++)
@@ -343,9 +343,9 @@ public class MovementUpdateSystem implements UpdateSystem
 					}
 				}
 
-				Log.d(TAG, "process: x velocity after update = " + followerPhysics.getVelocity()
+				Log.v(TAG, "process: x velocity after update = " + followerPhysics.getVelocity()
 						.x);
-				Log.d(TAG, "process: y velocity after update = " + followerPhysics.getVelocity()
+				Log.v(TAG, "process: y velocity after update = " + followerPhysics.getVelocity()
 						.y);
 			}
 		}
@@ -388,11 +388,11 @@ public class MovementUpdateSystem implements UpdateSystem
 			if (Settings.DEBUG_MODE)
 			{
 				long currentTime = System.currentTimeMillis();
-				Log.d(TAG, "Frames since last reverse: " + frames);
+				Log.v(TAG, "Frames since last reverse: " + frames);
 				frames = 0;
-				Log.d(TAG, "Time since last reverse: " + (currentTime - lastReverseTime));
+				Log.v(TAG, "Time since last reverse: " + (currentTime - lastReverseTime));
 				lastReverseTime = currentTime;
-				Log.d(TAG, "Delta Time: " + Time.DELTA_TIME);
+				Log.v(TAG, "Delta Time: " + Time.DELTA_TIME);
 			}
 		}
 	}

@@ -41,9 +41,12 @@ import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.particle.Particle;
 
+import org.roboguice.shaded.goole.common.collect.Lists;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
 import lombok.Setter;
@@ -66,6 +69,9 @@ public class RenderSystem implements UpdateSystem
 
 	private static int frameNum = 0;
 	private static int angle = 0;
+	private static int MAX_RECTS = 700;
+	private static int ANGLE_CHANGE_SPEED = 6;
+	private static List<AngledRect> angledRects = Lists.newArrayList();
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
@@ -100,6 +106,7 @@ public class RenderSystem implements UpdateSystem
 
 		particlePaint = initParticlePaint();
 		fuelPaint = initFuelPaint();
+		angledRects = AngledRect.init();
 	}
 
 	@Override
@@ -116,10 +123,10 @@ public class RenderSystem implements UpdateSystem
 
 		Cameras.update();
 
-//		renderBackground();
-//		renderEntities();
-//		renderHUD();
-//		renderParticleEmission();
+		//		renderBackground();
+		//		renderEntities();
+		//		renderHUD();
+		//		renderParticleEmission();
 		renderShapes();
 
 		//testing
@@ -308,11 +315,17 @@ public class RenderSystem implements UpdateSystem
 	private void renderShapes()
 	{
 		canvas.drawColor(Color.BLACK);
-		canvas.save();
-		canvas.rotate(angle, 400, 600);
-		canvas.drawRect(300, 500, 500, 700, colliderPaint);
-		canvas.restore();
-		angle++;
+
+		for (AngledRect angledRect : angledRects)
+		{
+			int pivotX = (angledRect.rect.left + angledRect.rect.right) / 2;
+			int pivotY = (angledRect.rect.top + angledRect.rect.bottom) / 2;
+			canvas.save();
+			canvas.rotate(angledRect.angle + angle, pivotX, pivotY);
+			canvas.drawRect(angledRect.rect, colliderPaint);
+			canvas.restore();
+		}
+		angle += ANGLE_CHANGE_SPEED;
 		angle %= 360;
 	}
 
@@ -421,6 +434,37 @@ public class RenderSystem implements UpdateSystem
 					5 * canvas.getHeight() / 60, fpsPaint);
 			canvas.drawText(String.valueOf(sensorData.getRoll()), 5 * canvas.getWidth() / 12,
 					7 * canvas.getHeight() / 60, fpsPaint);
+		}
+	}
+
+	private static class AngledRect
+	{
+		public static int MAX_VARIATION = 200;
+
+		public Rect rect;
+		public int angle;
+
+		public static List<AngledRect> init()
+		{
+			final Random random = new Random();
+			List<AngledRect> angledRectList = Lists.newArrayList();
+
+			for (int i = 0; i < MAX_RECTS; i++)
+			{
+				int width = random.nextInt(MAX_VARIATION);
+				int height = random.nextInt(MAX_VARIATION);
+				int left = random.nextInt(Device.SCREEN_WIDTH);
+				int top = random.nextInt(Device.SCREEN_HEIGHT);
+
+
+				AngledRect angledRect = new AngledRect();
+				angledRect.angle = random.nextInt(360);
+				angledRect.rect = new Rect(left, top, left + width, top + height);
+
+				angledRectList.add(angledRect);
+			}
+
+			return angledRectList;
 		}
 	}
 }
