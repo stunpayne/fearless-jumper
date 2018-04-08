@@ -178,7 +178,7 @@ public class MainMenuScene extends AbstractScene
 				final AudioManager audioManager = Device.audioManager;
 				int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 				int curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-				SeekBar volControl = (SeekBar)menu.findViewById(R.id.seekBar);
+				SeekBar volControl = menu.findViewById(R.id.seekBar);
 				volControl.setMax(maxVolume);
 				volControl.setProgress(curVolume);
 				volControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
