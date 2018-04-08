@@ -69,7 +69,7 @@ public class RenderSystem implements UpdateSystem
 
 	private static int frameNum = 0;
 	private static int angle = 0;
-	private static int MAX_RECTS = 700;
+	private static int MAX_RECTS = 1;
 	private static int ANGLE_CHANGE_SPEED = 6;
 	private static List<AngledRect> angledRects = Lists.newArrayList();
 
@@ -315,6 +315,7 @@ public class RenderSystem implements UpdateSystem
 	private void renderShapes()
 	{
 		canvas.drawColor(Color.BLACK);
+		Paint paint = AngledRect.paint();
 
 		for (AngledRect angledRect : angledRects)
 		{
@@ -322,7 +323,8 @@ public class RenderSystem implements UpdateSystem
 			int pivotY = (angledRect.rect.top + angledRect.rect.bottom) / 2;
 			canvas.save();
 			canvas.rotate(angledRect.angle + angle, pivotX, pivotY);
-			canvas.drawRect(angledRect.rect, colliderPaint);
+			paint.setColor(angledRect.updateColor());
+			canvas.drawRect(angledRect.rect, paint);
 			canvas.restore();
 		}
 		angle += ANGLE_CHANGE_SPEED;
@@ -441,13 +443,18 @@ public class RenderSystem implements UpdateSystem
 	{
 		public static int MAX_VARIATION = 200;
 
+		private static Paint paint = null;
+
 		public Rect rect;
 		public int angle;
+		public int color;
+		public int colorStep;
 
 		public static List<AngledRect> init()
 		{
 			final Random random = new Random();
 			List<AngledRect> angledRectList = Lists.newArrayList();
+			int colorDiff = Color.RED - Color.BLUE;
 
 			for (int i = 0; i < MAX_RECTS; i++)
 			{
@@ -460,11 +467,30 @@ public class RenderSystem implements UpdateSystem
 				AngledRect angledRect = new AngledRect();
 				angledRect.angle = random.nextInt(360);
 				angledRect.rect = new Rect(left, top, left + width, top + height);
+				angledRect.colorStep = random.nextInt(colorDiff);
+				angledRect.color = Color.BLUE;
 
 				angledRectList.add(angledRect);
 			}
 
 			return angledRectList;
+		}
+
+		public static Paint paint()
+		{
+			if (paint == null)
+			{
+				paint = new Paint();
+				paint.setStyle(Style.FILL_AND_STROKE);
+			}
+			return paint;
+		}
+
+		public int updateColor()
+		{
+			color += colorStep;
+			color %= Color.RED;
+			return color;
 		}
 	}
 }
