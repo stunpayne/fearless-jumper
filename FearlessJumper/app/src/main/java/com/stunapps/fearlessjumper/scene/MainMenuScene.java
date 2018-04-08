@@ -181,17 +181,21 @@ public class MainMenuScene extends AbstractScene
 				SeekBar volControl = menu.findViewById(R.id.seekBar);
 				volControl.setMax(maxVolume);
 				volControl.setProgress(curVolume);
-				volControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+				volControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+				{
 					@Override
-					public void onStopTrackingTouch(SeekBar arg0) {
+					public void onStopTrackingTouch(SeekBar arg0)
+					{
 					}
 
 					@Override
-					public void onStartTrackingTouch(SeekBar arg0) {
+					public void onStartTrackingTouch(SeekBar arg0)
+					{
 					}
 
 					@Override
-					public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
+					public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2)
+					{
 						audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, arg1, 0);
 					}
 				});
@@ -280,7 +284,7 @@ public class MainMenuScene extends AbstractScene
 					setStat(menu, R.id.minigonValue, hurtStats.get(EnemyType.MINIGON.name()));
 				}
 
-				if(hurtStats.get(EnemyType.GRORUM.name()) != null)
+				if (hurtStats.get(EnemyType.GRORUM.name()) != null)
 				{
 					setStat(menu, R.id.grorumValue, hurtStats.get(EnemyType.GRORUM.name()));
 				}
