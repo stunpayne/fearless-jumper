@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
@@ -70,8 +71,8 @@ public class RenderSystem implements UpdateSystem
 
 	private static int frameNum = 0;
 	private static int angle = 0;
-	private static int MAX_RECTS = 1;
-	private static int ANGLE_CHANGE_SPEED = 6;
+	private static int MAX_RECTS = 10;
+	private static int ANGLE_CHANGE_SPEED = 1;
 	private static List<AngledRect> angledRects = Lists.newArrayList();
 
 	private static long lastProcessTime = System.nanoTime();
@@ -317,7 +318,7 @@ public class RenderSystem implements UpdateSystem
 	{
 		canvas.drawColor(Color.BLACK);
 		Paint paint = AngledRect.paint();
-
+		paint.setPathEffect(new CornerPathEffect(15));
 		for (AngledRect angledRect : angledRects)
 		{
 			int pivotX = (angledRect.rect.left + angledRect.rect.right) / 2;
@@ -445,6 +446,8 @@ public class RenderSystem implements UpdateSystem
 		public static int MAX_VARIATION = 200;
 
 		private static Paint paint = null;
+		private static int startColor = Color.BLUE;
+		private static int endColor = Color.RED;
 
 		public Rect rect;
 		public int angle;
@@ -455,7 +458,7 @@ public class RenderSystem implements UpdateSystem
 		{
 			final Random random = new Random();
 			List<AngledRect> angledRectList = Lists.newArrayList();
-			int colorDiff = Color.RED - Color.BLUE;
+			int colorDiff = endColor - startColor;
 
 			for (int i = 0; i < MAX_RECTS; i++)
 			{
@@ -468,8 +471,8 @@ public class RenderSystem implements UpdateSystem
 				AngledRect angledRect = new AngledRect();
 				angledRect.angle = random.nextInt(360);
 				angledRect.rect = new Rect(left, top, left + width, top + height);
-				angledRect.colorStep = random.nextInt(colorDiff);
-				angledRect.color = Color.BLUE;
+				angledRect.colorStep = random.nextInt(Math.abs(colorDiff));
+				angledRect.color = startColor;
 
 				angledRectList.add(angledRect);
 			}
@@ -477,12 +480,18 @@ public class RenderSystem implements UpdateSystem
 			return angledRectList;
 		}
 
+		public static void main(String[] args)
+		{
+			System.out.println("color blue = " + Color.BLUE);
+			System.out.println("color red = " + Color.RED);
+		}
+
 		public static Paint paint()
 		{
 			if (paint == null)
 			{
 				paint = new Paint();
-				paint.setStyle(Style.STROKE);
+				paint.setStyle(Style.FILL_AND_STROKE);
 				paint.setColor(Color.WHITE);
 			}
 			return paint;
@@ -490,8 +499,9 @@ public class RenderSystem implements UpdateSystem
 
 		public int updateColor()
 		{
-			color += colorStep;
-			color %= Color.RED;
+			color += startColor + colorStep;
+			color %= endColor;
+			Log.d(TAG, "updateColor: color = " + color);
 			return color;
 		}
 	}
