@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.component.visual;
 
+import android.graphics.RectF;
+
 import com.stunapps.fearlessjumper.model.Vector2D;
 
 /**
@@ -10,9 +12,9 @@ public class CircleShape extends Shape
 {
 	private float radius;
 
-	public CircleShape(PaintProperties paintProperties, Vector2D delta)
+	public CircleShape(float radius, PaintProperties paintProperties, Vector2D center)
 	{
-		super(ShapeType.CIRCLE, paintProperties, delta);
+		super(ShapeType.CIRCLE, paintProperties, center);
 	}
 
 	public Vector2D getCenter()
