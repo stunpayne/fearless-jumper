@@ -12,7 +12,6 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.support.graphics.drawable.ArgbEvaluator;
 import android.util.Log;
 
 import com.google.inject.Inject;
@@ -47,6 +46,7 @@ import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
+import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.particle.Particle;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
@@ -94,6 +94,8 @@ public class RenderSystem implements UpdateSystem
 	@Setter
 	private boolean shouldRenderBackground = true;
 
+	private ShapeRenderable shapeRenderable;
+
 	@Inject
 	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager,
 			SensorDataAdapter sensorDataAdapter)
@@ -107,7 +109,7 @@ public class RenderSystem implements UpdateSystem
 				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dotbg);
 		Bitmap bgBitmap =
 				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
-						false);
+										  false);
 		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
 
 		colliderPaint.setColor(Color.WHITE);
@@ -116,6 +118,10 @@ public class RenderSystem implements UpdateSystem
 		particlePaint = initParticlePaint();
 		fuelPaint = initFuelPaint();
 		angledRects = AngledRect.init();
+
+		LinkedList<Shape> shapes = new LinkedList<>();
+
+		shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 	}
 
 	@Override
@@ -133,7 +139,7 @@ public class RenderSystem implements UpdateSystem
 		Cameras.update();
 
 		//		renderBackground();
-				renderEntities();
+		//renderEntities();
 		//		renderHUD();
 		//		renderParticleEmission();
 		renderShapes();
@@ -164,11 +170,11 @@ public class RenderSystem implements UpdateSystem
 		float y = Device.SCREEN_HEIGHT / 2 - 300;
 
 		canvas.drawText(String.valueOf("Score : " + gameStatsManager.getCurrentScore()), x, y,
-				paint);
+						paint);
 		y += 50;
 		canvas.drawText(String.valueOf("High Score : " + gameStatsManager.getSessionHighScore())
 				, x,
-				y, paint);
+						y, paint);
 		y += 50;
 		canvas.drawText(
 				String.valueOf("All Time High Score : " + gameStatsManager.getGlobalHighScore())
@@ -178,13 +184,13 @@ public class RenderSystem implements UpdateSystem
 		y += 50;
 
 		canvas.drawText(String.valueOf("Avg Score : " + gameStatsManager.getAverageScore()), x, y,
-				paint);
+						paint);
 
 		if (!gameStatsManager.getDeathStat().isEmpty())
 		{
 			y += 50;
 			canvas.drawText(String.valueOf("Killed By : " + gameStatsManager.getDeathStat()), x, y,
-					paint);
+							paint);
 		}
 
 		Iterator<Entry<String, Integer>> iterator =
@@ -198,7 +204,7 @@ public class RenderSystem implements UpdateSystem
 
 		y += 50;
 		canvas.drawText(String.valueOf("GamePlay Count : " + gameStatsManager.getGamePlayCount()),
-				x, y, paint);
+						x, y, paint);
 
 		y += 50;
 		int i = 1;
@@ -214,9 +220,9 @@ public class RenderSystem implements UpdateSystem
 				qualifier = "rd";
 			}
 			canvas.drawText(i + qualifier + " Last Score" + " : " + String.valueOf(previousScore),
-					x, y,
+							x, y,
 
-					paint);
+							paint);
 			y += 50;
 			i++;
 		}
@@ -323,8 +329,8 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderShapes()
 	{
-		ShapeRenderable shapeRenderable = new ShapeRenderable(new LinkedList<Shape>());
-
+		ShapeRenderable shapeRenderable = new ShapeRenderable(new LinkedList<Shape>(), new Vector2D());
+		Vector2D baseDelta = shapeRenderable.getDelta();
 		List<Shape> shapes = shapeRenderable.getRenderables();
 		for (Shape shape : shapes)
 		{
@@ -336,18 +342,24 @@ public class RenderSystem implements UpdateSystem
 			switch (shape.shapeType())
 			{
 				case LINE:
-					LineShape lineShape = (LineShape)shape;
-					canvas.drawLine(lineShape.getStart().getX(), lineShape.getStart().getY(),
-									lineShape.getEnd().getX(), lineShape.getEnd().getY(), paint);
+					LineShape lineShape = (LineShape) shape;
+					canvas.drawLine(baseDelta.getX() + lineShape.getStart().getX(),
+									baseDelta.getY() + lineShape.getStart().getY(),
+									baseDelta.getX() + lineShape.getEnd().getX(),
+									baseDelta.getY() + lineShape.getEnd().getY(), paint);
 					break;
 				case RECT:
-					RectShape rectShape = (RectShape)shape;
-					canvas.drawRect(rectShape.getLeft(), rectShape.getTop(), rectShape.getRight(),
-									rectShape.getBottom(), paint);
+					RectShape rectShape = (RectShape) shape;
+					canvas.drawRect(baseDelta.getX() + rectShape.getLeft(),
+									baseDelta.getY() + rectShape.getTop(),
+									baseDelta.getX() + rectShape.getRight(),
+									baseDelta.getY() + rectShape.getBottom(), paint);
 					break;
 				case CIRCLE:
-					CircleShape circleShape = (CircleShape)shape;
-
+					CircleShape circleShape = (CircleShape) shape;
+					canvas.drawCircle(baseDelta.getX() + circleShape.getCenter().getX(),
+									  baseDelta.getY() + circleShape.getCenter().getY(),
+									  circleShape.getRadius(), paint);
 					break;
 			}
 		}
@@ -400,7 +412,7 @@ public class RenderSystem implements UpdateSystem
 						break;
 					case TEXTURE:
 						canvas.drawBitmap(texture, x - texture.getWidth() / 2,
-								y - texture.getHeight() / 2, particlePaint);
+										  y - texture.getHeight() / 2, particlePaint);
 						break;
 				}
 			}
@@ -474,9 +486,9 @@ public class RenderSystem implements UpdateSystem
 			fpsPaint.setColor(Color.MAGENTA);
 			fpsPaint.setTextSize(40);
 			canvas.drawText(String.valueOf(sensorData.getPitch()), 5 * canvas.getWidth() / 12,
-					5 * canvas.getHeight() / 60, fpsPaint);
+							5 * canvas.getHeight() / 60, fpsPaint);
 			canvas.drawText(String.valueOf(sensorData.getRoll()), 5 * canvas.getWidth() / 12,
-					7 * canvas.getHeight() / 60, fpsPaint);
+							7 * canvas.getHeight() / 60, fpsPaint);
 		}
 	}
 
