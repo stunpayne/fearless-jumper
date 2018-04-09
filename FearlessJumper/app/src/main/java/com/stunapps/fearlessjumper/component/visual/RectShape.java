@@ -11,9 +11,11 @@ public class RectShape extends Shape
 	private float width;
 	private float height;
 
-	public RectShape(PaintProperties paintProperties, Vector2D delta)
+	public RectShape(float width, float height, PaintProperties paintProperties, Vector2D delta)
 	{
 		super(ShapeType.RECT, paintProperties, delta);
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override

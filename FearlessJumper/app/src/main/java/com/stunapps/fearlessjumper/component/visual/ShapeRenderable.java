@@ -3,6 +3,7 @@ package com.stunapps.fearlessjumper.component.visual;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.model.Vector2D;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -76,7 +77,7 @@ public class ShapeRenderable extends Component
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{
-		return new ShapeRenderable(shapes, delta);
+		return new ShapeRenderable(new LinkedList<>(shapes), Vector2D.from(delta));
 	}
 }
 

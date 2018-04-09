@@ -11,9 +11,12 @@ public class LineShape extends Shape
 	private Vector2D start;
 	private Vector2D end;
 
-	public LineShape(PaintProperties paintProperties)
+	public LineShape(float startX, float startY, float endX, float endY,
+			PaintProperties paintProperties)
 	{
 		super(ShapeType.LINE, paintProperties, new Vector2D(0, 0));
+		this.start = new Vector2D(startX, startY);
+		this.end = new Vector2D(endX, endY);
 	}
 
 	@Override

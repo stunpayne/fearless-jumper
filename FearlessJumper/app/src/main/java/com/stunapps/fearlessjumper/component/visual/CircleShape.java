@@ -15,6 +15,7 @@ public class CircleShape extends Shape
 	public CircleShape(float radius, PaintProperties paintProperties, Vector2D center)
 	{
 		super(ShapeType.CIRCLE, paintProperties, center);
+		this.radius = radius;
 	}
 
 	public Vector2D getCenter()

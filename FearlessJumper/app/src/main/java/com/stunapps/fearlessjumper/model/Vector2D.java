@@ -14,6 +14,11 @@ public class Vector2D
 		this(0, 0);
 	}
 
+	public static Vector2D from(Vector2D other)
+	{
+		return new Vector2D(other.x, other.y);
+	}
+
 	public Vector2D(float x, float y)
 	{
 		this.x = x;
