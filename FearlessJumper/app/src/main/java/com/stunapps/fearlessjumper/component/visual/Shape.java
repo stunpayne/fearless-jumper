@@ -10,6 +10,7 @@ abstract class Shape
 	{
 		RECT,
 		CIRCLE,
+		LINE,
 		PATH;
 	}
 }
