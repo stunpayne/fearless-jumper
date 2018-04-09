@@ -48,28 +48,4 @@ public class CloningTest
 		Assert.assertFalse(stateMachine.getCurrentState().equals(clone1.getCurrentState()));
 
 	}
-
-	@Test
-	public void enumTest()
-	{
-		Mode enumValue = getEnumValue("ADD", Mode.class, Mode.ADD);
-	}
-
-	private <C extends Enum<C>> C getEnumValue(String s, Class<C> enumClass, C defaultValue)
-	{
-		if (s == null) return defaultValue;
-		try
-		{
-			return Enum.valueOf(enumClass, s);
-		}
-		catch (IllegalArgumentException var4)
-		{
-			Log.d("Exception Type =  " + enumType.getName() + " and value = " + name, var4);
-		}
-		catch (NullPointerException var5)
-		{
-			Log.d("Exception Type =  " + enumType + " and value = " + name, var5);
-		}
-		return defaultValue;
-	}
 }

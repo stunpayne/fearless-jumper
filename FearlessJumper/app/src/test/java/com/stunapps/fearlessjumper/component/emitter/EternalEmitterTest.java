@@ -2,8 +2,7 @@ package com.stunapps.fearlessjumper.component.emitter;
 
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter;
-import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.EmitterConfig;
+import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;

@@ -11,6 +11,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.support.graphics.drawable.ArgbEvaluator;
 import android.util.Log;
 
 import com.google.inject.Inject;
