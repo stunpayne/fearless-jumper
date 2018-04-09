@@ -22,6 +22,11 @@ public class CircleShape extends Shape
 		return getDelta();
 	}
 
+	public float getRadius()
+	{
+		return radius;
+	}
+
 	@Override
 	public float getLeft()
 	{

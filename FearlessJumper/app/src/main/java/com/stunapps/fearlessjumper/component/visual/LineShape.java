@@ -45,4 +45,14 @@ public class LineShape extends Shape
 	{
 		return end.minus(start);
 	}
+
+	public Vector2D getStart()
+	{
+		return start;
+	}
+
+	public Vector2D getEnd()
+	{
+		return end;
+	}
 }

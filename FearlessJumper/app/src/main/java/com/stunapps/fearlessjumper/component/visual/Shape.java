@@ -7,7 +7,7 @@ import com.stunapps.fearlessjumper.model.Vector2D;
 /**
  * Created by anand.verma on 09/04/18 10:27 PM.
  */
-abstract class Shape
+abstract public class Shape
 {
 	private ShapeType shapeType;
 	private PaintProperties paintProperties;
@@ -47,6 +47,16 @@ abstract class Shape
 	{
 		private PathEffect pathEffect;
 		private int color;
+
+		public PathEffect getPathEffect()
+		{
+			return pathEffect;
+		}
+
+		public int getColor()
+		{
+			return color;
+		}
 	}
 
 	public enum ShapeType
