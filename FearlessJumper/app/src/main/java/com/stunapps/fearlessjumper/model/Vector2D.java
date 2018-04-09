@@ -30,6 +30,11 @@ public class Vector2D
 		return y;
 	}
 
+	public Vector2D minus(Vector2D other)
+	{
+		return new Vector2D(this.x - other.getX(), this.y - other.getY());
+	}
+
 	@Override
 	protected Vector2D clone() throws CloneNotSupportedException
 	{
