@@ -15,6 +15,11 @@ public class CircleShape extends Shape
 		super(ShapeType.CIRCLE, paintProperties, delta);
 	}
 
+	public Vector2D getCenter()
+	{
+		return getDelta();
+	}
+
 	@Override
 	public float getLeft()
 	{
