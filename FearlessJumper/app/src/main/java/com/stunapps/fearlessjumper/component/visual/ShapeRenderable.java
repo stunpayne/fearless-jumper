@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.component.visual;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.model.Vector2D;
 
 import java.util.List;
 
@@ -11,13 +12,15 @@ import java.util.List;
 public class ShapeRenderable extends Component
 {
 	private List<Shape> shapes;
+	private Vector2D delta;
 	private Float width;
 	private Float height;
 
-	public ShapeRenderable(List<Shape> shapes)
+	public ShapeRenderable(List<Shape> shapes, Vector2D delta)
 	{
 		super(ShapeRenderable.class);
 		this.shapes = shapes;
+		this.delta = delta;
 	}
 
 	public List<Shape> getRenderables()
@@ -65,10 +68,15 @@ public class ShapeRenderable extends Component
 		return height;
 	}
 
+	public Vector2D getDelta()
+	{
+		return delta;
+	}
+
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{
-		return new ShapeRenderable(shapes);
+		return new ShapeRenderable(shapes, delta);
 	}
 }
 
