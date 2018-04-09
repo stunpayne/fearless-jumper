@@ -5,6 +5,12 @@ package com.stunapps.fearlessjumper.component.visual;
  */
 abstract class Shape
 {
+	private ShapeType shapeType;
+
+	public ShapeType shapeType()
+	{
+		return shapeType;
+	}
 
 	public enum ShapeType
 	{
