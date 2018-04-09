@@ -52,7 +52,7 @@ public class GameInitializerImpl implements GameInitializer
 		{
 			initPlatforms();
 			initBoundaries(player);
-			initEnemies();
+			//initEnemies();
 		}
 
 		catch (CloneNotSupportedException e)

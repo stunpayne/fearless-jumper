@@ -40,6 +40,12 @@ public class Vector2D
 		return new Vector2D(this.x - other.getX(), this.y - other.getY());
 	}
 
+	public void add(Vector2D other)
+	{
+		x += other.x;
+		y += other.y;
+	}
+
 	@Override
 	protected Vector2D clone() throws CloneNotSupportedException
 	{

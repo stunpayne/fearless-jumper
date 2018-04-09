@@ -74,6 +74,11 @@ public class ShapeRenderable extends Component
 		return delta;
 	}
 
+	public void increaseDelta(Vector2D increment)
+	{
+		delta.add(increment);
+	}
+
 	@Override
 	public Component clone() throws CloneNotSupportedException
 	{

@@ -5,9 +5,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.PathEffect;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -95,6 +97,7 @@ public class RenderSystem implements UpdateSystem
 	private boolean shouldRenderBackground = true;
 
 	private ShapeRenderable shapeRenderable;
+	private static final Vector2D deltaIncrease = new Vector2D(0, 2);
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager,
@@ -120,6 +123,10 @@ public class RenderSystem implements UpdateSystem
 		angledRects = AngledRect.init();
 
 		LinkedList<Shape> shapes = new LinkedList<>();
+		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE), new Vector2D
+				(400, 500)));
+		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED),
+								 new Vector2D(500, 500)));
 
 		shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 	}
@@ -138,7 +145,8 @@ public class RenderSystem implements UpdateSystem
 
 		Cameras.update();
 
-		//		renderBackground();
+		canvas.drawColor(Color.BLACK);
+				//renderBackground();
 		//renderEntities();
 		//		renderHUD();
 		//		renderParticleEmission();
@@ -260,8 +268,6 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderBackground()
 	{
-		canvas.drawColor(Color.BLACK);
-
 		if (!shouldRenderBackground) return;
 
 		List<ParallaxDrawableArea> drawableAreas =
@@ -329,15 +335,21 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderShapes()
 	{
-		ShapeRenderable shapeRenderable = new ShapeRenderable(new LinkedList<Shape>(), new Vector2D());
+
 		Vector2D baseDelta = shapeRenderable.getDelta();
 		List<Shape> shapes = shapeRenderable.getRenderables();
+
+		canvas.save();
+		canvas.rotate(angle, 500, 500 + shapeRenderable.getDelta().getY());
 		for (Shape shape : shapes)
 		{
 			PaintProperties paintProperties = shape.getPaintProperties();
 			Paint paint = new Paint();
 			paint.setColor(paintProperties.getColor());
-			paint.setPathEffect(paintProperties.getPathEffect());
+			if (paintProperties.getPathEffect() != null)
+			{
+				paint.setPathEffect(paintProperties.getPathEffect());
+			}
 
 			switch (shape.shapeType())
 			{
@@ -363,6 +375,11 @@ public class RenderSystem implements UpdateSystem
 					break;
 			}
 		}
+
+		canvas.restore();
+		shapeRenderable.increaseDelta(deltaIncrease);
+		angle += ANGLE_CHANGE_SPEED;
+		angle %= 360;
 	}
 
 	private void renderRotatingShapes()
@@ -517,7 +534,6 @@ public class RenderSystem implements UpdateSystem
 				int height = random.nextInt(MAX_VARIATION);
 				int left = random.nextInt(Device.SCREEN_WIDTH);
 				int top = random.nextInt(Device.SCREEN_HEIGHT);
-
 
 				AngledRect angledRect = new AngledRect();
 				angledRect.angle = random.nextInt(360);

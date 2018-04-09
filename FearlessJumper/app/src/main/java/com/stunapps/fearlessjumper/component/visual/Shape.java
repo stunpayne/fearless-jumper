@@ -43,10 +43,16 @@ abstract public class Shape
 
 	abstract public float getBottom();
 
-	public class PaintProperties
+	public static class PaintProperties
 	{
 		private PathEffect pathEffect;
 		private int color;
+
+		public PaintProperties(PathEffect pathEffect, int color)
+		{
+			this.pathEffect = pathEffect;
+			this.color = color;
+		}
 
 		public PathEffect getPathEffect()
 		{
