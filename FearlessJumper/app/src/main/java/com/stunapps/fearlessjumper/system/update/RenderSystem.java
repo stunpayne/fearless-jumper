@@ -31,8 +31,12 @@ import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
+import com.stunapps.fearlessjumper.component.visual.CircleShape;
+import com.stunapps.fearlessjumper.component.visual.LineShape;
+import com.stunapps.fearlessjumper.component.visual.RectShape;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
 import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
@@ -322,7 +326,30 @@ public class RenderSystem implements UpdateSystem
 		List<Shape> shapes = shapeRenderable.getRenderables();
 		for (Shape shape : shapes)
 		{
-			
+			PaintProperties paintProperties = shape.getPaintProperties();
+			Paint paint = new Paint();
+			paint.setColor(paintProperties.getColor());
+			paint.setPathEffect(paintProperties.getPathEffect());
+
+			switch (shape.shapeType())
+			{
+				case LINE:
+					LineShape lineShape = (LineShape)shape;
+					canvas.drawLine(lineShape.getStart().getX(), lineShape.getStart().getY(),
+									lineShape.getEnd().getX(), lineShape.getEnd().getY(), paint);
+					break;
+				case PATH:
+					break;
+				case RECT:
+					RectShape rectShape = (RectShape)shape;
+					canvas.drawRect(rectShape.getLeft(), rectShape.getTop(), rectShape.getRight(),
+									rectShape.getBottom(), paint);
+					break;
+				case CIRCLE:
+					CircleShape circleShape = (CircleShape)shape;
+
+					break;
+			}
 		}
 	}
 
