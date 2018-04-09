@@ -10,9 +10,9 @@ import java.util.List;
 
 public class ShapeRenderable extends Component
 {
-	public ShapeRenderable(Class<? extends Component> componentType)
+	public ShapeRenderable()
 	{
-		super(componentType);
+		super(ShapeRenderable.class);
 	}
 
 	public List<Shape> getRenderables(){

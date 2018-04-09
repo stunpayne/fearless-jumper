@@ -31,6 +31,8 @@ import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
 import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
 import com.stunapps.fearlessjumper.display.Cameras;
@@ -125,7 +127,7 @@ public class RenderSystem implements UpdateSystem
 		Cameras.update();
 
 		//		renderBackground();
-		//		renderEntities();
+				renderEntities();
 		//		renderHUD();
 		//		renderParticleEmission();
 		renderShapes();
@@ -314,6 +316,16 @@ public class RenderSystem implements UpdateSystem
 	}
 
 	private void renderShapes()
+	{
+		ShapeRenderable shapeRenderable = new ShapeRenderable();
+		List<Shape> shapes = shapeRenderable.getRenderables();
+		for (Shape shape : shapes)
+		{
+			
+		}
+	}
+
+	private void renderRotatingShapes()
 	{
 		canvas.drawColor(Color.BLACK);
 		Paint paint = AngledRect.paint();
