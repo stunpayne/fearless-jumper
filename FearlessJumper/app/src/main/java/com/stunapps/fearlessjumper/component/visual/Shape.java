@@ -6,4 +6,10 @@ package com.stunapps.fearlessjumper.component.visual;
 abstract class Shape
 {
 
+	public enum ShapeType
+	{
+		RECT,
+		CIRCLE,
+		PATH;
+	}
 }
