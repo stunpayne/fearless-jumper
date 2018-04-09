@@ -52,6 +52,7 @@ import com.stunapps.fearlessjumper.particle.Particle;
 import org.roboguice.shaded.goole.common.collect.Lists;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -322,7 +323,8 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderShapes()
 	{
-		ShapeRenderable shapeRenderable = new ShapeRenderable();
+		ShapeRenderable shapeRenderable = new ShapeRenderable(new LinkedList<Shape>());
+
 		List<Shape> shapes = shapeRenderable.getRenderables();
 		for (Shape shape : shapes)
 		{
@@ -337,8 +339,6 @@ public class RenderSystem implements UpdateSystem
 					LineShape lineShape = (LineShape)shape;
 					canvas.drawLine(lineShape.getStart().getX(), lineShape.getStart().getY(),
 									lineShape.getEnd().getX(), lineShape.getEnd().getY(), paint);
-					break;
-				case PATH:
 					break;
 				case RECT:
 					RectShape rectShape = (RectShape)shape;
