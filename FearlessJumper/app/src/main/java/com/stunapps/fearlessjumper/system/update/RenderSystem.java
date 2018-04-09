@@ -481,7 +481,8 @@ public class RenderSystem implements UpdateSystem
 			if (paint == null)
 			{
 				paint = new Paint();
-				paint.setStyle(Style.FILL_AND_STROKE);
+				paint.setStyle(Style.STROKE);
+				paint.setColor(Color.WHITE);
 			}
 			return paint;
 		}
