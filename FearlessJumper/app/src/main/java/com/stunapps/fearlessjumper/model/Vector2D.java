@@ -14,6 +14,11 @@ public class Vector2D
 		this(0, 0);
 	}
 
+	public static Vector2D from(Vector2D other)
+	{
+		return new Vector2D(other.x, other.y);
+	}
+
 	public Vector2D(float x, float y)
 	{
 		this.x = x;
@@ -28,6 +33,17 @@ public class Vector2D
 	public float getY()
 	{
 		return y;
+	}
+
+	public Vector2D minus(Vector2D other)
+	{
+		return new Vector2D(this.x - other.getX(), this.y - other.getY());
+	}
+
+	public void add(Vector2D other)
+	{
+		x += other.x;
+		y += other.y;
 	}
 
 	@Override

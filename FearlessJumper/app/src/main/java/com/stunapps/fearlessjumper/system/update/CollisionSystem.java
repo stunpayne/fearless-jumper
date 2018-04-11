@@ -45,7 +45,7 @@ public class CollisionSystem implements UpdateSystem
 
     /**
      * This is not needed as we can use different logging levels like
-     * Log.v (verbose), Log.d (debug), Log.i (info) etc
+     * Log.v (verbose), Log.v (debug), Log.i (info) etc
      */
     private static final boolean debugEnabled = false;
 
@@ -305,7 +305,7 @@ public class CollisionSystem implements UpdateSystem
                     physicsComponent.getVelocity().x) * currentSeparationX;
 
             if (Float.isNaN(physicalEntity.transform.position.x))
-                Log.d("BAD_CASE", "Position  is Nan");
+                Log.v("BAD_CASE", "Position  is Nan");
         }
 
         public static void bridgeGapY(Entity physicalEntity, Entity fixedEntity)
