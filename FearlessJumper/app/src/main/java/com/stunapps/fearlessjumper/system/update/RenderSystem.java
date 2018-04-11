@@ -5,14 +5,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
-import android.graphics.DashPathEffect;
+import android.graphics.LightingColorFilter;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.graphics.PathEffect;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Shader.TileMode;
 import android.graphics.Typeface;
 import android.util.Log;
 
@@ -109,7 +110,7 @@ public class RenderSystem implements UpdateSystem
 
 		//	Initialise background bitmap
 		Bitmap originalBg =
-				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dotbg);
+			BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dotbg);
 		Bitmap bgBitmap =
 				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
 										  false);
@@ -346,6 +347,11 @@ public class RenderSystem implements UpdateSystem
 			PaintProperties paintProperties = shape.getPaintProperties();
 			Paint paint = new Paint();
 			paint.setColor(paintProperties.getColor());
+			//paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
+			paint.setShader(new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
+											   Color.WHITE, Color.BLACK, TileMode.CLAMP));
+
+
 			if (paintProperties.getPathEffect() != null)
 			{
 				paint.setPathEffect(paintProperties.getPathEffect());
