@@ -129,7 +129,7 @@ public class RenderSystem implements UpdateSystem
 		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED),
 				new Vector2D(500, 500)));
 
-		shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
+		//shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 	}
 
 	@Override
@@ -151,7 +151,6 @@ public class RenderSystem implements UpdateSystem
 		renderEntities();
 		renderHUD();
 		renderParticleEmission();
-		//		renderShapes();
 
 		//testing
 		if (Settings.DEBUG_MODE)
@@ -296,6 +295,65 @@ public class RenderSystem implements UpdateSystem
 			{
 				renderCollider(entity);
 			}
+		}
+
+		Set<Entity> shapeEntities = componentManager.getEntities(ShapeRenderable.class);
+		for (Entity shapeEntity : shapeEntities)
+		{
+			ShapeRenderable shapeRenderable = shapeEntity.getComponent(ShapeRenderable.class);
+			Vector2D baseDelta = shapeRenderable.getDelta();
+			List<Shape> shapes = shapeRenderable.getRenderables();
+			Position camPosition = Cameras.getMainCamera().position;
+			//canvas.save();
+			//canvas.rotate(angle, 500, 500 + shapeRenderable.getDelta().getY());
+			for (Shape shape : shapes)
+			{
+				PaintProperties paintProperties = shape.getPaintProperties();
+				Paint paint = new Paint();
+				paint.setColor(paintProperties.getColor());
+				//paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
+				paint.setShader(new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
+												   Color.WHITE, Color.BLACK, TileMode.CLAMP));
+
+
+				if (paintProperties.getPathEffect() != null)
+				{
+					paint.setPathEffect(paintProperties.getPathEffect());
+				}
+
+				switch (shape.shapeType())
+				{
+					case LINE:
+						LineShape lineShape = (LineShape) shape;
+						canvas.drawLine(
+								baseDelta.getX() + lineShape.getStart().getX() - camPosition.x,
+								baseDelta.getY() + lineShape.getStart().getY() - camPosition.y,
+								baseDelta.getX() + lineShape.getEnd().getX() - camPosition.x,
+								baseDelta.getY() + lineShape.getEnd().getY() - camPosition.y,
+								paint);
+						break;
+					case RECT:
+						RectShape rectShape = (RectShape) shape;
+						canvas.drawRect(baseDelta.getX() + rectShape.getLeft() - camPosition.x,
+										baseDelta.getY() + rectShape.getTop() - camPosition.y,
+										baseDelta.getX() + rectShape.getRight() - camPosition.x,
+										baseDelta.getY() + rectShape.getBottom() - camPosition.y,
+										paint);
+						break;
+					case CIRCLE:
+						CircleShape circleShape = (CircleShape) shape;
+						canvas.drawCircle(
+								baseDelta.getX() + circleShape.getCenter().getX() - camPosition.x,
+								baseDelta.getY() + circleShape.getCenter().getY() - camPosition.y,
+								circleShape.getRadius(), paint);
+						break;
+				}
+			}
+
+			/*canvas.restore();
+			shapeRenderable.increaseDelta(deltaIncrease);
+			angle += ANGLE_CHANGE_SPEED;
+			angle %= 360;*/
 		}
 	}
 

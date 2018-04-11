@@ -27,10 +27,12 @@ public enum PrefabRef
     CLOCK(new ClockPrefab()),
     CLOCK_PARTICLE(new ClockParticlePrefab()),
 
+    TEST_SHAPE_PREFAB(new TestShapePrefab()),
+
     /**
      * Set prefabs
      */
-    GROUNDED_DRAGON_SET(new GroundedDragonPrefabSet())
+    GROUNDED_DRAGON_SET(new GroundedDragonPrefabSet()),
     ;
 
     private Prefab prefab;

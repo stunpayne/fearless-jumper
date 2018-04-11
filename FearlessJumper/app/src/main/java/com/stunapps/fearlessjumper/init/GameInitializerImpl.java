@@ -53,6 +53,10 @@ public class GameInitializerImpl implements GameInitializer
 			initPlatforms();
 			initBoundaries(player);
 			//initEnemies();
+			x = Device.SCREEN_WIDTH / 4;
+			y = Device.SCREEN_HEIGHT / 2 + 200;
+			Transform transform1 = new Transform(new Position(x, y));
+			entityManager.instantiate(PrefabRef.TEST_SHAPE_PREFAB.get(), transform1);
 		}
 
 		catch (CloneNotSupportedException e)
