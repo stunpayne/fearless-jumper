@@ -47,11 +47,13 @@ abstract public class Shape
 	{
 		private PathEffect pathEffect;
 		private int color;
+		private int currentColor;
 
 		public PaintProperties(PathEffect pathEffect, int color)
 		{
 			this.pathEffect = pathEffect;
 			this.color = color;
+			this.currentColor = color;
 		}
 
 		public PathEffect getPathEffect()
@@ -61,7 +63,7 @@ abstract public class Shape
 
 		public int getColor()
 		{
-			return color;
+			return currentColor;
 		}
 	}
 
