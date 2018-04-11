@@ -1,10 +1,15 @@
 package com.stunapps.fearlessjumper.component.visual;
 
+import android.graphics.Color;
+
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.model.Vector2D;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by anand.verma on 09/04/18 10:25 PM.
@@ -14,6 +19,7 @@ public class ShapeRenderable extends Component
 {
 	private List<Shape> shapes;
 	private Vector2D delta;
+
 	private Float width;
 	private Float height;
 
@@ -80,7 +86,7 @@ public class ShapeRenderable extends Component
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public ShapeRenderable clone() throws CloneNotSupportedException
 	{
 		return new ShapeRenderable(new LinkedList<>(shapes), Vector2D.from(delta));
 	}
