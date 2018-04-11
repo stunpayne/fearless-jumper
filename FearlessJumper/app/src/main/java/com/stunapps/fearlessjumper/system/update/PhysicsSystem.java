@@ -30,19 +30,25 @@ public class PhysicsSystem implements UpdateSystem
 
 	private static final float GRAVITY = -9.8f;
 
-	BaseEventListener<CollisionEvent> collisionEventListener = new BaseEventListener<CollisionEvent>()
-	{
-		@Override
-		public void handleEvent(CollisionEvent collisionEvent) throws EventException
-		{
-			if (collisionEvent.entity1.hasComponent(PhysicsComponent.class) &&
-					collisionEvent.entity2.hasComponent(PhysicsComponent.class))
+	BaseEventListener<CollisionEvent> collisionEventListener =
+			new BaseEventListener<CollisionEvent>()
 			{
-				handleFriction(collisionEvent.entity1, collisionEvent.entity2,
-						collisionEvent.collisionFace, collisionEvent.deltaTime);
-			}
-		}
-	};
+				@Override
+				public void handleEvent(CollisionEvent collisionEvent) throws EventException
+				{
+					if (collisionEvent.collisionFace == null)
+					{
+						return;
+					}
+
+					if (collisionEvent.entity1.hasComponent(PhysicsComponent.class) &&
+							collisionEvent.entity2.hasComponent(PhysicsComponent.class))
+					{
+						handleFriction(collisionEvent.entity1, collisionEvent.entity2,
+								collisionEvent.collisionFace, collisionEvent.deltaTime);
+					}
+				}
+			};
 
 	@Inject
 	public PhysicsSystem(ComponentManager componentManager, EventSystem eventSystem)

@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.game.Environment.Device;
@@ -17,7 +18,7 @@ public class RotationalEmitter extends BaseClusteredEmitter
 {
 	public RotationalEmitter()
 	{
-		super(8, 6000l, 0);
+		super(8, 6000l, 0, EmitterConfig.builder().color(Color.CYAN).size(5).build());
 	}
 
 	@Override
@@ -35,9 +36,8 @@ public class RotationalEmitter extends BaseClusteredEmitter
 		Random random = new Random();
 		for (Particle particle : particles)
 		{
-			particle.setPosition(Device.SCREEN_WIDTH / 2 + (40 - (random.nextInt() % 81)), Device
-					.SCREEN_HEIGHT
-					/ 2);
+			particle.setPosition(Device.SCREEN_WIDTH / 2 + (40 - (random.nextInt() % 81)),
+					Device.SCREEN_HEIGHT / 2);
 			particle.setVelocity(angle, 0f);
 			particle.setAcceleration(90, 1f);
 			angle += angleDelta;

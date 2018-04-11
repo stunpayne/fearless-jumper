@@ -80,7 +80,7 @@ public class StateMachine<State, Transition>
                 }, countDownState.countDown);
             }
         }
-        else Log.w(TAG, "No transition " + transition + "exists from state " + currentState);
+        else Log.w(TAG, "No transition " + transition + " exists from state " + currentState);
         return currentState;
     }
 

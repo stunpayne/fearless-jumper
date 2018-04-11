@@ -18,6 +18,7 @@ import com.stunapps.fearlessjumper.system.model.InputWrapper;
 import java.util.Set;
 
 import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
 import static com.stunapps.fearlessjumper.system.update.InputUpdateSystem.ScreenState
 		.SCREEN_PRESSED;
@@ -50,8 +51,9 @@ public class InputUpdateSystem implements UpdateSystem, InputUpdateManager
 		this.sensorDataAdapter = sensorDataAdapter;
 		inputStateMachine = StateMachine.builder()
 				.startState(SCREEN_RELEASED)
-				.from(SCREEN_RELEASED).onEvent(ACTION_DOWN).toState(SCREEN_PRESSED)
-				.from(SCREEN_PRESSED).onEvent(ACTION_UP).toState(SCREEN_RELEASED)
+				.fromAnyStateOnEvent(ACTION_DOWN).toState(SCREEN_PRESSED)
+				.fromAnyStateOnEvent(ACTION_MOVE).toState(SCREEN_PRESSED)
+				.fromAnyStateOnEvent(ACTION_UP).toState(SCREEN_RELEASED)
 				.build();
 	}
 

@@ -22,21 +22,19 @@ import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.event.model.game.ParticleTestEvent;
 import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
-import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by sunny.s on 11/02/18.
  */
 
 @Singleton
-public class MainMenuScene extends AbstractScene
+public class MenuScene extends AbstractScene
 {
-	private static final String TAG = MainMenuScene.class.getSimpleName();
+	private static final String TAG = MenuScene.class.getSimpleName();
 
 	@LayoutRes
 	private final int mMainMenuLayout;
@@ -51,7 +49,7 @@ public class MainMenuScene extends AbstractScene
 	private final GameStatsManager mGameStatsManager;
 
 	@Inject
-	public MainMenuScene(EventSystem eventSystem, final Context mContext, MainActivity
+	public MenuScene(EventSystem eventSystem, final Context mContext, MainActivity
 			mainActivity,
 			GameStatsManager gameStatsManager)
 	{

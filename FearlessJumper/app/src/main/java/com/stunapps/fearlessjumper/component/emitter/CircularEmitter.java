@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Xfermode;
@@ -21,7 +22,7 @@ public class CircularEmitter extends BaseClusteredEmitter
 {
 	public CircularEmitter()
 	{
-		super(20, 1000l, 0);
+		super(20, 1000l, 0, EmitterConfig.builder().color(Color.CYAN).size(5).build());
 	}
 
 	@Override

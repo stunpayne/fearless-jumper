@@ -54,10 +54,8 @@ public class AssaultDragonPrefab extends ComponentPrefab
 		StateMachine animationStateMachine =
 				StateMachine.builder()
 						.startState(FLY_RIGHT)
-						.from(IDLE).onEvent(TURN_LEFT).toState(FLY_LEFT)
-						.from(IDLE).onEvent(TURN_RIGHT).toState(FLY_RIGHT)
-						.from(FLY_LEFT).onEvent(TURN_RIGHT).toState(FLY_RIGHT)
-						.from(FLY_RIGHT).onEvent(TURN_LEFT).toState(FLY_LEFT)
+						.fromAnyStateOnEvent(TURN_RIGHT).toState(FLY_RIGHT)
+						.fromAnyStateOnEvent(TURN_LEFT).toState(FLY_LEFT)
 						.fromAnyStateOnEvent(INVOKE_ASSUALT_RIGHT).toState(FLY_IN_INVOKED_ASSAULT_RIGHT)
 						.fromAnyStateOnEvent(INVOKE_ASSUALT_LEFT).toState(FLY_IN_INVOKED_ASSAULT_LEFT)
 						.fromAnyStateOnEvent(ASSAULT_RIGHT).toState(FLY_TO_ASSAULT_RIGHT)

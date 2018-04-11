@@ -45,10 +45,10 @@ public class FlyingDragonPrefab extends ComponentPrefab
 				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + 100));
 
 		StateMachine<AnimationState, AnimationTransition> animationStateMachine =
-				StateMachine.builder().startState(FLY_RIGHT).from(IDLE).onEvent(TURN_LEFT)
-						.toState(FLY_LEFT).from(IDLE).onEvent(TURN_RIGHT).toState(FLY_RIGHT)
-						.from(FLY_LEFT).onEvent(TURN_RIGHT).toState(FLY_RIGHT).from(FLY_RIGHT)
-						.onEvent(TURN_LEFT).toState(FLY_LEFT).build();
+				StateMachine.builder().startState(FLY_RIGHT)
+						.fromAnyStateOnEvent(TURN_RIGHT).toState(FLY_RIGHT)
+						.fromAnyStateOnEvent(TURN_LEFT).toState(FLY_LEFT)
+						.build();
 
 		Bitmap dragonSprite1 = Bitmaps.DRAGON_FLY1;
 		Bitmap dragonSprite2 = Bitmaps.DRAGON_FLY2;

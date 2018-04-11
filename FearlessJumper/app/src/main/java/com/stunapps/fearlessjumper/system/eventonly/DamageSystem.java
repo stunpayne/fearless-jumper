@@ -7,6 +7,7 @@ import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent;
+import com.stunapps.fearlessjumper.component.damage.DamageComponent.DamageType;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.visual.Animator;
@@ -69,7 +70,7 @@ public class DamageSystem implements System
 				  "handleDamage: collisionEvent.collisionFace = " + collisionEvent.collisionFace +
 						  ", getDamageRespondingFaces = " +
 						  contactDamageComponent.getDamageRespondingFaces());
-			if (damageComponent instanceof ContactDamageComponent)
+			if (damageComponent.damageType == DamageType.CONTACT)
 			{
 				if (contactDamageComponent.getDamageRespondingFaces()
 						.contains(collisionEvent.collisionFace))

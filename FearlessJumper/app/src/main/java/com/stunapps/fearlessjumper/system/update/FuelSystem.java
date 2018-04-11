@@ -67,9 +67,6 @@ public class FuelSystem implements UpdateSystem
 	public void reset()
 	{
 		lastProcessTime = 0;
-		ONE_SECOND_REFUEL_AMOUNT = 8f;
-		MAX_FUEL = 100f;
-		MIN_FUEL = 0f;
 	}
 
 	private void refuel(Fuel fuel, long deltaTime)

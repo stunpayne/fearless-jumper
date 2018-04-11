@@ -217,13 +217,15 @@ public class CollisionSystem implements UpdateSystem
             if (!mobileEntity.getComponent(Collider.class).isTrigger() &&
                     !immobileEntity.getComponent(Collider.class).isTrigger())
             {
-                collisionFace = CollisionResolver.resolveXCollision(mobileEntity, immobileEntity,
+                CollisionResolver.resolveXCollision(mobileEntity, immobileEntity,
                                                                   intersectX, push);
                 /**
                  * This can be instead handle with coefficient of restitution.
                  */
                 physicsComponent1.getVelocity().x = 0;
             }
+
+            collisionFace = CollisionResolver.resolveXCollisionFace(mobileEntity, immobileEntity);
         }
         else
         {
@@ -231,10 +233,12 @@ public class CollisionSystem implements UpdateSystem
             if (!mobileEntity.getComponent(Collider.class).isTrigger() &&
                     !immobileEntity.getComponent(Collider.class).isTrigger())
             {
-                collisionFace = CollisionResolver.resolveYCollision(mobileEntity, immobileEntity,
+                CollisionResolver.resolveYCollision(mobileEntity, immobileEntity,
                                                                   intersectY, push);
                 physicsComponent1.getVelocity().y = 0;
             }
+
+			collisionFace = CollisionResolver.resolveYCollisionFace(mobileEntity, immobileEntity);
         }
         return new CollisionResponse(collisionFace);
     }
@@ -342,18 +346,16 @@ public class CollisionSystem implements UpdateSystem
 
     private static class CollisionResolver
     {
-        public static CollisionFace resolveXCollision(Entity entity1, Entity entity2,
+        public static void resolveXCollision(Entity entity1, Entity entity2,
                                              float intersectionMag, float push)
         {
-            CollisionFace collisionFace = null;
-            if ((entity1.transform.position.x - entity2.transform.position.x) > 0.0f)
+            if (isFirstEntityToRight(entity1, entity2))
             {
                 Log.v("CollisionSystem", "deltaXBetweenEntities < 0 :position1: ");
                 Log.v("CollisionSystem", "deltaXBetweenEntities < 0 :position2: ");
 
                 move(entity1.transform.position, -intersectionMag * (1 - push), 0.0f);
                 move(entity2.transform.position, intersectionMag * push, 0.0f);
-                collisionFace = CollisionFace.VERTICAL_REVERSE;
             } else
             {
                 Log.v("CollisionSystem", "deltaXBetweenEntities > 0 :position1: ");
@@ -361,23 +363,19 @@ public class CollisionSystem implements UpdateSystem
 
                 move(entity1.transform.position, intersectionMag * (1 - push), 0.0f);
                 move(entity2.transform.position, -intersectionMag * push, 0.0f);
-                collisionFace = CollisionFace.VERTICAL;
             }
-            return collisionFace;
         }
 
-        public static CollisionFace resolveYCollision(Entity entity1, Entity entity2,
+        public static void resolveYCollision(Entity entity1, Entity entity2,
                                              float intersectionMag, float push)
         {
-            CollisionFace collisionFace = null;
-            if ((entity1.transform.position.y - entity2.transform.position.y) > 0.0f)
+            if (isFirstEntityAbove(entity1, entity2))
             {
                 Log.v("CollisionSystem", "deltaYBetweenEntities > 0 :position1: ");
                 Log.v("CollisionSystem", "deltaYBetweenEntities > 0 :position2: ");
 
                 move(entity1.transform.position, 0.0f, -intersectionMag * (1 - push));
                 move(entity2.transform.position, 0.0f, intersectionMag * push);
-                collisionFace = CollisionFace.HORIZONTAL_REVERSE;
             } else
             {
                 Log.v("CollisionSystem", "deltaYBetweenEntities < 0 :position1: ");
@@ -385,10 +383,42 @@ public class CollisionSystem implements UpdateSystem
 
                 move(entity1.transform.position, 0.0f, intersectionMag * (1 - push));
                 move(entity2.transform.position, 0.0f, -intersectionMag * push);
-                collisionFace = CollisionFace.HORIZONTAL;
             }
-            return collisionFace;
         }
+
+        public static CollisionFace resolveXCollisionFace(Entity entity1, Entity entity2)
+		{
+			if (isFirstEntityToRight(entity1, entity2))
+			{
+				return CollisionFace.VERTICAL_REVERSE;
+			}
+			else
+			{
+				return CollisionFace.VERTICAL;
+			}
+		}
+
+		public static CollisionFace resolveYCollisionFace(Entity entity1, Entity entity2)
+		{
+			if (isFirstEntityAbove(entity1, entity2))
+			{
+				return CollisionFace.HORIZONTAL_REVERSE;
+			}
+			else
+			{
+				return CollisionFace.HORIZONTAL;
+			}
+		}
+
+        private static boolean isFirstEntityToRight(Entity first, Entity second)
+        {
+            return (first.transform.position.x - second.transform.position.x) > 0.0f;
+        }
+
+		private static boolean isFirstEntityAbove(Entity first, Entity second)
+		{
+			return (first.transform.position.y - second.transform.position.y) > 0.0f;
+		}
 
         private static void move(Position position, float x, float y)
         {

@@ -58,7 +58,7 @@ public class SceneManagerImpl implements SceneManager
 	};
 
 	@Inject
-	public SceneManagerImpl(MainMenuScene mainMenuScene, GameplayScene gameplayScene, EventSystem
+	public SceneManagerImpl(MenuScene menuScene, GameplayScene gameplayScene, EventSystem
 			eventSystem, ParticleTestScene particleTestScene,SoundSystem soundSystem)
 	{
 		this.soundSystem = soundSystem;
@@ -66,7 +66,7 @@ public class SceneManagerImpl implements SceneManager
 				getClass().getSimpleName() + " Scene Manager hash code: " + hashCode());
 
 		sceneMap = new HashMap<>();
-		sceneMap.put(mainMenuScene.getClass(), mainMenuScene);
+		sceneMap.put(menuScene.getClass(), menuScene);
 		sceneMap.put(gameplayScene.getClass(), gameplayScene);
 		sceneMap.put(particleTestScene.getClass(), particleTestScene);
 
@@ -79,12 +79,12 @@ public class SceneManagerImpl implements SceneManager
 	public void initialise()
 	{
 		sceneStateMachine =
-				StateMachine.builder().startState(MainMenuScene.class)
-						.from(MainMenuScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
-						.from(MainMenuScene.class).onEvent(ParticleTestEvent.class).toState(ParticleTestScene.class)
+				StateMachine.builder().startState(MenuScene.class)
+						.from(MenuScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
+						.from(MenuScene.class).onEvent(ParticleTestEvent.class).toState(ParticleTestScene.class)
 						.from(GameplayScene.class).onEvent(GameOverEvent.class).toState(GameplayScene.class)
 						.from(GameplayScene.class).onEvent(StartGameEvent.class).toState(GameplayScene.class)
-						.from(GameplayScene.class).onEvent(MainMenuEvent.class).toState(MainMenuScene.class)
+						.from(GameplayScene.class).onEvent(MainMenuEvent.class).toState(MenuScene.class)
 						.build();
 
 		soundSystem.initialise();

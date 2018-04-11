@@ -37,7 +37,8 @@ abstract public class BaseClusteredEmitter extends Emitter
 	protected long emissionInterval;
 	protected long clusterSize;
 
-	public BaseClusteredEmitter(int particlesCount, long particleLife, long emissionInterval)
+	public BaseClusteredEmitter(int particlesCount, long particleLife, long emissionInterval,
+			EmitterConfig emitterConfig)
 	{
 		super();
 		id = random.nextInt(50);
@@ -54,6 +55,7 @@ abstract public class BaseClusteredEmitter extends Emitter
 			this.clusterSize = particlesCount;
 		}
 		this.particles = new HashSet<>();
+		this.config = emitterConfig;
 	}
 
 	private List<Particle> generateParticleCluster()
