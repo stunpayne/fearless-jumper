@@ -12,9 +12,9 @@ public class CircleShape extends Shape
 {
 	private float radius;
 
-	public CircleShape(float radius, PaintProperties paintProperties, Vector2D center)
+	public CircleShape(float radius, PaintProperties paintProperties, Vector2D delta)
 	{
-		super(ShapeType.CIRCLE, paintProperties, center);
+		super(ShapeType.CIRCLE, paintProperties, delta);
 		this.radius = radius;
 	}
 

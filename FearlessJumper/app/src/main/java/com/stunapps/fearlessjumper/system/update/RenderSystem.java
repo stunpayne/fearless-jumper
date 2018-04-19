@@ -325,31 +325,44 @@ public class RenderSystem implements UpdateSystem
 				{
 					case LINE:
 						LineShape lineShape = (LineShape) shape;
-						canvas.drawLine(
-								baseDelta.getX() + lineShape.getStart().getX() - camPosition.x,
-								baseDelta.getY() + lineShape.getStart().getY() - camPosition.y,
-								baseDelta.getX() + lineShape.getEnd().getX() - camPosition.x,
-								baseDelta.getY() + lineShape.getEnd().getY() - camPosition.y,
-								paint);
+						canvas.drawLine(shapeEntity.transform.position.x + baseDelta.getX() +
+												lineShape.getStart().getX() - camPosition.x,
+										shapeEntity.transform.position.y + baseDelta.getY() +
+												lineShape.getStart().getY() - camPosition.y,
+										shapeEntity.transform.position.x + baseDelta.getX() +
+												lineShape.getEnd().getX() - camPosition.x,
+										shapeEntity.transform.position.y + baseDelta.getY() +
+												lineShape.getEnd().getY() - camPosition.y, paint);
 						break;
 					case RECT:
 						RectShape rectShape = (RectShape) shape;
-						canvas.drawRect(baseDelta.getX() + rectShape.getLeft() - camPosition.x,
-										baseDelta.getY() + rectShape.getTop() - camPosition.y,
-										baseDelta.getX() + rectShape.getRight() - camPosition.x,
-										baseDelta.getY() + rectShape.getBottom() - camPosition.y,
-										paint);
+						canvas.drawRect(shapeEntity.transform.position.x + baseDelta.getX() +
+												rectShape.getLeft() - camPosition.x,
+										shapeEntity.transform.position.y + baseDelta.getY() +
+												rectShape.getTop() - camPosition.y,
+										shapeEntity.transform.position.x + baseDelta.getX() +
+												rectShape.getRight() - camPosition.x,
+										shapeEntity.transform.position.y + baseDelta.getY() +
+												rectShape.getBottom() - camPosition.y, paint);
 						break;
 					case CIRCLE:
 						CircleShape circleShape = (CircleShape) shape;
-						canvas.drawCircle(
-								baseDelta.getX() + circleShape.getCenter().getX() - camPosition.x,
-								baseDelta.getY() + circleShape.getCenter().getY() - camPosition.y,
-								circleShape.getRadius(), paint);
+						canvas.drawCircle(shapeEntity.transform.position.x + baseDelta.getX() +
+												  +circleShape.getLeft() + circleShape.getRadius
+												  () -
+												  camPosition.x,
+										  shapeEntity.transform.position.y + baseDelta.getY() +
+												  circleShape.getTop() + circleShape.getRadius() -
+												  camPosition.y, circleShape.getRadius(), paint);
 						break;
 				}
 			}
 
+
+			if (Settings.DRAW_COLLIDERS)
+			{
+				renderCollider(shapeEntity);
+			}
 			/*canvas.restore();
 			shapeRenderable.increaseDelta(deltaIncrease);
 			angle += ANGLE_CHANGE_SPEED;
