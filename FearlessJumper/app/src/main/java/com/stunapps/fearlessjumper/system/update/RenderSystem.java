@@ -253,15 +253,35 @@ public class RenderSystem implements UpdateSystem
 	public static Rect getRenderRect(Entity entity)
 	{
 		Position camPosition = Cameras.getMainCamera().position;
+		int left = 0;
+		int top = 0;
+		int right = 0;
+		int bottom = 0;
 
-		Renderable renderable = entity.getComponent(Renderable.class);
-		int left = (int) ((entity.transform.position.x + renderable.delta.x) - camPosition.x);
-		int top = (int) ((entity.transform.position.y + renderable.delta.y) - camPosition.y);
-		int right = (int) ((entity.transform.position.x + renderable.delta.x + renderable.width) -
-				camPosition.x);
-		int bottom = (int) ((entity.transform.position.y + renderable.delta.y + renderable
-				.height) -
-				camPosition.y);
+		if (entity.hasComponent(Renderable.class))
+		{
+			Renderable renderable = entity.getComponent(Renderable.class);
+			left = (int) ((entity.transform.position.x + renderable.delta.x) - camPosition.x);
+			top = (int) ((entity.transform.position.y + renderable.delta.y) - camPosition.y);
+			right =
+					(int) ((entity.transform.position.x + renderable.delta.x + renderable.width) -
+							camPosition.x);
+			bottom =
+					(int) ((entity.transform.position.y + renderable.delta.y + renderable.height) -
+							camPosition.y);
+		}
+		else if (entity.hasComponent(ShapeRenderable.class))
+		{
+			ShapeRenderable shapeRenderable = entity.getComponent(ShapeRenderable.class);
+			left = (int) ((entity.transform.position.x + shapeRenderable.getDelta().getX()) -
+					camPosition.x);
+			top = (int) ((entity.transform.position.y + shapeRenderable.getDelta().getY()) -
+					camPosition.y);
+			right = (int) ((entity.transform.position.x + shapeRenderable.getDelta().getX() +
+					shapeRenderable.getWidth()) - camPosition.x);
+			bottom = (int) ((entity.transform.position.y + shapeRenderable.getDelta().getY() +
+					shapeRenderable.getHeight()) - camPosition.y);
+		}
 
 		return new Rect(left, top, right, bottom);
 	}

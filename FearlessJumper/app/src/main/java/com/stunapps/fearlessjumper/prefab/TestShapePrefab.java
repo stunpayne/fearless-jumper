@@ -72,9 +72,9 @@ public class TestShapePrefab extends ComponentPrefab
 		addComponent(
 				new RectCollider(Delta.ZERO, shapeRenderable.getWidth(), shapeRenderable.getHeight(),
 								 CollisionLayer.ENEMY));
-		//addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
+		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
-		//addComponent(new Dragon(EnemyType.GRORUM));
-		//addComponent(new PeriodicGun(2000));
+		addComponent(new Dragon(EnemyType.GRORUM));
+		addComponent(new PeriodicGun(2000));
 	}
 }
