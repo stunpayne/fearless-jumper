@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface Instantiator
 {
-	public List<Instantiable> getInstantiables();
+	List<Instantiable> getInstantiables();
 }

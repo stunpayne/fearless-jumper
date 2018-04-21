@@ -12,5 +12,11 @@ package com.stunapps.fearlessjumper.core;
  */
 public interface Shuffler<Item>
 {
-	public Item shuffle();
+	Item shuffle();
+
+	void restore(Item item);
+
+	void ignore(Item item);
+
+	void reset();
 }

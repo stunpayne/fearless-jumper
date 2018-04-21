@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 
@@ -28,10 +29,16 @@ public class EntityTransformCalculatorImpl implements EntityTransformCalculator
 	@Override
 	public float getWidth(Prefab prefab)
 	{
-		Renderable component = prefab.getComponent(Renderable.class);
-		if (component != null)
+		Renderable bitmapRenderable = prefab.getComponent(Renderable.class);
+		if (bitmapRenderable != null)
 		{
-			return ((Bitmap) component.getRenderable()).getWidth();
+			return bitmapRenderable.getRenderable().getWidth();
+		}
+
+		ShapeRenderable shapeRenderable = prefab.getComponent(ShapeRenderable.class);
+		if (shapeRenderable != null)
+		{
+			return shapeRenderable.getWidth();
 		}
 		return 0;
 	}

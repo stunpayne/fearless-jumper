@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -38,19 +39,24 @@ public class WeightedShuffler<Item> implements Shuffler<Item>
 	 */
 	private Float totalWeight;
 
+	private List<Item> ignoredItems;
+
 	private final Random random;
 	private int totalGenerated = 0;
 
 	public WeightedShuffler(Map<Item, Float> items)
 	{
+		this();
 		this.items = Maps.newLinkedHashMap(items);
+		ignoredItems = new ArrayList<>();
 
-		Float totalWeight = 0f;
-		for (Float weight : items.values())
-		{
-			totalWeight += weight;
-		}
-		this.totalWeight = totalWeight;
+		calculateWeight();
+	}
+
+	public WeightedShuffler()
+	{
+		items = Maps.newLinkedHashMap();
+		ignoredItems = new ArrayList<>();
 		random = new Random();
 	}
 
@@ -70,6 +76,43 @@ public class WeightedShuffler<Item> implements Shuffler<Item>
 			randomWeight -= items.get(item);
 		}
 		return items.keySet().iterator().next();
+	}
+
+	@Override
+	public void restore(Item item)
+	{
+		if (ignoredItems.contains(item))
+		{
+			ignoredItems.remove(item);
+		}
+		calculateWeight();
+	}
+
+	@Override
+	public void ignore(Item item)
+	{
+		ignoredItems.add(item);
+		calculateWeight();
+	}
+
+	@Override
+	public void reset()
+	{
+		ignoredItems.clear();
+		calculateWeight();
+	}
+
+	private void calculateWeight()
+	{
+		Float totalWeight = 0f;
+		for (Item item : items.keySet())
+		{
+			if (!ignoredItems.contains(item))
+			{
+				totalWeight += items.get(item);
+			}
+		}
+		this.totalWeight = totalWeight;
 	}
 
 	public static class Builder<T>

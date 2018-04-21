@@ -21,6 +21,8 @@ import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.rules.GenerationRuleResponse;
+import com.stunapps.fearlessjumper.rules.RuleEngine;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,7 +126,10 @@ public class GenerationSystem implements UpdateSystem
 					topObstacle.transform.position + " Type: " +
 					(topObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
 
-			Prefab spawnPrefab = obstacleShuffler.shuffle();
+			GenerationRuleResponse ruleResponse =
+					RuleEngine.execute(componentManager, entityManager);
+			Prefab spawnPrefab = ruleResponse.getNextPrefab();
+//			Prefab spawnPrefab = obstacleShuffler.shuffle();
 			//	TODO: Change platformWidth to spawnObstacle width
 			Position spawnPosition =
 					new Position((float) Math.random() * (Device.SCREEN_WIDTH - platformWidth),

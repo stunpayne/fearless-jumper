@@ -16,8 +16,8 @@ import lombok.ToString;
 @ToString
 public class Transform extends Component
 {
-	public static final Transform ORIGIN = new Transform(Position.ORIGIN, Rotation.NO_ROTATION,
-			Scale.UNIT_SCALE);
+	public static final Transform ORIGIN =
+			new Transform(Position.ORIGIN, Rotation.NO_ROTATION, Scale.UNIT_SCALE);
 
 	public Position position = new Position();
 	public Rotation rotation = new Rotation();
@@ -42,6 +42,16 @@ public class Transform extends Component
 	public Transform translateOrigin(Transform origin)
 	{
 		return new Transform(position.translateOrigin(origin.getPosition()));
+	}
+
+	public Transform translateX(float deltaX)
+	{
+		return new Transform(new Position(position.getX() + deltaX, position.getY()));
+	}
+
+	public Transform translateY(float deltaY)
+	{
+		return new Transform(new Position(position.getX(), position.getY() + deltaY));
 	}
 
 	@Override

@@ -18,4 +18,10 @@ import lombok.Getter;
 public abstract class Prefab implements Instantiator
 {
 	abstract public <C extends Component> C getComponent(Class<C> componentType);
+
+	@Override
+	public String toString()
+	{
+		return "Prefab{class = " + this.getClass().getSimpleName() + "}";
+	}
 }
