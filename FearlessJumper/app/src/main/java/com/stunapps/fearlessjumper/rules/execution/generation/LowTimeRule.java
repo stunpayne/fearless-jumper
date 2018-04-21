@@ -1,9 +1,6 @@
-package com.stunapps.fearlessjumper.rules.generation;
+package com.stunapps.fearlessjumper.rules.execution.generation;
 
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
-import com.stunapps.fearlessjumper.rules.GenerationRuleRequest;
-import com.stunapps.fearlessjumper.rules.GenerationRuleResponse;
-import com.stunapps.fearlessjumper.rules.Rule;
 
 import java.util.Random;
 
@@ -11,7 +8,7 @@ import java.util.Random;
  * Created by sunny.s on 19/04/18.
  */
 
-public class LowTimeRule extends Rule<GenerationRuleRequest, GenerationRuleResponse>
+public class LowTimeRule extends GenerationRule
 {
 	private static final int RANGE = 100;
 	private static final int PROBABILITY = 70;

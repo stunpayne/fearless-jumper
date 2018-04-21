@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.rules.generation;
+package com.stunapps.fearlessjumper.rules.execution.generation;
 
 import android.util.Log;
 
@@ -7,17 +7,12 @@ import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.core.WeightedShuffler;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
-import com.stunapps.fearlessjumper.rules.GenerationRuleRequest;
-import com.stunapps.fearlessjumper.rules.GenerationRuleResponse;
-import com.stunapps.fearlessjumper.rules.Rule;
-
-import java.util.Set;
 
 /**
  * Created by sunny.s on 21/04/18.
  */
 
-public class RandomisationRule extends Rule<GenerationRuleRequest, GenerationRuleResponse>
+public class RandomisationRule extends GenerationRule
 {
 	private static float NEW_OBSTACLE_OFFSET = -600f;
 

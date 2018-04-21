@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.rules.generation.model;
+package com.stunapps.fearlessjumper.rules.execution.generation.model;
 
 /**
  * Created by sunny.s on 19/04/18.

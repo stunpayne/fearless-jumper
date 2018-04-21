@@ -1,7 +1,7 @@
-package com.stunapps.fearlessjumper.rules;
+package com.stunapps.fearlessjumper.rules.execution;
 
 /**
- * Created by sunny.s on 19/04/18.
+ * Created by sunny.s on 21/04/18.
  */
 
 public abstract class Rule<Q extends RuleRequest, R extends RuleResponse>

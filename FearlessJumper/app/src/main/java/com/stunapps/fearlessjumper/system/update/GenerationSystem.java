@@ -21,7 +21,7 @@ import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
-import com.stunapps.fearlessjumper.rules.GenerationRuleResponse;
+import com.stunapps.fearlessjumper.rules.execution.GenerationRuleResponse;
 import com.stunapps.fearlessjumper.rules.RuleEngine;
 
 import java.util.ArrayList;

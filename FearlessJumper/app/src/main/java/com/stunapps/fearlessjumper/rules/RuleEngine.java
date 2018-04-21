@@ -8,11 +8,16 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
-import com.stunapps.fearlessjumper.rules.generation.LowTimeRule;
-import com.stunapps.fearlessjumper.rules.generation.RandomisationRule;
-import com.stunapps.fearlessjumper.rules.generation.model.GenerationLocation;
-import com.stunapps.fearlessjumper.rules.generation.model.GenerationConfig;
-import com.stunapps.fearlessjumper.rules.generation.model.GenerationState;
+import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleExecutor;
+import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleRequest;
+import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleResponse;
+import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRule;
+import com.stunapps.fearlessjumper.rules.execution.RuleExecutor;
+import com.stunapps.fearlessjumper.rules.execution.generation.LowTimeRule;
+import com.stunapps.fearlessjumper.rules.execution.generation.RandomisationRule;
+import com.stunapps.fearlessjumper.rules.execution.generation.enums.GenerationLocation;
+import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
+import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationState;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
 
@@ -48,6 +53,11 @@ public class RuleEngine
 				buildRuleResponse(componentManager, entityManager));
 
 		return generationRuleResponse;
+	}
+
+	public static void signal()
+	{
+
 	}
 
 	private static GenerationRuleRequest initRequest()
@@ -90,9 +100,9 @@ public class RuleEngine
 		return map;
 	}
 
-	private static List<Rule<GenerationRuleRequest, GenerationRuleResponse>> createRules()
+	private static List<GenerationRule<GenerationRuleRequest, GenerationRuleResponse>> createRules()
 	{
-		List<Rule<GenerationRuleRequest, GenerationRuleResponse>> rules = Lists.newArrayList();
+		List<GenerationRule<GenerationRuleRequest, GenerationRuleResponse>> rules = Lists.newArrayList();
 		rules.add(new LowTimeRule());
 		rules.add(new RandomisationRule());
 

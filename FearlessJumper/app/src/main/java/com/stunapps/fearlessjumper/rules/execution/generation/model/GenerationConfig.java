@@ -1,4 +1,6 @@
-package com.stunapps.fearlessjumper.rules.generation.model;
+package com.stunapps.fearlessjumper.rules.execution.generation.model;
+
+import com.stunapps.fearlessjumper.rules.execution.generation.enums.GenerationLocation;
 
 /**
  * Created by sunny.s on 19/04/18.
