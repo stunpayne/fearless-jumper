@@ -41,32 +41,6 @@ public class TestShapePrefab extends ComponentPrefab
 		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED),
 								 new Vector2D(10, 10)));
 
-
-		Float height = new Float(0);
-		float topMost = Float.MAX_VALUE;
-		float bottomMost = Float.MIN_VALUE;
-
-		for (Shape shape : shapes)
-		{
-			Log.d("Test", "TestShapePrefab: shape = " + shape.shapeType());
-			Log.d("Test",
-				  "TestShapePrefab: topMost = " + topMost + ", shape.getTop() = " + shape.getTop
-						  ());
-			topMost = Math.min(topMost, shape.getTop());
-			Log.d("Test", "TestShapePrefab: topMost = " + topMost);
-			Log.d("Test", "TestShapePrefab: bottomMost = " + bottomMost + ", shape.getBottom() =" +
-					" " +
-					shape.getBottom());
-			bottomMost = Math.max(bottomMost, shape.getBottom());
-			Log.d("Test", "TestShapePrefab: bottomMost = " + bottomMost);
-		}
-
-		height = bottomMost - topMost;
-		Log.d("Test",
-			  "TestShapePrefab: bottomMost = " + bottomMost + ", topMost = " + topMost + ", " +
-					  "height = " + height);
-
-
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 		addComponent(shapeRenderable);
 		addComponent(

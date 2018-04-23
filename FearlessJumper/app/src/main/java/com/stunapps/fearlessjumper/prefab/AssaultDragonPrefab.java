@@ -1,10 +1,16 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
+import com.stunapps.fearlessjumper.component.visual.CircleShape;
+import com.stunapps.fearlessjumper.component.visual.RectShape;
+import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
@@ -21,8 +27,10 @@ import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Position;
+import com.stunapps.fearlessjumper.model.Vector2D;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_IN_INVOKED_ASSAULT_LEFT;
@@ -48,6 +56,7 @@ public class AssaultDragonPrefab extends ComponentPrefab
 {
 	public AssaultDragonPrefab()
 	{
+		/*
 		transform = new Transform(
 				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + scaleY(100)));
 
@@ -125,13 +134,44 @@ public class AssaultDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_LEFT, assaultInvokeLeftAnim);
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-		//        animator.triggerTransition(TURN_RIGHT);
+
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 									dragonSprite1.getHeight()));
 		addComponent(animator);
+		*/
+		//        animator.triggerTransition(TURN_RIGHT);
+
+
+		LinkedList<Shape> shapes = new LinkedList<>();
+
+		CircleShape circleShapeLeft = new CircleShape(15, new PaintProperties(null, Color.RED),
+													   new Vector2D(0,0));
+		shapes.add(circleShapeLeft);
+
+		CircleShape circleShapeRight = new CircleShape(15, new PaintProperties(null, Color.RED),
+													  new Vector2D(30,0));
+		shapes.add(circleShapeRight);
+
+		CircleShape circleShapeTop = new CircleShape(15, new PaintProperties(null, Color.RED),
+													   new Vector2D(0,0));
+		shapes.add(circleShapeTop);
+
+		CircleShape circleShapeBottom = new CircleShape(15, new PaintProperties(null, Color.RED),
+													 new Vector2D(30,0));
+		shapes.add(circleShapeBottom);
+
+		CircleShape circleShapeCenter = new CircleShape(15, new PaintProperties(null, Color
+				.BLACK),
+														new Vector2D(15,15));
+		shapes.add(circleShapeCenter);
+
+		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
+		addComponent(shapeRenderable);
+
+
 		addComponent(new Dragon(EnemyType.DRAXUS));
-		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
-									  dragonSprite1.getHeight(), CollisionLayer.SUPER_ENEMY));
+		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
+									  shapeRenderable.getHeight(), CollisionLayer.SUPER_ENEMY));
 		addComponent(new AssaultTranslation(PlayerComponent.class, 150, 1500, 5.0f,
 											Device.SCREEN_HEIGHT / 4));
 		addComponent(new ContactDamageComponent(1, false));

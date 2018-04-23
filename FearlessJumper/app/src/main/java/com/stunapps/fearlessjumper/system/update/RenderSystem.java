@@ -146,8 +146,8 @@ public class RenderSystem implements UpdateSystem
 
 		Cameras.update();
 
-		canvas.drawColor(Color.BLACK);
-		renderBackground();
+		canvas.drawColor(Color.YELLOW);
+		//renderBackground();
 		renderEntities();
 		renderHUD();
 		renderParticleEmission();
@@ -332,8 +332,8 @@ public class RenderSystem implements UpdateSystem
 				Paint paint = new Paint();
 				paint.setColor(paintProperties.getColor());
 				//paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
-				paint.setShader(new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
-												   Color.WHITE, Color.BLACK, TileMode.CLAMP));
+				/*paint.setShader(new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
+												   Color.WHITE, Color.BLACK, TileMode.CLAMP));*/
 
 
 				if (paintProperties.getPathEffect() != null)

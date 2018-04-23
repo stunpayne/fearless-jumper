@@ -1,10 +1,15 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
+import com.stunapps.fearlessjumper.component.visual.CircleShape;
+import com.stunapps.fearlessjumper.component.visual.RectShape;
+import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
@@ -18,9 +23,11 @@ import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
+import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
@@ -38,6 +45,7 @@ public class ShooterDragonPrefab extends ComponentPrefab
 {
 	public ShooterDragonPrefab()
 	{
+		/*
 		StateMachine animationStateMachine =
 				StateMachine.builder().startState(FLY_RIGHT).from(IDLE).onEvent(TURN_LEFT)
 						.toState(FLY_LEFT).from(IDLE).onEvent(TURN_RIGHT).toState(FLY_RIGHT)
@@ -78,10 +86,17 @@ public class ShooterDragonPrefab extends ComponentPrefab
 				dragonSprite1.getHeight()));
 
 		addComponent(animator);
-		addComponent(new Dragon(EnemyType.GRORUM));
+		*/
 
+		LinkedList<Shape> shapes = new LinkedList<>();
+		shapes.add(
+				new CircleShape(40, new Shape.PaintProperties(null, Color.BLACK), new Vector2D()));
+		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
+		addComponent(shapeRenderable);
+
+		addComponent(new Dragon(EnemyType.GRORUM));
 		addComponent(
-				new RectCollider(Delta.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
+				new RectCollider(Delta.ZERO, shapeRenderable.getWidth(), shapeRenderable.getHeight(),
 						CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
