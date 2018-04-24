@@ -75,15 +75,14 @@ public class ShooterDragonPrefab extends ComponentPrefab
 
 		LinkedList<Shape> shapes = new LinkedList<>();
 		shapes.add(
-				new CircleShape(40, new PaintProperties(null, Color.BLACK, null, null), new
-						Vector2D()));
+				new CircleShape(60, new PaintProperties(null, Color.rgb(25, 25, 112), null, null),
+						new Vector2D()));
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 		addComponent(shapeRenderable);
 
 		addComponent(new Dragon(EnemyType.GRORUM));
-		addComponent(
-				new RectCollider(Delta.ZERO, shapeRenderable.getWidth(), shapeRenderable.getHeight(),
-						CollisionLayer.ENEMY));
+		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
+				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 

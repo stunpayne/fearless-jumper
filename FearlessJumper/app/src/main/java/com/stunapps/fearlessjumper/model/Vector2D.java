@@ -25,6 +25,24 @@ public class Vector2D
 		this.y = y;
 	}
 
+	public static Vector2D add(Vector2D vector1, Vector2D vector2)
+	{
+		if (vector1 == null)
+		{
+			return vector2;
+		}
+		else if (vector2 == null)
+		{
+			return vector1;
+		}
+		return new Vector2D(vector1.x + vector2.x, vector1.y + vector2.y);
+	}
+
+	public static Vector2D minus(Vector2D original, Vector2D difference)
+	{
+		return new Vector2D(original.x - difference.x, original.y - difference.y);
+	}
+
 	public float getX()
 	{
 		return x;

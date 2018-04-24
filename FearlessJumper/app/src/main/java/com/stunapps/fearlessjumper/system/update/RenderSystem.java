@@ -319,6 +319,8 @@ public class RenderSystem implements UpdateSystem
 		}
 
 		Set<Entity> shapeEntities = componentManager.getEntities(ShapeRenderable.class);
+		Paint centerPaint = new Paint();
+		centerPaint.setColor(Color.BLACK);
 		for (Entity shapeEntity : shapeEntities)
 		{
 			ShapeRenderable shapeRenderable = shapeEntity.getComponent(ShapeRenderable.class);
@@ -328,27 +330,28 @@ public class RenderSystem implements UpdateSystem
 			//canvas.save();
 			//canvas.rotate(angle, 500, 500 + shapeRenderable.getDelta().getY());
 
-			float angularVelocity = 0.0f;
-			if (shapeEntity.hasComponent(PhysicsComponent.class))
-			{
-				angularVelocity =
-						shapeEntity.getComponent(PhysicsComponent.class).getAngularVelocity();
-			}
-
 			float azimuth = shapeEntity.getTransform().getRotation().azimuth;
 
-			float rotaionAngle = (azimuth + angularVelocity) % 360;
-
-			shapeEntity.getTransform().getRotation().azimuth = rotaionAngle;
-
-			float centerX =
-					shapeEntity.getTransform().position.x + shapeRenderable.getDelta().getX() +
-							(shapeRenderable.getWidth() / 2) - camPosition.x;
-			float centerY =
-					shapeEntity.getTransform().position.y + shapeRenderable.getDelta().getY() +
-							(shapeRenderable.getHeight() / 2) - camPosition.y;
+			Float centerX = null;
+			Float centerY = null;
+			if (shapeRenderable.providesCenter())
+			{
+				centerX = shapeEntity.getTransform().getPosition().getX() +
+						shapeRenderable.getAnchor().getX() - camPosition.x;
+				centerY = shapeEntity.getTransform().getPosition().getY() +
+						shapeRenderable.getAnchor().getY() - camPosition.y;
+			}
+			else
+			{
+				centerX =
+						shapeEntity.getTransform().position.x + shapeRenderable.getDelta().getX() +
+								(shapeRenderable.getWidth() / 2) - camPosition.x;
+				centerY =
+						shapeEntity.getTransform().position.y + shapeRenderable.getDelta().getY() +
+								(shapeRenderable.getHeight() / 2) - camPosition.y;
+			}
 			canvas.save();
-			canvas.rotate(rotaionAngle, centerX, centerY);
+			canvas.rotate(azimuth, centerX, centerY);
 
 			for (Shape shape : shapes)
 			{

@@ -44,14 +44,7 @@ public class TransformUpdateSystem implements UpdateSystem
 			if (movable.hasComponent(PlayerComponent.class))
 				movePlayerTransform(movable.transform, physicsComponent.getVelocity(), renderable);
 			else moveTransform(movable.transform, physicsComponent.getVelocity());
-
-			if (movable.hasComponent(FollowTranslation.class))
-			{
-				Log.d("ConsciousEnemySystem",
-					  "transform.position.x: " + movable.transform.position.x);
-				Log.d("ConsciousEnemySystem",
-					  "transform.position.y: " + movable.transform.position.y);
-			}
+			rotateTransform(movable.getTransform(), physicsComponent.getAngularVelocity());
 		}
 	}
 
@@ -67,8 +60,7 @@ public class TransformUpdateSystem implements UpdateSystem
 		lastProcessTime = System.nanoTime();
 	}
 
-	private void movePlayerTransform(Transform transform, Velocity velocity,
-			Renderable renderable)
+	private void movePlayerTransform(Transform transform, Velocity velocity, Renderable renderable)
 	{
 		transform.position.x += velocity.x;
 		transform.position.y += velocity.y;
@@ -94,5 +86,10 @@ public class TransformUpdateSystem implements UpdateSystem
 	{
 		transform.position.x += (velocity.x * Time.DELTA_TIME);
 		transform.position.y += (velocity.y * Time.DELTA_TIME);
+	}
+
+	private void rotateTransform(Transform transform, float angularVelocity)
+	{
+		transform.getRotation().rotate(angularVelocity * Time.DELTA_TIME);
 	}
 }

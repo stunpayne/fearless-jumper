@@ -101,7 +101,7 @@ abstract public class Shape
 
 		public Paint getPaint()
 		{
-			return paint;
+			return currentPaint;
 		}
 
 		public Paint getCurrentPaint()

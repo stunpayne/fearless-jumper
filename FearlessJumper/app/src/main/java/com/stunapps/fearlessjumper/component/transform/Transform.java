@@ -98,6 +98,12 @@ public class Transform extends Component
 		{
 			this.azimuth = azimuth;
 		}
+
+		public void rotate(float deltaAzimuth)
+		{
+			this.azimuth += deltaAzimuth;
+			this.azimuth %= 360;
+		}
 	}
 
 	@ToString

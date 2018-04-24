@@ -20,12 +20,17 @@ public class CircleShape extends Shape
 
 	public Vector2D getCenter()
 	{
-		return getDelta();
+		return Vector2D.add(getDelta(), new Vector2D(radius, radius));
 	}
 
 	public float getRadius()
 	{
 		return radius;
+	}
+
+	public float getDiameter()
+	{
+		return 2 * getRadius();
 	}
 
 	@Override

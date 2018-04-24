@@ -159,8 +159,10 @@ public class GenerationSystem implements UpdateSystem
 
 	private void initActiveObstacles()
 	{
-		Set<Entity> entities = componentManager.getEntities(Obstacle.class);
-		activeObstacles.addAll(entities);
+		Set<Entity> spawnables = componentManager.getEntities(Obstacle.class);
+		spawnables.addAll(componentManager.getEntities(Pickup.class));
+		spawnables.addAll(componentManager.getEntities(Enemy.class));
+		activeObstacles.addAll(spawnables);
 
 		Collections.sort(activeObstacles, new Comparator<Entity>()
 		{

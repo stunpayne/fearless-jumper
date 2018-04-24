@@ -95,48 +95,33 @@ public class FlyingDragonPrefab extends ComponentPrefab
 
 		LinkedList<Shape> shapes = new LinkedList<>();
 
-		CircleShape circleShape =
-				new CircleShape(15, new PaintProperties(null, Color.BLACK, null, null), new
-						Vector2D(15,
-																						   15));
-		shapes.add(circleShape);
-		PaintProperties linePaintProperties = new PaintProperties(null, Color.GRAY, 8.0f, Style
-				.STROKE);
-		LineShape lineShapeLeft =
-				new LineShape(0, circleShape.getTop() + circleShape.getRadius(), 15,
-							  circleShape.getTop() + circleShape.getRadius(), linePaintProperties);
-		shapes.add(lineShapeLeft);
+		float bladeLength = 15f;
+		CircleShape circle =
+				new CircleShape(bladeLength, new PaintProperties(null, Color.BLACK, null, null),
+						new Vector2D(bladeLength, bladeLength));
 
-		LineShape lineShapeRight = new LineShape(circleShape.getRight(),
-												 circleShape.getTop() + circleShape.getRadius(),
-												 circleShape.getRight() + 15,
-												 circleShape.getTop() + circleShape.getRadius(),
-												 linePaintProperties);
-		shapes.add(lineShapeRight);
+		PaintProperties linePaintProperties =
+				new PaintProperties(null, Color.GRAY, 8.0f, Style.STROKE);
+		LineShape horizontalLine =
+				new LineShape(0, circle.getCenter().getY(), 2 * bladeLength + circle.getDiameter(),
+						circle.getCenter().getY(), linePaintProperties);
 
-		LineShape lineShapeTop = new LineShape(circleShape.getLeft() + circleShape.getRadius(), 0,
-											   circleShape.getLeft() + circleShape.getRadius(),
-											   circleShape.getTop(),
-											   linePaintProperties);
-		shapes.add(lineShapeTop);
+		LineShape verticalLine =
+				new LineShape(circle.getCenter().getX(), 0, circle.getCenter().getX(),
+						2 * bladeLength + circle.getDiameter(), linePaintProperties);
 
-		LineShape lineShapeBottom = new LineShape(circleShape.getLeft() + circleShape.getRadius(),
-												  circleShape.getBottom(),
-												  circleShape.getLeft() + circleShape.getRadius(),
-												  circleShape.getBottom() + 15,
-												  linePaintProperties);
-		shapes.add(lineShapeBottom);
+		shapes.add(horizontalLine);
+		shapes.add(verticalLine);
+		shapes.add(circle);
 
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 		addComponent(shapeRenderable);
 
 		addComponent(new Dragon(EnemyType.MINIGON));
-		addComponent(
-				new RectCollider(Delta.ZERO, shapeRenderable.getWidth(), shapeRenderable.getHeight(),
-						CollisionLayer.ENEMY));
+		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
+				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation()
-				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - shapeRenderable.getWidth(),
-						250f));
+				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - shapeRenderable.getWidth(), 250f));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, 20.0f, false));
 	}
