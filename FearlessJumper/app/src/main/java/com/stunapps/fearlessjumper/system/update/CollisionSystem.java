@@ -170,12 +170,17 @@ public class CollisionSystem implements UpdateSystem
         lastProcessTime = 0;
     }
 
-    private boolean isCollisionLayerMaskSet(Entity entity, Entity entityCollidingWith)
-    {
-        Collider collider = entity.getComponent(Collider.class);
-        Collider collidesWith = entityCollidingWith.getComponent(Collider.class);
-        return collisionLayerManager.isCollisionMaskSet(collider, collidesWith);
-    }
+	private boolean isCollisionLayerMaskSet(Entity entity, Entity entityCollidingWith)
+	{
+		Collider collider = entity.getComponent(Collider.class);
+		Collider collidesWith = entityCollidingWith.getComponent(Collider.class);
+		if (collider == null || collidesWith == null)
+		{
+			return false;
+		}
+
+		return collisionLayerManager.isCollisionMaskSet(collider, collidesWith);
+	}
 
     //TODO: Push can be derived from masses for entities.
     private static boolean isColliding(Entity physicsEntity, Entity fixedEntity)

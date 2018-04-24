@@ -47,14 +47,13 @@ public class CollisionLayerManager
 		 * BONUS - collides with PLAYER, BONUS
 		 */
 
-		setCollisionLayerMask(CollisionLayer.ENEMY,
-							  new CollisionLayer[]{CollisionLayer.SOLID});
+		setCollisionLayerMask(CollisionLayer.ENEMY, new CollisionLayer[]{CollisionLayer.SOLID});
 
 
 		setCollisionLayerMask(CollisionLayer.PLAYER,
-							  new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.ENEMY,
-									  CollisionLayer.SUPER_ENEMY, CollisionLayer.BONUS,
-									  CollisionLayer.BULLET, CollisionLayer.LAND});
+				new CollisionLayer[]{CollisionLayer.SOLID, CollisionLayer.ENEMY, CollisionLayer
+						.SUPER_ENEMY, CollisionLayer.BONUS, CollisionLayer.BULLET, CollisionLayer
+						.LAND});
 	}
 
 	public void setCollisionLayerMask(CollisionLayer collisionLayer,
@@ -133,12 +132,12 @@ public class CollisionLayerManager
 		if (collisionLayer1.getIndex() < collisionLayer2.getIndex())
 		{
 			return new Coordinate(matrixSize - collisionLayer2.getIndex() - 1,
-								  collisionLayer1.getIndex());
+					collisionLayer1.getIndex());
 		}
 		else
 		{
 			return new Coordinate(matrixSize - collisionLayer1.getIndex() - 1,
-								  collisionLayer2.getIndex());
+					collisionLayer2.getIndex());
 		}
 	}
 
