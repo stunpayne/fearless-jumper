@@ -59,7 +59,9 @@ public class GameInitializerImpl implements GameInitializer
 		{
 			Log.e("INIT_ERROR", "Error while initialising game.");
 			e.printStackTrace();
-		} finally{
+		}
+		finally
+		{
 
 		}
 
@@ -68,6 +70,16 @@ public class GameInitializerImpl implements GameInitializer
 				65 * Device.SCREEN_HEIGHT / 100));
 
 		initialised = true;
+	}
+
+	@Override
+	public void destroy()
+	{
+		if (entityManager != null)
+		{
+			entityManager.deleteEntities();
+			initialised = false;
+		}
 	}
 
 	private void initPlatforms() throws CloneNotSupportedException
@@ -92,15 +104,5 @@ public class GameInitializerImpl implements GameInitializer
 	{
 		entityManager.instantiate(PrefabRef.FOLLOWING_DRAGON.get(), new Transform(
 				new Position(Device.SCREEN_WIDTH / 8, Device.SCREEN_HEIGHT / 2 - 150)));
-	}
-
-	@Override
-	public void destroy()
-	{
-		if (entityManager != null)
-		{
-			entityManager.deleteEntities();
-			initialised = false;
-		}
 	}
 }

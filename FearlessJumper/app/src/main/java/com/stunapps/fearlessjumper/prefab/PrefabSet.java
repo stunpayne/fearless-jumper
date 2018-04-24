@@ -46,9 +46,12 @@ public abstract class PrefabSet extends Prefab
 	@Override
 	public float getWidth()
 	{
-		float width = 0;
+		float minX = Float.MAX_VALUE;
+		float maxX = Float.MIN_VALUE;
 		for (Instantiable instantiable : instantiables)
 		{
+			float relativeTransX = instantiable.getRelativeTransform().getPosition().getX();
+			minX = Math.min(minX, relativeTransX);
 			for (Component component : instantiable.getComponents())
 			{
 				//	Breaking at the end of this because one instantiable can have only one
@@ -56,16 +59,17 @@ public abstract class PrefabSet extends Prefab
 				if (component.componentType == Renderable.class)
 				{
 					Renderable renderable = (Renderable) component;
-					width += renderable.delta.x + renderable.width;
+					maxX = Math.max(maxX, relativeTransX + renderable.delta.x + renderable.width);
 					break;
 				}
 				else if (component.componentType == ShapeRenderable.class)
 				{
-					width += ((ShapeRenderable) component).getWidth();
+					maxX = Math.max(maxX,
+							relativeTransX + ((ShapeRenderable) component).getWidth());
 					break;
 				}
 			}
 		}
-		return 0;
+		return maxX - minX;
 	}
 }

@@ -24,6 +24,7 @@ import com.stunapps.fearlessjumper.event.model.game.ParticleTestEvent;
 import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
+import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
 import java.util.Map;
 
@@ -49,8 +50,7 @@ public class MenuScene extends AbstractScene
 	private final GameStatsManager mGameStatsManager;
 
 	@Inject
-	public MenuScene(EventSystem eventSystem, final Context mContext, MainActivity
-			mainActivity,
+	public MenuScene(EventSystem eventSystem, final Context mContext, MainActivity mainActivity,
 			GameStatsManager gameStatsManager)
 	{
 		super(R.layout.menu_container, eventSystem, mainActivity);
@@ -78,7 +78,7 @@ public class MenuScene extends AbstractScene
 	@Override
 	public void playScene()
 	{
-
+		measurePrefabWidths();
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class MenuScene extends AbstractScene
 
 	private class MenuSetup
 	{
-		public View setupMenu(@LayoutRes int menuLayoutId)
+		View setupMenu(@LayoutRes int menuLayoutId)
 		{
 			View menu = LayoutInflater.from(mContext).inflate(menuLayoutId, null);
 
@@ -310,6 +310,17 @@ public class MenuScene extends AbstractScene
 		{
 			TextView gamesPlayed = parentView.findViewById(viewId);
 			gamesPlayed.setText(String.valueOf(value));
+		}
+	}
+
+	private void measurePrefabWidths()
+	{
+		PrefabRef[] values = PrefabRef.values();
+		for (PrefabRef prefabRef : values)
+		{
+			float width = prefabRef.get().getWidth();
+			Log.d("PREFAB_WIDTH",
+					"Prefab: " + prefabRef.name() + " width: " + String.valueOf(width));
 		}
 	}
 
