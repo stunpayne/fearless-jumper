@@ -1,7 +1,6 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
@@ -36,16 +35,15 @@ public class TestShapePrefab extends ComponentPrefab
 		transform = new Transform(
 				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + scaleY(100)));
 		LinkedList<Shape> shapes = new LinkedList<>();
-		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE), new Vector2D
-				(10, 10)));
-		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED),
+		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE, null, null),
+								   new Vector2D(10, 10)));
+		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED, null, null),
 								 new Vector2D(10, 10)));
 
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 		addComponent(shapeRenderable);
-		addComponent(
-				new RectCollider(Delta.ZERO, shapeRenderable.getWidth(), shapeRenderable.getHeight(),
-								 CollisionLayer.ENEMY));
+		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
+									  shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 		addComponent(new Dragon(EnemyType.GRORUM));

@@ -1,11 +1,12 @@
 package com.stunapps.fearlessjumper.prefab;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint.Style;
 
 import com.stunapps.fearlessjumper.component.visual.CircleShape;
-import com.stunapps.fearlessjumper.component.visual.RectShape;
+import com.stunapps.fearlessjumper.component.visual.LineShape;
 import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
@@ -13,8 +14,6 @@ import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
-import com.stunapps.fearlessjumper.component.visual.Renderable;
-import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
@@ -41,8 +40,12 @@ public class BulletPrefab extends ComponentPrefab
 				false));
 
 		LinkedList<Shape> shapes = new LinkedList<>();
-		shapes.add(new CircleShape(10, new Shape.PaintProperties(null, Color.RED), new Vector2D
+		shapes.add(new CircleShape(10, new PaintProperties(null, Color.WHITE, 0.0f, Style.STROKE),
+								   new
+				Vector2D
 				()));
+
+		//shapes.add(new LineShape(0, ))
 
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 		addComponent(shapeRenderable);

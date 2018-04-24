@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
-import android.graphics.LightingColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
@@ -28,6 +27,7 @@ import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
+import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -124,9 +124,10 @@ public class RenderSystem implements UpdateSystem
 		angledRects = AngledRect.init();
 
 		LinkedList<Shape> shapes = new LinkedList<>();
-		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE),
+		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE, null, null),
 				new Vector2D(400, 500)));
-		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED),
+		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED, null,
+																	 null),
 				new Vector2D(500, 500)));
 
 		//shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
@@ -326,20 +327,46 @@ public class RenderSystem implements UpdateSystem
 			Position camPosition = Cameras.getMainCamera().position;
 			//canvas.save();
 			//canvas.rotate(angle, 500, 500 + shapeRenderable.getDelta().getY());
+
+			float angularVelocity = 0.0f;
+			if (shapeEntity.hasComponent(PhysicsComponent.class))
+			{
+				angularVelocity =
+						shapeEntity.getComponent(PhysicsComponent.class).getAngularVelocity();
+			}
+
+			float azimuth = shapeEntity.getTransform().getRotation().azimuth;
+
+			float rotaionAngle = (azimuth + angularVelocity) % 360;
+
+			shapeEntity.getTransform().getRotation().azimuth = rotaionAngle;
+
+			float centerX =
+					shapeEntity.getTransform().position.x + shapeRenderable.getDelta().getX() +
+							(shapeRenderable.getWidth() / 2) - camPosition.x;
+			float centerY =
+					shapeEntity.getTransform().position.y + shapeRenderable.getDelta().getY() +
+							(shapeRenderable.getHeight() / 2) - camPosition.y;
+			canvas.save();
+			canvas.rotate(rotaionAngle, centerX, centerY);
+
 			for (Shape shape : shapes)
 			{
 				PaintProperties paintProperties = shape.getPaintProperties();
-				Paint paint = new Paint();
-				paint.setColor(paintProperties.getColor());
+				Paint paint = paintProperties.getPaint();
+				//paint.setColor(paintProperties.getColor());
 				//paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
 				/*paint.setShader(new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
 												   Color.WHITE, Color.BLACK, TileMode.CLAMP));*/
 
-
+/*
 				if (paintProperties.getPathEffect() != null)
 				{
 					paint.setPathEffect(paintProperties.getPathEffect());
 				}
+
+				paint.setStrokeWidth(8);
+				paint.setStyle(Paint.Style.STROKE); */
 
 				switch (shape.shapeType())
 				{
@@ -378,6 +405,7 @@ public class RenderSystem implements UpdateSystem
 				}
 			}
 
+			canvas.restore();
 
 			if (Settings.DRAW_COLLIDERS)
 			{

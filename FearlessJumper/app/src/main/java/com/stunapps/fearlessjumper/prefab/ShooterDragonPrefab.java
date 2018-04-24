@@ -1,14 +1,10 @@
 package com.stunapps.fearlessjumper.prefab;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 
-import com.stunapps.fearlessjumper.animation.Animation;
-import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.component.visual.CircleShape;
-import com.stunapps.fearlessjumper.component.visual.RectShape;
 import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
@@ -18,23 +14,12 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Dragon;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.component.specific.PeriodicGun;
-import com.stunapps.fearlessjumper.component.visual.Animator;
-import com.stunapps.fearlessjumper.component.visual.Renderable;
-import com.stunapps.fearlessjumper.core.Bitmaps;
-import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
 import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 /**
@@ -90,7 +75,8 @@ public class ShooterDragonPrefab extends ComponentPrefab
 
 		LinkedList<Shape> shapes = new LinkedList<>();
 		shapes.add(
-				new CircleShape(40, new Shape.PaintProperties(null, Color.BLACK), new Vector2D()));
+				new CircleShape(40, new PaintProperties(null, Color.BLACK, null, null), new
+						Vector2D()));
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 		addComponent(shapeRenderable);
 
