@@ -3,9 +3,9 @@ package com.stunapps.fearlessjumper.system.update;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.event.model.game.GameOverEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.game.Time;
-
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -16,14 +16,16 @@ import javax.inject.Inject;
 public class ClockCountdownSystem implements UpdateSystem
 {
 	private final ComponentManager componentManager;
+	private final EventSystem eventSystem;
 
 	private static long lastProcessTime = 0;
 	private static long ONE_SECOND = 1;
 
 	@Inject
-	public ClockCountdownSystem(ComponentManager componentManager)
+	public ClockCountdownSystem(ComponentManager componentManager, EventSystem eventSystem)
 	{
 		this.componentManager = componentManager;
+		this.eventSystem = eventSystem;
 	}
 
 	@Override
@@ -31,13 +33,17 @@ public class ClockCountdownSystem implements UpdateSystem
 	{
 		lastProcessTime = System.currentTimeMillis();
 
-		Set<Entity> timedEntities = componentManager.getEntities(RemainingTime.class);
-
-		for (Entity entity : timedEntities)
+		Entity timedEntity = componentManager.getEntity(RemainingTime.class);
+		RemainingTime remainingTime = timedEntity.getComponent(RemainingTime.class);
+		if (remainingTime.isUp())
 		{
-			entity.getComponent(RemainingTime.class)
-					.decreaseSeconds(deltaTime * ONE_SECOND / Time.ONE_MILLION);
+			eventSystem.raiseEvent(new GameOverEvent());
 		}
+		else
+		{
+			remainingTime.decreaseSeconds(deltaTime * ONE_SECOND / Time.ONE_MILLION);
+		}
+
 	}
 
 	@Override

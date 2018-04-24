@@ -44,13 +44,13 @@ public class Transform extends Component
 		return new Transform(new Position(posX, posY));
 	}
 
-	public static Transform shiftHorizontal(Transform original, float deltaX)
+	public static Transform withXShift(Transform original, float deltaX)
 	{
 		return new Transform(new Position(original.getPosition().getX() + deltaX,
 				original.getPosition().getY()));
 	}
 
-	public static Transform shiftVertical(Transform original, float deltaY)
+	public static Transform withYShift(Transform original, float deltaY)
 	{
 		return new Transform(new Position(original.getPosition().getX(),
 				original.getPosition().getY() + deltaY));

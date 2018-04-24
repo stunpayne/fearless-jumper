@@ -27,6 +27,11 @@ public class RemainingTime extends Component
 		return remainingMilliseconds / 1000;
 	}
 
+	public boolean isUp()
+	{
+		return remainingMilliseconds <= 0;
+	}
+
 	public void addSeconds(long time)
 	{
 		remainingMilliseconds += time;

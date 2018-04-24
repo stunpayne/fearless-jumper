@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.rules.execution.generation;
 
+import android.util.Log;
+
 import com.stunapps.fearlessjumper.rules.execution.RuleExecutor;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
@@ -39,10 +41,12 @@ public class GenerationRuleExecutor implements
 	{
 		for (GenerationRule rule : rules)
 		{
+//			Log.d("OBSTACLE_RULES", "Running rule: " + rule.getClass().getSimpleName());
 			if (rule.execute(ruleRequest, ruleResponse))
 			{
 				return;
 			}
+//			Log.d("OBSTACLE_RULES", "Rule " + rule.getClass().getSimpleName() + " failed");
 		}
 	}
 }

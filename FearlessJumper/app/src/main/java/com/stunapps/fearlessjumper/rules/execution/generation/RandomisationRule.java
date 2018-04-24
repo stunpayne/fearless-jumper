@@ -6,7 +6,6 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.core.WeightedShuffler;
 import com.stunapps.fearlessjumper.game.Environment.Device;
-import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
@@ -30,17 +29,7 @@ public class RandomisationRule extends GenerationRule
 	{
 		Prefab nextPrefab = obstacleShuffler.shuffle().get();
 		Log.d("OBSTACLE_RANDOMISATION", nextPrefab.toString());
-		ruleResponse.setNextPrefab(nextPrefab);
-
-		Transform lastTransform = ruleRequest.getLastGeneratedTransform();
-		if (null != lastTransform)
-		{
-			Transform newTransform = Transform.shiftVertical(lastTransform, NEW_OBSTACLE_OFFSET);
-			float newX = (float) Math.random() * (Device.SCREEN_WIDTH - nextPrefab.getWidth());
-			newTransform.getPosition().setX(newX);
-
-			ruleResponse.setTransform(newTransform);
-		}
+		setNextPrefab(ruleRequest, ruleResponse, nextPrefab);
 
 		return true;
 	}

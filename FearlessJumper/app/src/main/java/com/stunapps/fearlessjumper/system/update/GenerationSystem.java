@@ -122,25 +122,18 @@ public class GenerationSystem implements UpdateSystem
 		if ((Math.abs(topObstacle.transform.position.y - playerPosition.y) <=
 				MIN_ALLOWED_DISTANCE_FROM_PLAYER))
 		{
-			Log.v("NEW_OBSTACLE", "Top Obstacle ID: " + topObstacle.getId() + " Position: " + "" +
-					topObstacle.transform.position + " Type: " +
-					(topObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
-
+			Log.d("OBSTACLE_RULES", "Generating new obstacle");
 			GenerationRuleResponse ruleResponse =
 					RuleEngine.execute(componentManager, entityManager);
 			Prefab spawnPrefab = ruleResponse.getNextPrefab();
 			Transform spawnTransform = ruleResponse.getTransform();
 			//			Prefab spawnPrefab = obstacleShuffler.shuffle();
-			//	TODO: Change platformWidth to spawnObstacle width
-			Position spawnPosition =
-					new Position((float) Math.random() * (Device.SCREEN_WIDTH - platformWidth),
-							topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
 			Entity newObstacle = entityManager.instantiate(spawnPrefab, spawnTransform).get(0);
 			activeObstacles.add(newObstacle);
 
 			Log.i("NEW_OBSTACLE",
 					"Created new obstacle with id: " + newObstacle.getId() + " at:" + " " +
-							spawnPosition + " of type: " +
+							spawnTransform + " of type: " +
 							(newObstacle.hasComponent(Dragon.class) ? "Dragon" : "Platform"));
 			Log.v("NEW_OBSTACLE", "Actual position: " + newObstacle.transform.position);
 		}

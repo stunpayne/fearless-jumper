@@ -81,7 +81,7 @@ public class RuleEngine
 		for (PrefabRef prefabRef : PrefabRef.values())
 		{
 			map.put(prefabRef.get(),
-					GenerationConfig.builder().generationLocation(GenerationLocation.X_BOUNDARIES)
+					GenerationConfig.builder().generationLocation(GenerationLocation.X_ANYWHERE)
 							.weight(5f).build());
 		}
 

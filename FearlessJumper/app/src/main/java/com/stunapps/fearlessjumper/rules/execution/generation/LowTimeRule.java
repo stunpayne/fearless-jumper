@@ -1,5 +1,10 @@
 package com.stunapps.fearlessjumper.rules.execution.generation;
 
+import android.app.Application;
+
+import com.stunapps.fearlessjumper.component.transform.Transform;
+import com.stunapps.fearlessjumper.model.Position;
+import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
 import java.util.Random;
@@ -22,7 +27,7 @@ public class LowTimeRule extends GenerationRule
 		{
 			if (newRandom() < PROBABILITY)
 			{
-				ruleResponse.setNextPrefab(PrefabRef.CLOCK.get());
+				setNextPrefab(ruleRequest, ruleResponse, PrefabRef.CLOCK.get());
 				return true;
 			}
 		}
