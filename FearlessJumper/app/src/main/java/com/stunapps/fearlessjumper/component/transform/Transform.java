@@ -39,19 +39,36 @@ public class Transform extends Component
 		this.scale = scale;
 	}
 
+	public static Transform atPosition(float posX, float posY)
+	{
+		return new Transform(new Position(posX, posY));
+	}
+
+	public static Transform shiftHorizontal(Transform original, float deltaX)
+	{
+		return new Transform(new Position(original.getPosition().getX() + deltaX,
+				original.getPosition().getY()));
+	}
+
+	public static Transform shiftVertical(Transform original, float deltaY)
+	{
+		return new Transform(new Position(original.getPosition().getX(),
+				original.getPosition().getY() + deltaY));
+	}
+
 	public Transform translateOrigin(Transform origin)
 	{
 		return new Transform(position.translateOrigin(origin.getPosition()));
 	}
 
-	public Transform translateX(float deltaX)
+	public void translateX(float deltaX)
 	{
-		return new Transform(new Position(position.getX() + deltaX, position.getY()));
+		position.setX(position.getX() + deltaX);
 	}
 
-	public Transform translateY(float deltaY)
+	public void translateY(float deltaY)
 	{
-		return new Transform(new Position(position.getX(), position.getY() + deltaY));
+		position.setY(position.getY() + deltaY);
 	}
 
 	@Override

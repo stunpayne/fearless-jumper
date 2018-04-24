@@ -5,6 +5,8 @@ import android.util.Log;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.core.WeightedShuffler;
+import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
@@ -16,7 +18,7 @@ public class RandomisationRule extends GenerationRule
 {
 	private static float NEW_OBSTACLE_OFFSET = -600f;
 
-	private Shuffler<Prefab> obstacleShuffler;
+	private Shuffler<PrefabRef> obstacleShuffler;
 
 	public RandomisationRule()
 	{
@@ -26,14 +28,18 @@ public class RandomisationRule extends GenerationRule
 	@Override
 	public boolean execute(GenerationRuleRequest ruleRequest, GenerationRuleResponse ruleResponse)
 	{
-		Prefab nextPrefab = obstacleShuffler.shuffle();
+		Prefab nextPrefab = obstacleShuffler.shuffle().get();
 		Log.d("OBSTACLE_RANDOMISATION", nextPrefab.toString());
 		ruleResponse.setNextPrefab(nextPrefab);
 
 		Transform lastTransform = ruleRequest.getLastGeneratedTransform();
 		if (null != lastTransform)
 		{
-			ruleResponse.setTransform(lastTransform.translateX(NEW_OBSTACLE_OFFSET));
+			Transform newTransform = Transform.shiftVertical(lastTransform, NEW_OBSTACLE_OFFSET);
+			float newX = (float) Math.random() * (Device.SCREEN_WIDTH - nextPrefab.getWidth());
+			newTransform.getPosition().setX(newX);
+
+			ruleResponse.setTransform(newTransform);
 		}
 
 		return true;
@@ -44,16 +50,14 @@ public class RandomisationRule extends GenerationRule
 		if (obstacleShuffler == null)
 		{
 			obstacleShuffler =
-					new WeightedShuffler.Builder<Prefab>().returnItem(PrefabRef.PLATFORM.get())
-							.withWeight(5f).returnItem(PrefabRef.FLYING_DRAGON.get()).withWeight
-							(1f)
-							.returnItem(PrefabRef.CLOCK.get()).withWeight(3f)
-							.returnItem(PrefabRef.SHOOTER_DRAGON.get()).withWeight(1f)
-							.returnItem(PrefabRef.GROUNDED_DRAGON_SET.get()).withWeight(1f)
-							.returnItem(PrefabRef.FOLLOWING_DRAGON.get()).withWeight(1f)
-							.returnItem(PrefabRef.ASSAULT_DRAGON.get()).withWeight(2f)
-							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM.get()).withWeight(5f)
-							.build();
+					new WeightedShuffler.Builder<PrefabRef>().returnItem(PrefabRef.PLATFORM)
+							.withWeight(5f).returnItem(PrefabRef.FLYING_DRAGON).withWeight(1f)
+							.returnItem(PrefabRef.CLOCK).withWeight(3f)
+							.returnItem(PrefabRef.SHOOTER_DRAGON).withWeight(1f)
+							.returnItem(PrefabRef.GROUNDED_DRAGON_SET).withWeight(1f)
+							.returnItem(PrefabRef.FOLLOWING_DRAGON).withWeight(1f)
+							.returnItem(PrefabRef.ASSAULT_DRAGON).withWeight(2f)
+							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM).withWeight(5f).build();
 		}
 	}
 }

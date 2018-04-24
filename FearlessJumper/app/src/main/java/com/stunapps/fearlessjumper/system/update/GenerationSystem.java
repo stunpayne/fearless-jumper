@@ -21,8 +21,8 @@ import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
-import com.stunapps.fearlessjumper.rules.execution.GenerationRuleResponse;
 import com.stunapps.fearlessjumper.rules.RuleEngine;
+import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleResponse;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -129,13 +129,13 @@ public class GenerationSystem implements UpdateSystem
 			GenerationRuleResponse ruleResponse =
 					RuleEngine.execute(componentManager, entityManager);
 			Prefab spawnPrefab = ruleResponse.getNextPrefab();
-//			Prefab spawnPrefab = obstacleShuffler.shuffle();
+			Transform spawnTransform = ruleResponse.getTransform();
+			//			Prefab spawnPrefab = obstacleShuffler.shuffle();
 			//	TODO: Change platformWidth to spawnObstacle width
 			Position spawnPosition =
 					new Position((float) Math.random() * (Device.SCREEN_WIDTH - platformWidth),
 							topObstacle.transform.position.y + NEW_OBSTACLE_OFFSET);
-			Entity newObstacle =
-					entityManager.instantiate(spawnPrefab, new Transform(spawnPosition)).get(0);
+			Entity newObstacle = entityManager.instantiate(spawnPrefab, spawnTransform).get(0);
 			activeObstacles.add(newObstacle);
 
 			Log.i("NEW_OBSTACLE",

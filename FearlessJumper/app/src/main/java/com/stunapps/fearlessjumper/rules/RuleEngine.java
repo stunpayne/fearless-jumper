@@ -100,9 +100,9 @@ public class RuleEngine
 		return map;
 	}
 
-	private static List<GenerationRule<GenerationRuleRequest, GenerationRuleResponse>> createRules()
+	private static List<GenerationRule> createRules()
 	{
-		List<GenerationRule<GenerationRuleRequest, GenerationRuleResponse>> rules = Lists.newArrayList();
+		List<GenerationRule> rules = Lists.newArrayList();
 		rules.add(new LowTimeRule());
 		rules.add(new RandomisationRule());
 

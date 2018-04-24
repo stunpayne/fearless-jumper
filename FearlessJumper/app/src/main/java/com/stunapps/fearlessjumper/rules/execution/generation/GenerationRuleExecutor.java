@@ -10,21 +10,22 @@ import java.util.List;
  * Created by sunny.s on 19/04/18.
  */
 
-public class GenerationRuleExecutor implements RuleExecutor<GenerationRuleRequest, GenerationRuleResponse>
+public class GenerationRuleExecutor implements
+		RuleExecutor<GenerationRuleRequest, GenerationRuleResponse>
 {
-	private List<GenerationRule<GenerationRuleRequest, GenerationRuleResponse>> rules;
+	private List<GenerationRule> rules;
 
 	public GenerationRuleExecutor()
 	{
 		rules = Lists.newArrayList();
 	}
 
-	public GenerationRuleExecutor(List<GenerationRule<GenerationRuleRequest, GenerationRuleResponse>> rules)
+	public GenerationRuleExecutor(List<GenerationRule> rules)
 	{
 		this.rules = rules;
 	}
 
-	public void addRule(GenerationRule<GenerationRuleRequest, GenerationRuleResponse> rule)
+	public void addRule(GenerationRule rule)
 	{
 		if (rules == null || rules.isEmpty())
 		{
@@ -36,7 +37,7 @@ public class GenerationRuleExecutor implements RuleExecutor<GenerationRuleReques
 	@Override
 	public void execute(GenerationRuleRequest ruleRequest, GenerationRuleResponse ruleResponse)
 	{
-		for (GenerationRule<GenerationRuleRequest, GenerationRuleResponse> rule : rules)
+		for (GenerationRule rule : rules)
 		{
 			if (rule.execute(ruleRequest, ruleResponse))
 			{

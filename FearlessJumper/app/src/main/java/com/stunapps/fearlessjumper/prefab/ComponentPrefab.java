@@ -4,6 +4,8 @@ import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.transform.Transform.Rotation;
 import com.stunapps.fearlessjumper.component.transform.Transform.Scale;
+import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.model.Position;
 
 import java.util.ArrayList;
@@ -40,6 +42,23 @@ public abstract class ComponentPrefab extends Prefab
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public float getWidth()
+	{
+		Renderable bitmapRenderable = getComponent(Renderable.class);
+		if (bitmapRenderable != null)
+		{
+			return bitmapRenderable.getRenderable().getWidth();
+		}
+
+		ShapeRenderable shapeRenderable = getComponent(ShapeRenderable.class);
+		if (shapeRenderable != null)
+		{
+			return shapeRenderable.getWidth();
+		}
+		return 0;
 	}
 
 	protected void addComponent(Component component)

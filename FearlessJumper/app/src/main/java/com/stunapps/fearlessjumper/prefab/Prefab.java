@@ -18,6 +18,7 @@ import lombok.Getter;
 public abstract class Prefab implements Instantiator
 {
 	abstract public <C extends Component> C getComponent(Class<C> componentType);
+	abstract public float getWidth();
 
 	@Override
 	public String toString()
