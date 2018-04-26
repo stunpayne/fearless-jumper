@@ -1,6 +1,5 @@
 package com.stunapps.fearlessjumper.component.input;
 
-import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.Component;
 
 /**

@@ -1,10 +1,5 @@
 package com.stunapps.fearlessjumper.rules.execution.generation;
 
-import android.app.Application;
-
-import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.model.Position;
-import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
 import java.util.Random;

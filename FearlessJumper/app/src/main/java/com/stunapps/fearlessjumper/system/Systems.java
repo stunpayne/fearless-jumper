@@ -1,6 +1,5 @@
 package com.stunapps.fearlessjumper.system;
 
-import android.hardware.SensorEvent;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -10,16 +9,16 @@ import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.system.eventonly.DamageSystem;
 import com.stunapps.fearlessjumper.system.eventonly.PickupSystem;
+import com.stunapps.fearlessjumper.system.input.GameInputSystem;
+import com.stunapps.fearlessjumper.system.input.InputSystem;
 import com.stunapps.fearlessjumper.system.update.AnimationSystem;
 import com.stunapps.fearlessjumper.system.update.ClockCountdownSystem;
+import com.stunapps.fearlessjumper.system.update.CollisionSystem;
 import com.stunapps.fearlessjumper.system.update.FuelSystem;
+import com.stunapps.fearlessjumper.system.update.GenerationSystem;
 import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.LowerBoundarySystem;
 import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
-import com.stunapps.fearlessjumper.system.update.GenerationSystem;
-import com.stunapps.fearlessjumper.system.input.GameInputSystem;
-import com.stunapps.fearlessjumper.system.input.InputSystem;
-import com.stunapps.fearlessjumper.system.update.CollisionSystem;
 import com.stunapps.fearlessjumper.system.update.ParticleSystem;
 import com.stunapps.fearlessjumper.system.update.PeriodicGunSystem;
 import com.stunapps.fearlessjumper.system.update.PhysicsSystem;

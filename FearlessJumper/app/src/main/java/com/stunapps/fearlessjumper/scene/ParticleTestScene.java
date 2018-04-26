@@ -20,13 +20,13 @@ import android.widget.Toast;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
-import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig.Builder;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterShape;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.view.TestView;
 
 import java.util.Arrays;

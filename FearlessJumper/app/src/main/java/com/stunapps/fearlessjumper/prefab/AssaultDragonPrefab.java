@@ -5,7 +5,6 @@ import android.graphics.Matrix;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.AssaultTranslation;
@@ -21,16 +20,17 @@ import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Position;
+import com.stunapps.fearlessjumper.model.Vector2D;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_IN_INVOKED_ASSAULT_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_IN_INVOKED_ASSAULT_RIGHT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_TO_ASSAULT_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_TO_ASSAULT_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
+import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_TO_ASSAULT_LEFT;
+import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_TO_ASSAULT_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.ASSAULT_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.ASSAULT_RIGHT;
@@ -38,7 +38,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_A
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_ASSUALT_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
-import static com.stunapps.fearlessjumper.game.Environment.*;
+import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 /**
  * Created by anand.verma on 10/03/18.
@@ -126,11 +126,11 @@ public class AssaultDragonPrefab extends ComponentPrefab
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerTransition(TURN_RIGHT);
-		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 									dragonSprite1.getHeight()));
 		addComponent(animator);
 		addComponent(new Dragon(EnemyType.DRAXUS));
-		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new RectCollider(Vector2D.ZERO, dragonSprite1.getWidth(),
 									  dragonSprite1.getHeight(), CollisionLayer.SUPER_ENEMY));
 		addComponent(new AssaultTranslation(PlayerComponent.class, 150, 1500, 5.0f,
 											Device.SCREEN_HEIGHT / 4));

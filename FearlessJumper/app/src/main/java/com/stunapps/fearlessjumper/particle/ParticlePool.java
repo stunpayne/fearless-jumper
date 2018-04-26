@@ -3,8 +3,6 @@ package com.stunapps.fearlessjumper.particle;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.core.ObjectPool;
 
-import java.util.Random;
-
 /**
  * Created by anand.verma on 03/03/18.
  */

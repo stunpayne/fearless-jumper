@@ -12,15 +12,15 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.GameComponentManager;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.event.system.impl.GameEventSystem;
-import com.stunapps.fearlessjumper.init.GameInitializer;
-import com.stunapps.fearlessjumper.init.GameInitializerImpl;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculatorImpl;
+import com.stunapps.fearlessjumper.init.GameInitializer;
+import com.stunapps.fearlessjumper.init.GameInitializerImpl;
+import com.stunapps.fearlessjumper.manager.InputUpdateManager;
 import com.stunapps.fearlessjumper.scene.SceneManager;
 import com.stunapps.fearlessjumper.scene.SceneManagerImpl;
 import com.stunapps.fearlessjumper.system.input.processor.InputProcessor;
 import com.stunapps.fearlessjumper.system.input.processor.PlayerInputProcessor;
-import com.stunapps.fearlessjumper.manager.InputUpdateManager;
 import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 
 /**

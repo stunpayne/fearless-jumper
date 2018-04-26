@@ -6,17 +6,17 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.system.EventSystem;
-import com.stunapps.fearlessjumper.event.model.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventException;
+import com.stunapps.fearlessjumper.event.model.system.CollisionEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.system.model.CollisionResponse.CollisionFace;
 
 import java.util.Set;
 
-import static com.stunapps.fearlessjumper.game.Time.ONE_SECOND_NANOS;
 import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 import static com.stunapps.fearlessjumper.game.Environment.scaleY;
+import static com.stunapps.fearlessjumper.game.Time.ONE_SECOND_NANOS;
 
 /**
  * Created by sunny.s on 19/01/18.

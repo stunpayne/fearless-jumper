@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper.component.emitter;
 
-import android.util.Log;
-
 import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.component.emitter.EternalEmitter.ParticleInitializer;

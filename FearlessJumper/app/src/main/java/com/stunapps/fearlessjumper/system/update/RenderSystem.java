@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
-import android.graphics.LightingColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
@@ -256,13 +255,15 @@ public class RenderSystem implements UpdateSystem
 		Position camPosition = Cameras.getMainCamera().position;
 
 		Renderable renderable = entity.getComponent(Renderable.class);
-		int left = (int) ((entity.transform.position.x + renderable.delta.x) - camPosition.x);
-		int top = (int) ((entity.transform.position.y + renderable.delta.y) - camPosition.y);
-		int right = (int) ((entity.transform.position.x + renderable.delta.x + renderable.width) -
-				camPosition.x);
-		int bottom = (int) ((entity.transform.position.y + renderable.delta.y + renderable
-				.height) -
-				camPosition.y);
+		int left = (int) ((entity.transform.position.x + renderable.delta.getX()) - camPosition.x);
+		int top = (int) ((entity.transform.position.y + renderable.delta.getY()) - camPosition.y);
+		int right =
+				(int) ((entity.transform.position.x + renderable.delta.getX() + renderable.width) -
+						camPosition.x);
+		int bottom =
+				(int) ((entity.transform.position.y + renderable.delta.getY() + renderable
+						.height) -
+						camPosition.y);
 
 		return new Rect(left, top, right, bottom);
 	}
@@ -306,11 +307,11 @@ public class RenderSystem implements UpdateSystem
 
 		Position camPosition = Cameras.getMainCamera().position;
 		RectCollider collider = (RectCollider) entity.getComponent(Collider.class);
-		int left = (int) (entity.transform.position.x + collider.delta.x - camPosition.x);
-		int top = (int) (entity.transform.position.y + collider.delta.y - camPosition.y);
-		int right = (int) (entity.transform.position.x + collider.delta.x + collider.width -
+		int left = (int) (entity.transform.position.x + collider.delta.getX() - camPosition.x);
+		int top = (int) (entity.transform.position.y + collider.delta.getY() - camPosition.y);
+		int right = (int) (entity.transform.position.x + collider.delta.getX() + collider.width -
 				camPosition.x);
-		int bottom = (int) (entity.transform.position.y + collider.delta.y + collider.height -
+		int bottom = (int) (entity.transform.position.y + collider.delta.getY() + collider.height -
 				camPosition.y);
 		canvas.drawRect(left, top, right, bottom, colliderPaint);
 		if (entity.hasComponent(Enemy.class))

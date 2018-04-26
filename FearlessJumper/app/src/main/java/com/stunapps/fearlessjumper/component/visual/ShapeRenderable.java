@@ -1,15 +1,10 @@
 package com.stunapps.fearlessjumper.component.visual;
 
-import android.graphics.Color;
-
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.model.Vector2D;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by anand.verma on 09/04/18 10:25 PM.

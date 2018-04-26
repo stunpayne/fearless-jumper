@@ -4,8 +4,6 @@ import android.graphics.PathEffect;
 
 import com.stunapps.fearlessjumper.model.Vector2D;
 
-import lombok.Setter;
-
 /**
  * Created by anand.verma on 09/04/18 10:27 PM.
  */

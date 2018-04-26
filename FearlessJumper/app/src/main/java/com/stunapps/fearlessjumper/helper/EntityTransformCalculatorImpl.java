@@ -2,7 +2,6 @@ package com.stunapps.fearlessjumper.helper;
 
 import android.graphics.Bitmap;
 
-import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.entity.Entity;

@@ -5,7 +5,6 @@ import android.graphics.Matrix;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
@@ -18,6 +17,7 @@ import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
+import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.HashMap;
@@ -74,14 +74,14 @@ public class ShooterDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 
 		addComponent(animator);
 		addComponent(new Dragon(EnemyType.GRORUM));
 
 		addComponent(
-				new RectCollider(Delta.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
+				new RectCollider(Vector2D.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
 						CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));

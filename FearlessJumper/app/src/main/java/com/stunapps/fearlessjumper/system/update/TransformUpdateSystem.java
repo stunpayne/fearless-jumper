@@ -6,13 +6,13 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.game.Time;
-import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.game.Time;
+import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.Set;
 
@@ -48,9 +48,9 @@ public class TransformUpdateSystem implements UpdateSystem
 			if (movable.hasComponent(FollowTranslation.class))
 			{
 				Log.d("ConsciousEnemySystem",
-					  "transform.position.x: " + movable.transform.position.x);
+						"transform.position.x: " + movable.transform.position.x);
 				Log.d("ConsciousEnemySystem",
-					  "transform.position.y: " + movable.transform.position.y);
+						"transform.position.y: " + movable.transform.position.y);
 			}
 		}
 	}
@@ -67,11 +67,9 @@ public class TransformUpdateSystem implements UpdateSystem
 		lastProcessTime = System.nanoTime();
 	}
 
-	private void movePlayerTransform(Transform transform, Velocity velocity,
-			Renderable renderable)
+	private void movePlayerTransform(Transform transform, Velocity velocity, Renderable renderable)
 	{
-		transform.position.x += velocity.x;
-		transform.position.y += velocity.y;
+		moveTransform(transform, velocity);
 
 		if (transform.position.x >= Device.SCREEN_WIDTH - renderable.width)
 		{

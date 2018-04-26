@@ -5,7 +5,6 @@ import android.graphics.Matrix;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
@@ -21,6 +20,7 @@ import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Position;
+import com.stunapps.fearlessjumper.model.Vector2D;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +30,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
-import static com.stunapps.fearlessjumper.game.Environment.*;
+import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 /**
  * Created by anand.verma on 10/03/18.
@@ -80,11 +80,11 @@ public class FollowingDragonPrefab extends ComponentPrefab
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 
-		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 									dragonSprite1.getHeight()));
 		addComponent(animator);
 		addComponent(new Dragon(EnemyType.ZELDROY));
-		addComponent(new RectCollider(Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new RectCollider(Vector2D.ZERO, dragonSprite1.getWidth(),
 									  dragonSprite1.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new FollowTranslation(PlayerComponent.class, 150));
 		addComponent(new ContactDamageComponent(1, false));

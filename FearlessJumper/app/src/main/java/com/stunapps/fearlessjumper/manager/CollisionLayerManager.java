@@ -4,9 +4,6 @@ import android.os.Handler;
 
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.collider.Collider;
-import com.stunapps.fearlessjumper.entity.Entity;
-
-import java.util.Set;
 
 
 /**

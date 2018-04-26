@@ -1,6 +1,5 @@
 package com.stunapps.fearlessjumper.system.input.processor;
 
-import android.graphics.Rect;
 import android.util.Log;
 
 import com.google.inject.Inject;
@@ -9,15 +8,12 @@ import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
-import com.stunapps.fearlessjumper.game.Environment.Device;
-import com.stunapps.fearlessjumper.game.Time;
-import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.system.Systems;
 import com.stunapps.fearlessjumper.system.model.InputWrapper;
 import com.stunapps.fearlessjumper.system.update.InputUpdateSystem.ScreenState;
-import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
 import java.util.Collections;

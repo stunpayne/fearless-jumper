@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper.rules.execution.generation;
 
-import android.util.Log;
-
 import com.stunapps.fearlessjumper.rules.execution.RuleExecutor;
 
 import org.roboguice.shaded.goole.common.collect.Lists;

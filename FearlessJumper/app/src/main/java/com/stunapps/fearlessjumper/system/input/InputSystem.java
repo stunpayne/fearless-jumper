@@ -1,6 +1,5 @@
 package com.stunapps.fearlessjumper.system.input;
 
-import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 
 /**

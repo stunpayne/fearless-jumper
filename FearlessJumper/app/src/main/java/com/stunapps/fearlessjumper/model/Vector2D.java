@@ -6,6 +6,8 @@ package com.stunapps.fearlessjumper.model;
 
 public class Vector2D
 {
+	public static final Vector2D ZERO = new Vector2D(0, 0);
+
 	private float x;
 	private float y;
 

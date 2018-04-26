@@ -6,14 +6,12 @@ import android.graphics.Matrix;
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Dragon;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
-import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
@@ -21,6 +19,8 @@ import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
+import com.stunapps.fearlessjumper.model.Position;
+import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.HashMap;
@@ -31,7 +31,6 @@ import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
-import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 
 /**
  * Created by sunny.s on 21/01/18.
@@ -81,12 +80,12 @@ public class FlyingDragonPrefab extends ComponentPrefab
 
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerTransition(TURN_RIGHT);
-		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 		addComponent(animator);
 		addComponent(new Dragon(EnemyType.MINIGON));
 		addComponent(
-				new RectCollider(Delta.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
+				new RectCollider(Vector2D.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
 						CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation()
 				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(),

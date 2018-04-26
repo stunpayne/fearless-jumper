@@ -1,7 +1,6 @@
 package com.stunapps.fearlessjumper.component.movement;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.Random;
 

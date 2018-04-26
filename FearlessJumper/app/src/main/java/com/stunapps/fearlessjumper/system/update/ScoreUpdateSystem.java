@@ -3,9 +3,9 @@ package com.stunapps.fearlessjumper.system.update;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.Score;
+import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.model.Position;
-import com.stunapps.fearlessjumper.entity.Entity;
 
 import javax.inject.Inject;
 
