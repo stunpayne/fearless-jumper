@@ -14,9 +14,15 @@ public class LineShape extends Shape
 	public LineShape(float startX, float startY, float endX, float endY,
 			PaintProperties paintProperties)
 	{
+		this(new Vector2D(startX, startY), new Vector2D(endX, endY), paintProperties);
+	}
+
+
+	public LineShape(Vector2D start, Vector2D end, PaintProperties paintProperties)
+	{
 		super(ShapeType.LINE, paintProperties, new Vector2D(0, 0));
-		this.start = new Vector2D(startX, startY);
-		this.end = new Vector2D(endX, endY);
+		this.start = start;
+		this.end = end;
 	}
 
 	@Override

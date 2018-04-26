@@ -27,6 +27,7 @@ import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
+import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -123,12 +124,13 @@ public class RenderSystem implements UpdateSystem
 		angledRects = AngledRect.init();
 
 		LinkedList<Shape> shapes = new LinkedList<>();
-		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE),
+		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE, null, null),
 				new Vector2D(400, 500)));
-		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED),
+		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED, null,
+																	 null),
 				new Vector2D(500, 500)));
 
-		shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
+		//shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 	}
 
 	@Override
@@ -145,12 +147,11 @@ public class RenderSystem implements UpdateSystem
 
 		Cameras.update();
 
-		canvas.drawColor(Color.BLACK);
-		renderBackground();
+		canvas.drawColor(Color.YELLOW);
+		//renderBackground();
 		renderEntities();
 		renderHUD();
 		renderParticleEmission();
-		//		renderShapes();
 
 		//testing
 		if (Settings.DEBUG_MODE)
@@ -253,17 +254,33 @@ public class RenderSystem implements UpdateSystem
 	public static Rect getRenderRect(Entity entity)
 	{
 		Position camPosition = Cameras.getMainCamera().position;
+		int left = 0;
+		int top = 0;
+		int right = 0;
+		int bottom = 0;
 
-		Renderable renderable = entity.getComponent(Renderable.class);
-		int left = (int) ((entity.transform.position.x + renderable.delta.getX()) - camPosition.x);
-		int top = (int) ((entity.transform.position.y + renderable.delta.getY()) - camPosition.y);
-		int right =
-				(int) ((entity.transform.position.x + renderable.delta.getX() + renderable.width) -
-						camPosition.x);
-		int bottom =
-				(int) ((entity.transform.position.y + renderable.delta.getY() + renderable
-						.height) -
-						camPosition.y);
+		if (entity.hasComponent(Renderable.class))
+		{
+			Renderable renderable = entity.getComponent(Renderable.class);
+			left = (int) ((entity.transform.position.x + renderable.delta.getX()) - camPosition.x);
+			top = (int) ((entity.transform.position.y + renderable.delta.getY()) - camPosition.y);
+			right = (int) ((entity.transform.position.x + renderable.delta.getX() +
+					renderable.width) - camPosition.x);
+			bottom = (int) ((entity.transform.position.y + renderable.delta.getY() +
+					renderable.height) - camPosition.y);
+		}
+		else if (entity.hasComponent(ShapeRenderable.class))
+		{
+			ShapeRenderable shapeRenderable = entity.getComponent(ShapeRenderable.class);
+			left = (int) ((entity.transform.position.x + shapeRenderable.getDelta().getX()) -
+					camPosition.x);
+			top = (int) ((entity.transform.position.y + shapeRenderable.getDelta().getY()) -
+					camPosition.y);
+			right = (int) ((entity.transform.position.x + shapeRenderable.getDelta().getX() +
+					shapeRenderable.getWidth()) - camPosition.x);
+			bottom = (int) ((entity.transform.position.y + shapeRenderable.getDelta().getY() +
+					shapeRenderable.getHeight()) - camPosition.y);
+		}
 
 		return new Rect(left, top, right, bottom);
 	}
@@ -297,6 +314,108 @@ public class RenderSystem implements UpdateSystem
 			{
 				renderCollider(entity);
 			}
+		}
+
+		Set<Entity> shapeEntities = componentManager.getEntities(ShapeRenderable.class);
+		Paint centerPaint = new Paint();
+		centerPaint.setColor(Color.BLACK);
+		for (Entity shapeEntity : shapeEntities)
+		{
+			ShapeRenderable shapeRenderable = shapeEntity.getComponent(ShapeRenderable.class);
+			Vector2D baseDelta = shapeRenderable.getDelta();
+			List<Shape> shapes = shapeRenderable.getRenderables();
+			Position camPosition = Cameras.getMainCamera().position;
+			//canvas.save();
+			//canvas.rotate(angle, 500, 500 + shapeRenderable.getDelta().getY());
+
+			float azimuth = shapeEntity.getTransform().getRotation().azimuth;
+
+			Float centerX = null;
+			Float centerY = null;
+			if (shapeRenderable.providesCenter())
+			{
+				centerX = shapeEntity.getTransform().getPosition().getX() +
+						shapeRenderable.getAnchor().getX() - camPosition.x;
+				centerY = shapeEntity.getTransform().getPosition().getY() +
+						shapeRenderable.getAnchor().getY() - camPosition.y;
+			}
+			else
+			{
+				centerX =
+						shapeEntity.getTransform().position.x + shapeRenderable.getDelta().getX() +
+								(shapeRenderable.getWidth() / 2) - camPosition.x;
+				centerY =
+						shapeEntity.getTransform().position.y + shapeRenderable.getDelta().getY() +
+								(shapeRenderable.getHeight() / 2) - camPosition.y;
+			}
+			canvas.save();
+			canvas.rotate(azimuth, centerX, centerY);
+
+			for (Shape shape : shapes)
+			{
+				PaintProperties paintProperties = shape.getPaintProperties();
+				Paint paint = paintProperties.getPaint();
+				//paint.setColor(paintProperties.getColor());
+				//paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
+				/*paint.setShader(new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
+												   Color.WHITE, Color.BLACK, TileMode.CLAMP));*/
+
+/*
+				if (paintProperties.getPathEffect() != null)
+				{
+					paint.setPathEffect(paintProperties.getPathEffect());
+				}
+
+				paint.setStrokeWidth(8);
+				paint.setStyle(Paint.Style.STROKE); */
+
+				switch (shape.shapeType())
+				{
+					case LINE:
+						LineShape lineShape = (LineShape) shape;
+						canvas.drawLine(shapeEntity.transform.position.x + baseDelta.getX() +
+												lineShape.getStart().getX() - camPosition.x,
+										shapeEntity.transform.position.y + baseDelta.getY() +
+												lineShape.getStart().getY() - camPosition.y,
+										shapeEntity.transform.position.x + baseDelta.getX() +
+												lineShape.getEnd().getX() - camPosition.x,
+										shapeEntity.transform.position.y + baseDelta.getY() +
+												lineShape.getEnd().getY() - camPosition.y, paint);
+						break;
+					case RECT:
+						RectShape rectShape = (RectShape) shape;
+						canvas.drawRect(shapeEntity.transform.position.x + baseDelta.getX() +
+												rectShape.getLeft() - camPosition.x,
+										shapeEntity.transform.position.y + baseDelta.getY() +
+												rectShape.getTop() - camPosition.y,
+										shapeEntity.transform.position.x + baseDelta.getX() +
+												rectShape.getRight() - camPosition.x,
+										shapeEntity.transform.position.y + baseDelta.getY() +
+												rectShape.getBottom() - camPosition.y, paint);
+						break;
+					case CIRCLE:
+						CircleShape circleShape = (CircleShape) shape;
+						canvas.drawCircle(shapeEntity.transform.position.x + baseDelta.getX() +
+												  +circleShape.getLeft() + circleShape.getRadius
+												  () -
+												  camPosition.x,
+										  shapeEntity.transform.position.y + baseDelta.getY() +
+												  circleShape.getTop() + circleShape.getRadius() -
+												  camPosition.y, circleShape.getRadius(), paint);
+						break;
+				}
+			}
+
+			canvas.restore();
+
+			if (Settings.DRAW_COLLIDERS)
+			{
+				renderCollider(shapeEntity);
+			}
+			/*canvas.restore();
+			shapeRenderable.increaseDelta(deltaIncrease);
+			angle += ANGLE_CHANGE_SPEED;
+			angle %= 360;*/
 		}
 	}
 

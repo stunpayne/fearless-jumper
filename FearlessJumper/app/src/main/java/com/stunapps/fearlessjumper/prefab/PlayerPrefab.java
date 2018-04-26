@@ -79,7 +79,7 @@ public class PlayerPrefab extends ComponentPrefab
 		//		addComponent(orientationInput);
 		addComponent(new Input(true, false));
 		addComponent(new PlayerComponent());
-		addComponent(new RemainingTime(16000));
+		addComponent(new RemainingTime(120000));
 		addComponent(new Score());
 		addComponent(new Fuel(100f));
 		addComponent(new EternalEmitter(

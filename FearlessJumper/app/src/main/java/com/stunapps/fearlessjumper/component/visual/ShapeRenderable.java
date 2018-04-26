@@ -1,5 +1,9 @@
 package com.stunapps.fearlessjumper.component.visual;
 
+
+import android.graphics.Color;
+import android.util.Log;
+
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.model.Vector2D;
 
@@ -14,15 +18,25 @@ public class ShapeRenderable extends Component
 {
 	private List<Shape> shapes;
 	private Vector2D delta;
+	private Vector2D anchor;
 
 	private Float width;
 	private Float height;
 
 	public ShapeRenderable(List<Shape> shapes, Vector2D delta)
 	{
+		this(shapes, delta, null);
+	}
+
+	public ShapeRenderable(List<Shape> shapes, Vector2D delta, Vector2D anchor)
+	{
 		super(ShapeRenderable.class);
 		this.shapes = shapes;
 		this.delta = delta;
+		if (anchor != null)
+		{
+			this.anchor = Vector2D.add(delta, anchor);
+		}
 	}
 
 	public List<Shape> getRenderables()
@@ -75,6 +89,16 @@ public class ShapeRenderable extends Component
 		return delta;
 	}
 
+	public Vector2D getAnchor()
+	{
+		return anchor;
+	}
+
+	public boolean providesCenter()
+	{
+		return anchor != null;
+	}
+
 	public void increaseDelta(Vector2D increment)
 	{
 		delta.add(increment);
@@ -83,7 +107,7 @@ public class ShapeRenderable extends Component
 	@Override
 	public ShapeRenderable clone() throws CloneNotSupportedException
 	{
-		return new ShapeRenderable(new LinkedList<>(shapes), Vector2D.from(delta));
+		return new ShapeRenderable(new LinkedList<>(shapes), Vector2D.from(delta), anchor);
 	}
 }
 

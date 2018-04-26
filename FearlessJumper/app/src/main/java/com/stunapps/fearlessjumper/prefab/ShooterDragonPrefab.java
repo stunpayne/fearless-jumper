@@ -1,10 +1,13 @@
 package com.stunapps.fearlessjumper.prefab;
 
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
+import android.graphics.Color;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
+import com.stunapps.fearlessjumper.component.visual.CircleShape;
+import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
@@ -12,22 +15,12 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Dragon;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.component.specific.PeriodicGun;
-import com.stunapps.fearlessjumper.component.visual.Animator;
-import com.stunapps.fearlessjumper.component.visual.Renderable;
-import com.stunapps.fearlessjumper.core.Bitmaps;
-import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
 
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
 import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 /**
@@ -38,6 +31,7 @@ public class ShooterDragonPrefab extends ComponentPrefab
 {
 	public ShooterDragonPrefab()
 	{
+		/*
 		StateMachine animationStateMachine =
 				StateMachine.builder().startState(FLY_RIGHT).from(IDLE).onEvent(TURN_LEFT)
 						.toState(FLY_LEFT).from(IDLE).onEvent(TURN_RIGHT).toState(FLY_RIGHT)
@@ -78,11 +72,18 @@ public class ShooterDragonPrefab extends ComponentPrefab
 				dragonSprite1.getHeight()));
 
 		addComponent(animator);
-		addComponent(new Dragon(EnemyType.GRORUM));
+		*/
 
-		addComponent(
-				new RectCollider(Vector2D.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
-						CollisionLayer.ENEMY));
+		LinkedList<Shape> shapes = new LinkedList<>();
+		shapes.add(
+				new CircleShape(60, new PaintProperties(null, Color.rgb(25, 25, 112), null, null),
+						new Vector2D()));
+		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
+		addComponent(shapeRenderable);
+
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
+				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
+		addComponent(new Dragon(EnemyType.GRORUM));
 		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 

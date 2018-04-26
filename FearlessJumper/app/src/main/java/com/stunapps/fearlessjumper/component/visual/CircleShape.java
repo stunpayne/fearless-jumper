@@ -10,20 +10,25 @@ public class CircleShape extends Shape
 {
 	private float radius;
 
-	public CircleShape(float radius, PaintProperties paintProperties, Vector2D center)
+	public CircleShape(float radius, PaintProperties paintProperties, Vector2D delta)
 	{
-		super(ShapeType.CIRCLE, paintProperties, center);
+		super(ShapeType.CIRCLE, paintProperties, delta);
 		this.radius = radius;
 	}
 
 	public Vector2D getCenter()
 	{
-		return getDelta();
+		return Vector2D.add(getDelta(), new Vector2D(radius, radius));
 	}
 
 	public float getRadius()
 	{
 		return radius;
+	}
+
+	public float getDiameter()
+	{
+		return 2 * getRadius();
 	}
 
 	@Override

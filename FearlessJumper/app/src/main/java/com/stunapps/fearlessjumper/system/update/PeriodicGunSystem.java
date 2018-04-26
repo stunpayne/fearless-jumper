@@ -6,6 +6,8 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.PeriodicGun;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.model.Position;
@@ -44,11 +46,11 @@ public class PeriodicGunSystem implements UpdateSystem
 			{
 				int xOffset = 0;
 				int yOffset = 0;
-				if (gunner.hasComponent(Renderable.class))
+				if (gunner.hasComponent(ShapeRenderable.class))
 				{
-					Renderable renderable = gunner.getComponent(Renderable.class);
-					xOffset = renderable.getRenderable().getWidth();
-					yOffset = renderable.getRenderable().getHeight() / 2;
+					ShapeRenderable renderable = gunner.getComponent(ShapeRenderable.class);
+					xOffset = (int)renderable.getWidth();
+					yOffset = (int)renderable.getHeight() / 2;
 				}
 
 				int spawnX = (int) gunner.transform.position.x + xOffset;

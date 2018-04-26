@@ -18,6 +18,7 @@ public class PhysicsComponent extends Component
     public Velocity velocity;
     public boolean applyGravity;
     public Friction friction;
+    public float angularVelocity;
 
     public PhysicsComponent()
     {
@@ -45,11 +46,24 @@ public class PhysicsComponent extends Component
         this(mass, velocity, applyGravity, Friction.none);
     }
 
+    public PhysicsComponent(float mass, Velocity velocity, float angularVelocity,
+            boolean applyGravity)
+    {
+        this(mass, velocity, angularVelocity, applyGravity, Friction.none);
+    }
+
     public PhysicsComponent(float mass, Velocity velocity, boolean applyGravity, Friction friction)
+    {
+        this(mass, velocity, 0.0f, applyGravity, friction);
+    }
+
+    public PhysicsComponent(float mass, Velocity velocity, float angularVelocity,
+            boolean applyGravity, Friction friction)
     {
         super(PhysicsComponent.class);
         this.mass = mass;
         this.velocity = velocity;
+        this.angularVelocity = angularVelocity;
         this.applyGravity = applyGravity;
         this.friction = friction;
     }
@@ -103,6 +117,7 @@ public class PhysicsComponent extends Component
     @Override
     public PhysicsComponent clone() throws CloneNotSupportedException
     {
-        return new PhysicsComponent(mass, velocity.clone(), applyGravity, friction);
+        return new PhysicsComponent(mass, velocity.clone(), angularVelocity, applyGravity,
+                                    friction);
     }
 }

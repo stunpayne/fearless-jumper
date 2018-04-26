@@ -1,36 +1,25 @@
 package com.stunapps.fearlessjumper.prefab;
 
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
+import android.graphics.Color;
+import android.graphics.Paint.Style;
 
-import com.stunapps.fearlessjumper.animation.Animation;
-import com.stunapps.fearlessjumper.animation.AnimationState;
-import com.stunapps.fearlessjumper.animation.AnimationTransition;
+import com.stunapps.fearlessjumper.component.visual.CircleShape;
+import com.stunapps.fearlessjumper.component.visual.LineShape;
+import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Dragon;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
-import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.Animator;
-import com.stunapps.fearlessjumper.component.visual.Renderable;
-import com.stunapps.fearlessjumper.core.Bitmaps;
-import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
-import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
+import java.util.LinkedList;
 
 /**
  * Created by sunny.s on 21/01/18.
@@ -40,6 +29,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 {
 	public FlyingDragonPrefab()
 	{
+		/*
 		transform = new Transform(
 				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + 100));
 
@@ -83,14 +73,53 @@ public class FlyingDragonPrefab extends ComponentPrefab
 		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 		addComponent(animator);
+		*/
+
+		/*LinkedList<Shape> shapes = new LinkedList<>();
+
+		CircleShape circleShapeLeft = new CircleShape(15, new PaintProperties(null, Color.RED),
+												  new Vector2D());
+		shapes.add(circleShapeLeft);
+
+		CircleShape circleShapeRight = new CircleShape(15, new PaintProperties(null, Color.RED),
+												  new Vector2D(30,0));
+		shapes.add(circleShapeRight);
+
+		RectShape rectShape = new RectShape(30, 30, new PaintProperties(null, Color.BLACK),
+											new Vector2D(15,0));
+		shapes.add(rectShape);*/
+
+
+		LinkedList<Shape> shapes = new LinkedList<>();
+
+		float bladeLength = 15f;
+		CircleShape circle =
+				new CircleShape(bladeLength, new PaintProperties(null, Color.BLACK, null, null),
+						new Vector2D(bladeLength, bladeLength));
+
+		PaintProperties linePaintProperties =
+				new PaintProperties(null, Color.GRAY, 8.0f, Style.STROKE);
+		LineShape horizontalLine =
+				new LineShape(0, circle.getCenter().getY(), 2 * bladeLength + circle.getDiameter(),
+						circle.getCenter().getY(), linePaintProperties);
+
+		LineShape verticalLine =
+				new LineShape(circle.getCenter().getX(), 0, circle.getCenter().getX(),
+						2 * bladeLength + circle.getDiameter(), linePaintProperties);
+
+		shapes.add(horizontalLine);
+		shapes.add(verticalLine);
+		shapes.add(circle);
+
+		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
+		addComponent(shapeRenderable);
+
 		addComponent(new Dragon(EnemyType.MINIGON));
-		addComponent(
-				new RectCollider(Vector2D.ZERO, dragonSprite1.getWidth(), dragonSprite1.getHeight(),
-						CollisionLayer.ENEMY));
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
+				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation()
-				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - dragonSprite1.getWidth(),
-						250f));
+				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - shapeRenderable.getWidth(), 250f));
 		addComponent(new ContactDamageComponent(1, false));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, 900.0f, false));
 	}
 }

@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.component.visual;
 
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.PathEffect;
 
 import com.stunapps.fearlessjumper.model.Vector2D;
@@ -45,19 +47,44 @@ abstract public class Shape
 
 	public static class PaintProperties
 	{
+		private Paint paint;
 		private PathEffect pathEffect;
 		private int color;
 
+		private Paint currentPaint;
 		private PathEffect currentPathEffect;
 		private int currentColor;
 
-		public PaintProperties(PathEffect pathEffect, int color)
+		public PaintProperties(PathEffect pathEffect, Integer color, Float strokeWidth, Style style)
 		{
 			this.pathEffect = pathEffect;
 			this.currentPathEffect = pathEffect;
 
 			this.color = color;
 			this.currentColor = color;
+
+			paint = new Paint();
+			if(pathEffect != null)
+			{
+				paint.setPathEffect(pathEffect);
+			}
+
+			if(color != null)
+			{
+				paint.setColor(color);
+			}
+
+			if(strokeWidth != null)
+			{
+				paint.setStrokeWidth(strokeWidth);
+			}
+
+			if (style != null)
+			{
+				paint.setStyle(style);
+			}
+
+			currentPaint = new Paint(paint);
 		}
 
 		public PathEffect getPathEffect()
@@ -68,6 +95,16 @@ abstract public class Shape
 		public int getColor()
 		{
 			return currentColor;
+		}
+
+		public Paint getPaint()
+		{
+			return currentPaint;
+		}
+
+		public Paint getCurrentPaint()
+		{
+			return currentPaint;
 		}
 	}
 
