@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Color;
 
+import com.stunapps.fearlessjumper.component.visual.ArcShape;
 import com.stunapps.fearlessjumper.component.visual.CircleShape;
 import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
@@ -74,15 +75,21 @@ public class ShooterDragonPrefab extends ComponentPrefab
 		*/
 
 		LinkedList<Shape> shapes = new LinkedList<>();
+		/*
 		shapes.add(
 				new CircleShape(60, new PaintProperties(null, Color.rgb(25, 25, 112), null, null),
-						new Vector2D()));
+						new Vector2D())); */
+
+		shapes.add(new ArcShape(new Vector2D(), 100, 100, 10, 330, true,
+								new PaintProperties(null, Color.rgb(25, 25, 112), null, null)));
+		shapes.add(new CircleShape(7, new PaintProperties(null, Color.WHITE, null, null),
+								   new Vector2D(70, 15)));
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 		addComponent(shapeRenderable);
 
 		addComponent(new Dragon(EnemyType.GRORUM));
 		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
-				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
+									  shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 

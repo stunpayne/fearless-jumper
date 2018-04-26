@@ -12,6 +12,7 @@ import android.graphics.Paint.Style;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -33,6 +34,7 @@ import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
+import com.stunapps.fearlessjumper.component.visual.ArcShape;
 import com.stunapps.fearlessjumper.component.visual.CircleShape;
 import com.stunapps.fearlessjumper.component.visual.LineShape;
 import com.stunapps.fearlessjumper.component.visual.RectShape;
@@ -113,7 +115,7 @@ public class RenderSystem implements UpdateSystem
 				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dotbg);
 		Bitmap bgBitmap =
 				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
-						false);
+										  false);
 		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
 
 		colliderPaint.setColor(Color.WHITE);
@@ -125,10 +127,9 @@ public class RenderSystem implements UpdateSystem
 
 		LinkedList<Shape> shapes = new LinkedList<>();
 		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE, null, null),
-				new Vector2D(400, 500)));
-		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED, null,
-																	 null),
-				new Vector2D(500, 500)));
+								   new Vector2D(400, 500)));
+		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED, null, null),
+								 new Vector2D(500, 500)));
 
 		//shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 	}
@@ -179,11 +180,11 @@ public class RenderSystem implements UpdateSystem
 		float y = Device.SCREEN_HEIGHT / 2 - 300;
 
 		canvas.drawText(String.valueOf("Score : " + gameStatsManager.getCurrentScore()), x, y,
-				paint);
+						paint);
 		y += 50;
 		canvas.drawText(String.valueOf("High Score : " + gameStatsManager.getSessionHighScore())
 				, x,
-				y, paint);
+						y, paint);
 		y += 50;
 		canvas.drawText(
 				String.valueOf("All Time High Score : " + gameStatsManager.getGlobalHighScore())
@@ -193,13 +194,13 @@ public class RenderSystem implements UpdateSystem
 		y += 50;
 
 		canvas.drawText(String.valueOf("Avg Score : " + gameStatsManager.getAverageScore()), x, y,
-				paint);
+						paint);
 
 		if (!gameStatsManager.getDeathStat().isEmpty())
 		{
 			y += 50;
 			canvas.drawText(String.valueOf("Killed By : " + gameStatsManager.getDeathStat()), x, y,
-					paint);
+							paint);
 		}
 
 		Iterator<Entry<String, Integer>> iterator =
@@ -213,7 +214,7 @@ public class RenderSystem implements UpdateSystem
 
 		y += 50;
 		canvas.drawText(String.valueOf("GamePlay Count : " + gameStatsManager.getGamePlayCount()),
-				x, y, paint);
+						x, y, paint);
 
 		y += 50;
 		int i = 1;
@@ -229,9 +230,9 @@ public class RenderSystem implements UpdateSystem
 				qualifier = "rd";
 			}
 			canvas.drawText(i + qualifier + " Last Score" + " : " + String.valueOf(previousScore),
-					x, y,
+							x, y,
 
-					paint);
+							paint);
 			y += 50;
 			i++;
 		}
@@ -264,12 +265,11 @@ public class RenderSystem implements UpdateSystem
 			Renderable renderable = entity.getComponent(Renderable.class);
 			left = (int) ((entity.transform.position.x + renderable.delta.x) - camPosition.x);
 			top = (int) ((entity.transform.position.y + renderable.delta.y) - camPosition.y);
-			right =
-					(int) ((entity.transform.position.x + renderable.delta.x + renderable.width) -
-							camPosition.x);
-			bottom =
-					(int) ((entity.transform.position.y + renderable.delta.y + renderable.height) -
-							camPosition.y);
+			right = (int) ((entity.transform.position.x + renderable.delta.x + renderable.width) -
+					camPosition.x);
+			bottom = (int) ((entity.transform.position.y + renderable.delta.y + renderable
+					.height) -
+					camPosition.y);
 		}
 		else if (entity.hasComponent(ShapeRenderable.class))
 		{
@@ -350,6 +350,7 @@ public class RenderSystem implements UpdateSystem
 						shapeEntity.getTransform().position.y + shapeRenderable.getDelta().getY() +
 								(shapeRenderable.getHeight() / 2) - camPosition.y;
 			}
+
 			canvas.save();
 			canvas.rotate(azimuth, centerX, centerY);
 
@@ -357,19 +358,6 @@ public class RenderSystem implements UpdateSystem
 			{
 				PaintProperties paintProperties = shape.getPaintProperties();
 				Paint paint = paintProperties.getPaint();
-				//paint.setColor(paintProperties.getColor());
-				//paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
-				/*paint.setShader(new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
-												   Color.WHITE, Color.BLACK, TileMode.CLAMP));*/
-
-/*
-				if (paintProperties.getPathEffect() != null)
-				{
-					paint.setPathEffect(paintProperties.getPathEffect());
-				}
-
-				paint.setStrokeWidth(8);
-				paint.setStyle(Paint.Style.STROKE); */
 
 				switch (shape.shapeType())
 				{
@@ -404,6 +392,27 @@ public class RenderSystem implements UpdateSystem
 										  shapeEntity.transform.position.y + baseDelta.getY() +
 												  circleShape.getTop() + circleShape.getRadius() -
 												  camPosition.y, circleShape.getRadius(), paint);
+						break;
+					case ARC:
+						ArcShape arcShape = (ArcShape) shape;
+						RectF oval = new RectF(shapeEntity.transform.position.x + baseDelta.getX
+								() +
+													   arcShape.getDelta().getX() - camPosition.x,
+											   shapeEntity.transform.position.y + baseDelta.getY
+													   () +
+													   arcShape.getDelta().getY() - camPosition.y,
+											   shapeEntity.transform.position.x + baseDelta.getX
+													   () +
+													   arcShape.getDelta().getX() - camPosition.x +
+													   arcShape.getWidth(),
+											   shapeEntity.transform.position.y + baseDelta.getY
+													   () +
+													   arcShape.getDelta().getY() - camPosition.y +
+													   arcShape.getHeight()
+
+						);
+						canvas.drawArc(oval, arcShape.getStartAngle(), arcShape.getSweepAngle(),
+									   arcShape.isUseCenter(), paint);
 						break;
 				}
 			}
@@ -473,7 +482,7 @@ public class RenderSystem implements UpdateSystem
 			paint.setShader(
 					new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT, Color
 							.WHITE,
-							Color.BLACK, TileMode.CLAMP));
+									   Color.BLACK, TileMode.CLAMP));
 
 
 			if (paintProperties.getPathEffect() != null)
@@ -486,22 +495,22 @@ public class RenderSystem implements UpdateSystem
 				case LINE:
 					LineShape lineShape = (LineShape) shape;
 					canvas.drawLine(baseDelta.getX() + lineShape.getStart().getX(),
-							baseDelta.getY() + lineShape.getStart().getY(),
-							baseDelta.getX() + lineShape.getEnd().getX(),
-							baseDelta.getY() + lineShape.getEnd().getY(), paint);
+									baseDelta.getY() + lineShape.getStart().getY(),
+									baseDelta.getX() + lineShape.getEnd().getX(),
+									baseDelta.getY() + lineShape.getEnd().getY(), paint);
 					break;
 				case RECT:
 					RectShape rectShape = (RectShape) shape;
 					canvas.drawRect(baseDelta.getX() + rectShape.getLeft(),
-							baseDelta.getY() + rectShape.getTop(),
-							baseDelta.getX() + rectShape.getRight(),
-							baseDelta.getY() + rectShape.getBottom(), paint);
+									baseDelta.getY() + rectShape.getTop(),
+									baseDelta.getX() + rectShape.getRight(),
+									baseDelta.getY() + rectShape.getBottom(), paint);
 					break;
 				case CIRCLE:
 					CircleShape circleShape = (CircleShape) shape;
 					canvas.drawCircle(baseDelta.getX() + circleShape.getCenter().getX(),
-							baseDelta.getY() + circleShape.getCenter().getY(),
-							circleShape.getRadius(), paint);
+									  baseDelta.getY() + circleShape.getCenter().getY(),
+									  circleShape.getRadius(), paint);
 					break;
 			}
 		}
@@ -559,7 +568,7 @@ public class RenderSystem implements UpdateSystem
 						break;
 					case TEXTURE:
 						canvas.drawBitmap(texture, x - texture.getWidth() / 2,
-								y - texture.getHeight() / 2, particlePaint);
+										  y - texture.getHeight() / 2, particlePaint);
 						break;
 				}
 			}
@@ -633,9 +642,9 @@ public class RenderSystem implements UpdateSystem
 			fpsPaint.setColor(Color.MAGENTA);
 			fpsPaint.setTextSize(40);
 			canvas.drawText(String.valueOf(sensorData.getPitch()), 5 * canvas.getWidth() / 12,
-					5 * canvas.getHeight() / 60, fpsPaint);
+							5 * canvas.getHeight() / 60, fpsPaint);
 			canvas.drawText(String.valueOf(sensorData.getRoll()), 5 * canvas.getWidth() / 12,
-					7 * canvas.getHeight() / 60, fpsPaint);
+							7 * canvas.getHeight() / 60, fpsPaint);
 		}
 	}
 
