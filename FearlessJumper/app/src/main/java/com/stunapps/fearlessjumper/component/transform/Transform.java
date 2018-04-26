@@ -52,8 +52,7 @@ public class Transform extends Component
 
 	public static Transform withYShift(Transform original, float deltaY)
 	{
-		return new Transform(new Position(original.getPosition().getX(),
-				original.getPosition().getY() + deltaY));
+		return atPosition(original.getPosition().getX(), original.getPosition().getY() + deltaY);
 	}
 
 	public Transform translateOrigin(Transform origin)

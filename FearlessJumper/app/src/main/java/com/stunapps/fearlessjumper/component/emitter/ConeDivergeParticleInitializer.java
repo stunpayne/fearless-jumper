@@ -11,6 +11,8 @@ import com.stunapps.fearlessjumper.particle.Particle;
 
 import java.util.Random;
 
+import static com.stunapps.fearlessjumper.helper.Randomiser.twoWayRandom;
+
 /**
  * Created by sunny.s on 17/03/18.
  */
@@ -81,15 +83,5 @@ public class ConeDivergeParticleInitializer implements ParticleInitializer
 	private float newParticleSpeed(EmitterConfig config)
 	{
 		return config.getMaxSpeed() * random.nextFloat();
-	}
-
-	private float twoWayRandom(float value)
-	{
-		return value * twoWayRandom();
-	}
-
-	private float twoWayRandom()
-	{
-		return 2 * (0.5f - random.nextFloat());
 	}
 }

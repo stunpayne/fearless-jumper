@@ -6,6 +6,12 @@ package com.stunapps.fearlessjumper.rules.execution.generation.enums;
 
 public enum GenerationLocation
 {
-	X_BOUNDARIES,
+	/* Generate only on the left end of the X Axis */
+	X_LEFT,
+
+	/* Generate only on the right end of the X Axis */
+	X_RIGHT,
+
+	/* Generate anywhere on the X Axis */
 	X_ANYWHERE;
 }

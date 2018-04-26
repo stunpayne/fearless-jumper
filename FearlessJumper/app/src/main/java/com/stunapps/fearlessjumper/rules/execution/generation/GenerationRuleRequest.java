@@ -9,7 +9,13 @@ import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationSt
 import java.util.Map;
 
 /**
- * Created by sunny.s on 19/04/18.
+ * @author sunny.s
+ * @see GenerationRuleExecutor
+ * @see GenerationRuleResponse
+ * @since 19/04/18.
+ * <p>
+ * Request model that will be provided to a GenerationRuleExecutor with the expectation
+ * of a GenerationRuleResponse
  */
 
 public class GenerationRuleRequest extends RuleRequest

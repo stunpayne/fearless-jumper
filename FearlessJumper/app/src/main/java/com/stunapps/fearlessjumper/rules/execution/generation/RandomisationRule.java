@@ -8,13 +8,15 @@ import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
 
 /**
- * Created by sunny.s on 21/04/18.
+ * @author: sunny.s
+ * @since 21/04/18.
+ * <p>
+ * Shuffles between all available items and decides on one prefab to be generated.
+ * This should ideally be the last rule to execute
  */
 
 public class RandomisationRule extends GenerationRule
 {
-	private static float NEW_OBSTACLE_OFFSET = -600f;
-
 	private Shuffler<PrefabRef> obstacleShuffler;
 
 	public RandomisationRule()
@@ -37,14 +39,16 @@ public class RandomisationRule extends GenerationRule
 		if (obstacleShuffler == null)
 		{
 			obstacleShuffler =
-					new WeightedShuffler.Builder<PrefabRef>().returnItem(PrefabRef.PLATFORM)
-							.withWeight(5f).returnItem(PrefabRef.FLYING_DRAGON).withWeight(1f)
+					new WeightedShuffler.Builder<PrefabRef>()
+							.returnItem(PrefabRef.PLATFORM).withWeight(5f)
+							.returnItem(PrefabRef.FLYING_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.CLOCK).withWeight(3f)
 							.returnItem(PrefabRef.SHOOTER_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.GROUNDED_DRAGON_SET).withWeight(1f)
 							.returnItem(PrefabRef.FOLLOWING_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.ASSAULT_DRAGON).withWeight(2f)
-							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM).withWeight(5f).build();
+							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM).withWeight(5f)
+							.build();
 		}
 	}
 }

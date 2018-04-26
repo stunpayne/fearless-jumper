@@ -6,6 +6,10 @@ import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.rules.execution.Rule;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
 
+import java.util.Random;
+
+import static com.stunapps.fearlessjumper.helper.Randomiser.nextFloat;
+
 /**
  * Created by sunny.s on 19/04/18.
  */
@@ -23,21 +27,32 @@ public abstract class GenerationRule extends Rule<GenerationRuleRequest, Generat
 
 	private Transform getNextLocation(GenerationRuleRequest request, Prefab prefab)
 	{
+		Transform lastTransform = request.getLastGeneratedTransform();
+
+		Transform newTransform = Transform.withYShift(lastTransform, NEW_OBSTACLE_OFFSET);
 		GenerationConfig generationConfig = request.getPrefabConfig().get(prefab);
 		switch (generationConfig.getGenerationLocation())
 		{
 			case X_ANYWHERE:
-				Transform lastTransform = request.getLastGeneratedTransform();
 				if (null != lastTransform)
 				{
-					Transform newTransform =
-							Transform.withYShift(lastTransform, NEW_OBSTACLE_OFFSET);
 					float newX = (float) Math.random() * (Device.SCREEN_WIDTH - prefab.getWidth());
 					newTransform.getPosition().setX(newX);
 					return newTransform;
 				}
-			case X_BOUNDARIES:
-				return null;
+			case X_LEFT:
+			{
+				float xLeft = nextFloat(generationConfig.getMaxMarginX());
+				newTransform.getPosition().setX(xLeft);
+				return newTransform;
+			}
+			case X_RIGHT:
+			{
+				float xRight = Device.SCREEN_WIDTH - prefab.getWidth() -
+						nextFloat(generationConfig.getMaxMarginX());
+				newTransform.getPosition().setX(xRight);
+				return newTransform;
+			}
 			default:
 				return null;
 		}
