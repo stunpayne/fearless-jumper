@@ -42,8 +42,8 @@ public class SensorDataAdapter
 			if (Settings.ACTUAL_SENSOR_ROTATION)
 			{
 				/*
-				Trying out sending actual pitch and roll values once instead of delta
-			 */
+				 * Trying out sending actual pitch and roll values once instead of delta
+				 */
 				pitch = sensorDataProvider.getOrientation()[1];
 				roll = sensorDataProvider.getOrientation()[2];
 			}
