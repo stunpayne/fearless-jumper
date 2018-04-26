@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Color;
+import android.graphics.Paint.Style;
 
 import com.stunapps.fearlessjumper.component.visual.CircleShape;
 import com.stunapps.fearlessjumper.component.visual.LineShape;
@@ -76,12 +77,15 @@ public class FollowingDragonPrefab extends ComponentPrefab
 
 		LinkedList<Shape> shapes = new LinkedList<>();
 		CircleShape circleShape =
-				new CircleShape(15, new PaintProperties(null, Color.BLACK, null, null), new
+				new CircleShape(15, new PaintProperties(null, Color.BLACK, null, null),
+								new
 						Vector2D(15,
 																							 15));
 		shapes.add(circleShape);
 
-		PaintProperties linePaintProperties = new PaintProperties(null, Color.GRAY, null, null);
+		PaintProperties linePaintProperties = new PaintProperties(null, Color.GRAY,
+																  4.0f, Style
+				.STROKE);
 		LineShape lineShapeLeft =
 				new LineShape(0, circleShape.getTop() + circleShape.getRadius(), 15,
 							  circleShape.getTop() + circleShape.getRadius(),

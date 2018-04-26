@@ -123,6 +123,6 @@ public class FlyingDragonPrefab extends ComponentPrefab
 		addComponent(new PeriodicTranslation()
 				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - shapeRenderable.getWidth(), 250f));
 		addComponent(new ContactDamageComponent(1, false));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, 20.0f, false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, 900.0f, false));
 	}
 }
