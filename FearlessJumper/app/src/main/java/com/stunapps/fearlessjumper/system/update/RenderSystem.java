@@ -327,8 +327,6 @@ public class RenderSystem implements UpdateSystem
 			Vector2D baseDelta = shapeRenderable.getDelta();
 			List<Shape> shapes = shapeRenderable.getRenderables();
 			Position camPosition = Cameras.getMainCamera().position;
-			//canvas.save();
-			//canvas.rotate(angle, 500, 500 + shapeRenderable.getDelta().getY());
 
 			float azimuth = shapeEntity.getTransform().getRotation().azimuth;
 
@@ -423,10 +421,6 @@ public class RenderSystem implements UpdateSystem
 			{
 				renderCollider(shapeEntity);
 			}
-			/*canvas.restore();
-			shapeRenderable.increaseDelta(deltaIncrease);
-			angle += ANGLE_CHANGE_SPEED;
-			angle %= 360;*/
 		}
 	}
 

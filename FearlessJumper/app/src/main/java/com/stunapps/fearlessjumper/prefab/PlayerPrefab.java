@@ -8,6 +8,7 @@ import android.graphics.PorterDuff.Mode;
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
+import com.stunapps.fearlessjumper.component.visual.BitmapAnimator;
 import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
@@ -21,7 +22,6 @@ import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.RemainingTime;
 import com.stunapps.fearlessjumper.component.specific.Score;
-import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
@@ -69,7 +69,7 @@ public class PlayerPrefab extends ComponentPrefab
 						.terminalState(TERMINATED).build();
 
 		addComponent(new Renderable(alien, Delta.ZERO, alien.getWidth(), alien.getHeight()));
-		addComponent(new Animator(stateAnimationMap, animationStateMachine));
+		addComponent(new BitmapAnimator(stateAnimationMap, animationStateMachine));
 
 		addComponent(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight(),
 				CollisionLayer.PLAYER));
