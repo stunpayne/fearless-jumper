@@ -2,8 +2,6 @@ package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Color;
 import android.graphics.Paint.Style;
-import android.graphics.PathEffect;
-import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.visual.CircleShape;
 import com.stunapps.fearlessjumper.component.visual.LineShape;
@@ -11,7 +9,6 @@ import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.helper.Triangle;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
@@ -59,7 +56,7 @@ public class BulletPrefab extends ComponentPrefab
 		addComponent(shapeRenderable);
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, new Velocity(scaleX(180f), 0), 1200.0f,
 				false));
-		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
 				shapeRenderable.getHeight(), true, CollisionLayer.BULLET));
 		addComponent(new Enemy(EnemyType.GRORUM));
 		addComponent(new ContactDamageComponent(10, true));

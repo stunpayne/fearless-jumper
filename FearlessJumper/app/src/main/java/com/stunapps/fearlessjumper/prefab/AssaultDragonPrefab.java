@@ -6,7 +6,6 @@ import com.stunapps.fearlessjumper.component.visual.CircleShape;
 import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.AssaultTranslation;
@@ -109,9 +108,18 @@ public class AssaultDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_RIGHT, assaultInvokeRightAnim);
 		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_LEFT, assaultInvokeLeftAnim);
 
+<<<<<<< HEAD
 		BitmapAnimator animator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
+=======
+		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
+<<<<<<< HEAD
+		//        animator.triggerTransition(TURN_RIGHT);
+		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
+=======
+>>>>>>> master
 
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+>>>>>>> master
 									dragonSprite1.getHeight()));
 		addComponent(animator);
 		*/
@@ -133,8 +141,9 @@ public class AssaultDragonPrefab extends ComponentPrefab
 		CircleShape circleShapeBottom = new CircleShape(15, paintProperties, new Vector2D(30, 0));
 		shapes.add(circleShapeBottom);
 
-		CircleShape circleShapeCenter = new CircleShape(15, new PaintProperties(null, Color.BLACK,
-																				null, null), new Vector2D(15, 15));
+		CircleShape circleShapeCenter =
+				new CircleShape(15, new PaintProperties(null, Color.BLACK, null, null),
+						new Vector2D(15, 15));
 		shapes.add(circleShapeCenter);
 
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
@@ -142,10 +151,10 @@ public class AssaultDragonPrefab extends ComponentPrefab
 
 
 		addComponent(new Dragon(EnemyType.DRAXUS));
-		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
-									  shapeRenderable.getHeight(), CollisionLayer.SUPER_ENEMY));
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
+				shapeRenderable.getHeight(), CollisionLayer.SUPER_ENEMY));
 		addComponent(new AssaultTranslation(PlayerComponent.class, 150, 1500, 5.0f,
-											Device.SCREEN_HEIGHT / 4));
+				Device.SCREEN_HEIGHT / 4));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(false));
 	}

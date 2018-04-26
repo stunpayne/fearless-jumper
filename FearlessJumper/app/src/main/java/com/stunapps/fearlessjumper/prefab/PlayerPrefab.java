@@ -9,8 +9,8 @@ import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
 import com.stunapps.fearlessjumper.component.visual.BitmapAnimator;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.model.Vector2D;
+
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterConfig;
 import com.stunapps.fearlessjumper.component.emitter.Emitter.EmitterShape;
@@ -26,6 +26,7 @@ import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
+import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.HashMap;
@@ -68,14 +69,14 @@ public class PlayerPrefab extends ComponentPrefab
 						.toState(TERMINATED).fromAnyStateOnEvent(NORMALIZE).toState(IDLE)
 						.terminalState(TERMINATED).build();
 
-		addComponent(new Renderable(alien, Delta.ZERO, alien.getWidth(), alien.getHeight()));
+		addComponent(new Renderable(alien, Vector2D.ZERO, alien.getWidth(), alien.getHeight()));
 		addComponent(new BitmapAnimator(stateAnimationMap, animationStateMachine));
 
-		addComponent(new RectCollider(Delta.ZERO, alien.getWidth(), alien.getHeight(),
+		addComponent(new RectCollider(Vector2D.ZERO, alien.getWidth(), alien.getHeight(),
 				CollisionLayer.PLAYER));
 
-		addComponent(new Health(10));
-		addComponent(new PhysicsComponent(50, Velocity.ZERO));
+		addComponent(new Health(100));
+		addComponent(new PhysicsComponent(50, Velocity.ZERO, 60));
 		//		SensorDataAdapter orientationInput = DI.di().getInstance(SensorDataAdapter.class);
 		//		addComponent(orientationInput);
 		addComponent(new Input(true, false));

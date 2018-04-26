@@ -15,7 +15,6 @@ import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
@@ -36,14 +35,14 @@ public class TestShapePrefab extends ComponentPrefab
 				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + scaleY(100)));
 		LinkedList<Shape> shapes = new LinkedList<>();
 		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE, null, null),
-								   new Vector2D(10, 10)));
+				new Vector2D(10, 10)));
 		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED, null, null),
-								 new Vector2D(10, 10)));
+				new Vector2D(10, 10)));
 
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 		addComponent(shapeRenderable);
-		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
-									  shapeRenderable.getHeight(), CollisionLayer.ENEMY));
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
+				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
 		addComponent(new Dragon(EnemyType.GRORUM));

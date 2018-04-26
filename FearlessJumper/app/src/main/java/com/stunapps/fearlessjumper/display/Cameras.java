@@ -1,7 +1,7 @@
 package com.stunapps.fearlessjumper.display;
 
-import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.model.Position;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
 

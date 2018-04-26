@@ -14,16 +14,16 @@ import android.widget.ImageButton;
 import com.stunapps.fearlessjumper.MainActivity;
 import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.ads.AdManager;
-import com.stunapps.fearlessjumper.helper.UIBridge;
-import com.stunapps.fearlessjumper.manager.GameStatsManager;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.system.EventSystem;
+import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.event.model.game.GameOverEvent;
 import com.stunapps.fearlessjumper.event.model.game.MainMenuEvent;
 import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
-import com.stunapps.fearlessjumper.event.EventException;
-import com.stunapps.fearlessjumper.view.GameView;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.game.Environment;
+import com.stunapps.fearlessjumper.helper.UIBridge;
+import com.stunapps.fearlessjumper.manager.GameStatsManager;
+import com.stunapps.fearlessjumper.view.GameView;
 
 import javax.inject.Inject;
 

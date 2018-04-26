@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper.component.visual;
 
-import android.graphics.RectF;
-
 import com.stunapps.fearlessjumper.model.Vector2D;
 
 /**

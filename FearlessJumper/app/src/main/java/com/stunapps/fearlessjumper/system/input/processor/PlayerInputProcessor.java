@@ -1,6 +1,5 @@
 package com.stunapps.fearlessjumper.system.input.processor;
 
-import android.graphics.Rect;
 import android.util.Log;
 
 import com.google.inject.Inject;
@@ -9,15 +8,12 @@ import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
-import com.stunapps.fearlessjumper.game.Environment.Device;
-import com.stunapps.fearlessjumper.game.Time;
-import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.entity.Entity;
+import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.system.Systems;
 import com.stunapps.fearlessjumper.system.model.InputWrapper;
 import com.stunapps.fearlessjumper.system.update.InputUpdateSystem.ScreenState;
-import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 
 import java.util.Collections;
@@ -42,11 +38,11 @@ public class PlayerInputProcessor implements InputProcessor
 
 	private static float FUEL_DISCHARGE = 80f;
 
-	private static float JUMP_IMPULSE = -40f;
+	private static float JUMP_IMPULSE = -2400f;
 
-	private static float X_MULTIPLIER = 30f;
-	private static float MAX_X_SPEED = 7f;
-	private static float MIN_X_SPEED = -7f;
+	private static float X_MULTIPLIER = 1800f;
+	private static float MAX_X_SPEED = 420f;
+	private static float MIN_X_SPEED = -420f;
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Map<Class, Long> debugSystemRunTimes = new HashMap<>();

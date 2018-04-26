@@ -59,7 +59,8 @@ public abstract class PrefabSet extends Prefab
 				if (component.componentType == Renderable.class)
 				{
 					Renderable renderable = (Renderable) component;
-					maxX = Math.max(maxX, relativeTransX + renderable.delta.x + renderable.width);
+					maxX = Math.max(maxX,
+							relativeTransX + renderable.delta.getX() + renderable.width);
 					break;
 				}
 				else if (component.componentType == ShapeRenderable.class)

@@ -9,15 +9,17 @@ import com.stunapps.fearlessjumper.rules.execution.generation.enums.GenerationLo
 public class GenerationConfig
 {
 	private int maxInARow;
-	private float weight;
-	private float generationOffsetY;
+	private Float weight;
+	private Float offsetY;
+	private Float maxMarginX;
 	private GenerationLocation generationLocation;
 
-	public GenerationConfig(int maxInARow, float generationOffsetY,
+	public GenerationConfig(int maxInARow, Float maxMarginX, Float offsetY,
 			GenerationLocation generationLocation)
 	{
 		this.maxInARow = maxInARow;
-		this.generationOffsetY = generationOffsetY;
+		this.maxMarginX = maxMarginX;
+		this.offsetY = offsetY;
 		this.generationLocation = generationLocation;
 	}
 
@@ -31,6 +33,11 @@ public class GenerationConfig
 		return generationLocation;
 	}
 
+	public Float getMaxMarginX()
+	{
+		return maxMarginX;
+	}
+
 	public static Builder builder()
 	{
 		return new Builder();
@@ -39,8 +46,9 @@ public class GenerationConfig
 	public static class Builder
 	{
 		private int maxInARow = 5;
-		private float weight = 5f;
-		private float generationOffsetY = 600f;
+		private Float weight = 5f;
+		private Float offsetY = 600f;
+		private Float maxMarginX;
 		private GenerationLocation generationLocation = GenerationLocation.X_ANYWHERE;
 
 		public Builder maxInARow(int maxInARow)
@@ -49,15 +57,21 @@ public class GenerationConfig
 			return this;
 		}
 
-		public Builder weight(float weight)
+		public Builder weight(Float weight)
 		{
 			this.weight = weight;
 			return this;
 		}
 
-		public Builder generationOffsetY(float generationOffsetY)
+		public Builder generationOffsetY(Float offsetY)
 		{
-			this.generationOffsetY = generationOffsetY;
+			this.offsetY = offsetY;
+			return this;
+		}
+
+		public Builder maxMarginX(Float maxMarginX)
+		{
+			this.maxMarginX = maxMarginX;
 			return this;
 		}
 
@@ -69,7 +83,7 @@ public class GenerationConfig
 
 		public GenerationConfig build()
 		{
-			return new GenerationConfig(maxInARow, generationOffsetY, generationLocation);
+			return new GenerationConfig(maxInARow, maxMarginX, offsetY, generationLocation);
 		}
 	}
 }

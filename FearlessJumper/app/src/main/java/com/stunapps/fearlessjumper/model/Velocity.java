@@ -1,7 +1,5 @@
 package com.stunapps.fearlessjumper.model;
 
-import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-
 import lombok.Getter;
 import lombok.Setter;
 

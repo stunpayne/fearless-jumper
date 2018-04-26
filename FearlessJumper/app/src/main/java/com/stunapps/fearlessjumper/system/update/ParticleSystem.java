@@ -5,9 +5,9 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.emitter.Emitter;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
-import com.stunapps.fearlessjumper.event.system.EventSystem;
-import com.stunapps.fearlessjumper.event.model.system.EmitterEvent;
 import com.stunapps.fearlessjumper.event.EventException;
+import com.stunapps.fearlessjumper.event.model.system.EmitterEvent;
+import com.stunapps.fearlessjumper.event.system.EventSystem;
 
 import java.util.Iterator;
 import java.util.Set;

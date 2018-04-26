@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.game.Time;
 import com.stunapps.fearlessjumper.game.loop.MainThread;
 import com.stunapps.fearlessjumper.init.GameInitializer;
+import com.stunapps.fearlessjumper.rules.RuleEngine;
 import com.stunapps.fearlessjumper.system.Systems;
 
 /**
@@ -152,6 +153,7 @@ public class GameView extends BaseView implements SurfaceHolder.Callback
 			e.printStackTrace();
 		}
 		Systems.reset();
+		RuleEngine.reset();
 		gameInitializer.destroy();
 
 		waitingForExplicitResume = false;

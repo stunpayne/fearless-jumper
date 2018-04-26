@@ -5,9 +5,7 @@ import android.util.Log;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.entity.Entity;
 
-
 import org.roboguice.shaded.goole.common.collect.Sets;
-
 
 import java.util.HashSet;
 import java.util.Iterator;

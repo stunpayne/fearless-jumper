@@ -263,13 +263,12 @@ public class RenderSystem implements UpdateSystem
 		if (entity.hasComponent(Renderable.class))
 		{
 			Renderable renderable = entity.getComponent(Renderable.class);
-			left = (int) ((entity.transform.position.x + renderable.delta.x) - camPosition.x);
-			top = (int) ((entity.transform.position.y + renderable.delta.y) - camPosition.y);
-			right = (int) ((entity.transform.position.x + renderable.delta.x + renderable.width) -
-					camPosition.x);
-			bottom = (int) ((entity.transform.position.y + renderable.delta.y + renderable
-					.height) -
-					camPosition.y);
+			left = (int) ((entity.transform.position.x + renderable.delta.getX()) - camPosition.x);
+			top = (int) ((entity.transform.position.y + renderable.delta.getY()) - camPosition.y);
+			right = (int) ((entity.transform.position.x + renderable.delta.getX() +
+					renderable.width) - camPosition.x);
+			bottom = (int) ((entity.transform.position.y + renderable.delta.getY() +
+					renderable.height) - camPosition.y);
 		}
 		else if (entity.hasComponent(ShapeRenderable.class))
 		{
@@ -431,11 +430,11 @@ public class RenderSystem implements UpdateSystem
 
 		Position camPosition = Cameras.getMainCamera().position;
 		RectCollider collider = (RectCollider) entity.getComponent(Collider.class);
-		int left = (int) (entity.transform.position.x + collider.delta.x - camPosition.x);
-		int top = (int) (entity.transform.position.y + collider.delta.y - camPosition.y);
-		int right = (int) (entity.transform.position.x + collider.delta.x + collider.width -
+		int left = (int) (entity.transform.position.x + collider.delta.getX() - camPosition.x);
+		int top = (int) (entity.transform.position.y + collider.delta.getY() - camPosition.y);
+		int right = (int) (entity.transform.position.x + collider.delta.getX() + collider.width -
 				camPosition.x);
-		int bottom = (int) (entity.transform.position.y + collider.delta.y + collider.height -
+		int bottom = (int) (entity.transform.position.y + collider.delta.getY() + collider.height -
 				camPosition.y);
 		canvas.drawRect(left, top, right, bottom, colliderPaint);
 		if (entity.hasComponent(Enemy.class))

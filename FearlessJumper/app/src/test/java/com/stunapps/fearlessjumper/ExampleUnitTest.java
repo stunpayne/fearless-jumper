@@ -50,7 +50,7 @@ public class ExampleUnitTest
         ComponentManager cm = new GameComponentManager();
         EntityManager em = new EntityManager(cm);
 
-        Component component = new PhysicsComponent(15, new Velocity(10, 10));
+        Component component = new PhysicsComponent(15, new Velocity(10, 10), 1);
         Entity entity = null;
         try
         {

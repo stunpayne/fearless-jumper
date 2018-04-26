@@ -8,11 +8,11 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.rules.execution.RuleExecutor;
+import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRule;
 import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleExecutor;
 import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleRequest;
 import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleResponse;
-import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRule;
-import com.stunapps.fearlessjumper.rules.execution.RuleExecutor;
 import com.stunapps.fearlessjumper.rules.execution.generation.LowTimeRule;
 import com.stunapps.fearlessjumper.rules.execution.generation.RandomisationRule;
 import com.stunapps.fearlessjumper.rules.execution.generation.enums.GenerationLocation;
@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.stunapps.fearlessjumper.game.Environment.scaleX;
+
 /**
  * Created by sunny.s on 19/04/18.
  */
@@ -35,11 +37,11 @@ public class RuleEngine
 	private static GenerationRuleRequest generationRuleRequest;
 	private static GenerationRuleResponse generationRuleResponse;
 
+	private static boolean initialised = false;
+
 	static
 	{
 		ruleExecutor = new GenerationRuleExecutor(createRules());
-		generationRuleRequest = initRequest();
-		generationRuleResponse = initResponse();
 	}
 
 	public RuleEngine()
@@ -49,15 +51,36 @@ public class RuleEngine
 	public static GenerationRuleResponse execute(ComponentManager componentManager,
 			EntityManager entityManager)
 	{
+		initialise();
 		ruleExecutor.execute(buildRuleRequest(componentManager, entityManager),
 				buildRuleResponse(componentManager, entityManager));
 
 		return generationRuleResponse;
 	}
 
+	public static void reset()
+	{
+		reinitialise();
+	}
+
 	public static void signal()
 	{
 
+	}
+
+	private static void reinitialise()
+	{
+		initialised = false;
+		initialise();
+	}
+
+	private static void initialise()
+	{
+		if (initialised) return;
+		generationRuleRequest = initRequest();
+		generationRuleResponse = initResponse();
+
+		initialised = true;
 	}
 
 	private static GenerationRuleRequest initRequest()
@@ -80,9 +103,25 @@ public class RuleEngine
 
 		for (PrefabRef prefabRef : PrefabRef.values())
 		{
-			map.put(prefabRef.get(),
-					GenerationConfig.builder().generationLocation(GenerationLocation.X_ANYWHERE)
-							.weight(5f).build());
+			if (prefabRef == PrefabRef.SHOOTER_DRAGON)
+			{
+				map.put(prefabRef.get(),
+						GenerationConfig.builder().generationLocation(GenerationLocation.X_LEFT)
+								.weight(5f).maxMarginX(scaleX(50)).build());
+			}
+			else if (prefabRef == PrefabRef.PLATFORM)
+			{
+				map.put(prefabRef.get(),
+						GenerationConfig.builder().generationLocation(GenerationLocation.X_RIGHT)
+								.weight(5f).maxMarginX(scaleX(50)).build());
+			}
+			else
+			{
+				map.put(prefabRef.get(),
+						GenerationConfig.builder().generationLocation(GenerationLocation
+								.X_ANYWHERE)
+								.weight(5f).maxMarginX(scaleX(50)).build());
+			}
 		}
 
 		return map;

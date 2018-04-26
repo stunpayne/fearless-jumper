@@ -8,7 +8,6 @@ import com.stunapps.fearlessjumper.component.visual.LineShape;
 import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
@@ -21,8 +20,6 @@ import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.LinkedList;
-
-import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 
 /**
  * Created by sunny.s on 21/01/18.
@@ -73,7 +70,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 
 		BitmapAnimator animator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerTransition(TURN_RIGHT);
-		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
 		addComponent(animator);
 		*/
@@ -118,7 +115,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 		addComponent(shapeRenderable);
 
 		addComponent(new Dragon(EnemyType.MINIGON));
-		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
 				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation()
 				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - shapeRenderable.getWidth(), 250f));

@@ -5,7 +5,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.ads.AdManager;

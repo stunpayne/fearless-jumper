@@ -1,5 +1,6 @@
 package com.stunapps.fearlessjumper.prefab;
 
+
 import android.graphics.Color;
 import android.graphics.Paint.Style;
 
@@ -8,7 +9,6 @@ import com.stunapps.fearlessjumper.component.visual.LineShape;
 import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
-import com.stunapps.fearlessjumper.model.Delta;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
@@ -70,7 +70,7 @@ public class FollowingDragonPrefab extends ComponentPrefab
 
 		BitmapAnimator animator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
 
-		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
+		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 									dragonSprite1.getHeight()));
 		addComponent(animator);
 									*/
@@ -116,7 +116,7 @@ public class FollowingDragonPrefab extends ComponentPrefab
 		addComponent(shapeRenderable);
 
 		addComponent(new Dragon(EnemyType.ZELDROY));
-		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
 									  shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new FollowTranslation(PlayerComponent.class, 150));
 		addComponent(new ContactDamageComponent(1, false));

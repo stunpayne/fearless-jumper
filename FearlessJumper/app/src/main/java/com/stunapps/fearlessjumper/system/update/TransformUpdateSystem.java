@@ -6,13 +6,13 @@ import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.game.Time;
-import com.stunapps.fearlessjumper.model.Velocity;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.game.Time;
+import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.Set;
 
@@ -62,8 +62,7 @@ public class TransformUpdateSystem implements UpdateSystem
 
 	private void movePlayerTransform(Transform transform, Velocity velocity, Renderable renderable)
 	{
-		transform.position.x += velocity.x;
-		transform.position.y += velocity.y;
+		moveTransform(transform, velocity);
 
 		if (transform.position.x >= Device.SCREEN_WIDTH - renderable.width)
 		{

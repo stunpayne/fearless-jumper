@@ -7,7 +7,6 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.input.Input;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.system.input.processor.InputProcessorFactory;
 import com.stunapps.fearlessjumper.manager.InputUpdateManager;
 import com.stunapps.fearlessjumper.system.update.InputUpdateSystem;
 

@@ -11,7 +11,7 @@ import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeAnimator;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.core.StateMachine;
-import com.stunapps.fearlessjumper.model.Delta;
+import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
@@ -97,7 +97,7 @@ public class ShooterDragonPrefab extends ComponentPrefab
 		addComponent(shapeRenderable);
 
 		addComponent(new Dragon(EnemyType.GRORUM));
-		addComponent(new RectCollider(Delta.ZERO, shapeRenderable.getWidth(),
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
 									  shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation().withAnchoredYMovement(100f, scaleY(100f)));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false));
