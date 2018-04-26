@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.core.SensorDataProvider;
+import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
 
 import lombok.Getter;
@@ -32,19 +33,28 @@ public class SensorDataAdapter
 		if (frameTime < Time.INIT_TIME) frameTime = Time.INIT_TIME;
 		frameTime = System.currentTimeMillis();
 
-//		Log.d("sensorDataAdapter", "sensorDataProvider.getOrientation() = " +
-//				String.valueOf(sensorDataProvider.getOrientation()) +
-//				", and sensorDataProvider.getStartOrientation() = " +
-//				String.valueOf(sensorDataProvider.getStartOrientation()));
 		if (sensorDataProvider.getOrientation() != null &&
 				sensorDataProvider.getStartOrientation() != null)
 		{
 
-			//  Actually delta pitch and roll
-			float pitch = sensorDataProvider.getOrientation()[1] -
-					sensorDataProvider.getStartOrientation()[1];
-			float roll = sensorDataProvider.getOrientation()[2] -
-					sensorDataProvider.getStartOrientation()[2];
+			Float pitch;
+			Float roll;
+			if (Settings.ACTUAL_SENSOR_ROTATION)
+			{
+				/*
+				Trying out sending actual pitch and roll values once instead of delta
+			 */
+				pitch = sensorDataProvider.getOrientation()[1];
+				roll = sensorDataProvider.getOrientation()[2];
+			}
+			else
+			{
+				//  Actually delta pitch and roll
+				pitch = sensorDataProvider.getOrientation()[1] -
+						sensorDataProvider.getStartOrientation()[1];
+				roll = sensorDataProvider.getOrientation()[2] -
+						sensorDataProvider.getStartOrientation()[2];
+			}
 			return new SensorData(pitch, roll);
 		}
 		else
