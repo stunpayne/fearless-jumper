@@ -89,7 +89,8 @@ public class PhysicsSystem implements UpdateSystem
 	private void applyGravity(Entity entity)
 	{
 		PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-		physicsComponent.getVelocity().y -= (GRAVITY * scaleY() * Time.DELTA_TIME);
+		physicsComponent.getVelocity().y -=
+				(GRAVITY * physicsComponent.gravityFactor * scaleY() * Time.DELTA_TIME);
 	}
 
 	private void handleFriction(Entity entity1, Entity entity2, CollisionFace collisionFace,

@@ -38,11 +38,11 @@ public class PlayerInputProcessor implements InputProcessor
 
 	private static float FUEL_DISCHARGE = 80f;
 
-	private static float JUMP_IMPULSE = -40f;
+	private static float JUMP_IMPULSE = -2400f;
 
-	private static float X_MULTIPLIER = 30f;
-	private static float MAX_X_SPEED = 7f;
-	private static float MIN_X_SPEED = -7f;
+	private static float X_MULTIPLIER = 1800f;
+	private static float MAX_X_SPEED = 420f;
+	private static float MIN_X_SPEED = -420f;
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Map<Class, Long> debugSystemRunTimes = new HashMap<>();

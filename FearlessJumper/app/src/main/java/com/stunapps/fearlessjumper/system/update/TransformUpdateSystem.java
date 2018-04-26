@@ -62,8 +62,7 @@ public class TransformUpdateSystem implements UpdateSystem
 
 	private void movePlayerTransform(Transform transform, Velocity velocity, Renderable renderable)
 	{
-		transform.position.x += velocity.x;
-		transform.position.y += velocity.y;
+		moveTransform(transform, velocity);
 
 		if (transform.position.x >= Device.SCREEN_WIDTH - renderable.width)
 		{

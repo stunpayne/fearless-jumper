@@ -74,7 +74,7 @@ public class PlayerPrefab extends ComponentPrefab
 				CollisionLayer.PLAYER));
 
 		addComponent(new Health(10));
-		addComponent(new PhysicsComponent(50, Velocity.ZERO));
+		addComponent(new PhysicsComponent(50, Velocity.ZERO, 60));
 		//		SensorDataAdapter orientationInput = DI.di().getInstance(SensorDataAdapter.class);
 		//		addComponent(orientationInput);
 		addComponent(new Input(true, false));
