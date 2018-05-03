@@ -47,8 +47,6 @@ public class TestView extends BaseView implements SurfaceHolder.Callback
 		this.mEntityManager = entityManager;
 
 		getHolder().addCallback(this);
-
-		mRenderSystem.setShouldRenderBackground(false);
 	}
 
 	@Override

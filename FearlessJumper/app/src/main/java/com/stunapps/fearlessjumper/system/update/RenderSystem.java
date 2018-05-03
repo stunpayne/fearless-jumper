@@ -1,7 +1,6 @@
 package com.stunapps.fearlessjumper.system.update;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,7 +12,6 @@ import android.graphics.Typeface;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
-import com.stunapps.fearlessjumper.R;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.collider.Collider;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
@@ -36,7 +34,6 @@ import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.core.ParallaxBackground;
-import com.stunapps.fearlessjumper.core.ParallaxBackground.ParallaxDrawableArea;
 import com.stunapps.fearlessjumper.display.Cameras;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment;
@@ -65,8 +62,6 @@ import static com.stunapps.fearlessjumper.game.Environment.scaleY;
 
 public class RenderSystem implements UpdateSystem
 {
-	private static final String TAG = RenderSystem.class.getSimpleName();
-
 	private final ComponentManager componentManager;
 	private final GameStatsManager gameStatsManager;
 	private final SensorDataAdapter sensorDataAdapter;
@@ -95,14 +90,6 @@ public class RenderSystem implements UpdateSystem
 		this.componentManager = componentManager;
 		this.sensorDataAdapter = sensorDataAdapter;
 		this.gameStatsManager = gameStatsManager;
-
-		//	Initialise background bitmap
-		Bitmap originalBg =
-				BitmapFactory.decodeResource(Environment.CONTEXT.getResources(), R.drawable.dotbg);
-		Bitmap bgBitmap =
-				Bitmap.createScaledBitmap(originalBg, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT,
-										  false);
-		background = new ParallaxBackground(bgBitmap, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT);
 
 		colliderPaint.setColor(Color.WHITE);
 		colliderPaint.setStyle(Style.STROKE);
@@ -147,8 +134,6 @@ public class RenderSystem implements UpdateSystem
 		{
 			renderSensorData();
 		}
-
-		frameNum++;
 	}
 
 	private void renderGameStats()
@@ -186,12 +171,9 @@ public class RenderSystem implements UpdateSystem
 							paint);
 		}
 
-		Iterator<Entry<String, Integer>> iterator =
-				gameStatsManager.getHurtStats().entrySet().iterator();
-		while (iterator.hasNext())
+		for (Entry<String, Integer> entry : gameStatsManager.getHurtStats().entrySet())
 		{
 			y += 50;
-			Entry<String, Integer> entry = iterator.next();
 			canvas.drawText(entry.getKey() + "'s Hurt Count: " + entry.getValue(), x, y, paint);
 		}
 
@@ -232,10 +214,9 @@ public class RenderSystem implements UpdateSystem
 	{
 		lastProcessTime = System.nanoTime();
 		canvas = null;
-		bgPaint = new Paint();
 	}
 
-	public static Rect getRenderRect(Entity entity)
+	static Rect getRenderRect(Entity entity)
 	{
 		Position camPosition = Cameras.getMainCamera().position;
 		int left = 0;
@@ -269,19 +250,6 @@ public class RenderSystem implements UpdateSystem
 		return new Rect(left, top, right, bottom);
 	}
 
-	private void renderBackground()
-	{
-		if (!shouldRenderBackground) return;
-
-		List<ParallaxDrawableArea> drawableAreas =
-				background.getDrawables(Cameras.getMainCamera().position.getY());
-		for (int i = 0; i < drawableAreas.size(); i++)
-		{
-			ParallaxDrawableArea drawable = drawableAreas.get(i);
-			canvas.drawBitmap(background.getBitmap(), null, drawable.getRenderRect(), bgPaint);
-		}
-	}
-
 	private void renderEntities()
 	{
 		Set<Entity> entities = componentManager.getEntities(Renderable.class);
@@ -290,7 +258,7 @@ public class RenderSystem implements UpdateSystem
 		{
 			Renderable component = entity.getComponent(Renderable.class);
 			Bitmap bitmap = component.getRenderable();
-			Rect destRect = getRenderRect(entity);
+			Rect destRect = RenderSystem.getRenderRect(entity);
 
 			canvas.drawBitmap(bitmap, null, destRect, null);
 
@@ -312,8 +280,8 @@ public class RenderSystem implements UpdateSystem
 
 			float azimuth = shapeEntity.getTransform().getRotation().azimuth;
 
-			Float centerX = null;
-			Float centerY = null;
+			Float centerX;
+			Float centerY;
 			if (shapeRenderable.providesCenter())
 			{
 				centerX = shapeEntity.getTransform().getPosition().getX() +
@@ -502,17 +470,15 @@ public class RenderSystem implements UpdateSystem
 		String timeText =
 				" Time: ".concat(String.valueOf(remainingSeconds.intValue()).concat(" " + ""));
 		MainActivity.getInstance().updateTime(timeText);
-		//canvas.drawText(timeText, Device.SCREEN_WIDTH / 4, timeRectTop, paint);
 
 		//	Score text
 		Float playerScore = player.getComponent(Score.class).getScore();
 		String scoreText = " Score: ".concat(String.valueOf(playerScore.intValue()));
 		MainActivity.getInstance().updateScore(scoreText);
-		//canvas.drawText(scoreText, Device.SCREEN_WIDTH / 2, timeRectTop, paint);
 
 		//	Fuel box
 		Float fuel = player.getComponent(Fuel.class).getFuel();
-		int left = 1 * Device.SCREEN_WIDTH / 8;
+		int left = Device.SCREEN_WIDTH / 8;
 		int right = left + (int) (80 * scaleX());
 		int bottom = 15 * Device.SCREEN_HEIGHT / 16;
 		int fuelRectHeight = (int) (bottom - 3 * fuel.intValue() * scaleY());
@@ -523,7 +489,6 @@ public class RenderSystem implements UpdateSystem
 		//	Fuel text
 		String fuelText = " Fuel: " + String.valueOf(fuel.intValue());
 		MainActivity.getInstance().updateFuel(fuelText);
-		//canvas.drawText(fuelText, (left + right) / 2, (top + bottom) / 2, fuelTextPaint);
 
 		Health health = player.getComponent(Health.class);
 		String healthText = " Health: " + health.getHealth();
