@@ -75,19 +75,19 @@ public class FlyingDragonPrefab extends ComponentPrefab
 		addComponent(animator);
 		*/
 
-		/*LinkedList<Shape> shapes = new LinkedList<>();
+		/*LinkedList<Shape> allShapes = new LinkedList<>();
 
 		CircleShape circleShapeLeft = new CircleShape(15, new PaintProperties(null, Color.RED),
 												  new Vector2D());
-		shapes.add(circleShapeLeft);
+		allShapes.add(circleShapeLeft);
 
 		CircleShape circleShapeRight = new CircleShape(15, new PaintProperties(null, Color.RED),
 												  new Vector2D(30,0));
-		shapes.add(circleShapeRight);
+		allShapes.add(circleShapeRight);
 
 		RectShape rectShape = new RectShape(30, 30, new PaintProperties(null, Color.BLACK),
 											new Vector2D(15,0));
-		shapes.add(rectShape);*/
+		allShapes.add(rectShape);*/
 
 
 		LinkedList<Shape> shapes = new LinkedList<>();

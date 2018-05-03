@@ -1,9 +1,8 @@
 package com.stunapps.fearlessjumper.animation;
 
-import android.graphics.Bitmap;
-
 import com.stunapps.fearlessjumper.component.visual.Shape;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,20 +11,19 @@ import java.util.List;
 
 public class ShapeAnimation
 {
-	protected List<List<Shape>> frames;
+	protected List<Shape> allShapes;
+	protected List<List<Integer>> frames;
+	protected List<Shape> frameShapes;
 	protected boolean playing;
 
 	private int currentFrame;
 	private float frameTime;
 	private long lastFramePlayTime;
 
-	public ShapeAnimation(List<List<Shape>> frames)
+	public ShapeAnimation(List<Shape> allShapes, List<List<Integer>> frames, float animTime)
 	{
-		this(frames, 0.0f);
-	}
-
-	public ShapeAnimation(List<List<Shape>> frames, float animTime)
-	{
+		this.allShapes = allShapes;
+		this.frameShapes = new LinkedList<>();
 		this.frames = frames;
 		this.playing = false;
 		this.currentFrame = 0;
@@ -45,12 +43,12 @@ public class ShapeAnimation
 			currentFrame = currentFrame >= frames.size() ? 0 : currentFrame;
 			lastFramePlayTime = System.currentTimeMillis();
 		}
-		return frames.get(currentFrame);
+		return getShapes(frames.get(currentFrame));
 	}
 
 	public List<Shape> getRenderable()
 	{
-		return frames.get(currentFrame);
+		return getShapes(frames.get(currentFrame));
 	}
 
 	public void stop()
@@ -69,4 +67,13 @@ public class ShapeAnimation
 		reset();
 	}
 
+	private List<Shape> getShapes(List<Integer> frame)
+	{
+		frameShapes.clear();
+		for (Integer shapeIndex : frame)
+		{
+			frameShapes.add(allShapes.get(shapeIndex));
+		}
+		return frameShapes;
+	}
 }

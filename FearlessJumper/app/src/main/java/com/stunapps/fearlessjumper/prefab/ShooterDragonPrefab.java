@@ -44,48 +44,40 @@ public class ShooterDragonPrefab extends ComponentPrefab
 {
 	public ShooterDragonPrefab()
 	{
-		LinkedList<Shape> openMouthShape = new LinkedList<>();
+		LinkedList<Shape> openMouthShapes = new LinkedList<>();
 
 		CircleShape eye = new CircleShape(7, new PaintProperties(null, Color.WHITE, null, null),
 										  new Vector2D(70, 15));
 
-		openMouthShape.add(new ArcShape(new Vector2D(), 100, 100, 15, 330, true,
-										new PaintProperties(null, Color.rgb(25, 25, 112), null,
-															null)));
-		openMouthShape.add(eye);
+		ArcShape openMouthShape = new ArcShape(new Vector2D(), 100, 100, 15, 330, true,
+								  new PaintProperties(null, Color.rgb(25, 25, 112), null, null));
 
+		ArcShape midOpenMouthShape = new ArcShape(new Vector2D(), 100, 100, 10, 340, true,
+								  new PaintProperties(null, Color.rgb(25, 25, 112), null, null));
 
-		LinkedList<Shape> midOpenMouthShape = new LinkedList<>();
-		midOpenMouthShape.add(new ArcShape(new Vector2D(), 100, 100, 10, 340, true,
-										   new PaintProperties(null, Color.rgb(25, 25, 112), null,
-															   null)));
-		midOpenMouthShape.add(eye);
+		ArcShape littleOpenMouthShape = new ArcShape(new Vector2D(), 100, 100, 5, 350, true,
+								  new PaintProperties(null, Color.rgb(25, 25, 112), null, null));
 
-
-		LinkedList<Shape> smallOpenMouthShape = new LinkedList<>();
-		smallOpenMouthShape.add(new ArcShape(new Vector2D(), 100, 100, 5, 350, true,
-											 new PaintProperties(null, Color.rgb(25, 25, 112),
-																 null,
-																 null)));
-		smallOpenMouthShape.add(eye);
-
-
-		LinkedList<Shape> closedMouthShape = new LinkedList<>();
-
-		closedMouthShape.add(new ArcShape(new Vector2D(), 100, 100, 0, 360, true,
-										  new PaintProperties(null, Color.rgb(25, 25, 112), null,
-															  null)));
-		closedMouthShape.add(eye);
-
+		ArcShape closedMouthShape = new ArcShape(new Vector2D(), 100, 100, 0, 360, true,
+								  new PaintProperties(null, Color.rgb(25, 25, 112), null, null));
 
 		StateMachine animationStateMachine = StateMachine.builder().startState(IDLE).build();
 
-		List<List<Shape>> mouthMovementShapes = new LinkedList<>();
-		mouthMovementShapes.add(openMouthShape);
-		mouthMovementShapes.add(midOpenMouthShape);
-		mouthMovementShapes.add(smallOpenMouthShape);
-		mouthMovementShapes.add(closedMouthShape);
-		ShapeAnimation groramAnimation = new ShapeAnimation(mouthMovementShapes, 2.0f);
+		List<Shape> enemyShapes = new LinkedList<>();
+		enemyShapes.add(eye);
+		enemyShapes.add(openMouthShape);
+		enemyShapes.add(midOpenMouthShape);
+		enemyShapes.add(littleOpenMouthShape);
+		enemyShapes.add(closedMouthShape);
+
+		List<List<Integer>> animationFrameIndices = new LinkedList<>();
+		animationFrameIndices.add(Arrays.asList(1, 0));
+		animationFrameIndices.add(Arrays.asList(2, 0));
+		animationFrameIndices.add(Arrays.asList(3, 0));
+		animationFrameIndices.add(Arrays.asList(4, 0));
+
+		ShapeAnimation groramAnimation =
+				new ShapeAnimation(enemyShapes, animationFrameIndices, 2.0f);
 
 		Map<AnimationState, ShapeAnimation> stateAnimationMap = new HashMap<>();
 		stateAnimationMap.put(IDLE, groramAnimation);
@@ -93,7 +85,7 @@ public class ShooterDragonPrefab extends ComponentPrefab
 		ShapeAnimator shapeAnimator = new ShapeAnimator(stateAnimationMap, animationStateMachine);
 		addComponent(shapeAnimator);
 
-		ShapeRenderable shapeRenderable = new ShapeRenderable(openMouthShape, new Vector2D());
+		ShapeRenderable shapeRenderable = new ShapeRenderable(openMouthShapes, new Vector2D());
 		addComponent(shapeRenderable);
 
 		addComponent(new Dragon(EnemyType.GRORUM));
