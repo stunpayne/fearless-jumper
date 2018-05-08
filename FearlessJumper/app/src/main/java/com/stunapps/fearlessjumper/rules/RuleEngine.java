@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.rules;
 
+import android.util.Log;
+
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -14,6 +16,7 @@ import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleExec
 import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleRequest;
 import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleResponse;
 import com.stunapps.fearlessjumper.rules.execution.generation.LowTimeRule;
+import com.stunapps.fearlessjumper.rules.execution.generation.MaxInARowRule;
 import com.stunapps.fearlessjumper.rules.execution.generation.RandomisationRule;
 import com.stunapps.fearlessjumper.rules.execution.generation.enums.GenerationLocation;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
@@ -33,6 +36,7 @@ import static com.stunapps.fearlessjumper.game.Environment.scaleX;
 
 public class RuleEngine
 {
+	private static final String TAG = RuleEngine.class.getSimpleName();
 	private static RuleExecutor<GenerationRuleRequest, GenerationRuleResponse> ruleExecutor;
 	private static GenerationRuleRequest generationRuleRequest;
 	private static GenerationRuleResponse generationRuleResponse;
@@ -54,6 +58,7 @@ public class RuleEngine
 		initialise();
 		ruleExecutor.execute(buildRuleRequest(componentManager, entityManager),
 				buildRuleResponse(componentManager, entityManager));
+		updatePrefabStates();
 
 		return generationRuleResponse;
 	}
@@ -97,43 +102,43 @@ public class RuleEngine
 		return new GenerationRuleResponse();
 	}
 
-	private static Map<Prefab, GenerationConfig> prefabConfigs()
+	private static Map<PrefabRef, GenerationConfig> prefabConfigs()
 	{
-		Map<Prefab, GenerationConfig> map = new HashMap<>();
+		Map<PrefabRef, GenerationConfig> map = new HashMap<>();
 
 		for (PrefabRef prefabRef : PrefabRef.values())
 		{
 			if (prefabRef == PrefabRef.SHOOTER_DRAGON)
 			{
-				map.put(prefabRef.get(),
+				map.put(prefabRef,
 						GenerationConfig.builder().generationLocation(GenerationLocation.X_LEFT)
-								.weight(5f).maxMarginX(scaleX(50)).build());
+								.maxMarginX(scaleX(50)).build());
 			}
 			else if (prefabRef == PrefabRef.PLATFORM)
 			{
-				map.put(prefabRef.get(),
+				map.put(prefabRef,
 						GenerationConfig.builder().generationLocation(GenerationLocation.X_RIGHT)
-								.weight(5f).maxMarginX(scaleX(50)).build());
+								.maxMarginX(scaleX(50)).build());
 			}
 			else
 			{
-				map.put(prefabRef.get(),
+				map.put(prefabRef,
 						GenerationConfig.builder().generationLocation(GenerationLocation
 								.X_ANYWHERE)
-								.weight(5f).maxMarginX(scaleX(50)).build());
+								.maxMarginX(scaleX(50)).build());
 			}
 		}
 
 		return map;
 	}
 
-	private static Map<Prefab, GenerationState> prefabStates()
+	private static Map<PrefabRef, GenerationState> prefabStates()
 	{
-		Map<Prefab, GenerationState> map = new HashMap<>();
+		Map<PrefabRef, GenerationState> map = new HashMap<>();
 
 		for (PrefabRef prefabRef : PrefabRef.values())
 		{
-			map.put(prefabRef.get(), new GenerationState());
+			map.put(prefabRef, new GenerationState());
 		}
 
 		return map;
@@ -142,6 +147,7 @@ public class RuleEngine
 	private static List<GenerationRule> createRules()
 	{
 		List<GenerationRule> rules = Lists.newArrayList();
+		rules.add(new MaxInARowRule());
 		rules.add(new LowTimeRule());
 		rules.add(new RandomisationRule());
 
@@ -172,6 +178,38 @@ public class RuleEngine
 	private static GenerationRuleResponse buildRuleResponse(ComponentManager componentManager,
 			EntityManager entityManager)
 	{
+		generationRuleResponse = initResponse();
 		return generationRuleResponse;
+	}
+
+	private static void updatePrefabStates()
+	{
+		Map<PrefabRef, GenerationConfig> prefabConfig = generationRuleRequest.getPrefabConfig();
+		Map<PrefabRef, GenerationState> prefabStates =
+				generationRuleRequest.getCurrentPrefabStates();
+		Map<PrefabRef, GenerationState> updatedPrefabStates =
+				generationRuleResponse.getUpdatedPrefabStates();
+		PrefabRef nextPrefab = generationRuleResponse.getNextPrefab();
+
+		for (PrefabRef prefabRef : prefabConfig.keySet())
+		{
+			prefabStates.get(prefabRef).updateFrom(updatedPrefabStates.get(prefabRef));
+			updateCount(prefabRef, nextPrefab, prefabConfig.get(prefabRef),
+					prefabStates.get(prefabRef));
+		}
+	}
+
+	private static void updateCount(PrefabRef prefabRef, PrefabRef nextPrefab,
+			GenerationConfig prefabConfig, GenerationState prefabState)
+	{
+		if (prefabRef.equals(nextPrefab))
+		{
+			Log.d(TAG, "Next Prefab: " + nextPrefab.name());
+			prefabState.incrementCurrInARow();
+		}
+		else
+		{
+			prefabState.resetCurrInARow();
+		}
 	}
 }

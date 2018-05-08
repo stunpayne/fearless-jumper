@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
+import com.stunapps.fearlessjumper.rules.RuleEngine;
 import com.stunapps.fearlessjumper.system.eventonly.DamageSystem;
 import com.stunapps.fearlessjumper.system.eventonly.PickupSystem;
 import com.stunapps.fearlessjumper.system.input.GameInputSystem;
@@ -119,6 +120,7 @@ public class Systems
 		{
 			system.reset();
 		}
+		RuleEngine.reset();
 	}
 
 	public static ArrayList<UpdateSystem> getSystemsInOrder()

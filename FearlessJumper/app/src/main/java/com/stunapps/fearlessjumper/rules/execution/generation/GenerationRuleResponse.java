@@ -2,9 +2,12 @@ package com.stunapps.fearlessjumper.rules.execution.generation;
 
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.rules.execution.RuleResponse;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationState;
+
+import org.roboguice.shaded.goole.common.collect.Maps;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,28 +18,23 @@ import java.util.Map;
 
 public class GenerationRuleResponse extends RuleResponse
 {
-	private Map<Prefab, GenerationState> updatedPrefabStates;
-	private Prefab nextPrefab;
+	private PrefabRef nextPrefab;
 	private Transform transform;
+	private Map<PrefabRef, GenerationState> updatedPrefabStates;
 
 	public GenerationRuleResponse()
 	{
-		updatedPrefabStates = new HashMap<>();
+		updatedPrefabStates = Maps.newHashMap();
 	}
 
-	public GenerationRuleResponse(Map<Prefab, GenerationConfig> prefabStates,
-			Prefab nextPrefab, Transform transform)
+	public GenerationRuleResponse(Map<Prefab, GenerationConfig> prefabStates, PrefabRef nextPrefab,
+			Transform transform)
 	{
 		this.nextPrefab = nextPrefab;
 		this.transform = transform;
 	}
 
-	public Map<Prefab, GenerationState> getUpdatedPrefabStates()
-	{
-		return updatedPrefabStates;
-	}
-
-	public Prefab getNextPrefab()
+	public PrefabRef getNextPrefab()
 	{
 		return nextPrefab;
 	}
@@ -46,21 +44,12 @@ public class GenerationRuleResponse extends RuleResponse
 		return transform;
 	}
 
-	public void updatePrefabState(Prefab prefab, GenerationState newState)
+	public Map<PrefabRef, GenerationState> getUpdatedPrefabStates()
 	{
-		if (updatedPrefabStates == null)
-		{
-			updatedPrefabStates = new HashMap<>();
-		}
-		updatedPrefabStates.put(prefab, newState);
+		return updatedPrefabStates;
 	}
 
-	public void setUpdatedPrefabStates(Map<Prefab, GenerationState> prefabStates)
-	{
-		this.updatedPrefabStates = prefabStates;
-	}
-
-	public void setNextPrefab(Prefab nextPrefab)
+	public void setNextPrefab(PrefabRef nextPrefab)
 	{
 		this.nextPrefab = nextPrefab;
 	}
@@ -68,5 +57,23 @@ public class GenerationRuleResponse extends RuleResponse
 	public void setTransform(Transform transform)
 	{
 		this.transform = transform;
+	}
+
+	public void blockPrefab(PrefabRef prefabRef)
+	{
+		if (!updatedPrefabStates.containsKey(prefabRef))
+		{
+			updatedPrefabStates.put(prefabRef, new GenerationState());
+		}
+		updatedPrefabStates.get(prefabRef).block();
+	}
+
+	public void unblockPrefab(PrefabRef prefabRef)
+	{
+		if (!updatedPrefabStates.containsKey(prefabRef))
+		{
+			updatedPrefabStates.put(prefabRef, new GenerationState());
+		}
+		updatedPrefabStates.get(prefabRef).unblock();
 	}
 }

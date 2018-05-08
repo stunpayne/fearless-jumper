@@ -9,15 +9,16 @@ import com.stunapps.fearlessjumper.rules.execution.generation.enums.GenerationLo
 public class GenerationConfig
 {
 	private int maxInARow;
-	private Float weight;
+	private int blockFrameCount;
 	private Float offsetY;
 	private Float maxMarginX;
 	private GenerationLocation generationLocation;
 
-	public GenerationConfig(int maxInARow, Float maxMarginX, Float offsetY,
+	public GenerationConfig(int maxInARow, int blockFrameCount, Float maxMarginX, Float offsetY,
 			GenerationLocation generationLocation)
 	{
 		this.maxInARow = maxInARow;
+		this.blockFrameCount = blockFrameCount;
 		this.maxMarginX = maxMarginX;
 		this.offsetY = offsetY;
 		this.generationLocation = generationLocation;
@@ -26,6 +27,16 @@ public class GenerationConfig
 	public int getMaxInARow()
 	{
 		return maxInARow;
+	}
+
+	public int getBlockFrameCount()
+	{
+		return blockFrameCount;
+	}
+
+	public Float getOffsetY()
+	{
+		return offsetY;
 	}
 
 	public GenerationLocation getGenerationLocation()
@@ -45,8 +56,8 @@ public class GenerationConfig
 
 	public static class Builder
 	{
-		private int maxInARow = 5;
-		private Float weight = 5f;
+		private int maxInARow = 1;
+		private int blockFrameCount = 1;
 		private Float offsetY = 600f;
 		private Float maxMarginX;
 		private GenerationLocation generationLocation = GenerationLocation.X_ANYWHERE;
@@ -57,9 +68,9 @@ public class GenerationConfig
 			return this;
 		}
 
-		public Builder weight(Float weight)
+		public Builder blockFrameCount(int blockFrameCount)
 		{
-			this.weight = weight;
+			this.blockFrameCount = blockFrameCount;
 			return this;
 		}
 
@@ -83,7 +94,8 @@ public class GenerationConfig
 
 		public GenerationConfig build()
 		{
-			return new GenerationConfig(maxInARow, maxMarginX, offsetY, generationLocation);
+			return new GenerationConfig(maxInARow, blockFrameCount, maxMarginX, offsetY,
+					generationLocation);
 		}
 	}
 }

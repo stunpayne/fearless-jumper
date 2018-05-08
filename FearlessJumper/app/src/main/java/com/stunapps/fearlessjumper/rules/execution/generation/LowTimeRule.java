@@ -22,7 +22,7 @@ public class LowTimeRule extends GenerationRule
 		{
 			if (newRandom() < PROBABILITY)
 			{
-				setNextPrefab(ruleRequest, ruleResponse, PrefabRef.CLOCK.get());
+				setNextPrefab(ruleRequest, ruleResponse, PrefabRef.CLOCK);
 				return true;
 			}
 		}

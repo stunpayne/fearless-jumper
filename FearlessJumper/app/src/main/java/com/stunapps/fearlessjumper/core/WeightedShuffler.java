@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * @author sunny.s
@@ -62,20 +65,20 @@ public class WeightedShuffler<Item> implements Shuffler<Item>
 
 	public Item shuffle()
 	{
-		//        double random = Math.random();
-		//        double randomWeight = random * totalWeight;
 		double randomWeight = random.nextDouble() * totalWeight;
 		if (randomWeight > 5f) totalGenerated++;
-		for (Item item : items.keySet())
+		Set<Item> allItems = new HashSet<>(this.items.keySet());
+		allItems.removeAll(ignoredItems);
+		for (Item item : allItems)
 		{
-			if (randomWeight <= items.get(item))
+			if (randomWeight <= this.items.get(item))
 			{
 				Log.v("SHUFFLE", "Shuffled item: " + item.getClass().getSimpleName());
 				return item;
 			}
-			randomWeight -= items.get(item);
+			randomWeight -= this.items.get(item);
 		}
-		return items.keySet().iterator().next();
+		return allItems.iterator().next();
 	}
 
 	@Override
@@ -91,6 +94,10 @@ public class WeightedShuffler<Item> implements Shuffler<Item>
 	@Override
 	public void ignore(Item item)
 	{
+		if (null == item)
+		{
+			return;
+		}
 		ignoredItems.add(item);
 		calculateWeight();
 	}
@@ -146,13 +153,11 @@ public class WeightedShuffler<Item> implements Shuffler<Item>
 					return (int) (o1.getValue() - o2.getValue());
 				}
 			});
-			System.out.println("Sorted entry list: " + entryList);
 			LinkedHashMap<T, Float> orderedMap = new LinkedHashMap<>();
 			for (Entry<T, Float> entry : entryList)
 			{
 				orderedMap.put(entry.getKey(), entry.getValue());
 			}
-			System.out.println("Sorted map: " + orderedMap);
 
 			return new WeightedShuffler<T>(orderedMap);
 		}

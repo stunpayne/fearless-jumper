@@ -125,7 +125,7 @@ public class GenerationSystem implements UpdateSystem
 			Log.d("OBSTACLE_RULES", "Generating new obstacle");
 			GenerationRuleResponse ruleResponse =
 					RuleEngine.execute(componentManager, entityManager);
-			Prefab spawnPrefab = ruleResponse.getNextPrefab();
+			Prefab spawnPrefab = ruleResponse.getNextPrefab().get();
 			Transform spawnTransform = ruleResponse.getTransform();
 			//			Prefab spawnPrefab = obstacleShuffler.shuffle();
 			Entity newObstacle = entityManager.instantiate(spawnPrefab, spawnTransform).get(0);

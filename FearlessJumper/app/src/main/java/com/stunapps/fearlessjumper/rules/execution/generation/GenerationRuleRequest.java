@@ -2,6 +2,7 @@ package com.stunapps.fearlessjumper.rules.execution.generation;
 
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.rules.execution.RuleRequest;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationState;
@@ -23,8 +24,8 @@ public class GenerationRuleRequest extends RuleRequest
 	private float fuel;
 	private float time;
 	private Transform lastGeneratedTransform;
-	private Map<Prefab, GenerationState> currentPrefabStates;
-	private Map<Prefab, GenerationConfig> prefabConfig;
+	private Map<PrefabRef, GenerationState> currentPrefabStates;
+	private Map<PrefabRef, GenerationConfig> prefabConfig;
 
 	public float getFuel()
 	{
@@ -41,7 +42,12 @@ public class GenerationRuleRequest extends RuleRequest
 		return lastGeneratedTransform;
 	}
 
-	public Map<Prefab, GenerationConfig> getPrefabConfig()
+	public Map<PrefabRef, GenerationState> getCurrentPrefabStates()
+	{
+		return currentPrefabStates;
+	}
+
+	public Map<PrefabRef, GenerationConfig> getPrefabConfig()
 	{
 		return prefabConfig;
 	}
@@ -61,12 +67,12 @@ public class GenerationRuleRequest extends RuleRequest
 		this.lastGeneratedTransform = lastGeneratedTransform;
 	}
 
-	public void setCurrentPrefabStates(Map<Prefab, GenerationState> currentPrefabStates)
+	public void setCurrentPrefabStates(Map<PrefabRef, GenerationState> currentPrefabStates)
 	{
 		this.currentPrefabStates = currentPrefabStates;
 	}
 
-	public void setPrefabConfig(Map<Prefab, GenerationConfig> prefabConfig)
+	public void setPrefabConfig(Map<PrefabRef, GenerationConfig> prefabConfig)
 	{
 		this.prefabConfig = prefabConfig;
 	}

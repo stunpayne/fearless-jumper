@@ -5,6 +5,9 @@ import com.stunapps.fearlessjumper.core.WeightedShuffler;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.roboguice.shaded.goole.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * Created by sunny.s on 11/02/18.
@@ -47,5 +50,44 @@ public class ShufflerTest
 				"Final count : Hundreds: " + hundreds + " Two hundreds: " + two_hundreds + " " +
 						"Three hundreds: " + three_hundreds);
 		System.out.println("More than 0.5: " + ((WeightedShuffler) shuffler).getTotalGenerated());
+	}
+
+	@Test
+	public void testIgnore()
+	{
+		final int testCount = 10000;
+
+		shuffler = new WeightedShuffler.Builder<Integer>()
+				.returnItem(100).withWeight(2f)
+				.returnItem(200).withWeight(2f)
+				.returnItem(300).withWeight(2f)
+				.build();
+		shuffle(testCount);
+
+		shuffler.ignore(200);
+		shuffle(testCount);
+
+		shuffler.restore(200);
+		shuffle(testCount);
+	}
+
+	private void shuffle(int testCount)
+	{
+		Map<Integer, Integer> shuffleOutputs = Maps.newHashMap();
+
+		for (int i = 0; i < testCount; i++)
+		{
+			Integer shuffledInt = shuffler.shuffle();
+			if (!shuffleOutputs.containsKey(shuffledInt))
+			{
+				shuffleOutputs.put(shuffledInt, 1);
+			}
+			shuffleOutputs.put(shuffledInt, shuffleOutputs.get(shuffledInt) + 1);
+		}
+
+		System.out.println("100s: " + shuffleOutputs.get(100));
+		System.out.println("200s: " + shuffleOutputs.get(200));
+		System.out.println("300s: " + shuffleOutputs.get(300));
+		System.out.println();
 	}
 }
