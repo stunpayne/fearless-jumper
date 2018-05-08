@@ -117,7 +117,8 @@ public class RuleEngine
 			else if (prefabRef == PrefabRef.PLATFORM)
 			{
 				map.put(prefabRef,
-						GenerationConfig.builder().generationLocation(GenerationLocation.X_RIGHT)
+						GenerationConfig.builder().generationLocation(GenerationLocation
+								.X_BOUNDARY)
 								.maxMarginX(scaleX(50)).build());
 			}
 			else
@@ -194,13 +195,12 @@ public class RuleEngine
 		for (PrefabRef prefabRef : prefabConfig.keySet())
 		{
 			prefabStates.get(prefabRef).updateFrom(updatedPrefabStates.get(prefabRef));
-			updateCount(prefabRef, nextPrefab, prefabConfig.get(prefabRef),
-					prefabStates.get(prefabRef));
+			updateCount(prefabRef, nextPrefab, prefabStates.get(prefabRef));
 		}
 	}
 
 	private static void updateCount(PrefabRef prefabRef, PrefabRef nextPrefab,
-			GenerationConfig prefabConfig, GenerationState prefabState)
+			GenerationState prefabState)
 	{
 		if (prefabRef.equals(nextPrefab))
 		{

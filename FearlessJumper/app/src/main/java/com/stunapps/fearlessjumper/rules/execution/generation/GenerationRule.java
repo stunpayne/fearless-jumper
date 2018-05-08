@@ -4,6 +4,7 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.core.WeightedShuffler;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.helper.Randomiser;
 import com.stunapps.fearlessjumper.prefab.Prefab;
 import com.stunapps.fearlessjumper.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.rules.execution.Rule;
@@ -67,7 +68,7 @@ public abstract class GenerationRule extends Rule<GenerationRuleRequest, Generat
 
 	private Transform getPrefabLocation(GenerationRuleRequest request, PrefabRef prefabRef)
 	{
-		return LocationGenerator.generate(request, prefabRef, request.getLastGeneratedTransform());
+		return LocationGenerator.generate(request, prefabRef);
 	}
 
 	private static void initShuffler()
@@ -81,46 +82,62 @@ public abstract class GenerationRule extends Rule<GenerationRuleRequest, Generat
 							.returnItem(PrefabRef.FLYING_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.SHOOTER_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.ASSAULT_DRAGON).withWeight(2f)
-							.returnItem(PrefabRef.FOLLOWING_DRAGON).withWeight(1f)
-							.returnItem(PrefabRef.GROUNDED_DRAGON_SET).withWeight(1f)
-							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM).withWeight(5f).build();
+							.returnItem(PrefabRef.FOLLOWING_DRAGON).withWeight(1f).build();
 		}
 	}
 
 	private static class LocationGenerator
 	{
-		static Transform generate(GenerationRuleRequest request, PrefabRef prefabRef,
-				Transform lastTransform)
+		static Transform generate(GenerationRuleRequest request, PrefabRef prefabRef)
 		{
 			Prefab prefab = prefabRef.get();
+			Transform lastTransform = request.getLastGeneratedTransform();
 			Transform newTransform = Transform.withYShift(lastTransform, NEW_OBSTACLE_OFFSET);
 			GenerationConfig generationConfig = request.getPrefabConfig().get(prefabRef);
 			switch (generationConfig.getGenerationLocation())
 			{
-				case X_ANYWHERE:
-					if (null != lastTransform)
-					{
-						float newX =
-								(float) Math.random() * (Device.SCREEN_WIDTH - prefab.getWidth());
-						newTransform.getPosition().setX(newX);
-						return newTransform;
-					}
 				case X_LEFT:
-				{
-					float xLeft = nextFloat(generationConfig.getMaxMarginX());
-					newTransform.getPosition().setX(xLeft);
-					return newTransform;
-				}
+					return xLeft(newTransform, generationConfig);
 				case X_RIGHT:
-				{
-					float xRight = Device.SCREEN_WIDTH - prefab.getWidth() -
-							nextFloat(generationConfig.getMaxMarginX());
-					newTransform.getPosition().setX(xRight);
-					return newTransform;
-				}
+					return xRight(newTransform, generationConfig, prefab.getWidth());
+				case X_BOUNDARY:
+					return xBoundary(newTransform, generationConfig, prefab.getWidth());
+				case X_ANYWHERE:
+					return xAnywhere(newTransform, generationConfig, prefab.getWidth());
 				default:
-					return null;
+					return xAnywhere(newTransform, generationConfig, prefab.getWidth());
 			}
+		}
+
+		static Transform xLeft(Transform transform, GenerationConfig generationConfig)
+		{
+			float xLeft = nextFloat(generationConfig.getMaxMarginX());
+			transform.getPosition().setX(xLeft);
+			return transform;
+		}
+
+		static Transform xRight(Transform transform, GenerationConfig generationConfig,
+				float offset)
+		{
+			float xRight =
+					Device.SCREEN_WIDTH - offset - nextFloat(generationConfig.getMaxMarginX());
+			transform.getPosition().setX(xRight);
+			return transform;
+		}
+
+		static Transform xBoundary(Transform transform, GenerationConfig generationConfig,
+				float offset)
+		{
+			if (Randomiser.twoWayRandom() > 0) return xRight(transform, generationConfig, offset);
+			return xLeft(transform, generationConfig);
+		}
+
+		static Transform xAnywhere(Transform transform, GenerationConfig generationConfig,
+				float offset)
+		{
+			float newX = (float) Math.random() * (Device.SCREEN_WIDTH - offset);
+			transform.getPosition().setX(newX);
+			return transform;
 		}
 	}
 }

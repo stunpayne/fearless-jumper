@@ -11,11 +11,21 @@ public class Randomiser
 {
 	private static final Random random = new Random();
 
+	/**
+	 * Method to generate a pseudo-random float between -value and value
+	 *
+	 * @return A pseudo-random float between -value and value
+	 */
 	public static float twoWayRandom(float value)
 	{
 		return value * twoWayRandom();
 	}
 
+	/**
+	 * Method to generate a pseudo-random float between -1.0 and 1.0
+	 *
+	 * @return A pseudo-random float between -1.0 and 1.0
+	 */
 	public static float twoWayRandom()
 	{
 		return 2 * (0.5f - random.nextFloat());

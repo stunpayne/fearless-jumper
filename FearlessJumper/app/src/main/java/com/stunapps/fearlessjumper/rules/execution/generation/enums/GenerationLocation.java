@@ -12,6 +12,9 @@ public enum GenerationLocation
 	/* Generate only on the right end of the X Axis */
 	X_RIGHT,
 
+	/* Generate either on the right end or on the left end of the X Axis */
+	X_BOUNDARY,
+
 	/* Generate anywhere on the X Axis */
 	X_ANYWHERE;
 }
