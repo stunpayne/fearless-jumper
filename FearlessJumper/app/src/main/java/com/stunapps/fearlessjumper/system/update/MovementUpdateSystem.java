@@ -10,7 +10,7 @@ import com.stunapps.fearlessjumper.component.movement.ConsciousTranslation;
 import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
-import com.stunapps.fearlessjumper.component.visual.Animator;
+import com.stunapps.fearlessjumper.component.visual.BitmapAnimator;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
@@ -124,18 +124,18 @@ public class MovementUpdateSystem implements UpdateSystem
 				periodicTranslation.setSpeedX(-1 * speedX);
 
 				//TODO: need to write it in more cleaner way.
-				if (entity.hasComponent(Animator.class))
+				if (entity.hasComponent(BitmapAnimator.class))
 				{
-					entity.getComponent(Animator.class)
+					entity.getComponent(BitmapAnimator.class)
 							.triggerTransition(AnimationTransition.TURN_LEFT);
 				}
 			}
 			if (deltaX + entity.transform.position.x <= periodicTranslation.minX)
 			{
 				periodicTranslation.setSpeedX(-1 * speedX);
-				if (entity.hasComponent(Animator.class))
+				if (entity.hasComponent(BitmapAnimator.class))
 				{
-					entity.getComponent(Animator.class)
+					entity.getComponent(BitmapAnimator.class)
 							.triggerTransition(AnimationTransition.TURN_RIGHT);
 				}
 			}
@@ -218,16 +218,16 @@ public class MovementUpdateSystem implements UpdateSystem
 									 followerEntity.transform.position,
 									 closestTargetEntity.transform.position, followTranslation);
 
-				if (followerEntity.hasComponent(Animator.class))
+				if (followerEntity.hasComponent(BitmapAnimator.class))
 				{
-					Animator animator = followerEntity.getComponent(Animator.class);
+					BitmapAnimator bitmapAnimator = followerEntity.getComponent(BitmapAnimator.class);
 					if (followerPhysics.getVelocity().x < 0)
 					{
-						animator.triggerTransition(AnimationTransition.TURN_LEFT);
+						bitmapAnimator.triggerTransition(AnimationTransition.TURN_LEFT);
 					}
 					else
 					{
-						animator.triggerTransition(AnimationTransition.TURN_RIGHT);
+						bitmapAnimator.triggerTransition(AnimationTransition.TURN_RIGHT);
 					}
 				}
 
@@ -306,23 +306,23 @@ public class MovementUpdateSystem implements UpdateSystem
 									  followerEntity.transform.position,
 									  closestTargetEntity.transform.position, assaultTranslation);
 
-				if (followerEntity.hasComponent(Animator.class))
+				if (followerEntity.hasComponent(BitmapAnimator.class))
 				{
-					Animator animator = followerEntity.getComponent(Animator.class);
+					BitmapAnimator bitmapAnimator = followerEntity.getComponent(BitmapAnimator.class);
 					if (followerPhysics.getVelocity().x < 0)
 					{
 						if (assaultTranslation.waitStarted &&
 								assaultTranslation.isWaitToAssaultOver())
 						{
-							animator.triggerTransition(AnimationTransition.ASSAULT_LEFT);
+							bitmapAnimator.triggerTransition(AnimationTransition.ASSAULT_LEFT);
 						}
 						else if (assaultTranslation.waitStarted)
 						{
-							animator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_LEFT);
+							bitmapAnimator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_LEFT);
 						}
 						else
 						{
-							animator.triggerTransition(AnimationTransition.TURN_LEFT);
+							bitmapAnimator.triggerTransition(AnimationTransition.TURN_LEFT);
 						}
 					}
 					else
@@ -330,15 +330,15 @@ public class MovementUpdateSystem implements UpdateSystem
 						if (assaultTranslation.waitStarted &&
 								assaultTranslation.isWaitToAssaultOver())
 						{
-							animator.triggerTransition(AnimationTransition.ASSAULT_RIGHT);
+							bitmapAnimator.triggerTransition(AnimationTransition.ASSAULT_RIGHT);
 						}
 						else if (assaultTranslation.waitStarted)
 						{
-							animator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_RIGHT);
+							bitmapAnimator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_RIGHT);
 						}
 						else
 						{
-							animator.triggerTransition(AnimationTransition.TURN_RIGHT);
+							bitmapAnimator.triggerTransition(AnimationTransition.TURN_RIGHT);
 						}
 					}
 				}

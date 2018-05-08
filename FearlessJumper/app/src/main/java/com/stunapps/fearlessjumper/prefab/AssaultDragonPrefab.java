@@ -108,11 +108,15 @@ public class AssaultDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_RIGHT, assaultInvokeRightAnim);
 		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_LEFT, assaultInvokeLeftAnim);
 
+<<<<<<< HEAD
+		BitmapAnimator animator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
+=======
 		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
 <<<<<<< HEAD
 		//        animator.triggerTransition(TURN_RIGHT);
 		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 =======
+>>>>>>> master
 
 		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
 >>>>>>> master

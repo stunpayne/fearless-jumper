@@ -10,7 +10,7 @@ import com.stunapps.fearlessjumper.component.damage.DamageComponent;
 import com.stunapps.fearlessjumper.component.damage.DamageComponent.DamageType;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
-import com.stunapps.fearlessjumper.component.visual.Animator;
+import com.stunapps.fearlessjumper.component.visual.BitmapAnimator;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.event.BaseEventListener;
 import com.stunapps.fearlessjumper.event.EventException;
@@ -92,12 +92,12 @@ public class DamageSystem implements System
 	private void handleContactDamage(Entity damaged, Entity damaging,
 			DamageComponent damageComponent)
 	{
-		Animator animator = damaged.getComponent(Animator.class);
+		BitmapAnimator bitmapAnimator = damaged.getComponent(BitmapAnimator.class);
 		Health health = damaged.getComponent(Health.class);
 		health.takeDamage(damageComponent.damage());
 		if (health.isOver())
 		{
-			animator.triggerTransition(AnimationTransition.TERMINATE);
+			bitmapAnimator.triggerTransition(AnimationTransition.TERMINATE);
 			eventSystem.raiseEvent(new GameOverEvent());
 			if (damaging.hasComponent(Enemy.class))
 			{
@@ -112,7 +112,7 @@ public class DamageSystem implements System
 			collisionLayerManager.timedFlipCollisionLayerMask(collider.collisionLayer,
 															  collidesWith.collisionLayer,
 															  1000l);
-			animator.triggerTransition(AnimationTransition.HURT);
+			bitmapAnimator.triggerTransition(AnimationTransition.HURT);
 			if (damaging.hasComponent(Enemy.class))
 			{
 				gameStatsManager.updateHurtStat(

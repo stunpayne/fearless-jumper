@@ -39,6 +39,11 @@ public class ShapeRenderable extends Component
 		}
 	}
 
+	public void setShapes(List<Shape> shapes)
+	{
+		this.shapes = shapes;
+	}
+
 	public List<Shape> getRenderables()
 	{
 		return shapes;

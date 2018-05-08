@@ -5,33 +5,27 @@ import android.graphics.Bitmap;
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
 import com.stunapps.fearlessjumper.animation.AnimationTransition;
-import com.stunapps.fearlessjumper.animation.BaseShapeAnimation;
-import com.stunapps.fearlessjumper.animation.ShapeAnimation;
-import com.stunapps.fearlessjumper.animation.ShapeColorAnimation;
-import com.stunapps.fearlessjumper.animation.ShapeSizeAnimation;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.core.StateMachine;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import lombok.Singular;
 
 /**
- * Created by sunny.s on 11/04/18.
+ * Created by sunny.s on 03/01/18.
  */
 
-public class ShapeAnimator extends Component implements Animator<List<Shape>>
+public class BitmapAnimator extends Component implements Animator<Bitmap>
 {
 	@Singular
-	private Map<AnimationState, ShapeAnimation> animations = new HashMap<>();
+	private Map<AnimationState, Animation> animations = new HashMap<>();
 	private StateMachine<AnimationState, AnimationTransition> animationStateMachine;
 
-	public ShapeAnimator(Map<AnimationState, ShapeAnimation> animations, StateMachine
-			animationStateMachine)
+	public BitmapAnimator(Map<AnimationState, Animation> animations, StateMachine animationStateMachine)
 	{
-		super(ShapeAnimator.class);
+		super(BitmapAnimator.class);
 		this.animations = animations;
 		this.animationStateMachine = animationStateMachine;
 	}
@@ -42,35 +36,36 @@ public class ShapeAnimator extends Component implements Animator<List<Shape>>
 		// animationStateMachine.getCurrentState());
 		animationStateMachine.transitStateOnEvent(event);
 		//Log.d(TAG, "triggerTransition: currentAnimationState = " + animationStateMachine
-		// .getCurrentState() + " after eventType = " + eventType);
+        // .getCurrentState() + " after eventType = " + eventType);
 	}
 
-	public void addAnimation(AnimationState animationName, ShapeAnimation animation)
+	public void addAnimation(AnimationState animationName, Animation animation)
 	{
 		animations.put(animationName, animation);
 	}
 
-	private List<Shape> playAnimation()
+	private Bitmap playAnimation()
 	{
-		ShapeAnimation animation = animations.get(animationStateMachine.getCurrentState());
+		Animation animation = animations.get(animationStateMachine.getCurrentState());
 		return animation.play();
 	}
 
 	//  We will always reset the animation on stop
 	public void stopAnimation()
 	{
-		ShapeAnimation animation = animations.get(animationStateMachine.getCurrentState());
+		Animation animation = animations.get(animationStateMachine.getCurrentState());
 		if (animation.isPlaying()) animation.stopAndReset();
 	}
 
-	public List<Shape> update()
+
+	public Bitmap update()
 	{
 		return playAnimation();
 	}
 
 	@Override
-	public ShapeAnimator clone() throws CloneNotSupportedException
+	public BitmapAnimator clone() throws CloneNotSupportedException
 	{
-		return new ShapeAnimator(animations, animationStateMachine.clone());
+		return new BitmapAnimator(animations, animationStateMachine.clone());
 	}
 }

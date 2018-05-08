@@ -68,7 +68,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
-		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
+		BitmapAnimator animator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
 		//        animator.triggerTransition(TURN_RIGHT);
 		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));

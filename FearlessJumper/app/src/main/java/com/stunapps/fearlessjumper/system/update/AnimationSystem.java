@@ -5,9 +5,14 @@ import android.graphics.Bitmap;
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.visual.Animator;
+import com.stunapps.fearlessjumper.component.visual.BitmapAnimator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
+import com.stunapps.fearlessjumper.component.visual.Shape;
+import com.stunapps.fearlessjumper.component.visual.ShapeAnimator;
+import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.entity.Entity;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,13 +36,20 @@ public class AnimationSystem implements UpdateSystem
 	{
 		lastProcessTime = System.currentTimeMillis();
 
-		Set<Entity> animated = componentManager.getEntities(Animator.class);
-
-		for (Entity entity : animated)
+		Set<Entity> bitmapAnimatorEntities = componentManager.getEntities(BitmapAnimator.class);
+		for (Entity bitmapAnimatorEntity : bitmapAnimatorEntities)
 		{
-			Animator animator = entity.getComponent(Animator.class);
-			Bitmap nextBitmap = animator.update();
-			entity.getComponent(Renderable.class).setSprite(nextBitmap);
+			Animator bitmapAnimator = bitmapAnimatorEntity.getComponent(BitmapAnimator.class);
+			Bitmap nextBitmap = (Bitmap) bitmapAnimator.update();
+			bitmapAnimatorEntity.getComponent(Renderable.class).setSprite(nextBitmap);
+		}
+
+		Set<Entity> shapeAnimatorEntities = componentManager.getEntities(ShapeAnimator.class);
+		for (Entity shapeAnimatorEntity : shapeAnimatorEntities)
+		{
+			Animator shapeAnimator = shapeAnimatorEntity.getComponent(ShapeAnimator.class);
+			List<Shape> shapes = (List<Shape>) shapeAnimator.update();
+			shapeAnimatorEntity.getComponent(ShapeRenderable.class).setShapes(shapes);
 		}
 	}
 

@@ -5,12 +5,12 @@ import android.graphics.Matrix;
 
 import com.stunapps.fearlessjumper.animation.Animation;
 import com.stunapps.fearlessjumper.animation.AnimationState;
+import com.stunapps.fearlessjumper.component.visual.BitmapAnimator;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Dragon;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
-import com.stunapps.fearlessjumper.component.visual.Animator;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
@@ -70,11 +70,11 @@ public class GroundedDragonPrefab extends ComponentPrefab
 		stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
 		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
 
-		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
+		BitmapAnimator bitmapAnimator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
 
 		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight()));
-		addComponent(animator);
+		addComponent(bitmapAnimator);
 		addComponent(new Dragon(EnemyType.PYRADON));
 		addComponent(new RectCollider(Vector2D.ZERO, dragonSprite1.getWidth(),
 				dragonSprite1.getHeight(), CollisionLayer.ENEMY));
