@@ -14,16 +14,40 @@ public enum PrefabRef
 	 */
 	PLAYER(new PlayerPrefab()),
 
-	PLATFORM(new PlatformPrefab()), UNFRIENDLY_PLATFORM(new UnFriendlyPlatformPrefab()), LAND(
-		new LandPrefab()),
+	//	Platform Prefab
+	PLATFORM(new PlatformPrefab()),
 
-	FLYING_DRAGON(new FlyingDragonPrefab()), FOLLOWING_DRAGON(
-		new FollowingDragonPrefab()), ASSAULT_DRAGON(new AssaultDragonPrefab()), GROUNDED_DRAGON(
-		new GroundedDragonPrefab()), BULLET(new BulletPrefab()), SHOOTER_DRAGON(
-		new ShooterDragonPrefab()),
+	//	Unfriendly Platform Prefab
+	UNFRIENDLY_PLATFORM(new UnfriendlyPlatformPrefab()),
 
-	CLOCK(new ClockPrefab()), CLOCK_PARTICLE(new ClockParticlePrefab()),
+	//	Land Prefab
+	LAND(new LandPrefab()),
 
+	//	Flying Dragon Prefab
+	FLYING_DRAGON(new FlyingDragonPrefab()),
+
+	//	Following Dragon Prefab
+	FOLLOWING_DRAGON(new FollowingDragonPrefab()),
+
+	//	Assault Dragon Prefab
+	ASSAULT_DRAGON(new AssaultDragonPrefab()),
+
+	//	Grounded Dragon Prefab
+	GROUNDED_DRAGON(new GroundedDragonPrefab()),
+
+	//	Bullet Prefab
+	BULLET(new BulletPrefab()),
+
+	//	Shooter Dragon Prefab
+	SHOOTER_DRAGON(new ShooterDragonPrefab()),
+
+	//	Clock Prefab
+	CLOCK(new ClockPrefab()),
+
+	//	Clock Particle Prefab
+	CLOCK_PARTICLE(new ClockParticlePrefab()),
+
+	//	Test Shape Prefab
 	TEST_SHAPE_PREFAB(new TestShapePrefab()),
 
 	/**

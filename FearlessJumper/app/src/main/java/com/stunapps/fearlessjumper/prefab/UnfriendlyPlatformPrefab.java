@@ -1,6 +1,7 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff.Mode;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
@@ -27,9 +28,9 @@ import java.util.LinkedList;
  * Created by sunny.s on 10/01/18.
  */
 
-public class UnFriendlyPlatformPrefab extends ComponentPrefab
+public class UnfriendlyPlatformPrefab extends ComponentPrefab
 {
-	public UnFriendlyPlatformPrefab()
+	public UnfriendlyPlatformPrefab()
 	{
 
 		int x = Device.SCREEN_WIDTH / 4;
@@ -54,9 +55,13 @@ public class UnFriendlyPlatformPrefab extends ComponentPrefab
 		addComponent(new EternalEmitter(
 				EmitterConfig.builder().emitterShape(EmitterShape.CONE_DIVERGE).maxParticles(100)
 						.particleLife(800).emissionRate(100)
-						.positionVar(new Vector2D(sprite.getWidth() / 2, 0)).maxSpeed(2)
-						.direction(90).directionVar(10)
+						.positionVar(new Vector2D(sprite.getWidth() / 2, 0))
+						.maxSpeed(2)
+						.direction(90)
+						.directionVar(10)
 						.offset(new Vector2D(sprite.getWidth() / 2, 0))
-						.texture(fireTexture).startAsActive().build()));
+						.texture(fireTexture)
+						.blendingMode(Mode.ADD)
+						.startAsActive().build()));
 	}
 }

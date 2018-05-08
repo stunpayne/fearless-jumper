@@ -97,18 +97,4 @@ public class EntityManager
 			clone.setEntity(entity);
 		}
 	}
-
-	private void populateComponentsFromPrefab(Entity entity, Prefab prefab)
-			throws CloneNotSupportedException
-	{
-		for (Instantiable instantiable : prefab.getInstantiables())
-		{
-			for (Component component : instantiable.getComponents())
-			{
-				Component clone = component.clone();
-				entity.addComponent(clone);
-				clone.setEntity(entity);
-			}
-		}
-	}
 }

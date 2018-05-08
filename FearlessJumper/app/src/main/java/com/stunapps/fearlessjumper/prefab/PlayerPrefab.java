@@ -77,19 +77,24 @@ public class PlayerPrefab extends ComponentPrefab
 
 		addComponent(new Health(100));
 		addComponent(new PhysicsComponent(50, Velocity.ZERO, 60));
-		//		SensorDataAdapter orientationInput = DI.di().getInstance(SensorDataAdapter.class);
-		//		addComponent(orientationInput);
 		addComponent(new Input(true, false));
 		addComponent(new PlayerComponent());
 		addComponent(new RemainingTime(120000));
 		addComponent(new Score());
 		addComponent(new Fuel(100f));
 		addComponent(new EternalEmitter(
-				EmitterConfig.builder().emitterShape(EmitterShape.CONE_DIVERGE).maxParticles(200)
-						.particleLife(300).emissionRate(200).positionVar(new Vector2D(13, 0))
-						.maxSpeed(3).direction(-90).directionVar(40)
+				EmitterConfig.builder().emitterShape(EmitterShape.CONE_DIVERGE)
+						.maxParticles(200)
+						.particleLife(300)
+						.emissionRate(200)
+						.positionVar(new Vector2D(13, 0))
+						.maxSpeed(3)
+						.direction(-90)
+						.directionVar(40)
 						.offset(new Vector2D(alien.getWidth() / 2, alien.getHeight()))
-						.colorLimits(Color.RED, Color.RED | Color.BLUE).blendingMode(Mode.ADD)
+						.size(20)
+						.colorLimits(Color.RED, Color.RED | Color.BLUE)
+						.blendingMode(Mode.ADD)
 						.build()));
 	}
 }

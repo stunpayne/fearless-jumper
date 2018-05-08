@@ -4,18 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.CornerPathEffect;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Shader.TileMode;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -28,7 +22,6 @@ import com.stunapps.fearlessjumper.component.emitter.Emitter.RenderMode;
 import com.stunapps.fearlessjumper.component.health.Health;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter;
 import com.stunapps.fearlessjumper.component.input.SensorDataAdapter.SensorData;
-import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy;
 import com.stunapps.fearlessjumper.component.specific.Fuel;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
@@ -54,13 +47,10 @@ import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.particle.Particle;
 
-import org.roboguice.shaded.goole.common.collect.Lists;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 
 import lombok.Setter;
@@ -82,15 +72,13 @@ public class RenderSystem implements UpdateSystem
 	private final SensorDataAdapter sensorDataAdapter;
 
 	private static int frameNum = 0;
-	private static int angle = 0;
-	private static int MAX_RECTS = 10;
-	private static int ANGLE_CHANGE_SPEED = 1;
-	private static List<AngledRect> angledRects = Lists.newArrayList();
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Canvas canvas = null;
 
 	private ParallaxBackground background;
+
+
 	private Paint bgPaint = new Paint();
 	private Paint colliderPaint = new Paint();
 	private Paint particlePaint;
@@ -99,8 +87,6 @@ public class RenderSystem implements UpdateSystem
 	@Setter
 	private boolean shouldRenderBackground = true;
 
-	private ShapeRenderable shapeRenderable;
-	private static final Vector2D deltaIncrease = new Vector2D(0, 2);
 
 	@Inject
 	public RenderSystem(ComponentManager componentManager, GameStatsManager gameStatsManager,
@@ -123,15 +109,12 @@ public class RenderSystem implements UpdateSystem
 
 		particlePaint = initParticlePaint();
 		fuelPaint = initFuelPaint();
-		angledRects = AngledRect.init();
 
 		LinkedList<Shape> shapes = new LinkedList<>();
 		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE, null, null),
 								   new Vector2D(400, 500)));
 		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED, null, null),
 								 new Vector2D(500, 500)));
-
-		//shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
 	}
 
 	@Override
@@ -458,95 +441,18 @@ public class RenderSystem implements UpdateSystem
 		}
 	}
 
-	private void renderShapes()
-	{
-
-		Vector2D baseDelta = shapeRenderable.getDelta();
-		List<Shape> shapes = shapeRenderable.getRenderables();
-
-		canvas.save();
-		canvas.rotate(angle, 500, 500 + shapeRenderable.getDelta().getY());
-		for (Shape shape : shapes)
-		{
-			PaintProperties paintProperties = shape.getPaintProperties();
-			Paint paint = new Paint();
-			paint.setColor(paintProperties.getColor());
-			//paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
-			paint.setShader(
-					new LinearGradient(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT, Color
-							.WHITE,
-									   Color.BLACK, TileMode.CLAMP));
-
-
-			if (paintProperties.getPathEffect() != null)
-			{
-				paint.setPathEffect(paintProperties.getPathEffect());
-			}
-
-			switch (shape.shapeType())
-			{
-				case LINE:
-					LineShape lineShape = (LineShape) shape;
-					canvas.drawLine(baseDelta.getX() + lineShape.getStart().getX(),
-									baseDelta.getY() + lineShape.getStart().getY(),
-									baseDelta.getX() + lineShape.getEnd().getX(),
-									baseDelta.getY() + lineShape.getEnd().getY(), paint);
-					break;
-				case RECT:
-					RectShape rectShape = (RectShape) shape;
-					canvas.drawRect(baseDelta.getX() + rectShape.getLeft(),
-									baseDelta.getY() + rectShape.getTop(),
-									baseDelta.getX() + rectShape.getRight(),
-									baseDelta.getY() + rectShape.getBottom(), paint);
-					break;
-				case CIRCLE:
-					CircleShape circleShape = (CircleShape) shape;
-					canvas.drawCircle(baseDelta.getX() + circleShape.getCenter().getX(),
-									  baseDelta.getY() + circleShape.getCenter().getY(),
-									  circleShape.getRadius(), paint);
-					break;
-			}
-		}
-
-		canvas.restore();
-		shapeRenderable.increaseDelta(deltaIncrease);
-		angle += ANGLE_CHANGE_SPEED;
-		angle %= 360;
-	}
-
-	private void renderRotatingShapes()
-	{
-		canvas.drawColor(Color.BLACK);
-		Paint paint = AngledRect.paint();
-		paint.setPathEffect(new CornerPathEffect(15));
-		for (AngledRect angledRect : angledRects)
-		{
-			int pivotX = (angledRect.rect.left + angledRect.rect.right) / 2;
-			int pivotY = (angledRect.rect.top + angledRect.rect.bottom) / 2;
-			canvas.save();
-			canvas.rotate(angledRect.angle + angle, pivotX, pivotY);
-			paint.setColor(angledRect.updateColor());
-			canvas.drawRect(angledRect.rect, paint);
-			canvas.restore();
-		}
-		angle += ANGLE_CHANGE_SPEED;
-		angle %= 360;
-	}
-
 	private void renderEmitterParticles(Emitter emitter)
 	{
-		//TODO: Test rendering logic. Once tested, add correct logic to render particles.
 		Set<Particle> particles = emitter.getParticles();
 		RenderMode renderMode = emitter.getRenderMode();
 		Bitmap texture = emitter.getTexture();
-		particlePaint.setXfermode(emitter.getBlendMode());
 		int radius = emitter.getConfig().getSize();
 
 		for (Particle particle : particles)
 		{
+			particlePaint.setXfermode(emitter.getBlendMode());
 			if (particle.isActive)
 			{
-				particlePaint.setColor(particle.getColor());
 				particlePaint.setAlpha((int) (255 * particle.alpha));
 
 				Position camPosition = Cameras.getMainCamera().position;
@@ -557,6 +463,7 @@ public class RenderSystem implements UpdateSystem
 				switch (renderMode)
 				{
 					case SHAPE:
+						particlePaint.setColor(particle.getColor());
 						canvas.drawCircle(x, y, radius, particlePaint);
 						break;
 					case TEXTURE:
@@ -565,15 +472,13 @@ public class RenderSystem implements UpdateSystem
 						break;
 				}
 			}
+			particlePaint.reset();
 		}
 	}
 
 	private Paint initParticlePaint()
 	{
-		Paint paint = new Paint();
-		paint.setColor(Color.RED);
-		paint.setXfermode(new PorterDuffXfermode(Mode.ADD));
-		return paint;
+		return new Paint();
 	}
 
 	private Paint initFuelPaint()
@@ -638,70 +543,6 @@ public class RenderSystem implements UpdateSystem
 							5 * canvas.getHeight() / 60, fpsPaint);
 			canvas.drawText(String.valueOf(sensorData.getRoll()), 5 * canvas.getWidth() / 12,
 							7 * canvas.getHeight() / 60, fpsPaint);
-		}
-	}
-
-	private static class AngledRect
-	{
-		public static int MAX_VARIATION = 200;
-
-		private static Paint paint = null;
-		private static int startColor = Color.BLUE;
-		private static int endColor = Color.RED;
-
-		public Rect rect;
-		public int angle;
-		public int color;
-		public int colorStep;
-
-		public static List<AngledRect> init()
-		{
-			final Random random = new Random();
-			List<AngledRect> angledRectList = Lists.newArrayList();
-			int colorDiff = endColor - startColor;
-
-			for (int i = 0; i < MAX_RECTS; i++)
-			{
-				int width = random.nextInt(MAX_VARIATION);
-				int height = random.nextInt(MAX_VARIATION);
-				int left = random.nextInt(Device.SCREEN_WIDTH);
-				int top = random.nextInt(Device.SCREEN_HEIGHT);
-
-				AngledRect angledRect = new AngledRect();
-				angledRect.angle = random.nextInt(360);
-				angledRect.rect = new Rect(left, top, left + width, top + height);
-				angledRect.colorStep = random.nextInt(Math.abs(colorDiff));
-				angledRect.color = startColor;
-
-				angledRectList.add(angledRect);
-			}
-
-			return angledRectList;
-		}
-
-		public static void main(String[] args)
-		{
-			System.out.println("color blue = " + Color.BLUE);
-			System.out.println("color red = " + Color.RED);
-		}
-
-		public static Paint paint()
-		{
-			if (paint == null)
-			{
-				paint = new Paint();
-				paint.setStyle(Style.FILL_AND_STROKE);
-				paint.setColor(Color.WHITE);
-			}
-			return paint;
-		}
-
-		public int updateColor()
-		{
-			color += startColor + colorStep;
-			color %= endColor;
-			Log.d(TAG, "updateColor: color = " + color);
-			return color;
 		}
 	}
 }

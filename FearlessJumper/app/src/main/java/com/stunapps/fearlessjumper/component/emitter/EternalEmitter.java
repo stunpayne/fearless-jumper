@@ -96,7 +96,6 @@ public class EternalEmitter extends Emitter
 
 		while (canEmitParticle() && dt > emissionInterval)
 		{
-			//			Log.d(TAG, "Adding particle");
 			if (active)
 			{
 				Particle particle = particlePool.getObject();
@@ -132,7 +131,6 @@ public class EternalEmitter extends Emitter
 	@Override
 	void destroyParticle(Particle particleToDestroy)
 	{
-		//		Log.d(TAG, "Destroying particle: " + particleToDestroy);
 		particleToDestroy.reset();
 		particlePool.returnObject(particleToDestroy);
 	}

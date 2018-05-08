@@ -57,9 +57,6 @@ public class ConeDivergeParticleInitializer implements ParticleInitializer
 	private Position newParticlePosition(Entity entity, EmitterConfig config)
 	{
 		Position entityPosition = entity.getTransform().getPosition();
-		//		return new Position(entityPosition.getX() + config.getPositionVar().getX() *
-		//				twoWayRandom(),
-		//				entityPosition.getY() + 15 * twoWayRandom());
 		return new Position(entityPosition.getX() + config.getOffset().getX() +
 				twoWayRandom(config.getPositionVar().getX()),
 				entityPosition.getY() + config.getOffset().getY() +

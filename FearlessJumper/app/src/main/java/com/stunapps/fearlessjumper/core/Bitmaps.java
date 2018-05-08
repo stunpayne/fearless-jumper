@@ -67,7 +67,7 @@ public class Bitmaps
 
 		BLANK_IMAGE = initBitmap(R.drawable.blank_image, 90, 125);
 
-		FIRE_TEXTURE = initBitmap(R.drawable.fire_particle_16, 25, 25);
+		FIRE_TEXTURE = initBitmap(R.drawable.fire_particle_16, 18, 18);
 	}
 
 	private static Bitmap initBitmap(int drawableResId, int width, int height)

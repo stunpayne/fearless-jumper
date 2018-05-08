@@ -78,11 +78,11 @@ public abstract class GenerationRule extends Rule<GenerationRuleRequest, Generat
 			obstacleShuffler =
 					new WeightedShuffler.Builder<PrefabRef>()
 							.returnItem(PrefabRef.CLOCK).withWeight(3f)
-							.returnItem(PrefabRef.PLATFORM).withWeight(5f)
 							.returnItem(PrefabRef.FLYING_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.SHOOTER_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.ASSAULT_DRAGON).withWeight(2f)
-							.returnItem(PrefabRef.FOLLOWING_DRAGON).withWeight(1f).build();
+							.returnItem(PrefabRef.FOLLOWING_DRAGON).withWeight(1f)
+							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM).withWeight(5f).build();
 		}
 	}
 
