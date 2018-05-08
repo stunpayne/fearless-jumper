@@ -32,6 +32,7 @@ import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.component.visual.ArcShape;
 import com.stunapps.fearlessjumper.component.visual.CircleShape;
 import com.stunapps.fearlessjumper.component.visual.LineShape;
+import com.stunapps.fearlessjumper.component.visual.PathShape;
 import com.stunapps.fearlessjumper.component.visual.RectShape;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.component.visual.Shape;
@@ -140,7 +141,9 @@ public class RenderSystem implements UpdateSystem
 		}
 
 		//Test path shape
-		renderShapes();
+		//renderHappyShapes();
+		//renderAnnoyedShapes();
+		//renderAngryShapes();
 	}
 
 	private void renderGameStats()
@@ -348,6 +351,26 @@ public class RenderSystem implements UpdateSystem
 												  circleShape.getTop() + circleShape.getRadius() -
 												  camPosition.y, circleShape.getRadius(), paint);
 						break;
+					case PATH:
+						Path path = new Path();
+
+						PathShape pathShape = (PathShape) shape;
+
+						Vector2D moveTo = pathShape.getMoveTo();
+						path.moveTo(shapeEntity.transform.position.x + moveTo.getX() +
+											baseDelta.getX() - camPosition.x,
+									shapeEntity.transform.position.y + moveTo.getY() +
+											baseDelta.getY() - camPosition.y);
+
+						Vector2D quadTo1 = pathShape.getQuadTo1();
+						Vector2D quadTo2 = pathShape.getQuadTo2();
+						path.rQuadTo(quadTo1.getX() + baseDelta.getX(),
+									 quadTo1.getY() + baseDelta.getY(),
+									 quadTo2.getX() + baseDelta.getX(),
+									 quadTo2.getY() + baseDelta.getY());
+
+						canvas.drawPath(path, paint);
+						break;
 					case ARC:
 						ArcShape arcShape = (ArcShape) shape;
 						RectF oval = new RectF(shapeEntity.transform.position.x + baseDelta.getX
@@ -518,33 +541,88 @@ public class RenderSystem implements UpdateSystem
 		}
 	}
 
-	private void renderShapes()
+	private void renderHappyShapes()
 	{
-		Paint faceDetails = new Paint();
-		faceDetails.setColor(Color.RED);
-		faceDetails.setStrokeWidth(5);
-		faceDetails.setStyle(Paint.Style.STROKE);
-
 		Vector2D delta = new Vector2D(Device.SCREEN_WIDTH / 4, Device.SCREEN_HEIGHT / 2);
+		float radius = 30.0f;
+
+		Paint faceColor = new Paint();
+		faceColor.setColor(Color.BLACK);
+		canvas.drawCircle(delta.getX() + radius, delta.getY() + radius, radius, faceColor);
+
+		Paint eyeColor = new Paint();
+		eyeColor.setColor(Color.WHITE);
+		canvas.drawCircle(delta.getX() + radius / 2, delta.getY() + radius / 2, radius / 6,
+						  eyeColor);
+		canvas.drawCircle(delta.getX() + radius + radius / 2, delta.getY() + radius / 2, radius
+								  / 6,
+						  eyeColor);
 
 		Path path = new Path();
-		path.moveTo(delta.getX() + 30, delta.getY()+80);
-		//path.moveTo(0,500);
-		/*path.lineTo(50, 500);
-		path.lineTo(200, 500);
-		path.lineTo(200, 300);
-		path.lineTo(350, 300);*/
-		path.rQuadTo(30,40,60,0);
-		//path.rQuadTo(100,100,200,0);
+		path.moveTo(delta.getX() + radius / 2, delta.getY() + (radius * 4) / 3);
+		path.rQuadTo(radius / 2, (radius * 2) / 3, radius, 0);
 
-		float radius = 60;
-		Paint face = new Paint();
-		face.setColor(Color.GREEN);
-		canvas.drawCircle(delta.getX() + radius, delta.getY() + radius, radius, face);
-		canvas.drawCircle(delta.getX() + radius/2, delta.getY() + radius/2, 5, faceDetails);
-		canvas.drawCircle(delta.getX() + radius + radius/2, delta.getY() + radius/2, 5,
-						  faceDetails);
-		canvas.drawPath(path, faceDetails);
+		Paint lipsColor = new Paint();
+		lipsColor.setColor(Color.WHITE);
+		lipsColor.setStrokeWidth(radius / 6);
+		lipsColor.setStyle(Paint.Style.STROKE);
+		canvas.drawPath(path, lipsColor);
+	}
+
+	private void renderAnnoyedShapes()
+	{
+		Vector2D delta = new Vector2D(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
+		float radius = 30.0f;
+
+		Paint faceColor = new Paint();
+		faceColor.setColor(Color.BLACK);
+		canvas.drawCircle(delta.getX() + radius, delta.getY() + radius, radius, faceColor);
+
+		Paint eyeColor = new Paint();
+		eyeColor.setColor(Color.RED);
+		canvas.drawCircle(delta.getX() + radius / 2, delta.getY() + radius / 2, radius / 6,
+						  eyeColor);
+		canvas.drawCircle(delta.getX() + radius + radius / 2, delta.getY() + radius / 2, radius
+								  / 6,
+						  eyeColor);
+
+		Path path = new Path();
+		path.moveTo(delta.getX() + radius / 2, delta.getY() + (radius * 4) / 3);
+		path.rQuadTo(radius / 2, (radius * 2) / 3, radius, 0);
+
+		Paint lipsColor = new Paint();
+		lipsColor.setColor(Color.WHITE);
+		lipsColor.setStrokeWidth(radius / 6);
+		lipsColor.setStyle(Paint.Style.STROKE);
+		canvas.drawPath(path, lipsColor);
+	}
+
+	private void renderAngryShapes()
+	{
+		Vector2D delta = new Vector2D((3*Device.SCREEN_WIDTH) / 4, Device.SCREEN_HEIGHT / 2);
+		float radius = 30.0f;
+
+		Paint faceColor = new Paint();
+		faceColor.setColor(Color.BLACK);
+		canvas.drawCircle(delta.getX() + radius, delta.getY() + radius, radius, faceColor);
+
+		Paint eyeColor = new Paint();
+		eyeColor.setColor(Color.RED);
+		canvas.drawCircle(delta.getX() + radius / 2, delta.getY() + radius / 2, radius / 6,
+						  eyeColor);
+		canvas.drawCircle(delta.getX() + radius + radius / 2, delta.getY() + radius / 2, radius
+								  / 6,
+						  eyeColor);
+
+		Path path = new Path();
+		path.moveTo(delta.getX() + radius / 2, delta.getY() + (radius * 4) / 3);
+		path.rQuadTo(radius / 2, 0, radius, 0);
+
+		Paint lipsColor = new Paint();
+		lipsColor.setColor(Color.RED);
+		lipsColor.setStrokeWidth(radius / 6);
+		lipsColor.setStyle(Paint.Style.STROKE);
+		canvas.drawPath(path, lipsColor);
 	}
 
 }

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.component.visual.Shape.ShapeType;
 import com.stunapps.fearlessjumper.model.Vector2D;
 
 import java.util.LinkedList;

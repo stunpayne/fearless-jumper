@@ -110,6 +110,6 @@ abstract public class Shape
 
 	public enum ShapeType
 	{
-		RECT, CIRCLE, LINE, ARC;
+		RECT, CIRCLE, LINE, ARC, PATH;
 	}
 }

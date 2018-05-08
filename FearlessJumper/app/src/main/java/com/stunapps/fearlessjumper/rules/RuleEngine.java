@@ -57,7 +57,7 @@ public class RuleEngine
 	{
 		initialise();
 		ruleExecutor.execute(buildRuleRequest(componentManager, entityManager),
-				buildRuleResponse(componentManager, entityManager));
+							 buildRuleResponse(componentManager, entityManager));
 		updatePrefabStates();
 
 		return generationRuleResponse;
@@ -118,14 +118,14 @@ public class RuleEngine
 			{
 				map.put(prefabRef,
 						GenerationConfig.builder().generationLocation(GenerationLocation
-								.X_BOUNDARY)
+																			  .X_BOUNDARY)
 								.maxMarginX(scaleX(50)).build());
 			}
 			else
 			{
 				map.put(prefabRef,
 						GenerationConfig.builder().generationLocation(GenerationLocation
-								.X_ANYWHERE)
+																			  .X_ANYWHERE)
 								.maxMarginX(scaleX(50)).build());
 			}
 		}

@@ -11,6 +11,7 @@ import com.stunapps.fearlessjumper.component.movement.FollowTranslation;
 import com.stunapps.fearlessjumper.component.movement.PeriodicTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.visual.BitmapAnimator;
+import com.stunapps.fearlessjumper.component.visual.ShapeAnimator;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.game.Environment.Settings;
 import com.stunapps.fearlessjumper.game.Time;
@@ -306,47 +307,95 @@ public class MovementUpdateSystem implements UpdateSystem
 									  followerEntity.transform.position,
 									  closestTargetEntity.transform.position, assaultTranslation);
 
-				if (followerEntity.hasComponent(BitmapAnimator.class))
-				{
-					BitmapAnimator bitmapAnimator = followerEntity.getComponent(BitmapAnimator.class);
-					if (followerPhysics.getVelocity().x < 0)
-					{
-						if (assaultTranslation.waitStarted &&
-								assaultTranslation.isWaitToAssaultOver())
-						{
-							bitmapAnimator.triggerTransition(AnimationTransition.ASSAULT_LEFT);
-						}
-						else if (assaultTranslation.waitStarted)
-						{
-							bitmapAnimator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_LEFT);
-						}
-						else
-						{
-							bitmapAnimator.triggerTransition(AnimationTransition.TURN_LEFT);
-						}
-					}
-					else
-					{
-						if (assaultTranslation.waitStarted &&
-								assaultTranslation.isWaitToAssaultOver())
-						{
-							bitmapAnimator.triggerTransition(AnimationTransition.ASSAULT_RIGHT);
-						}
-						else if (assaultTranslation.waitStarted)
-						{
-							bitmapAnimator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_RIGHT);
-						}
-						else
-						{
-							bitmapAnimator.triggerTransition(AnimationTransition.TURN_RIGHT);
-						}
-					}
-				}
+				triggerBitmapAnimation(followerEntity, assaultTranslation, followerPhysics);
+				triggerShapeAnimation(followerEntity, assaultTranslation, followerPhysics);
 
 				Log.v(TAG, "process: x velocity after update = " + followerPhysics.getVelocity()
 						.x);
 				Log.v(TAG, "process: y velocity after update = " + followerPhysics.getVelocity()
 						.y);
+			}
+		}
+
+		private static void triggerBitmapAnimation(Entity followerEntity,
+				AssaultTranslation assaultTranslation, PhysicsComponent followerPhysics)
+		{
+			if (followerEntity.hasComponent(BitmapAnimator.class))
+			{
+				BitmapAnimator bitmapAnimator = followerEntity.getComponent(BitmapAnimator.class);
+				if (followerPhysics.getVelocity().x < 0)
+				{
+					if (assaultTranslation.waitStarted &&
+							assaultTranslation.isWaitToAssaultOver())
+					{
+						bitmapAnimator.triggerTransition(AnimationTransition.ASSAULT_LEFT);
+					}
+					else if (assaultTranslation.waitStarted)
+					{
+						bitmapAnimator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_LEFT);
+					}
+					else
+					{
+						bitmapAnimator.triggerTransition(AnimationTransition.TURN_LEFT);
+					}
+				}
+				else
+				{
+					if (assaultTranslation.waitStarted &&
+							assaultTranslation.isWaitToAssaultOver())
+					{
+						bitmapAnimator.triggerTransition(AnimationTransition.ASSAULT_RIGHT);
+					}
+					else if (assaultTranslation.waitStarted)
+					{
+						bitmapAnimator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_RIGHT);
+					}
+					else
+					{
+						bitmapAnimator.triggerTransition(AnimationTransition.TURN_RIGHT);
+					}
+				}
+			}
+		}
+
+		private static void triggerShapeAnimation(Entity followerEntity,
+				AssaultTranslation assaultTranslation, PhysicsComponent followerPhysics)
+		{
+			if (followerEntity.hasComponent(ShapeAnimator.class))
+			{
+				ShapeAnimator shapeAnimator = followerEntity.getComponent(ShapeAnimator.class);
+				if (followerPhysics.getVelocity().x < 0)
+				{
+					if (assaultTranslation.waitStarted &&
+							assaultTranslation.isWaitToAssaultOver())
+					{
+						shapeAnimator.triggerTransition(AnimationTransition.ASSAULT_LEFT);
+					}
+					else if (assaultTranslation.waitStarted)
+					{
+						shapeAnimator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_LEFT);
+					}
+					else
+					{
+						shapeAnimator.triggerTransition(AnimationTransition.TURN_LEFT);
+					}
+				}
+				else
+				{
+					if (assaultTranslation.waitStarted &&
+							assaultTranslation.isWaitToAssaultOver())
+					{
+						shapeAnimator.triggerTransition(AnimationTransition.ASSAULT_RIGHT);
+					}
+					else if (assaultTranslation.waitStarted)
+					{
+						shapeAnimator.triggerTransition(AnimationTransition.INVOKE_ASSUALT_RIGHT);
+					}
+					else
+					{
+						shapeAnimator.triggerTransition(AnimationTransition.TURN_RIGHT);
+					}
+				}
 			}
 		}
 

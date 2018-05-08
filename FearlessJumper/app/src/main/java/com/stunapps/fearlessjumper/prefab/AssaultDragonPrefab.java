@@ -1,10 +1,18 @@
 package com.stunapps.fearlessjumper.prefab;
 
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.support.annotation.NonNull;
 
+import com.stunapps.fearlessjumper.animation.AnimationState;
+import com.stunapps.fearlessjumper.animation.ShapeAnimation;
 import com.stunapps.fearlessjumper.component.visual.CircleShape;
+import com.stunapps.fearlessjumper.component.visual.PathShape;
+import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
+import com.stunapps.fearlessjumper.component.visual.ShapeAnimator;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.damage.ContactDamageComponent;
@@ -13,11 +21,26 @@ import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.component.spawnable.Dragon;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
+import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Vector2D;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_IN_INVOKED_ASSAULT_LEFT;
+import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_IN_INVOKED_ASSAULT_RIGHT;
+import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_TO_ASSAULT_LEFT;
+import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_TO_ASSAULT_RIGHT;
+import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_ASSUALT_LEFT;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.ASSAULT_RIGHT;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.ASSAULT_LEFT;
+import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_ASSUALT_RIGHT;
 
 /**
  * Created by anand.verma on 10/03/18.
@@ -27,105 +50,66 @@ public class AssaultDragonPrefab extends ComponentPrefab
 {
 	public AssaultDragonPrefab()
 	{
-		/*
-		transform = new Transform(
-				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + scaleY(100)));
+		float radius = 30.0f;
+		Vector2D delta = new Vector2D();
+		List<Shape> happyShape = getHappyShapes(radius, delta);
+		List<Shape> angryShape = getAngryShapes(radius, delta);
+		List<Shape> assaultShape = getAssaultShapes(radius, delta);
 
-		StateMachine animationStateMachine =
-				StateMachine.builder()
-						.startState(FLY_RIGHT)
-						.fromAnyStateOnEvent(TURN_RIGHT).toState(FLY_RIGHT)
-						.fromAnyStateOnEvent(TURN_LEFT).toState(FLY_LEFT)
-						.fromAnyStateOnEvent(INVOKE_ASSUALT_RIGHT).toState
-						(FLY_IN_INVOKED_ASSAULT_RIGHT)
-						.fromAnyStateOnEvent(INVOKE_ASSUALT_LEFT).toState
-						(FLY_IN_INVOKED_ASSAULT_LEFT)
-						.fromAnyStateOnEvent(ASSAULT_RIGHT).toState(FLY_TO_ASSAULT_RIGHT)
-						.fromAnyStateOnEvent(ASSAULT_LEFT).toState(FLY_TO_ASSAULT_LEFT)
-						.build();
+		List<Shape> allShapes = new LinkedList<>();
+		allShapes.addAll(happyShape);
+		allShapes.addAll(angryShape);
+		allShapes.addAll(assaultShape);
 
-		Bitmap dragonSprite1 = Bitmaps.DRAGON_FLY1;
-		Bitmap dragonSprite2 = Bitmaps.DRAGON_FLY2;
-		Bitmap dragonSprite3 = Bitmaps.DRAGON_FLY3;
-		Bitmap dragonSprite4 = Bitmaps.DRAGON_FLY4;
-		Bitmap dragonAssault1 = Bitmaps.DRAGON_ASSAULT1;
-		Bitmap dragonAssault2 = Bitmaps.DRAGON_ASSAULT2;
-		Bitmap dragonAssault3 = Bitmaps.DRAGON_ASSAULT3;
-		Bitmap dragonAssault4 = Bitmaps.DRAGON_ASSAULT4;
+		List<List<Integer>> happyAnimationFrameIndices = new LinkedList<>();
+		happyAnimationFrameIndices.add(Arrays.asList(0, 1, 2, 3));
+		ShapeAnimation idleAnimation =
+				new ShapeAnimation(allShapes, happyAnimationFrameIndices, 2.0f);
 
-		Animation idleAnim = new Animation(new Bitmap[]{dragonSprite1}, 0.5f);
-
-		Animation flyRightAnim = new Animation(
-				new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
-
-		Animation assaultRightAnim = new Animation(
-				new Bitmap[]{dragonAssault1, dragonAssault2, dragonAssault3, dragonAssault4},
-				0.5f);
-
-		Animation assaultInvokeRightAnim = new Animation(
-				new Bitmap[]{dragonSprite1, dragonAssault2, dragonSprite3, dragonAssault4,
-						dragonAssault1, dragonSprite2, dragonAssault3, dragonSprite4},
-				1.0f);
-
-		Matrix m = new Matrix();
-		m.preScale(-1, 1);
-		dragonSprite1 = Bitmap.createBitmap(dragonSprite1, 0, 0, dragonSprite1.getWidth(),
-											dragonSprite1.getHeight(), m, false);
-		dragonSprite2 = Bitmap.createBitmap(dragonSprite2, 0, 0, dragonSprite2.getWidth(),
-											dragonSprite2.getHeight(), m, false);
-		dragonSprite3 = Bitmap.createBitmap(dragonSprite3, 0, 0, dragonSprite3.getWidth(),
-											dragonSprite3.getHeight(), m, false);
-		dragonSprite4 = Bitmap.createBitmap(dragonSprite4, 0, 0, dragonSprite4.getWidth(),
-											dragonSprite4.getHeight(), m, false);
-
-		dragonAssault1 = Bitmap.createBitmap(dragonAssault1, 0, 0, dragonAssault1.getWidth(),
-											 dragonAssault1.getHeight(), m, false);
-		dragonAssault2 = Bitmap.createBitmap(dragonAssault2, 0, 0, dragonAssault2.getWidth(),
-											 dragonAssault2.getHeight(), m, false);
-		dragonAssault3 = Bitmap.createBitmap(dragonAssault3, 0, 0, dragonAssault3.getWidth(),
-											 dragonAssault3.getHeight(), m, false);
-		dragonAssault4 = Bitmap.createBitmap(dragonAssault4, 0, 0, dragonAssault4.getWidth(),
-											 dragonAssault4.getHeight(), m, false);
-
-		Animation flyLeftAnim = new Animation(
-				new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
-
-		Animation assaultLeftAnim = new Animation(
-				new Bitmap[]{dragonAssault1, dragonAssault2, dragonAssault3, dragonAssault4},
-				0.5f);
-
-		Animation assaultInvokeLeftAnim = new Animation(
-				new Bitmap[]{dragonSprite1, dragonAssault2, dragonSprite3, dragonAssault4,
-						dragonAssault1, dragonSprite2, dragonAssault3, dragonSprite4},
-				1.0f);
-
-		Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
-		stateAnimationMap.put(IDLE, idleAnim);
-		stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
-		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
-		stateAnimationMap.put(FLY_TO_ASSAULT_RIGHT, assaultRightAnim);
-		stateAnimationMap.put(FLY_TO_ASSAULT_LEFT, assaultLeftAnim);
-		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_RIGHT, assaultInvokeRightAnim);
-		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_LEFT, assaultInvokeLeftAnim);
-
-<<<<<<< HEAD
-		BitmapAnimator animator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
-=======
-		Animator animator = new Animator(stateAnimationMap, animationStateMachine);
-<<<<<<< HEAD
-		//        animator.triggerTransition(TURN_RIGHT);
-		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
-=======
->>>>>>> master
-
-		addComponent(new Renderable(dragonSprite1, Delta.ZERO, dragonSprite1.getWidth(),
->>>>>>> master
-									dragonSprite1.getHeight()));
-		addComponent(animator);
-		*/
-		//        animator.triggerTransition(TURN_RIGHT);
+		List<List<Integer>> angryAnimationFrameIndices = new LinkedList<>();
+		angryAnimationFrameIndices.add(Arrays.asList(0, 1, 2, 3));
+		angryAnimationFrameIndices.add(Arrays.asList(4, 5, 6, 7));
+		ShapeAnimation angryAnimation =
+				new ShapeAnimation(allShapes, angryAnimationFrameIndices, 2.0f);
 
 
+		List<List<Integer>> assaultAnimationFrameIndices = new LinkedList<>();
+		angryAnimationFrameIndices.add(Arrays.asList(8, 9, 10, 11));
+		ShapeAnimation assaultAnimation =
+				new ShapeAnimation(allShapes, assaultAnimationFrameIndices, 2.0f);
+
+		Map<AnimationState, ShapeAnimation> stateAnimationMap = new HashMap<>();
+		stateAnimationMap.put(IDLE, angryAnimation);
+		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_LEFT, angryAnimation);
+		stateAnimationMap.put(FLY_IN_INVOKED_ASSAULT_RIGHT, angryAnimation);
+		stateAnimationMap.put(FLY_TO_ASSAULT_RIGHT, assaultAnimation);
+		stateAnimationMap.put(FLY_TO_ASSAULT_LEFT, assaultAnimation);
+
+		StateMachine animationStateMachine = StateMachine.builder()
+				.startState(IDLE)
+				.fromAnyStateOnEvent(INVOKE_ASSUALT_RIGHT).toState(FLY_IN_INVOKED_ASSAULT_RIGHT)
+				.fromAnyStateOnEvent(INVOKE_ASSUALT_LEFT).toState(FLY_IN_INVOKED_ASSAULT_LEFT)
+				.fromAnyStateOnEvent(ASSAULT_RIGHT).toState(FLY_TO_ASSAULT_RIGHT)
+				.fromAnyStateOnEvent(ASSAULT_LEFT).toState(FLY_TO_ASSAULT_LEFT)
+				.build();
+
+		ShapeAnimator shapeAnimator = new ShapeAnimator(stateAnimationMap, animationStateMachine);
+		addComponent(shapeAnimator);
+
+		ShapeRenderable shapeRenderable = new ShapeRenderable(happyShape, new Vector2D());
+		addComponent(shapeRenderable);
+		addComponent(new Dragon(EnemyType.DRAXUS));
+		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
+				shapeRenderable.getHeight(), CollisionLayer.SUPER_ENEMY));
+		addComponent(new AssaultTranslation(PlayerComponent.class, 150, 1500, 5.0f,
+				Device.SCREEN_HEIGHT / 4));
+		addComponent(new ContactDamageComponent(1, false));
+		addComponent(new PhysicsComponent(false));
+	}
+
+	@NonNull
+	private LinkedList<Shape> getOldShapes()
+	{
 		LinkedList<Shape> shapes = new LinkedList<>();
 
 		PaintProperties paintProperties = new PaintProperties(null, Color.RED, null, null);
@@ -143,20 +127,109 @@ public class AssaultDragonPrefab extends ComponentPrefab
 
 		CircleShape circleShapeCenter =
 				new CircleShape(15, new PaintProperties(null, Color.BLACK, null, null),
-						new Vector2D(15, 15));
+								new Vector2D(15, 15));
 		shapes.add(circleShapeCenter);
+		return shapes;
+	}
 
-		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
-		addComponent(shapeRenderable);
+	@NonNull
+	private List<Shape> getHappyShapes(float radius, Vector2D delta)
+	{
+		List<Shape> assualtShape = new LinkedList<>();
 
+		CircleShape face =
+				new CircleShape(radius, new PaintProperties(null, Color.BLACK, null, null), delta);
 
-		addComponent(new Dragon(EnemyType.DRAXUS));
-		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
-				shapeRenderable.getHeight(), CollisionLayer.SUPER_ENEMY));
-		addComponent(new AssaultTranslation(PlayerComponent.class, 150, 1500, 5.0f,
-				Device.SCREEN_HEIGHT / 4));
-		addComponent(new ContactDamageComponent(1, false));
-		addComponent(new PhysicsComponent(false));
+		Vector2D leftEyeDelta = new Vector2D(delta.getX() + radius / 2, delta.getY() + radius / 2);
+		CircleShape leftEye =
+				new CircleShape(radius/6, new PaintProperties(null, Color.WHITE, null, null),
+								leftEyeDelta);
+
+		Vector2D rightEyeDelta =
+				new Vector2D(delta.getX() + radius + radius / 2, delta.getY() + radius/2);
+		CircleShape rightEye =
+				new CircleShape(radius/6, new PaintProperties(null, Color.WHITE, null, null),
+								rightEyeDelta);
+
+		Vector2D moveTo = new Vector2D(delta.getX() + radius / 2, delta.getY() +
+				(radius * 4) / 3);
+		Vector2D quadTo1 = new Vector2D(radius / 2, (radius * 2) / 3);
+		Vector2D quadTo2 = new Vector2D(radius, 0);
+		PathShape lips = new PathShape(moveTo, quadTo1, quadTo2,
+									   new PaintProperties(null, Color.WHITE, radius / 6,
+														   Paint.Style.STROKE), new Vector2D());
+
+		assualtShape.add(face);
+		assualtShape.add(leftEye);
+		assualtShape.add(rightEye);
+		assualtShape.add(lips);
+		return assualtShape;
+	}
+
+	private List<Shape> getAngryShapes(float radius, Vector2D delta)
+	{
+		List<Shape> assualtShape = new LinkedList<>();
+
+		CircleShape face =
+				new CircleShape(radius, new PaintProperties(null, Color.BLACK, null, null), delta);
+
+		Vector2D leftEyeDelta = new Vector2D(delta.getX() + radius / 2, delta.getY() + radius / 2);
+		CircleShape leftEye =
+				new CircleShape(radius/6, new PaintProperties(null, Color.RED, null, null),
+								leftEyeDelta);
+
+		Vector2D rightEyeDelta =
+				new Vector2D(delta.getX() + radius + radius / 2, delta.getY() + radius/2);
+		CircleShape rightEye =
+				new CircleShape(radius/6, new PaintProperties(null, Color.RED, null, null),
+								rightEyeDelta);
+
+		Vector2D moveTo = new Vector2D(delta.getX() + radius / 2, delta.getY() +
+				(radius * 4) / 3);
+		Vector2D quadTo1 = new Vector2D(radius / 2, (radius * 2) / 3);
+		Vector2D quadTo2 = new Vector2D(radius, 0);
+		PathShape lips = new PathShape(moveTo, quadTo1, quadTo2,
+									   new PaintProperties(null, Color.WHITE, radius / 6,
+														   Paint.Style.STROKE), new Vector2D());
+
+		assualtShape.add(face);
+		assualtShape.add(leftEye);
+		assualtShape.add(rightEye);
+		assualtShape.add(lips);
+		return assualtShape;
+	}
+
+	private List<Shape> getAssaultShapes(float radius, Vector2D delta)
+	{
+		List<Shape> assualtShape = new LinkedList<>();
+
+		CircleShape face =
+				new CircleShape(radius, new PaintProperties(null, Color.BLACK, null, null), delta);
+
+		Vector2D leftEyeDelta = new Vector2D(delta.getX() + radius / 2, delta.getY() + radius / 2);
+		CircleShape leftEye =
+				new CircleShape(radius/6, new PaintProperties(null, Color.RED, null, null),
+								leftEyeDelta);
+
+		Vector2D rightEyeDelta =
+				new Vector2D(delta.getX() + radius + radius / 2, delta.getY() + radius/2);
+		CircleShape rightEye =
+				new CircleShape(radius/6, new PaintProperties(null, Color.RED, null, null),
+								rightEyeDelta);
+
+		Vector2D moveTo = new Vector2D(delta.getX() + radius / 2, delta.getY() +
+				(radius * 4) / 3);
+		Vector2D quadTo1 = new Vector2D(radius / 2, 0);
+		Vector2D quadTo2 = new Vector2D(radius, 0);
+		PathShape lips = new PathShape(moveTo, quadTo1, quadTo2,
+									   new PaintProperties(null, Color.RED, radius / 6,
+														   Paint.Style.STROKE), new Vector2D());
+
+		assualtShape.add(face);
+		assualtShape.add(leftEye);
+		assualtShape.add(rightEye);
+		assualtShape.add(lips);
+		return assualtShape;
 	}
 
 }
