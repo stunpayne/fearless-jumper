@@ -6,6 +6,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+
+import android.graphics.Path;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -134,6 +138,9 @@ public class RenderSystem implements UpdateSystem
 		{
 			renderSensorData();
 		}
+
+		//Test path shape
+		renderShapes();
 	}
 
 	private void renderGameStats()
@@ -510,4 +517,34 @@ public class RenderSystem implements UpdateSystem
 							7 * canvas.getHeight() / 60, fpsPaint);
 		}
 	}
+
+	private void renderShapes()
+	{
+		Paint faceDetails = new Paint();
+		faceDetails.setColor(Color.RED);
+		faceDetails.setStrokeWidth(5);
+		faceDetails.setStyle(Paint.Style.STROKE);
+
+		Vector2D delta = new Vector2D(Device.SCREEN_WIDTH / 4, Device.SCREEN_HEIGHT / 2);
+
+		Path path = new Path();
+		path.moveTo(delta.getX() + 30, delta.getY()+80);
+		//path.moveTo(0,500);
+		/*path.lineTo(50, 500);
+		path.lineTo(200, 500);
+		path.lineTo(200, 300);
+		path.lineTo(350, 300);*/
+		path.rQuadTo(30,40,60,0);
+		//path.rQuadTo(100,100,200,0);
+
+		float radius = 60;
+		Paint face = new Paint();
+		face.setColor(Color.GREEN);
+		canvas.drawCircle(delta.getX() + radius, delta.getY() + radius, radius, face);
+		canvas.drawCircle(delta.getX() + radius/2, delta.getY() + radius/2, 5, faceDetails);
+		canvas.drawCircle(delta.getX() + radius + radius/2, delta.getY() + radius/2, 5,
+						  faceDetails);
+		canvas.drawPath(path, faceDetails);
+	}
+
 }
