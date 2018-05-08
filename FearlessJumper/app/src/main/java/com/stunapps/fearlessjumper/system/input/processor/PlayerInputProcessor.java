@@ -42,7 +42,8 @@ public class PlayerInputProcessor implements InputProcessor
 
 	private static float X_MULTIPLIER = 1800f;
 	private static float MAX_X_SPEED = 420f;
-	private static float MIN_X_SPEED = -420f;
+
+	private static float MAX_Y_SPEED = 820f;
 
 	private static long lastProcessTime = System.nanoTime();
 	private static Map<Class, Long> debugSystemRunTimes = new HashMap<>();
@@ -93,13 +94,15 @@ public class PlayerInputProcessor implements InputProcessor
 
 		float xSpeed = scaleX(X_MULTIPLIER * roll * Time.DELTA_TIME);
 
+
 		Velocity velocity = player.getComponent(PhysicsComponent.class).getVelocity();
 		float newXVel = velocity.getX() + xSpeed;
+
 
 		/*
 		 * Clamp x speed
 		 */
-		newXVel = Math.max(scaleX(MIN_X_SPEED), newXVel);
+		newXVel = Math.max(scaleX(-MAX_X_SPEED), newXVel);
 		newXVel = Math.min(scaleX(MAX_X_SPEED), newXVel);
 
 		velocity.setX(newXVel);
@@ -107,7 +110,11 @@ public class PlayerInputProcessor implements InputProcessor
 
 	private void applyForceToPlayer(PhysicsComponent physicsComponent)
 	{
-		physicsComponent.getVelocity().y += (scaleY(JUMP_IMPULSE) * Time.DELTA_TIME);
+		float newYVel = physicsComponent.getVelocity().y + (scaleY(JUMP_IMPULSE) * Time
+				.DELTA_TIME);
+		newYVel = Math.max(scaleX(-MAX_Y_SPEED), newYVel);
+		newYVel = Math.min(scaleX(MAX_Y_SPEED), newYVel);
+		physicsComponent.getVelocity().y = newYVel;
 	}
 
 	private void dischargeFuel(Fuel fuel, long deltaTime)
