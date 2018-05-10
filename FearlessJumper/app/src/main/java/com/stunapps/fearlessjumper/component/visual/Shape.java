@@ -106,6 +106,16 @@ abstract public class Shape
 		{
 			return currentPaint;
 		}
+
+		public void setStrokeWidth(float strokeWidth)
+		{
+			paint.setStrokeWidth(strokeWidth);
+		}
+
+		public void setStyle(Style style)
+		{
+			paint.setStyle(style);
+		}
 	}
 
 	public enum ShapeType

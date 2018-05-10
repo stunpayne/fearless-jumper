@@ -171,6 +171,7 @@ public class StateMachine<State, Transition>
         public Builder startState(State state)
         {
             startState = state;
+            allStates.add(startState);
             return this;
         }
 
@@ -306,11 +307,11 @@ public class StateMachine<State, Transition>
 				for (Map.Entry<Transition, State> anyStateTransition : anyStateTransitionMap
 						.entrySet())
 				{
-				    if (stateTransitionMap.get(state) == null)
-				        stateTransitionMap.put(state, Maps.<Transition, State>newConcurrentMap());
-					stateTransitionMap.get(state)
-							.put(anyStateTransition.getKey(), anyStateTransition.getValue());
-				}
+                    if (stateTransitionMap.get(state) == null)
+                        stateTransitionMap.put(state, Maps.<Transition, State>newConcurrentMap());
+                    stateTransitionMap.get(state)
+                            .put(anyStateTransition.getKey(), anyStateTransition.getValue());
+                }
 			}
 		}
 	}
