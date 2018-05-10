@@ -58,20 +58,6 @@ public class AssaultSmileyPrefab extends ComponentPrefab
 	private static final PaintProperties RED_PAINT =
 			new PaintProperties(null, Color.RED, null, null);
 
-	private PaintProperties getWhitePaintWithStroke(float strokeWidth, Style style)
-	{
-		WHITE_PAINT.setStrokeWidth(strokeWidth);
-		WHITE_PAINT.setStyle(style);
-		return WHITE_PAINT;
-	}
-
-	private PaintProperties getRedPaintWithStroke(float strokeWidth, Style style)
-	{
-		RED_PAINT.setStrokeWidth(strokeWidth);
-		RED_PAINT.setStyle(style);
-		return RED_PAINT;
-	}
-
 	public AssaultSmileyPrefab()
 	{
 		float radius = unitX() * 1.2f;
@@ -186,6 +172,20 @@ public class AssaultSmileyPrefab extends ComponentPrefab
 		assaultShape.add(rightEye);
 		assaultShape.add(lips);
 		return assaultShape;
+	}
+
+	private PaintProperties getWhitePaintWithStroke(float strokeWidth, Style style)
+	{
+		WHITE_PAINT.setStrokeWidth(strokeWidth);
+		WHITE_PAINT.setStyle(style);
+		return WHITE_PAINT;
+	}
+
+	private PaintProperties getRedPaintWithStroke(float strokeWidth, Style style)
+	{
+		RED_PAINT.setStrokeWidth(strokeWidth);
+		RED_PAINT.setStyle(style);
+		return RED_PAINT;
 	}
 
 	@NonNull
