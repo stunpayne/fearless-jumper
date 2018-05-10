@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.impl;
 
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;

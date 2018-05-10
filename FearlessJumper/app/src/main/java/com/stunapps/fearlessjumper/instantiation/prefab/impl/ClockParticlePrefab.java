@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.impl;
 
 import com.stunapps.fearlessjumper.component.emitter.CircularEmitter;
 

@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.impl;
 
 
 import android.graphics.Bitmap;
@@ -26,7 +26,6 @@ import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
-import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.HashMap;

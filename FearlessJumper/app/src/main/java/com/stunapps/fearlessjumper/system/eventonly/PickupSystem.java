@@ -15,7 +15,7 @@ import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.event.model.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.model.system.EmitterEvent;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.system.System;
 
 import javax.inject.Inject;

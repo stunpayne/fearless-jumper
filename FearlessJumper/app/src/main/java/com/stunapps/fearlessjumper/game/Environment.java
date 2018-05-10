@@ -23,12 +23,14 @@ public class Environment
 	public static Context CONTEXT;
 
 	public static Canvas CANVAS;
-
-	public static float UNIT_DENSITY = 2.625f;
-	public static float UNIT_HEIGHT = 1794f;
-	public static float UNIT_WIDTH = 1080f;
-
 	public static SharedPreferences SHARED_PREFERENCES;
+
+	public static float BASE_DENSITY = 2.625f;
+	public static float BASE_HEIGHT = 1794f;
+	public static float BASE_WIDTH = 1080f;
+
+	private static float UNIT_X = 54f;
+	private static float UNIT_Y = 51f;
 
 	public class Settings
 	{
@@ -42,12 +44,12 @@ public class Environment
 
 	public static float scaleY()
 	{
-		return Device.SCREEN_HEIGHT / UNIT_HEIGHT;
+		return Device.SCREEN_HEIGHT / BASE_HEIGHT;
 	}
 
 	public static float scaleX()
 	{
-		return Device.SCREEN_WIDTH / UNIT_WIDTH;
+		return Device.SCREEN_WIDTH / BASE_WIDTH;
 	}
 
 	public static float scaleY(float value)
@@ -58,5 +60,15 @@ public class Environment
 	public static float scaleX(float value)
 	{
 		return value * scaleX();
+	}
+
+	public static float unitX()
+	{
+		return scaleX(UNIT_X);
+	}
+
+	public static float unitY()
+	{
+		return scaleX(UNIT_Y);
 	}
 }

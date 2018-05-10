@@ -5,13 +5,11 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.PeriodicGun;
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.component.visual.Renderable;
-import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.model.Position;
-import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
 
 import java.util.Set;
 

@@ -1,15 +1,14 @@
 package com.stunapps.fearlessjumper.rules.execution.generation;
 
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.rules.execution.RuleResponse;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationState;
 
 import org.roboguice.shaded.goole.common.collect.Maps;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

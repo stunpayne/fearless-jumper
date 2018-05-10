@@ -1,7 +1,7 @@
 package com.stunapps.fearlessjumper.helper;
 
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
 
 /**
  * Created by sunny.s on 13/01/18.

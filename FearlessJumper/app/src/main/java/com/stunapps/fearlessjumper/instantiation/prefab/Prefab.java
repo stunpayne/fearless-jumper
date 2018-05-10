@@ -1,6 +1,7 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab;
 
 import com.stunapps.fearlessjumper.component.Component;
+import com.stunapps.fearlessjumper.instantiation.Instantiator;
 
 /**
  * Created by sunny.s on 10/01/18.

@@ -1,9 +1,11 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.sets;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
+import com.stunapps.fearlessjumper.instantiation.Instantiable;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
 
 import java.util.ArrayList;
 import java.util.List;

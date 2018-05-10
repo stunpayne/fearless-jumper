@@ -1,8 +1,10 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.sets.impl;
 
 import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculator;
 import com.stunapps.fearlessjumper.helper.EntityTransformCalculatorImpl;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.sets.PrefabSet;
 import com.stunapps.fearlessjumper.model.Position;
 
 /**

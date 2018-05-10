@@ -1,4 +1,19 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab;
+
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.AssaultDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.BulletPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.ClockParticlePrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.ClockPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.FlyingDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.FollowingDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.GroundedDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.LandPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.PlatformPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.PlayerPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.ShooterDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.TestShapePrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.UnfriendlyPlatformPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.sets.impl.GroundedDragonPrefabSet;
 
 /**
  * Created by sunny.s on 12/01/18.

@@ -2,10 +2,7 @@ package com.stunapps.fearlessjumper.rules.execution.generation;
 
 import android.util.Log;
 
-import com.stunapps.fearlessjumper.core.Shuffler;
-import com.stunapps.fearlessjumper.core.WeightedShuffler;
-import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 
 /**
  * @author: sunny.s

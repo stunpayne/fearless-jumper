@@ -10,8 +10,8 @@ import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.model.Position;
-import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 
 import java.util.List;
 

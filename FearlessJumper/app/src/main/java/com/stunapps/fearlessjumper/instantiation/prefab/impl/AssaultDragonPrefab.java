@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.impl;
 
 import android.graphics.Color;
 import android.graphics.Paint.Style;
@@ -39,6 +39,7 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.ASSAULT_
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.ASSAULT_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_ASSUALT_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_ASSUALT_RIGHT;
+import static com.stunapps.fearlessjumper.game.Environment.unitX;
 
 /**
  * Created by anand.verma on 10/03/18.
@@ -70,7 +71,7 @@ public class AssaultDragonPrefab extends ComponentPrefab
 
 	public AssaultDragonPrefab()
 	{
-		float radius = 30.0f;
+		float radius = unitX();
 		Vector2D delta = new Vector2D();
 		List<Shape> happyShape = getHappyShapes(radius, delta);
 		List<Shape> angryShape = getAngryShapes(radius, delta);

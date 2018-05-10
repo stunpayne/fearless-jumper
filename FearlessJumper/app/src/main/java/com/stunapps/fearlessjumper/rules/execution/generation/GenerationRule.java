@@ -5,13 +5,10 @@ import com.stunapps.fearlessjumper.core.Shuffler;
 import com.stunapps.fearlessjumper.core.WeightedShuffler;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.helper.Randomiser;
-import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.rules.execution.Rule;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
-import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationState;
-
-import java.util.Map;
 
 import static com.stunapps.fearlessjumper.helper.Randomiser.nextFloat;
 

@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.impl;
 
 import android.graphics.Color;
 import android.graphics.Paint.Style;
@@ -21,6 +21,7 @@ import com.stunapps.fearlessjumper.model.Velocity;
 import java.util.LinkedList;
 
 import static com.stunapps.fearlessjumper.game.Environment.scaleX;
+import static com.stunapps.fearlessjumper.game.Environment.unitX;
 
 /**
  * Created by sunny.s on 09/03/18.
@@ -30,16 +31,17 @@ public class BulletPrefab extends ComponentPrefab
 {
 	public BulletPrefab()
 	{
-		PaintProperties linePaint = new PaintProperties(null, Color.BLUE, 5.0f, Style.STROKE);
-		LinkedList<Shape> shapes = new LinkedList<>();
-		float radius = 8f;
+		float radius = unitX() / 7f;
+		float triangleSideLength = unitX();
+		float triangleTopHeight = triangleTopHeight(triangleSideLength);
 
 		Vector2D vertex1 = new Vector2D(0f, 0f);
-		Vector2D vertex2 = new Vector2D(25.0f, 43.0f);
-		Vector2D vertex3 = new Vector2D(50.0f, 0.0f);
+		Vector2D vertex2 = new Vector2D(triangleSideLength / 2, triangleTopHeight);
+		Vector2D vertex3 = new Vector2D(triangleSideLength, 0.0f);
 		Vector2D[] vertices = {vertex1, vertex2, vertex3};
 		Vector2D centroid = Triangle.centroid(vertices);
 
+		PaintProperties linePaint = new PaintProperties(null, Color.BLUE, 5.0f, Style.STROKE);
 		LineShape line1 = new LineShape(vertex1, vertex2, linePaint);
 		LineShape line2 = new LineShape(vertex2, vertex3, linePaint);
 		LineShape line3 = new LineShape(vertex1, vertex3, linePaint);
@@ -47,6 +49,7 @@ public class BulletPrefab extends ComponentPrefab
 				new CircleShape(radius, new PaintProperties(null, Color.BLACK, null, null),
 						Vector2D.minus(centroid, new Vector2D(radius, radius)));
 
+		LinkedList<Shape> shapes = new LinkedList<>();
 		shapes.add(line1);
 		shapes.add(line2);
 		shapes.add(line3);
@@ -60,5 +63,10 @@ public class BulletPrefab extends ComponentPrefab
 				shapeRenderable.getHeight(), true, CollisionLayer.BULLET));
 		addComponent(new Enemy(EnemyType.GRORUM));
 		addComponent(new ContactDamageComponent(10, true));
+	}
+
+	private float triangleTopHeight(float triangleSideLength)
+	{
+		return triangleSideLength * (float) Math.sin(Math.toRadians(60));
 	}
 }

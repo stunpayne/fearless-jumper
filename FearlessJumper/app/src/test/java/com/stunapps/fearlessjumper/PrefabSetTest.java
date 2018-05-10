@@ -6,8 +6,8 @@ import com.stunapps.fearlessjumper.component.transform.Transform;
 import com.stunapps.fearlessjumper.core.Bitmaps;
 import com.stunapps.fearlessjumper.game.Environment;
 import com.stunapps.fearlessjumper.model.Position;
-import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 
 import org.junit.Assert;
 import org.junit.Before;

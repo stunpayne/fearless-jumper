@@ -1,8 +1,8 @@
 package com.stunapps.fearlessjumper.component.specific;
 
 import com.stunapps.fearlessjumper.component.Component;
-import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 
 /**
  * Created by sunny.s on 10/03/18.

@@ -1,6 +1,6 @@
 package com.stunapps.fearlessjumper.rules.execution.generation;
 
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 
 import java.util.Random;
 

@@ -2,7 +2,7 @@ package com.stunapps.fearlessjumper.rules.execution.generation;
 
 import android.util.Log;
 
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationState;
 

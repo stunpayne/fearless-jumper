@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.impl;
 
 
 import android.graphics.Color;
@@ -21,6 +21,8 @@ import com.stunapps.fearlessjumper.model.Vector2D;
 
 import java.util.LinkedList;
 
+import static com.stunapps.fearlessjumper.game.Environment.unitX;
+
 /**
  * Created by anand.verma on 10/03/18.
  */
@@ -30,40 +32,35 @@ public class FollowingDragonPrefab extends ComponentPrefab
 	public FollowingDragonPrefab()
 	{
 		LinkedList<Shape> shapes = new LinkedList<>();
+		float bladeLength = unitX() * 0.35f;
+		float radius = bladeLength;
+
 		CircleShape circleShape =
-				new CircleShape(15, new PaintProperties(null, Color.BLACK, null, null),
-								new
-						Vector2D(15,
-																							 15));
+				new CircleShape(radius, new PaintProperties(null, Color.BLACK, null, null),
+						new Vector2D(bladeLength, bladeLength));
 		shapes.add(circleShape);
 
-		PaintProperties linePaintProperties = new PaintProperties(null, Color.GRAY,
-																  4.0f, Style
-				.STROKE);
-		LineShape lineShapeLeft =
-				new LineShape(0, circleShape.getTop() + circleShape.getRadius(), 15,
-							  circleShape.getTop() + circleShape.getRadius(),
-							  linePaintProperties);
+		PaintProperties linePaintProperties =
+				new PaintProperties(null, Color.GRAY, 4.0f, Style.STROKE);
+		LineShape lineShapeLeft = new LineShape(0, circleShape.getTop() + radius, bladeLength,
+				circleShape.getTop() + radius, linePaintProperties);
 		shapes.add(lineShapeLeft);
 
-		LineShape lineShapeRight = new LineShape(circleShape.getRight(),
-												 circleShape.getTop() + circleShape.getRadius(),
-												 circleShape.getRight() + 15,
-												 circleShape.getTop() + circleShape.getRadius(),
-												 linePaintProperties);
+		LineShape lineShapeRight =
+				new LineShape(circleShape.getRight(), circleShape.getTop() + radius,
+						circleShape.getRight() + bladeLength, circleShape.getTop() + radius,
+						linePaintProperties);
 		shapes.add(lineShapeRight);
 
-		LineShape lineShapeTop = new LineShape(circleShape.getLeft() + circleShape.getRadius(), 0,
-											   circleShape.getLeft() + circleShape.getRadius(),
-											   circleShape.getTop(),
-											   linePaintProperties);
+		LineShape lineShapeTop =
+				new LineShape(circleShape.getLeft() + radius, 0, circleShape.getLeft() + radius,
+						circleShape.getTop(), linePaintProperties);
 		shapes.add(lineShapeTop);
 
-		LineShape lineShapeBottom = new LineShape(circleShape.getLeft() + circleShape.getRadius(),
-												  circleShape.getBottom(),
-												  circleShape.getLeft() + circleShape.getRadius(),
-												  circleShape.getBottom() + 15,
-												  linePaintProperties);
+		LineShape lineShapeBottom =
+				new LineShape(circleShape.getLeft() + radius, circleShape.getBottom(),
+						circleShape.getLeft() + radius, circleShape.getBottom() + bladeLength,
+						linePaintProperties);
 		shapes.add(lineShapeBottom);
 
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
@@ -71,7 +68,7 @@ public class FollowingDragonPrefab extends ComponentPrefab
 
 		addComponent(new Dragon(EnemyType.ZELDROY));
 		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
-									  shapeRenderable.getHeight(), CollisionLayer.ENEMY));
+				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new FollowTranslation(PlayerComponent.class, 150));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(false));

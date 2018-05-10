@@ -1,8 +1,7 @@
 package com.stunapps.fearlessjumper.rules.execution.generation;
 
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.prefab.Prefab;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.rules.execution.RuleRequest;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationConfig;
 import com.stunapps.fearlessjumper.rules.execution.generation.model.GenerationState;

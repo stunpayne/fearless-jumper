@@ -24,7 +24,7 @@ import com.stunapps.fearlessjumper.event.model.game.StartGameEvent;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
 import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.manager.GameStatsManager;
-import com.stunapps.fearlessjumper.prefab.PrefabRef;
+import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 
 import java.util.Map;
 

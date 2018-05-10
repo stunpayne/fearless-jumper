@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import com.stunapps.fearlessjumper.component.visual.Renderable;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
 
 /**
  * Created by sunny.s on 13/01/18.

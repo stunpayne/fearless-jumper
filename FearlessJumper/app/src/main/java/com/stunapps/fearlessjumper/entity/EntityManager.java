@@ -5,8 +5,8 @@ import com.google.inject.Singleton;
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.transform.Transform;
-import com.stunapps.fearlessjumper.prefab.Instantiable;
-import com.stunapps.fearlessjumper.prefab.Prefab;
+import com.stunapps.fearlessjumper.instantiation.Instantiable;
+import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
 
 import java.util.ArrayList;
 import java.util.Collection;

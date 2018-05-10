@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.impl;
 
 import android.graphics.Color;
 
@@ -20,7 +20,6 @@ import com.stunapps.fearlessjumper.component.spawnable.Dragon;
 import com.stunapps.fearlessjumper.component.spawnable.Enemy.EnemyType;
 import com.stunapps.fearlessjumper.component.specific.PeriodicGun;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
-import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.Arrays;
@@ -29,12 +28,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationState.FLY_RIGHT;
 import static com.stunapps.fearlessjumper.animation.AnimationState.IDLE;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_LEFT;
-import static com.stunapps.fearlessjumper.animation.AnimationTransition.TURN_RIGHT;
 import static com.stunapps.fearlessjumper.game.Environment.scaleY;
+import static com.stunapps.fearlessjumper.game.Environment.unitX;
 
 /**
  * Created by sunny.s on 10/03/18.
@@ -44,19 +40,22 @@ public class ShooterDragonPrefab extends ComponentPrefab
 {
 	public ShooterDragonPrefab()
 	{
+		float arcWidth = unitX() * 2f;
+		float arcHeight = unitX() * 2f;
+
 		CircleShape eye = new CircleShape(7, new PaintProperties(null, Color.WHITE, null, null),
 										  new Vector2D(70, 15));
 
-		ArcShape openMouthShape = new ArcShape(new Vector2D(), 100, 100, 15, 330, true,
+		ArcShape openMouthShape = new ArcShape(new Vector2D(), arcWidth, arcHeight, 15, 330, true,
 								  new PaintProperties(null, Color.rgb(25, 25, 112), null, null));
 
-		ArcShape midOpenMouthShape = new ArcShape(new Vector2D(), 100, 100, 10, 340, true,
+		ArcShape midOpenMouthShape = new ArcShape(new Vector2D(), arcWidth, arcHeight, 10, 340, true,
 								  new PaintProperties(null, Color.rgb(25, 25, 112), null, null));
 
-		ArcShape littleOpenMouthShape = new ArcShape(new Vector2D(), 100, 100, 5, 350, true,
+		ArcShape littleOpenMouthShape = new ArcShape(new Vector2D(), arcWidth, arcHeight, 5, 350, true,
 								  new PaintProperties(null, Color.rgb(25, 25, 112), null, null));
 
-		ArcShape closedMouthShape = new ArcShape(new Vector2D(), 100, 100, 0, 360, true,
+		ArcShape closedMouthShape = new ArcShape(new Vector2D(), arcWidth, arcHeight, 0, 360, true,
 								  new PaintProperties(null, Color.rgb(25, 25, 112), null, null));
 
 		StateMachine animationStateMachine = StateMachine.builder().startState(IDLE).build();

@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.prefab;
+package com.stunapps.fearlessjumper.instantiation.prefab.impl;
 
 import android.graphics.Color;
 import android.graphics.Paint.Style;
@@ -21,6 +21,8 @@ import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.LinkedList;
 
+import static com.stunapps.fearlessjumper.game.Environment.unitX;
+
 /**
  * Created by sunny.s on 21/01/18.
  */
@@ -29,7 +31,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 {
 	public FlyingDragonPrefab()
 	{
-		float bladeLength = 15f;
+		float bladeLength = unitX() * 0.35f;
 		float radius = 1.4f * bladeLength;
 
 		CircleShape circle =
