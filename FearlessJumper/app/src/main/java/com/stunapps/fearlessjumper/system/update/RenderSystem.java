@@ -8,11 +8,10 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
 import android.graphics.Path;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.MainActivity;
@@ -49,8 +48,6 @@ import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.model.Vector2D;
 import com.stunapps.fearlessjumper.particle.Particle;
 
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -80,9 +77,12 @@ public class RenderSystem implements UpdateSystem
 
 
 	private Paint bgPaint = new Paint();
-	private Paint colliderPaint = new Paint();
+	private Paint colliderPaint;
 	private Paint particlePaint;
 	private Paint fuelPaint;
+
+	private Paint checkeredPaint1 = new Paint();
+	private Paint checkeredPaint2 = new Paint();
 
 	@Setter
 	private boolean shouldRenderBackground = true;
@@ -96,17 +96,11 @@ public class RenderSystem implements UpdateSystem
 		this.sensorDataAdapter = sensorDataAdapter;
 		this.gameStatsManager = gameStatsManager;
 
-		colliderPaint.setColor(Color.WHITE);
-		colliderPaint.setStyle(Style.STROKE);
-
+		colliderPaint = initColliderPaint();
 		particlePaint = initParticlePaint();
 		fuelPaint = initFuelPaint();
-
-		LinkedList<Shape> shapes = new LinkedList<>();
-		shapes.add(new CircleShape(100, new Shape.PaintProperties(null, Color.BLUE, null, null),
-								   new Vector2D(400, 500)));
-		shapes.add(new RectShape(100, 200, new Shape.PaintProperties(null, Color.RED, null, null),
-								 new Vector2D(500, 500)));
+		checkeredPaint1.setColor(Color.CYAN);
+		checkeredPaint2.setColor(Color.LTGRAY);
 	}
 
 	@Override
@@ -124,10 +118,10 @@ public class RenderSystem implements UpdateSystem
 		Cameras.update();
 
 		canvas.drawColor(Color.YELLOW);
-		//renderBackground();
-		renderEntities();
-		renderHUD();
-		renderParticleEmission();
+//		renderBackground();
+		renderRects();
+		renderGame();
+
 
 		//testing
 		if (Settings.DEBUG_MODE)
@@ -138,78 +132,6 @@ public class RenderSystem implements UpdateSystem
 		if (Settings.PRINT_SENSOR_DATA)
 		{
 			renderSensorData();
-		}
-
-		//Test path shape
-		//renderHappyShapes();
-		//renderAnnoyedShapes();
-		//renderAngryShapes();
-	}
-
-	private void renderGameStats()
-	{
-		Paint paint = new Paint();
-		paint.setColor(Color.WHITE);
-		paint.setTextAlign(Align.CENTER);
-		paint.setTypeface(Typeface.SANS_SERIF);
-		paint.setTextSize(40);
-
-		float x = Device.SCREEN_WIDTH / 2;
-		float y = Device.SCREEN_HEIGHT / 2 - 300;
-
-		canvas.drawText(String.valueOf("Score : " + gameStatsManager.getCurrentScore()), x, y,
-						paint);
-		y += 50;
-		canvas.drawText(String.valueOf("High Score : " + gameStatsManager.getSessionHighScore())
-				, x,
-						y, paint);
-		y += 50;
-		canvas.drawText(
-				String.valueOf("All Time High Score : " + gameStatsManager.getGlobalHighScore())
-				, x,
-				y, paint);
-
-		y += 50;
-
-		canvas.drawText(String.valueOf("Avg Score : " + gameStatsManager.getAverageScore()), x, y,
-						paint);
-
-		if (!gameStatsManager.getDeathStat().isEmpty())
-		{
-			y += 50;
-			canvas.drawText(String.valueOf("Killed By : " + gameStatsManager.getDeathStat()), x, y,
-							paint);
-		}
-
-		for (Entry<String, Integer> entry : gameStatsManager.getHurtStats().entrySet())
-		{
-			y += 50;
-			canvas.drawText(entry.getKey() + "'s Hurt Count: " + entry.getValue(), x, y, paint);
-		}
-
-		y += 50;
-		canvas.drawText(String.valueOf("GamePlay Count : " + gameStatsManager.getGamePlayCount()),
-						x, y, paint);
-
-		y += 50;
-		int i = 1;
-		for (Long previousScore : gameStatsManager.getScoreHistory())
-		{
-			String qualifier = "st";
-			if (i == 2)
-			{
-				qualifier = "nd";
-			}
-			else if (i == 3)
-			{
-				qualifier = "rd";
-			}
-			canvas.drawText(i + qualifier + " Last Score" + " : " + String.valueOf(previousScore),
-							x, y,
-
-							paint);
-			y += 50;
-			i++;
 		}
 	}
 
@@ -259,6 +181,15 @@ public class RenderSystem implements UpdateSystem
 
 		return new Rect(left, top, right, bottom);
 	}
+
+
+	private void renderGame()
+	{
+		renderEntities();
+		renderHUD();
+		renderParticleEmission();
+	}
+
 
 	private void renderEntities()
 	{
@@ -474,6 +405,14 @@ public class RenderSystem implements UpdateSystem
 		}
 	}
 
+	private Paint initColliderPaint()
+	{
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		paint.setStyle(Style.STROKE);
+		return paint;
+	}
+
 	private Paint initParticlePaint()
 	{
 		return new Paint();
@@ -541,88 +480,98 @@ public class RenderSystem implements UpdateSystem
 		}
 	}
 
-	private void renderHappyShapes()
+
+	private void renderRects()
 	{
-		Vector2D delta = new Vector2D(Device.SCREEN_WIDTH / 4, Device.SCREEN_HEIGHT / 2);
-		float radius = 30.0f;
+		int wFactor = 20;
+		int hFactor = 35;
+		int width = Device.SCREEN_WIDTH / wFactor;
+		int height = Device.SCREEN_HEIGHT / hFactor;
+		Log.d("UNITS", "Width: " + width);
+		Log.d("UNITS", "Height: " + height);
 
-		Paint faceColor = new Paint();
-		faceColor.setColor(Color.BLACK);
-		canvas.drawCircle(delta.getX() + radius, delta.getY() + radius, radius, faceColor);
+		for (int i = 0; i < wFactor; i++)
+		{
+			for (int j = 0; j < hFactor; j++)
+			{
+				int left = (i * Device.SCREEN_WIDTH) / wFactor;
+				int right = left + width;
 
-		Paint eyeColor = new Paint();
-		eyeColor.setColor(Color.WHITE);
-		canvas.drawCircle(delta.getX() + radius / 2, delta.getY() + radius / 2, radius / 6,
-						  eyeColor);
-		canvas.drawCircle(delta.getX() + radius + radius / 2, delta.getY() + radius / 2, radius
-								  / 6,
-						  eyeColor);
+				int top = (j * Device.SCREEN_HEIGHT) / hFactor;
+				int bottom = top + height;
 
-		Path path = new Path();
-		path.moveTo(delta.getX() + radius / 2, delta.getY() + (radius * 4) / 3);
-		path.rQuadTo(radius / 2, (radius * 2) / 3, radius, 0);
-
-		Paint lipsColor = new Paint();
-		lipsColor.setColor(Color.WHITE);
-		lipsColor.setStrokeWidth(radius / 6);
-		lipsColor.setStyle(Paint.Style.STROKE);
-		canvas.drawPath(path, lipsColor);
+				Paint paint = ( (i + j) %2 == 0 ) ? checkeredPaint1 : checkeredPaint2;
+				canvas.drawRect(left, top, right, bottom, paint);
+			}
+		}
 	}
 
-	private void renderAnnoyedShapes()
+
+	private void renderGameStats()
 	{
-		Vector2D delta = new Vector2D(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2);
-		float radius = 30.0f;
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		paint.setTextAlign(Align.CENTER);
+		paint.setTypeface(Typeface.SANS_SERIF);
+		paint.setTextSize(40);
 
-		Paint faceColor = new Paint();
-		faceColor.setColor(Color.BLACK);
-		canvas.drawCircle(delta.getX() + radius, delta.getY() + radius, radius, faceColor);
+		float x = Device.SCREEN_WIDTH / 2;
+		float y = Device.SCREEN_HEIGHT / 2 - 300;
 
-		Paint eyeColor = new Paint();
-		eyeColor.setColor(Color.RED);
-		canvas.drawCircle(delta.getX() + radius / 2, delta.getY() + radius / 2, radius / 6,
-						  eyeColor);
-		canvas.drawCircle(delta.getX() + radius + radius / 2, delta.getY() + radius / 2, radius
-								  / 6,
-						  eyeColor);
+		canvas.drawText(String.valueOf("Score : " + gameStatsManager.getCurrentScore()), x, y,
+				paint);
+		y += 50;
+		canvas.drawText(String.valueOf("High Score : " + gameStatsManager.getSessionHighScore())
+				, x,
+				y, paint);
+		y += 50;
+		canvas.drawText(
+				String.valueOf("All Time High Score : " + gameStatsManager.getGlobalHighScore())
+				, x,
+				y, paint);
 
-		Path path = new Path();
-		path.moveTo(delta.getX() + radius / 2, delta.getY() + (radius * 4) / 3);
-		path.rQuadTo(radius / 2, (radius * 2) / 3, radius, 0);
+		y += 50;
 
-		Paint lipsColor = new Paint();
-		lipsColor.setColor(Color.WHITE);
-		lipsColor.setStrokeWidth(radius / 6);
-		lipsColor.setStyle(Paint.Style.STROKE);
-		canvas.drawPath(path, lipsColor);
-	}
+		canvas.drawText(String.valueOf("Avg Score : " + gameStatsManager.getAverageScore()), x, y,
+				paint);
 
-	private void renderAngryShapes()
-	{
-		Vector2D delta = new Vector2D((3*Device.SCREEN_WIDTH) / 4, Device.SCREEN_HEIGHT / 2);
-		float radius = 30.0f;
+		if (!gameStatsManager.getDeathStat().isEmpty())
+		{
+			y += 50;
+			canvas.drawText(String.valueOf("Killed By : " + gameStatsManager.getDeathStat()), x, y,
+					paint);
+		}
 
-		Paint faceColor = new Paint();
-		faceColor.setColor(Color.BLACK);
-		canvas.drawCircle(delta.getX() + radius, delta.getY() + radius, radius, faceColor);
+		for (Entry<String, Integer> entry : gameStatsManager.getHurtStats().entrySet())
+		{
+			y += 50;
+			canvas.drawText(entry.getKey() + "'s Hurt Count: " + entry.getValue(), x, y, paint);
+		}
 
-		Paint eyeColor = new Paint();
-		eyeColor.setColor(Color.RED);
-		canvas.drawCircle(delta.getX() + radius / 2, delta.getY() + radius / 2, radius / 6,
-						  eyeColor);
-		canvas.drawCircle(delta.getX() + radius + radius / 2, delta.getY() + radius / 2, radius
-								  / 6,
-						  eyeColor);
+		y += 50;
+		canvas.drawText(String.valueOf("GamePlay Count : " + gameStatsManager.getGamePlayCount()),
+				x, y, paint);
 
-		Path path = new Path();
-		path.moveTo(delta.getX() + radius / 2, delta.getY() + (radius * 4) / 3);
-		path.rQuadTo(radius / 2, 0, radius, 0);
+		y += 50;
+		int i = 1;
+		for (Long previousScore : gameStatsManager.getScoreHistory())
+		{
+			String qualifier = "st";
+			if (i == 2)
+			{
+				qualifier = "nd";
+			}
+			else if (i == 3)
+			{
+				qualifier = "rd";
+			}
+			canvas.drawText(i + qualifier + " Last Score" + " : " + String.valueOf(previousScore),
+					x, y,
 
-		Paint lipsColor = new Paint();
-		lipsColor.setColor(Color.RED);
-		lipsColor.setStrokeWidth(radius / 6);
-		lipsColor.setStyle(Paint.Style.STROKE);
-		canvas.drawPath(path, lipsColor);
+					paint);
+			y += 50;
+			i++;
+		}
 	}
 
 }

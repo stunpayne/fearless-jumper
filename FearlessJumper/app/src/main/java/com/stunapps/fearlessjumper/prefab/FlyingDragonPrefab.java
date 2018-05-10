@@ -29,72 +29,11 @@ public class FlyingDragonPrefab extends ComponentPrefab
 {
 	public FlyingDragonPrefab()
 	{
-		/*
-		transform = new Transform(
-				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + 100));
-
-		StateMachine<AnimationState, AnimationTransition> animationStateMachine =
-				StateMachine.builder().startState(FLY_RIGHT)
-						.fromAnyStateOnEvent(TURN_RIGHT).toState(FLY_RIGHT)
-						.fromAnyStateOnEvent(TURN_LEFT).toState(FLY_LEFT)
-						.build();
-
-		Bitmap dragonSprite1 = Bitmaps.DRAGON_FLY1;
-		Bitmap dragonSprite2 = Bitmaps.DRAGON_FLY2;
-		Bitmap dragonSprite3 = Bitmaps.DRAGON_FLY3;
-		Bitmap dragonSprite4 = Bitmaps.DRAGON_FLY4;
-
-		Animation idleAnim = new Animation(new Bitmap[]{dragonSprite1}, 0.5f);
-
-		Animation flyRightAnim = new Animation(
-				new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
-
-		Matrix m = new Matrix();
-		m.preScale(-1, 1);
-		dragonSprite1 = Bitmap.createBitmap(dragonSprite1, 0, 0, dragonSprite1.getWidth(),
-				dragonSprite1.getHeight(), m, false);
-		dragonSprite2 = Bitmap.createBitmap(dragonSprite2, 0, 0, dragonSprite2.getWidth(),
-				dragonSprite2.getHeight(), m, false);
-		dragonSprite3 = Bitmap.createBitmap(dragonSprite3, 0, 0, dragonSprite3.getWidth(),
-				dragonSprite3.getHeight(), m, false);
-		dragonSprite4 = Bitmap.createBitmap(dragonSprite4, 0, 0, dragonSprite4.getWidth(),
-				dragonSprite4.getHeight(), m, false);
-
-		Animation flyLeftAnim = new Animation(
-				new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
-
-		Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
-		stateAnimationMap.put(IDLE, idleAnim);
-		stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
-		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
-
-		BitmapAnimator animator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
-		//        animator.triggerTransition(TURN_RIGHT);
-		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
-				dragonSprite1.getHeight()));
-		addComponent(animator);
-		*/
-
-		/*LinkedList<Shape> allShapes = new LinkedList<>();
-
-		CircleShape circleShapeLeft = new CircleShape(15, new PaintProperties(null, Color.RED),
-												  new Vector2D());
-		allShapes.add(circleShapeLeft);
-
-		CircleShape circleShapeRight = new CircleShape(15, new PaintProperties(null, Color.RED),
-												  new Vector2D(30,0));
-		allShapes.add(circleShapeRight);
-
-		RectShape rectShape = new RectShape(30, 30, new PaintProperties(null, Color.BLACK),
-											new Vector2D(15,0));
-		allShapes.add(rectShape);*/
-
-
-		LinkedList<Shape> shapes = new LinkedList<>();
-
 		float bladeLength = 15f;
+		float radius = 1.4f * bladeLength;
+
 		CircleShape circle =
-				new CircleShape(bladeLength, new PaintProperties(null, Color.BLACK, null, null),
+				new CircleShape(radius, new PaintProperties(null, Color.BLACK, null, null),
 						new Vector2D(bladeLength, bladeLength));
 
 		PaintProperties linePaintProperties =
@@ -107,6 +46,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 				new LineShape(circle.getCenter().getX(), 0, circle.getCenter().getX(),
 						2 * bladeLength + circle.getDiameter(), linePaintProperties);
 
+		LinkedList<Shape> shapes = new LinkedList<>();
 		shapes.add(horizontalLine);
 		shapes.add(verticalLine);
 		shapes.add(circle);
@@ -120,6 +60,6 @@ public class FlyingDragonPrefab extends ComponentPrefab
 		addComponent(new PeriodicTranslation()
 				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - shapeRenderable.getWidth(), 250f));
 		addComponent(new ContactDamageComponent(1, false));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, 900.0f, false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, 300.0f, false));
 	}
 }

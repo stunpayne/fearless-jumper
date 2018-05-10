@@ -29,52 +29,6 @@ public class FollowingDragonPrefab extends ComponentPrefab
 {
 	public FollowingDragonPrefab()
 	{
-		/*
-		transform = new Transform(
-				new Position(Device.SCREEN_WIDTH / 2, Device.SCREEN_HEIGHT / 2 + scaleY(100)));
-
-		StateMachine animationStateMachine =
-				StateMachine.builder().startState(FLY_RIGHT)
-						.fromAnyStateOnEvent(TURN_RIGHT).toState(FLY_RIGHT)
-						.fromAnyStateOnEvent(TURN_LEFT).toState(FLY_LEFT)
-						.build();
-
-		Bitmap dragonSprite1 = Bitmaps.DRAGON_FLY1;
-		Bitmap dragonSprite2 = Bitmaps.DRAGON_FLY2;
-		Bitmap dragonSprite3 = Bitmaps.DRAGON_FLY3;
-		Bitmap dragonSprite4 = Bitmaps.DRAGON_FLY4;
-
-		Animation idleAnim = new Animation(new Bitmap[]{dragonSprite1}, 0.5f);
-
-		Animation flyRightAnim = new Animation(
-				new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
-
-		Matrix m = new Matrix();
-		m.preScale(-1, 1);
-		dragonSprite1 = Bitmap.createBitmap(dragonSprite1, 0, 0, dragonSprite1.getWidth(),
-											dragonSprite1.getHeight(), m, false);
-		dragonSprite2 = Bitmap.createBitmap(dragonSprite2, 0, 0, dragonSprite2.getWidth(),
-											dragonSprite2.getHeight(), m, false);
-		dragonSprite3 = Bitmap.createBitmap(dragonSprite3, 0, 0, dragonSprite3.getWidth(),
-											dragonSprite3.getHeight(), m, false);
-		dragonSprite4 = Bitmap.createBitmap(dragonSprite4, 0, 0, dragonSprite4.getWidth(),
-											dragonSprite4.getHeight(), m, false);
-
-		Animation flyLeftAnim = new Animation(
-				new Bitmap[]{dragonSprite1, dragonSprite2, dragonSprite3, dragonSprite4}, 0.5f);
-
-		Map<AnimationState, Animation> stateAnimationMap = new HashMap<>();
-		stateAnimationMap.put(IDLE, idleAnim);
-		stateAnimationMap.put(FLY_RIGHT, flyRightAnim);
-		stateAnimationMap.put(FLY_LEFT, flyLeftAnim);
-
-		BitmapAnimator animator = new BitmapAnimator(stateAnimationMap, animationStateMachine);
-
-		addComponent(new Renderable(dragonSprite1, Vector2D.ZERO, dragonSprite1.getWidth(),
-									dragonSprite1.getHeight()));
-		addComponent(animator);
-									*/
-
 		LinkedList<Shape> shapes = new LinkedList<>();
 		CircleShape circleShape =
 				new CircleShape(15, new PaintProperties(null, Color.BLACK, null, null),
