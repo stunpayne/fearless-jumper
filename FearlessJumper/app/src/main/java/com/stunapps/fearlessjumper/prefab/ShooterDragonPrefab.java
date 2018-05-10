@@ -44,8 +44,6 @@ public class ShooterDragonPrefab extends ComponentPrefab
 {
 	public ShooterDragonPrefab()
 	{
-		LinkedList<Shape> openMouthShapes = new LinkedList<>();
-
 		CircleShape eye = new CircleShape(7, new PaintProperties(null, Color.WHITE, null, null),
 										  new Vector2D(70, 15));
 
@@ -85,7 +83,7 @@ public class ShooterDragonPrefab extends ComponentPrefab
 		ShapeAnimator shapeAnimator = new ShapeAnimator(stateAnimationMap, animationStateMachine);
 		addComponent(shapeAnimator);
 
-		ShapeRenderable shapeRenderable = new ShapeRenderable(openMouthShapes, new Vector2D());
+		ShapeRenderable shapeRenderable = new ShapeRenderable(enemyShapes, new Vector2D());
 		addComponent(shapeRenderable);
 
 		addComponent(new Dragon(EnemyType.GRORUM));
