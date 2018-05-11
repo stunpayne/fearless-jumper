@@ -27,6 +27,7 @@ import com.stunapps.fearlessjumper.system.update.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.ScoreUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.TransformUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
+import com.stunapps.fearlessjumper.system.update.parameter.ParameterTuningSystem;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
 
@@ -53,7 +54,8 @@ public class Systems
 					MovementUpdateSystem.class, CollisionSystem.class, LowerBoundarySystem.class,
 					TransformUpdateSystem.class, ScoreUpdateSystem.class,
 					ClockCountdownSystem.class, FuelSystem.class, PeriodicGunSystem.class,
-					AnimationSystem.class, ParticleSystem.class, RenderSystem.class);
+					AnimationSystem.class, ParticleSystem.class, RenderSystem.class,
+					ParameterTuningSystem.class);
 
 	//  Next lines is hacky. The variable should be list but we can't create a list of
 	//  subclasses with only one element
