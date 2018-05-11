@@ -4,7 +4,6 @@ import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.game.UXParameters;
 import com.stunapps.fearlessjumper.system.update.parameter.GameContextWrapper;
 
 /**
@@ -14,7 +13,9 @@ import com.stunapps.fearlessjumper.system.update.parameter.GameContextWrapper;
 
 public class ScoreBasedRepeatingChange extends RepeatingParameterChange
 {
+	private static final String TAG = ScoreBasedRepeatingChange.class.getSimpleName();
 	private static int conditionsMet = 0;
+	private static int conditionsPerformed = 0;
 
 	public ScoreBasedRepeatingChange()
 	{
@@ -27,7 +28,7 @@ public class ScoreBasedRepeatingChange extends RepeatingParameterChange
 		ComponentManager componentManager = contextWrapper.getComponentManager();
 		Entity player = componentManager.getEntity(PlayerComponent.class);
 		Score scoreComponent = player.getComponent(Score.class);
-		if (scoreComponent.getScore() > 1000 && conditionsMet <= 0)
+		if (conditionsMet == 0 && scoreComponent.getScore() > 100)
 		{
 			conditionsMet++;
 			return true;
@@ -41,9 +42,10 @@ public class ScoreBasedRepeatingChange extends RepeatingParameterChange
 		ComponentManager componentManager = contextWrapper.getComponentManager();
 		Entity player = componentManager.getEntity(PlayerComponent.class);
 		Score scoreComponent = player.getComponent(Score.class);
-		if (scoreComponent.getScore() > 20)
+		if (conditionsPerformed == 0 && scoreComponent.getScore() > 100)
 		{
-			scoreComponent.addScore(10);
+			scoreComponent.addScore(20);
+			conditionsPerformed++;
 		}
 	}
 }

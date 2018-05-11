@@ -1,5 +1,7 @@
 package com.stunapps.fearlessjumper.system.update.parameter;
 
+import android.util.Log;
+
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.game.UXParameters;
@@ -19,6 +21,7 @@ import java.util.List;
 
 public class ParameterTuningSystem implements UpdateSystem
 {
+	private static final String TAG = ParameterTuningSystem.class.getSimpleName();
 	private static final long lastProcessTime = 0;
 
 	private final ComponentManager componentManager;
@@ -49,11 +52,11 @@ public class ParameterTuningSystem implements UpdateSystem
 			if (parameterChange.isConditionMet(gameContextWrapper))
 			{
 				parameterChange.perform(gameContextWrapper);
-			}
-			if (parameterChange.repeats())
-			{
-				expiredChanges.add(parameterChange);
-				iterator.remove();
+				if (parameterChange.repeats())
+				{
+					expiredChanges.add(parameterChange);
+					iterator.remove();
+				}
 			}
 		}
 	}
