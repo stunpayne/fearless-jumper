@@ -31,7 +31,7 @@ public class FlyingDragonPrefab extends ComponentPrefab
 {
 	public FlyingDragonPrefab()
 	{
-		float bladeLength = unitX() * 0.35f;
+		float bladeLength = unitX() * 0.6f;
 		float radius = 1.4f * bladeLength;
 
 		CircleShape circle =

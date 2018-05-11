@@ -1,6 +1,6 @@
 package com.stunapps.fearlessjumper.instantiation.prefab;
 
-import com.stunapps.fearlessjumper.instantiation.prefab.impl.AssaultDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.AssaultSmileyPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.BulletPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.ClockParticlePrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.ClockPrefab;
@@ -45,7 +45,7 @@ public enum PrefabRef
 	FOLLOWING_DRAGON(new FollowingDragonPrefab()),
 
 	//	Assault Dragon Prefab
-	ASSAULT_DRAGON(new AssaultDragonPrefab()),
+	ASSAULT_SMILEY(new AssaultSmileyPrefab()),
 
 	//	Grounded Dragon Prefab
 	GROUNDED_DRAGON(new GroundedDragonPrefab()),

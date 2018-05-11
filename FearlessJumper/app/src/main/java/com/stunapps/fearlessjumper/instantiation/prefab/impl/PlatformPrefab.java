@@ -26,8 +26,8 @@ public class PlatformPrefab extends ComponentPrefab
 {
 	public PlatformPrefab()
 	{
-		float width = unitX() * 3;
-		float grassHeight = unitY() * 0.4f;
+		float width = unitX() * 4;
+		float grassHeight = unitY() * 0.5f;
 		float soilHeight = grassHeight * 3;
 
 		Shape grass = new RectShape(width, grassHeight,

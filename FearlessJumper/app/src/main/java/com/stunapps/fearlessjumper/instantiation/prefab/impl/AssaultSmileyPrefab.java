@@ -21,6 +21,7 @@ import com.stunapps.fearlessjumper.component.visual.ShapeAnimator;
 import com.stunapps.fearlessjumper.component.visual.ShapeRenderable;
 import com.stunapps.fearlessjumper.core.StateMachine;
 import com.stunapps.fearlessjumper.game.Environment.Device;
+import com.stunapps.fearlessjumper.game.UXParameters;
 import com.stunapps.fearlessjumper.manager.CollisionLayer;
 import com.stunapps.fearlessjumper.model.Vector2D;
 
@@ -40,12 +41,14 @@ import static com.stunapps.fearlessjumper.animation.AnimationTransition.ASSAULT_
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_ASSUALT_LEFT;
 import static com.stunapps.fearlessjumper.animation.AnimationTransition.INVOKE_ASSUALT_RIGHT;
 import static com.stunapps.fearlessjumper.game.Environment.unitX;
+import static com.stunapps.fearlessjumper.game.UXParameters.ASSAULT_SMILEY_ATTACK_SPEED;
+import static com.stunapps.fearlessjumper.game.UXParameters.ASSAULT_SMILEY_WAIT_TIME;
 
 /**
  * Created by anand.verma on 10/03/18.
  */
 
-public class AssaultDragonPrefab extends ComponentPrefab
+public class AssaultSmileyPrefab extends ComponentPrefab
 {
 	private static final PaintProperties BLACK_PAINT =
 			new PaintProperties(null, Color.BLACK, null, null);
@@ -69,9 +72,9 @@ public class AssaultDragonPrefab extends ComponentPrefab
 		return RED_PAINT;
 	}
 
-	public AssaultDragonPrefab()
+	public AssaultSmileyPrefab()
 	{
-		float radius = unitX();
+		float radius = unitX() * 1.2f;
 		Vector2D delta = new Vector2D();
 		List<Shape> happyShape = getHappyShapes(radius, delta);
 		List<Shape> angryShape = getAngryShapes(radius, delta);
@@ -113,16 +116,16 @@ public class AssaultDragonPrefab extends ComponentPrefab
 						.toState(FLY_TO_ASSAULT_RIGHT).fromAnyStateOnEvent(ASSAULT_LEFT)
 						.toState(FLY_TO_ASSAULT_LEFT).build();
 
-		ShapeAnimator shapeAnimator = new ShapeAnimator(stateAnimationMap, animationStateMachine);
-		addComponent(shapeAnimator);
-
 		ShapeRenderable shapeRenderable = new ShapeRenderable(happyShape, new Vector2D());
+		ShapeAnimator shapeAnimator = new ShapeAnimator(stateAnimationMap, animationStateMachine);
+
 		addComponent(shapeRenderable);
+		addComponent(shapeAnimator);
 		addComponent(new Dragon(EnemyType.DRAXUS));
 		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
-									  shapeRenderable.getHeight(), CollisionLayer.SUPER_ENEMY));
-		addComponent(new AssaultTranslation(PlayerComponent.class, 150, 1500, 5.0f,
-											Device.SCREEN_HEIGHT / 4));
+				shapeRenderable.getHeight(), CollisionLayer.SUPER_ENEMY));
+		addComponent(new AssaultTranslation(PlayerComponent.class, ASSAULT_SMILEY_ATTACK_SPEED,
+				ASSAULT_SMILEY_WAIT_TIME, 5.0f, Device.SCREEN_HEIGHT / 4));
 		addComponent(new ContactDamageComponent(1, false));
 		addComponent(new PhysicsComponent(false));
 	}
@@ -189,7 +192,7 @@ public class AssaultDragonPrefab extends ComponentPrefab
 	private PathShape getLips(float radius, Vector2D delta, PaintProperties paintProperties)
 	{
 		Vector2D moveTo = new Vector2D(delta.getX() + radius / 2, delta.getY() + (radius * 4) / 3);
-		Vector2D quadTo1 = new Vector2D(radius / 2, (radius * 2) / 3);
+		Vector2D quadTo1 = new Vector2D(radius / 2, radius / 2);
 		Vector2D quadTo2 = new Vector2D(radius, 0);
 		return new PathShape(moveTo, quadTo1, quadTo2, paintProperties, new Vector2D());
 	}

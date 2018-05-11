@@ -37,10 +37,10 @@ public class UnfriendlyPlatformPrefab extends ComponentPrefab
 {
 	public UnfriendlyPlatformPrefab()
 	{
-		float width = unitX() * 3f;
+		float width = unitX() * 4f;
 		float burntHeight = 1f;
-		float grassHeight = unitX() * 0.3f;
-		float soilHeight = 3 * grassHeight;
+		float grassHeight = unitX() * 0.5f;
+		float soilHeight = grassHeight * 3;
 
 		addComponent(new Obstacle());
 		addComponent(new ContactDamageComponent(2, false,

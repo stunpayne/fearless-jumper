@@ -18,10 +18,9 @@ public class DI
 
     public static void install(Module module)
     {
-        Class var1 = DI.class;
         synchronized (DI.class)
         {
-            INJECTOR = Guice.createInjector(new Module[]{module});
+            INJECTOR = Guice.createInjector(module);
         }
     }
 

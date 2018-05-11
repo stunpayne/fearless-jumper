@@ -32,7 +32,7 @@ public class FollowingDragonPrefab extends ComponentPrefab
 	public FollowingDragonPrefab()
 	{
 		LinkedList<Shape> shapes = new LinkedList<>();
-		float bladeLength = unitX() * 0.35f;
+		float bladeLength = unitX() * 0.6f;
 		float radius = bladeLength;
 
 		CircleShape circleShape =

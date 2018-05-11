@@ -77,7 +77,7 @@ public abstract class GenerationRule extends Rule<GenerationRuleRequest, Generat
 							.returnItem(PrefabRef.CLOCK).withWeight(3f)
 							.returnItem(PrefabRef.FLYING_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.SHOOTER_DRAGON).withWeight(1f)
-							.returnItem(PrefabRef.ASSAULT_DRAGON).withWeight(2f)
+							.returnItem(PrefabRef.ASSAULT_SMILEY).withWeight(2f)
 							.returnItem(PrefabRef.FOLLOWING_DRAGON).withWeight(1f)
 							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM).withWeight(5f).build();
 		}
