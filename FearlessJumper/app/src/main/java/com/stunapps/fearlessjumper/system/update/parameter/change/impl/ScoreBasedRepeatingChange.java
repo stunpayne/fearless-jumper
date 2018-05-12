@@ -1,10 +1,7 @@
 package com.stunapps.fearlessjumper.system.update.parameter.change.impl;
 
-import com.stunapps.fearlessjumper.component.ComponentManager;
-import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
 import com.stunapps.fearlessjumper.component.specific.Score;
-import com.stunapps.fearlessjumper.entity.Entity;
-import com.stunapps.fearlessjumper.system.update.parameter.GameContextWrapper;
+import com.stunapps.fearlessjumper.system.model.GameContextWrapper;
 
 /**
  * @author: sunny.s

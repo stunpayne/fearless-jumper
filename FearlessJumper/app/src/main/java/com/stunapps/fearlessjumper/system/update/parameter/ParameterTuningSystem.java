@@ -1,10 +1,9 @@
 package com.stunapps.fearlessjumper.system.update.parameter;
 
-import android.util.Log;
-
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.game.UXParameters;
+import com.stunapps.fearlessjumper.system.model.GameContextWrapper;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;
 import com.stunapps.fearlessjumper.system.update.parameter.change.ParameterChange;
 import com.stunapps.fearlessjumper.system.update.parameter.change.impl.ScoreBasedRepeatingChange;

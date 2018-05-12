@@ -1,6 +1,6 @@
 package com.stunapps.fearlessjumper.system.update.parameter.change;
 
-import com.stunapps.fearlessjumper.system.update.parameter.GameContextWrapper;
+import com.stunapps.fearlessjumper.system.model.GameContextWrapper;
 
 /**
  * @author: sunny.s

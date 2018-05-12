@@ -1,4 +1,4 @@
-package com.stunapps.fearlessjumper.system.update.parameter;
+package com.stunapps.fearlessjumper.system.model;
 
 import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
