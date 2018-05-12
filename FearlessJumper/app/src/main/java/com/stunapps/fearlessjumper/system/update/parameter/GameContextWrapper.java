@@ -1,7 +1,10 @@
 package com.stunapps.fearlessjumper.system.update.parameter;
 
+import com.stunapps.fearlessjumper.component.Component;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.ComponentType;
+import com.stunapps.fearlessjumper.component.specific.PlayerComponent;
+import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.entity.Entity;
 
 /**
@@ -10,15 +13,25 @@ import com.stunapps.fearlessjumper.entity.Entity;
  */
 public class GameContextWrapper
 {
-	ComponentManager componentManager;
+	private Entity player;
+	private Score scoreComponent;
 
 	public GameContextWrapper(ComponentManager componentManager)
 	{
-		this.componentManager = componentManager;
+		if (componentManager != null)
+		{
+			player = componentManager.getEntity(PlayerComponent.class);
+			scoreComponent = player.getComponent(Score.class);
+		}
 	}
 
-	public ComponentManager getComponentManager()
+	public Entity getPlayer()
 	{
-		return componentManager;
+		return player;
+	}
+
+	public Score getScoreComponent()
+	{
+		return scoreComponent;
 	}
 }

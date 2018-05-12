@@ -25,9 +25,7 @@ public class ScoreBasedRepeatingChange extends RepeatingParameterChange
 	@Override
 	public boolean isConditionMet(GameContextWrapper contextWrapper)
 	{
-		ComponentManager componentManager = contextWrapper.getComponentManager();
-		Entity player = componentManager.getEntity(PlayerComponent.class);
-		Score scoreComponent = player.getComponent(Score.class);
+		Score scoreComponent = contextWrapper.getScoreComponent();
 		if (conditionsMet == 0 && scoreComponent.getScore() > 100)
 		{
 			conditionsMet++;
@@ -39,9 +37,7 @@ public class ScoreBasedRepeatingChange extends RepeatingParameterChange
 	@Override
 	public void perform(GameContextWrapper contextWrapper)
 	{
-		ComponentManager componentManager = contextWrapper.getComponentManager();
-		Entity player = componentManager.getEntity(PlayerComponent.class);
-		Score scoreComponent = player.getComponent(Score.class);
+		Score scoreComponent = contextWrapper.getScoreComponent();
 		if (conditionsPerformed == 0 && scoreComponent.getScore() > 100)
 		{
 			scoreComponent.addScore(20);

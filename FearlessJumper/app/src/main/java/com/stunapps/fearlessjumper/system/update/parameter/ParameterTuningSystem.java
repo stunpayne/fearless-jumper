@@ -32,8 +32,7 @@ public class ParameterTuningSystem implements UpdateSystem
 	public ParameterTuningSystem(ComponentManager componentManager)
 	{
 		this.componentManager = componentManager;
-		possibleParameterChanges = initialiseParameterChanges();
-		expiredChanges = Lists.newArrayList();
+		reset();
 	}
 
 	@Override
@@ -71,10 +70,12 @@ public class ParameterTuningSystem implements UpdateSystem
 	public void reset()
 	{
 		UXParameters.reset();
+		initialiseParameterChanges();
+		expiredChanges = Lists.newArrayList();
 	}
 
-	private List<? extends ParameterChange> initialiseParameterChanges()
+	private void initialiseParameterChanges()
 	{
-		return Lists.newArrayList(new ScoreBasedRepeatingChange());
+		possibleParameterChanges = Lists.newArrayList(new ScoreBasedRepeatingChange());
 	}
 }
