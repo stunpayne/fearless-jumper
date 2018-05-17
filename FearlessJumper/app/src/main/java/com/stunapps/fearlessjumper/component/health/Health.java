@@ -40,7 +40,7 @@ public class Health extends Component
     }
 
     @Override
-    public Health clone() throws CloneNotSupportedException
+    public Health cloneComponent() throws CloneNotSupportedException
     {
         return new Health(health);
     }

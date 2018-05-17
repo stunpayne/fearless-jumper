@@ -58,7 +58,7 @@ public class EternalEmitter extends Emitter
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Component cloneComponent() throws CloneNotSupportedException
 	{
 		return new EternalEmitter(config.clone());
 	}

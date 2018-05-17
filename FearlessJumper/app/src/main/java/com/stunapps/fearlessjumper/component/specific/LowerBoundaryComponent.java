@@ -14,7 +14,7 @@ public class LowerBoundaryComponent extends Component
     }
 
     @Override
-    public LowerBoundaryComponent clone() throws CloneNotSupportedException
+    public LowerBoundaryComponent cloneComponent() throws CloneNotSupportedException
     {
         return new LowerBoundaryComponent();
     }

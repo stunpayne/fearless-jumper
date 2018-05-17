@@ -179,7 +179,7 @@ public class PeriodicTranslation extends Component
 	}
 
 	@Override
-	public PeriodicTranslation clone() throws CloneNotSupportedException
+	public PeriodicTranslation cloneComponent() throws CloneNotSupportedException
 	{
 		PeriodicTranslation clone = new PeriodicTranslation();
 		if (movesInX())

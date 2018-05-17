@@ -19,5 +19,5 @@ abstract public class ConsciousTranslation extends Component
 	}
 
 	@Override
-	abstract public Component clone() throws CloneNotSupportedException;
+	abstract public Component cloneComponent() throws CloneNotSupportedException;
 }

@@ -71,7 +71,7 @@ public class Transform extends Component
 	}
 
 	@Override
-	public Transform clone() throws CloneNotSupportedException
+	public Transform cloneComponent() throws CloneNotSupportedException
 	{
 		return new Transform(new Position(position), new Rotation(rotation), new Scale(scale));
 	}

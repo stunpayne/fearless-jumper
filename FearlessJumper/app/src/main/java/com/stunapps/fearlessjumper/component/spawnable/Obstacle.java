@@ -14,7 +14,7 @@ public class Obstacle extends Component
     }
 
     @Override
-    public Obstacle clone() throws CloneNotSupportedException
+    public Obstacle cloneComponent() throws CloneNotSupportedException
     {
         return new Obstacle();
     }

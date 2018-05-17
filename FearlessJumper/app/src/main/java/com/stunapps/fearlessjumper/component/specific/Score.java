@@ -23,7 +23,7 @@ public class Score extends Component
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Component cloneComponent() throws CloneNotSupportedException
 	{
 		return new Score(this);
 	}

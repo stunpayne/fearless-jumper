@@ -46,7 +46,7 @@ public class RotationalEmitter extends BaseClusteredEmitter
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Component cloneComponent() throws CloneNotSupportedException
 	{
 		return new RotationalEmitter();
 	}

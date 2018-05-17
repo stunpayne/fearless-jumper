@@ -64,7 +64,7 @@ public class BitmapAnimator extends Component implements Animator<Bitmap>
 	}
 
 	@Override
-	public BitmapAnimator clone() throws CloneNotSupportedException
+	public BitmapAnimator cloneComponent() throws CloneNotSupportedException
 	{
 		return new BitmapAnimator(animations, animationStateMachine.clone());
 	}

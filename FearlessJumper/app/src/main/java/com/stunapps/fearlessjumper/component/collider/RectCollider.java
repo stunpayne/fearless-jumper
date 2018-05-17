@@ -21,7 +21,7 @@ public class RectCollider extends Collider
 	}
 
 	@Override
-	public RectCollider clone() throws CloneNotSupportedException
+	public RectCollider cloneComponent() throws CloneNotSupportedException
 	{
 		return new RectCollider(this.delta, this.width, this.height, this.trigger,
 				this.collisionLayer);

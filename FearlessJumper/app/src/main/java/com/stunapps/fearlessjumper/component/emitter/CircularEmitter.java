@@ -84,7 +84,7 @@ public class CircularEmitter extends BaseClusteredEmitter
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Component cloneComponent() throws CloneNotSupportedException
 	{
 		return new CircularEmitter();
 	}

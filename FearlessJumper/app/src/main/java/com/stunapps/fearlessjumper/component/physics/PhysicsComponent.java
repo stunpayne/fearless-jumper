@@ -123,7 +123,7 @@ public class PhysicsComponent extends Component
 	}
 
 	@Override
-	public PhysicsComponent clone() throws CloneNotSupportedException
+	public PhysicsComponent cloneComponent() throws CloneNotSupportedException
 	{
 		return new PhysicsComponent(mass, velocity.clone(), angularVelocity, gravityFactor,
 				applyGravity, friction);

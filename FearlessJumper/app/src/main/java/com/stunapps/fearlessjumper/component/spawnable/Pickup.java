@@ -27,7 +27,7 @@ public class Pickup extends Component
 	}
 
 	@Override
-	public Pickup clone() throws CloneNotSupportedException
+	public Pickup cloneComponent() throws CloneNotSupportedException
 	{
 		return new Pickup(type, pickupValue);
 	}

@@ -69,7 +69,7 @@ public class ShapeAnimator extends Component implements Animator<List<Shape>>
 	}
 
 	@Override
-	public ShapeAnimator clone() throws CloneNotSupportedException
+	public ShapeAnimator cloneComponent() throws CloneNotSupportedException
 	{
 		return new ShapeAnimator(animations, animationStateMachine.clone());
 	}

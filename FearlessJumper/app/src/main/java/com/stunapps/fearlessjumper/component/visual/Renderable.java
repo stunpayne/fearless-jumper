@@ -51,7 +51,7 @@ public class Renderable extends Component
 	}
 
 	@Override
-	public Renderable clone() throws CloneNotSupportedException
+	public Renderable cloneComponent() throws CloneNotSupportedException
 	{
 		return new Renderable(sprite, delta, width, height);
 	}

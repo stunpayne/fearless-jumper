@@ -27,5 +27,11 @@ public abstract class Component
         this.entity = entity;
     }
 
-    public abstract Component clone() throws CloneNotSupportedException;
+    public Component clone(Entity entity) throws CloneNotSupportedException
+    {
+        setEntity(entity);
+        return cloneComponent();
+    }
+
+    public abstract Component cloneComponent() throws CloneNotSupportedException;
 }

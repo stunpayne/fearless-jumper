@@ -56,7 +56,7 @@ public class ContactDamageComponent extends DamageComponent
     }
 
     @Override
-    public ContactDamageComponent clone() throws CloneNotSupportedException
+    public ContactDamageComponent cloneComponent() throws CloneNotSupportedException
     {
         return new ContactDamageComponent(damage, selfDestructOnContact, damageRespondingFaces);
     }

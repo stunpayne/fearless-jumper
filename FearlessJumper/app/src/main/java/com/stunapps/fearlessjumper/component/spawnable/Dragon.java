@@ -12,7 +12,7 @@ public class Dragon extends Enemy
     }
 
     @Override
-    public Dragon clone() throws CloneNotSupportedException
+    public Dragon cloneComponent() throws CloneNotSupportedException
     {
         return new Dragon(enemyType);
     }

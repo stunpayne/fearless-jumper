@@ -32,7 +32,7 @@ public class Fuel extends Component
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Component cloneComponent() throws CloneNotSupportedException
 	{
 		return new Fuel(fuel, refuelWaitMillis);
 	}

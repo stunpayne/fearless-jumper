@@ -28,7 +28,7 @@ public class AssaultTranslation extends ConsciousTranslation
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Component cloneComponent() throws CloneNotSupportedException
 	{
 		return new AssaultTranslation(this.targetComponent,
 									  (new Random().nextFloat() % 10) + this.speed,

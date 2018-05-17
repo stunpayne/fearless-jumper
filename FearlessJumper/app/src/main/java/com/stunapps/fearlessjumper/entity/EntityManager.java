@@ -35,7 +35,7 @@ public class EntityManager
 
 	public Entity createEntity(Transform transform) throws CloneNotSupportedException
 	{
-		Entity entity = new Entity(componentManager, this, transform.clone(), rand.nextInt());
+		Entity entity = new Entity(componentManager, this, transform.cloneComponent(), rand.nextInt());
 		entityMap.put(entity.getId(), entity);
 		return entity;
 	}
@@ -92,9 +92,8 @@ public class EntityManager
 	{
 		for (Component component : instantiable.getComponents())
 		{
-			Component clone = component.clone();
+			Component clone = component.clone(entity);
 			entity.addComponent(clone);
-			clone.setEntity(entity);
 		}
 	}
 }

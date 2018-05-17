@@ -111,7 +111,7 @@ public class ShapeRenderable extends Component
 	}
 
 	@Override
-	public ShapeRenderable clone() throws CloneNotSupportedException
+	public ShapeRenderable cloneComponent() throws CloneNotSupportedException
 	{
 		return new ShapeRenderable(new LinkedList<>(shapes), Vector2D.from(delta), anchor);
 	}

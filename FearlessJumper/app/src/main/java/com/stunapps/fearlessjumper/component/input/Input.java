@@ -29,7 +29,7 @@ public class Input extends Component
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Component cloneComponent() throws CloneNotSupportedException
 	{
 		return new Input(respondsToTouch, respondsToSensor);
 	}

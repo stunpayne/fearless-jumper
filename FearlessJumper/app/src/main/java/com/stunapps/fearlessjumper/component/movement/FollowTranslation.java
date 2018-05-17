@@ -16,7 +16,7 @@ public class FollowTranslation extends ConsciousTranslation
 	}
 
 	@Override
-	public Component clone() throws CloneNotSupportedException
+	public Component cloneComponent() throws CloneNotSupportedException
 	{
 		return new FollowTranslation(this.targetComponent,
 									 (new Random().nextFloat() % 10) + this.speed);

@@ -14,7 +14,7 @@ public class PlayerComponent extends Component
     }
 
     @Override
-    public PlayerComponent clone() throws CloneNotSupportedException
+    public PlayerComponent cloneComponent() throws CloneNotSupportedException
     {
         return new PlayerComponent();
     }
