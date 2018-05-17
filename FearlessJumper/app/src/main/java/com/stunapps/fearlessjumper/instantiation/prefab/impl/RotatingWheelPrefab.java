@@ -27,12 +27,12 @@ import static com.stunapps.fearlessjumper.game.Environment.unitX;
  * Created by sunny.s on 21/01/18.
  */
 
-public class FlyingDragonPrefab extends ComponentPrefab
+public class RotatingWheelPrefab extends ComponentPrefab
 {
-	public FlyingDragonPrefab()
+	public RotatingWheelPrefab()
 	{
-		float bladeLength = unitX() * 0.6f;
-		float radius = 1.4f * bladeLength;
+		float bladeLength = unitX() * 0.9f;
+		float radius = 2f * bladeLength;
 
 		CircleShape circle =
 				new CircleShape(radius, new PaintProperties(null, Color.BLACK, null, null),
@@ -54,14 +54,14 @@ public class FlyingDragonPrefab extends ComponentPrefab
 		shapes.add(circle);
 
 		ShapeRenderable shapeRenderable = new ShapeRenderable(shapes, new Vector2D());
-		addComponent(shapeRenderable);
 
+		addComponent(shapeRenderable);
 		addComponent(new Dragon(EnemyType.MINIGON));
 		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
 				shapeRenderable.getHeight(), CollisionLayer.ENEMY));
 		addComponent(new PeriodicTranslation()
 				.withAbsoluteXMovement(0, Device.SCREEN_WIDTH - shapeRenderable.getWidth(), 250f));
 		addComponent(new ContactDamageComponent(1, false));
-		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, 300.0f, false));
+		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, 500.0f, false));
 	}
 }

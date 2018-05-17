@@ -4,16 +4,14 @@ import com.stunapps.fearlessjumper.instantiation.prefab.impl.AssaultSmileyPrefab
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.BulletPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.ClockParticlePrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.ClockPrefab;
-import com.stunapps.fearlessjumper.instantiation.prefab.impl.FlyingDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.RotatingWheelPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.FollowingDragonPrefab;
-import com.stunapps.fearlessjumper.instantiation.prefab.impl.GroundedDragonPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.LandPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.PlatformPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.PlayerPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.ShooterDragonPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.TestShapePrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.UnfriendlyPlatformPrefab;
-import com.stunapps.fearlessjumper.instantiation.prefab.sets.impl.GroundedDragonPrefabSet;
 
 /**
  * Created by sunny.s on 12/01/18.
@@ -39,16 +37,13 @@ public enum PrefabRef
 	LAND(new LandPrefab()),
 
 	//	Flying Dragon Prefab
-	FLYING_DRAGON(new FlyingDragonPrefab()),
+	ROTATING_WHEEL(new RotatingWheelPrefab()),
 
 	//	Following Dragon Prefab
 	FOLLOWING_DRAGON(new FollowingDragonPrefab()),
 
 	//	Assault Dragon Prefab
 	ASSAULT_SMILEY(new AssaultSmileyPrefab()),
-
-	//	Grounded Dragon Prefab
-	GROUNDED_DRAGON(new GroundedDragonPrefab()),
 
 	//	Bullet Prefab
 	BULLET(new BulletPrefab()),
@@ -63,12 +58,7 @@ public enum PrefabRef
 	CLOCK_PARTICLE(new ClockParticlePrefab()),
 
 	//	Test Shape Prefab
-	TEST_SHAPE_PREFAB(new TestShapePrefab()),
-
-	/**
-	 * Set prefabs
-	 */
-	GROUNDED_DRAGON_SET(new GroundedDragonPrefabSet()),;
+	TEST_SHAPE_PREFAB(new TestShapePrefab());
 
 	private Prefab prefab;
 

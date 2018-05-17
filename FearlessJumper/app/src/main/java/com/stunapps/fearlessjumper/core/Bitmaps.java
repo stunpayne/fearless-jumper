@@ -23,21 +23,7 @@ public class Bitmaps
 	public static Bitmap PLAYER_DIED;
 
 	//	Obstacles
-	public static Bitmap PLATFORM;
 	public static Bitmap CLOCK;
-
-	//	Dragon
-	public static Bitmap DRAGON_FLY1;
-	public static Bitmap DRAGON_FLY2;
-	public static Bitmap DRAGON_FLY3;
-	public static Bitmap DRAGON_FLY4;
-	public static Bitmap DRAGON_ASSAULT1;
-	public static Bitmap DRAGON_ASSAULT2;
-	public static Bitmap DRAGON_ASSAULT3;
-	public static Bitmap DRAGON_ASSAULT4;
-
-	//	Bullet
-	public static Bitmap BULLET;
 
 	public static Bitmap BLANK_IMAGE;
 
@@ -50,20 +36,7 @@ public class Bitmaps
 		PLAYER_HURT = initBitmap(R.drawable.alienblue_hurt, 90, 125);
 		PLAYER_DIED = initBitmap(R.drawable.alienblue_died, 90, 125);
 
-		PLATFORM = initBitmap(R.drawable.platform, 400, 100);
 		CLOCK = initBitmap(R.drawable.clock, 115, 115);
-
-		DRAGON_FLY1 = initBitmap(R.drawable.dragon_fly1, Dimensions.dragonX, Dimensions.dragonY);
-		DRAGON_FLY2 = initBitmap(R.drawable.dragon_fly2, Dimensions.dragonX, Dimensions.dragonY);
-		DRAGON_FLY3 = initBitmap(R.drawable.dragon_fly3, Dimensions.dragonX, Dimensions.dragonY);
-		DRAGON_FLY4 = initBitmap(R.drawable.dragon_fly4, Dimensions.dragonX, Dimensions.dragonY);
-
-		DRAGON_ASSAULT1 = initBitmap(R.drawable.dragon_assault1, Dimensions.dragonX, Dimensions.dragonY);
-		DRAGON_ASSAULT2 = initBitmap(R.drawable.dragon_assault2, Dimensions.dragonX, Dimensions.dragonY);
-		DRAGON_ASSAULT3 = initBitmap(R.drawable.dragon_assault3, Dimensions.dragonX, Dimensions.dragonY);
-		DRAGON_ASSAULT4 = initBitmap(R.drawable.dragon_assault4, Dimensions.dragonX, Dimensions.dragonY);
-
-		BULLET = initBitmap(R.drawable.bullet, Dimensions.bulletX, Dimensions.bulletY);
 
 		BLANK_IMAGE = initBitmap(R.drawable.blank_image, 90, 125);
 

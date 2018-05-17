@@ -36,7 +36,7 @@ public class CollisionLayerTest
 		collisionLayerManager.unsetCollisionLayerMask(CollisionLayer.PLAYER, CollisionLayer.ENEMY);
 
 
-		Entity dragonEntity = entityManager.instantiate(PrefabRef.FLYING_DRAGON.get(), Transform
+		Entity dragonEntity = entityManager.instantiate(PrefabRef.ROTATING_WHEEL.get(), Transform
 				.ORIGIN).get(0);
 		Entity playerEntity = entityManager.instantiate(PrefabRef.PLAYER.get(), Transform.ORIGIN)
 				.get(0);
