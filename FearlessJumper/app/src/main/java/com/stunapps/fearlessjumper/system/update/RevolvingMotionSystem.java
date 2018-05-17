@@ -1,11 +1,15 @@
 package com.stunapps.fearlessjumper.system.update;
 
+import android.util.Log;
+
 import com.google.inject.Inject;
 import com.stunapps.fearlessjumper.component.ComponentManager;
 import com.stunapps.fearlessjumper.component.movement.RevolvingTranslation;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
 import com.stunapps.fearlessjumper.entity.Entity;
 import com.stunapps.fearlessjumper.entity.EntityManager;
+import com.stunapps.fearlessjumper.game.Time;
+import com.stunapps.fearlessjumper.model.Velocity;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -38,39 +42,28 @@ public class RevolvingMotionSystem implements UpdateSystem
 				RevolvingTranslation revolvingTranslation =
 						entity.getComponent(RevolvingTranslation.class);
 
+				float omega = revolvingTranslation.getOmega(); // theta/time
+				float radius = revolvingTranslation.getRadius();
 
-
-				float omega = 3.0f; // theta/time
-				float radius = 5.0f;
 				float radialAcceleration = omega * omega * radius;
 
-				int frames = 360;
+				Velocity velocity = physicsComponent.getVelocity();
+				float XVelocity = velocity.getX();
+				float YVelocity = velocity.getY();
 
-				float XVelocity = 0.0f;
-				float YVelocity = 5.0f;
+				float theta = revolvingTranslation.getTheta();
 
-				float theta = 0.0f;
+//				YVelocity = radialAcceleration * (float) Math.sin(Math.toRadians(theta)) ;
+				XVelocity = radialAcceleration * (float) Math.cos(Math.toRadians(theta)) ;
 
-				List<Float> xVelocityList = new LinkedList<>();
-				List<Float> yVelocityList = new LinkedList<>();
+				Log.d("RevolvingMotionSystem",
+					  "process: " + Math.sqrt(YVelocity * YVelocity + XVelocity * XVelocity));
 
-				for (int i = 0; i < frames; i++)
-				{
-					xVelocityList.add(XVelocity);
-					yVelocityList.add(YVelocity);
-					YVelocity = YVelocity +
-							radialAcceleration * (float) Math.sin(Math.toRadians(theta));
-					XVelocity = XVelocity +
-							radialAcceleration * (float) Math.cos(Math.toRadians(theta));
-					theta += omega;
-					if (i >= 120)
-					{
-						System.out.println("x compare = " + (Math.round(xVelocityList.get(i)) ==
-								Math.round(xVelocityList.get(i - 120))));
-						System.out.println("y compare = " + (Math.round(yVelocityList.get(i)) ==
-								Math.round(yVelocityList.get(i - 120))));
-					}
-				}
+				theta += omega;
+
+				velocity.setX(XVelocity);
+				velocity.setY(YVelocity);
+				revolvingTranslation.setTheta(theta);
 			}
 		}
 	}

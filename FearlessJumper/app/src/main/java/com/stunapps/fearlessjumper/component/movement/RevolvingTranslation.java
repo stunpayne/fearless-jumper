@@ -9,16 +9,39 @@ import com.stunapps.fearlessjumper.component.Component;
 public class RevolvingTranslation extends Component
 {
 	private float radius;
+	private float omega;
+	private float theta;
 
-	public RevolvingTranslation(float radius)
+	public RevolvingTranslation(float radius, float omega)
 	{
 		super(RevolvingTranslation.class);
 		this.radius = radius;
+		this.omega = omega;
 	}
 
 	@Override
 	public Component cloneComponent() throws CloneNotSupportedException
 	{
-		return new RevolvingTranslation(radius);
+		return new RevolvingTranslation(radius, omega);
+	}
+
+	public float getRadius()
+	{
+		return radius;
+	}
+
+	public float getOmega()
+	{
+		return omega;
+	}
+
+	public float getTheta()
+	{
+		return theta;
+	}
+
+	public void setTheta(float theta)
+	{
+		this.theta = theta;
 	}
 }

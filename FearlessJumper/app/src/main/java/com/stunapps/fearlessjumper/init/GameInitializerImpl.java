@@ -56,7 +56,8 @@ public class GameInitializerImpl implements GameInitializer
 			x = Device.SCREEN_WIDTH / 4;
 			y = Device.SCREEN_HEIGHT / 2;
 			Transform transform1 = new Transform(new Position(x, y));
-			entityManager.instantiate(PrefabRef.FLYING_DRAGON.get(), transform1);
+			//entityManager.instantiate(PrefabRef.FLYING_DRAGON.get(), transform1);
+			entityManager.instantiate(PrefabRef.REVOLVING_ENEMY.get(), transform1);
 		}
 		catch (Exception e)
 		{

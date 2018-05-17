@@ -10,6 +10,7 @@ import com.stunapps.fearlessjumper.instantiation.prefab.impl.GroundedDragonPrefa
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.LandPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.PlatformPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.PlayerPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.RevolvingEnemyPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.ShooterDragonPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.TestShapePrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.UnfriendlyPlatformPrefab;
@@ -55,6 +56,9 @@ public enum PrefabRef
 
 	//	Shooter Dragon Prefab
 	SHOOTER_DRAGON(new ShooterDragonPrefab()),
+
+	// Revolving Enemy Prefab
+	REVOLVING_ENEMY(new RevolvingEnemyPrefab()),
 
 	//	Clock Prefab
 	CLOCK(new ClockPrefab()),

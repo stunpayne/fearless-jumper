@@ -149,6 +149,7 @@ public class GenerationSystem implements UpdateSystem
 							.returnItem(PrefabRef.FLYING_DRAGON.get()).withWeight(1f)
 							.returnItem(PrefabRef.CLOCK.get()).withWeight(3f)
 							.returnItem(PrefabRef.SHOOTER_DRAGON.get()).withWeight(1f)
+							.returnItem(PrefabRef.REVOLVING_ENEMY.get()).withWeight(1f)
 							.returnItem(PrefabRef.FOLLOWING_DRAGON.get()).withWeight(1f)
 							.returnItem(PrefabRef.ASSAULT_SMILEY.get()).withWeight(20f)
 							.returnItem(PrefabRef.UNFRIENDLY_PLATFORM.get()).withWeight(5f)
