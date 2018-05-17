@@ -117,7 +117,6 @@ public class RenderSystem implements UpdateSystem
 
 		Cameras.update();
 
-		canvas.drawColor(Color.YELLOW);
 //		renderBackground();
 		renderRects();
 		renderGame();

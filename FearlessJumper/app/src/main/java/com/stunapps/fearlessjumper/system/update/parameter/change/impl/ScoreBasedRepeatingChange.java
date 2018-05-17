@@ -4,7 +4,7 @@ import com.stunapps.fearlessjumper.component.specific.Score;
 import com.stunapps.fearlessjumper.system.model.GameContextWrapper;
 
 /**
- * @author: sunny.s
+ * @author sunny.s
  * @since 11/05/18.
  */
 

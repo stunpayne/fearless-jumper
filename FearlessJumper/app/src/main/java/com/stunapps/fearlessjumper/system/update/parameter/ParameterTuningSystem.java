@@ -50,7 +50,7 @@ public class ParameterTuningSystem implements UpdateSystem
 			if (parameterChange.isConditionMet(gameContextWrapper))
 			{
 				parameterChange.perform(gameContextWrapper);
-				if (parameterChange.repeats())
+				if (!parameterChange.repeats())
 				{
 					expiredChanges.add(parameterChange);
 					iterator.remove();
