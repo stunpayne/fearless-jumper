@@ -36,9 +36,9 @@ import static com.stunapps.fearlessjumper.game.Environment.unitX;
  * Created by sunny.s on 10/03/18.
  */
 
-public class ShooterDragonPrefab extends ComponentPrefab
+public class GunnerFacePrefab extends ComponentPrefab
 {
-	public ShooterDragonPrefab()
+	public GunnerFacePrefab()
 	{
 		float arcWidth = unitX() * 2f;
 		float arcHeight = unitX() * 2f;

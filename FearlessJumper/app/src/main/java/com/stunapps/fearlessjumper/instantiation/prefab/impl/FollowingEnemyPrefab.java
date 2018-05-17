@@ -27,9 +27,9 @@ import static com.stunapps.fearlessjumper.game.Environment.unitX;
  * Created by anand.verma on 10/03/18.
  */
 
-public class FollowingDragonPrefab extends ComponentPrefab
+public class FollowingEnemyPrefab extends ComponentPrefab
 {
-	public FollowingDragonPrefab()
+	public FollowingEnemyPrefab()
 	{
 		LinkedList<Shape> shapes = new LinkedList<>();
 		float bladeLength = unitX() * 0.6f;

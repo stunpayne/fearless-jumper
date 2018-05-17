@@ -27,9 +27,9 @@ import static com.stunapps.fearlessjumper.game.Environment.unitX;
  * Created by sunny.s on 09/03/18.
  */
 
-public class BulletPrefab extends ComponentPrefab
+public class TriangleBulletPrefab extends ComponentPrefab
 {
-	public BulletPrefab()
+	public TriangleBulletPrefab()
 	{
 		float radius = unitX() / 7f;
 		float triangleSideLength = unitX();

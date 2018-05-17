@@ -1,15 +1,15 @@
 package com.stunapps.fearlessjumper.instantiation.prefab;
 
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.AssaultSmileyPrefab;
-import com.stunapps.fearlessjumper.instantiation.prefab.impl.BulletPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.TriangleBulletPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.ClockParticlePrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.ClockPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.RotatingWheelPrefab;
-import com.stunapps.fearlessjumper.instantiation.prefab.impl.FollowingDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.FollowingEnemyPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.LandPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.PlatformPrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.PlayerPrefab;
-import com.stunapps.fearlessjumper.instantiation.prefab.impl.ShooterDragonPrefab;
+import com.stunapps.fearlessjumper.instantiation.prefab.impl.GunnerFacePrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.TestShapePrefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.impl.UnfriendlyPlatformPrefab;
 
@@ -40,16 +40,16 @@ public enum PrefabRef
 	ROTATING_WHEEL(new RotatingWheelPrefab()),
 
 	//	Following Dragon Prefab
-	FOLLOWING_DRAGON(new FollowingDragonPrefab()),
+	FOLLOWING_DRAGON(new FollowingEnemyPrefab()),
 
 	//	Assault Dragon Prefab
 	ASSAULT_SMILEY(new AssaultSmileyPrefab()),
 
 	//	Bullet Prefab
-	BULLET(new BulletPrefab()),
+	BULLET(new TriangleBulletPrefab()),
 
 	//	Shooter Dragon Prefab
-	SHOOTER_DRAGON(new ShooterDragonPrefab()),
+	SHOOTER_DRAGON(new GunnerFacePrefab()),
 
 	//	Clock Prefab
 	CLOCK(new ClockPrefab()),
