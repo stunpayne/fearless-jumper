@@ -7,9 +7,13 @@ import com.stunapps.fearlessjumper.event.EventException;
 import com.stunapps.fearlessjumper.event.model.BaseEvent;
 import com.stunapps.fearlessjumper.event.system.EventSystem;
 
+import org.roboguice.shaded.goole.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -68,6 +72,7 @@ public class GameEventSystem implements EventSystem
 	@Override
 	public List<BaseEventListener> getEventListeners(Class<? extends BaseEvent> eventType)
 	{
-		return eventListenersMap.get(eventType);
+		return eventListenersMap.get(eventType) != null ? eventListenersMap
+				.get(eventType) : new ArrayList<BaseEventListener>();
 	}
 }

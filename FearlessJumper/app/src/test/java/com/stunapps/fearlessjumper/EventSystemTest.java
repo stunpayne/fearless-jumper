@@ -9,6 +9,7 @@ import com.stunapps.fearlessjumper.event.model.system.CollisionEvent;
 import com.stunapps.fearlessjumper.event.EventException;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -17,7 +18,13 @@ import org.junit.Test;
 
 public class EventSystemTest
 {
-	EventSystem eventSystem = new GameEventSystem();
+	static EventSystem eventSystem = new GameEventSystem();
+
+	@BeforeClass
+	public static void setUp()
+	{
+		eventSystem = new GameEventSystem();
+	}
 
 	@Test
 	public void testRegisterUnregister()
