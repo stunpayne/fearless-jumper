@@ -18,6 +18,7 @@ import java.util.List;
 public class ShapeRenderable extends Component
 {
 	private List<Shape> shapes;
+	private boolean shadowed;
 	private Vector2D delta;
 	private Vector2D anchor;
 
@@ -26,12 +27,23 @@ public class ShapeRenderable extends Component
 
 	public ShapeRenderable(List<Shape> shapes, Vector2D delta)
 	{
-		this(shapes, delta, null);
+		this(shapes, delta, false);
+	}
+
+	public ShapeRenderable(List<Shape> shapes, Vector2D delta, boolean shadowed)
+	{
+		this(shapes, delta, null, shadowed);
 	}
 
 	public ShapeRenderable(List<Shape> shapes, Vector2D delta, Vector2D anchor)
 	{
+		this(shapes, delta, null, false);
+	}
+
+	public ShapeRenderable(List<Shape> shapes, Vector2D delta, Vector2D anchor, boolean shadowed)
+	{
 		super(ShapeRenderable.class);
+		this.shadowed = shadowed;
 		this.shapes = shapes;
 		this.delta = delta;
 		if (anchor != null)
@@ -48,6 +60,11 @@ public class ShapeRenderable extends Component
 	public List<Shape> getRenderables()
 	{
 		return shapes;
+	}
+
+	public boolean isShadowed()
+	{
+		return shadowed;
 	}
 
 	public float getWidth()
@@ -113,7 +130,8 @@ public class ShapeRenderable extends Component
 	@Override
 	public ShapeRenderable clone() throws CloneNotSupportedException
 	{
-		return new ShapeRenderable(new LinkedList<>(shapes), Vector2D.from(delta), anchor);
+		return new ShapeRenderable(new LinkedList<>(shapes), Vector2D.from(delta), anchor,
+				shadowed);
 	}
 }
 

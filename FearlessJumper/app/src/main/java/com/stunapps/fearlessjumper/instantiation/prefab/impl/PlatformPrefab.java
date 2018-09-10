@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.stunapps.fearlessjumper.component.collider.RectCollider;
 import com.stunapps.fearlessjumper.component.physics.PhysicsComponent;
+import com.stunapps.fearlessjumper.component.spawnable.Obstacle;
 import com.stunapps.fearlessjumper.component.visual.RectShape;
 import com.stunapps.fearlessjumper.component.visual.Shape;
 import com.stunapps.fearlessjumper.component.visual.Shape.PaintProperties;
@@ -40,9 +41,10 @@ public class PlatformPrefab extends ComponentPrefab
 		platform.add(grass);
 		platform.add(soil);
 
-		ShapeRenderable shapeRenderable = new ShapeRenderable(platform, new Vector2D());
+		ShapeRenderable shapeRenderable = new ShapeRenderable(platform, new Vector2D(), true);
 		addComponent(shapeRenderable);
 
+		addComponent(new Obstacle());
 		addComponent(new RectCollider(Vector2D.ZERO, shapeRenderable.getWidth(),
 				shapeRenderable.getHeight(), CollisionLayer.SOLID));
 		addComponent(new PhysicsComponent(Float.MAX_VALUE, Velocity.ZERO, false,

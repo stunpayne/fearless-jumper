@@ -99,8 +99,8 @@ public class RenderSystem implements UpdateSystem
 		colliderPaint = initColliderPaint();
 		particlePaint = initParticlePaint();
 		fuelPaint = initFuelPaint();
-		checkeredPaint1.setColor(Color.CYAN);
-		checkeredPaint2.setColor(Color.LTGRAY);
+		checkeredPaint1.setColor(Color.rgb(230, 230, 230));
+		checkeredPaint2.setColor(Color.rgb(230, 230, 230));
 	}
 
 	@Override
@@ -246,6 +246,10 @@ public class RenderSystem implements UpdateSystem
 			{
 				PaintProperties paintProperties = shape.getPaintProperties();
 				Paint paint = paintProperties.getPaint();
+				if (shapeRenderable.isShadowed())
+				{
+					paint.setShadowLayer(10, 2, 3, Color.rgb(0,0,0));
+				}
 
 				switch (shape.shapeType())
 				{
@@ -482,6 +486,7 @@ public class RenderSystem implements UpdateSystem
 
 	private void renderRects()
 	{
+		canvas.drawRect(0, 0, Device.SCREEN_WIDTH, Device.SCREEN_HEIGHT, checkeredPaint1);
 		int wFactor = 20;
 		int hFactor = 35;
 		int width = Device.SCREEN_WIDTH / wFactor;
@@ -500,7 +505,7 @@ public class RenderSystem implements UpdateSystem
 				int bottom = top + height;
 
 				Paint paint = ( (i + j) %2 == 0 ) ? checkeredPaint1 : checkeredPaint2;
-				canvas.drawRect(left, top, right, bottom, paint);
+//				canvas.drawRect(left, top, right, bottom, paint);
 			}
 		}
 	}
