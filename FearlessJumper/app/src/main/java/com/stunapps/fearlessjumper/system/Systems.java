@@ -23,7 +23,7 @@ import com.stunapps.fearlessjumper.system.update.MovementUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.ParticleSystem;
 import com.stunapps.fearlessjumper.system.update.PeriodicGunSystem;
 import com.stunapps.fearlessjumper.system.update.PhysicsSystem;
-import com.stunapps.fearlessjumper.system.update.RenderSystem;
+import com.stunapps.fearlessjumper.system.update.render.RenderSystem;
 import com.stunapps.fearlessjumper.system.update.ScoreUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.TransformUpdateSystem;
 import com.stunapps.fearlessjumper.system.update.UpdateSystem;

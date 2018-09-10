@@ -16,7 +16,7 @@ import com.stunapps.fearlessjumper.game.Environment.Device;
 import com.stunapps.fearlessjumper.game.loop.MainThread;
 import com.stunapps.fearlessjumper.model.Position;
 import com.stunapps.fearlessjumper.system.update.ParticleSystem;
-import com.stunapps.fearlessjumper.system.update.RenderSystem;
+import com.stunapps.fearlessjumper.system.update.render.RenderSystem;
 
 /**
  * Created by sunny.s on 15/03/18.

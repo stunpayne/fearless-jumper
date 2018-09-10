@@ -37,7 +37,7 @@ public class ShapeRenderable extends Component
 
 	public ShapeRenderable(List<Shape> shapes, Vector2D delta, Vector2D anchor)
 	{
-		this(shapes, delta, null, false);
+		this(shapes, delta, anchor, false);
 	}
 
 	public ShapeRenderable(List<Shape> shapes, Vector2D delta, Vector2D anchor, boolean shadowed)

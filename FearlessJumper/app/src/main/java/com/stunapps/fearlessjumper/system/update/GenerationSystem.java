@@ -23,6 +23,7 @@ import com.stunapps.fearlessjumper.instantiation.prefab.Prefab;
 import com.stunapps.fearlessjumper.instantiation.prefab.PrefabRef;
 import com.stunapps.fearlessjumper.rules.RuleEngine;
 import com.stunapps.fearlessjumper.rules.execution.generation.GenerationRuleResponse;
+import com.stunapps.fearlessjumper.system.update.render.RenderSystem;
 
 import java.util.ArrayList;
 import java.util.Collections;
